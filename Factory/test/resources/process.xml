@@ -1,0 +1,16 @@
+<tns1:ProcessDefinition id="PDBronzeT3"
+                        escr="Process definitions for Bronze customers"
+                        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types">
+    <tns1:CoS>ComplainRcvd</tns1:CoS>
+    <tns1:CoT>TTPaid * GRPaid * MMNotif</tns1:CoT>
+    <tns1:BehaviorTermRefs>
+        <tns1:BehavirTermId>Complaining</tns1:BehavirTermId>
+        <tns1:BehavirTermId>Towing</tns1:BehavirTermId>
+        <tns1:BehavirTermId>Repairing</tns1:BehavirTermId>
+    </tns1:BehaviorTermRefs>
+    <tns1:Constraints>
+    </tns1:Constraints>
+    <tns1:Monitor>
+        <analysis script="pdsilver-monitor.drl"/>
+    </tns1:Monitor>
+</tns1:ProcessDefinition>

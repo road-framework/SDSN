@@ -1,0 +1,14 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderParts"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderParts", response==false)
+    then
+		$msg.triggerEvent("OrderPartsReq");
+end
+
+rule "orderPartsResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderParts", response==true)
+    then
+		$msg.triggerEvent("ReceivedParts");
+end

@@ -1,0 +1,27 @@
+1  VirtualServiceNetwork VSN1 {
+2   ArchitectureOption arcOp1 {
+3    BehaviorRef bHandlingCall;
+4    BehaviorRef bTowingParallel;
+5    BehaviorRef bRepairingInParts;
+6    BehaviorRef bRentingVehicle;
+7    QoS { Capacity = "8" } } }
+9  VirtualServiceNetwork VSN2 {
+10  ArchitectureOption arcOp1 {
+11   BehaviorRef bHandlingCall;
+12   BehaviorRef bTowingParallel;
+13   BehaviorRef bRepairingExParts;
+14   BehaviorRef bRentingVehicle;
+15   QoS { Capacity = "12" } } }
+17 VirtualServiceNetwork VSN3 {
+18  ArchitectureOption arcOp1 {
+19   BehaviorRef bHandlingCall;
+20   BehaviorRef bRepairingExParts;
+21   BehaviorRef bTowingParallel;
+22   BehaviorRef bRentingRoom;
+23   QoS { Capacity = "3" } }
+24  ArchitectureOption arcOp2 {
+25   BehaviorRef bHandlingCall;
+26   BehaviorRef bRepairingExParts;
+27   BehaviorRef bTowingSequential;
+28   BehaviorRef bRentingRoom;
+29   QoS { capacity = "6"} } }

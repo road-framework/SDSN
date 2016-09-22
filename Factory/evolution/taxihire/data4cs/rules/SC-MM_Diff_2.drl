@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "assistMonitor"
+    when
+		$msg : MessageReceivedEvent(operationName == "assist",  response ==false)
+    then
+		actions.publishEvent("eAssistReqd",$msg);
+end
+rule "assistInitiatedNotifyMonitor"
+    when
+		$msg : MessageReceivedEvent(operationName == "caseStartNotify",  response ==false)
+    then
+		actions.publishEvent("eCaseAccepted",$msg);
+end

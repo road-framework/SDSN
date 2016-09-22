@@ -1,0 +1,20 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "endRepairMonitor4d"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+		actions.publishEvent("ePayRepairReqdByGC1",$msg);
+end
+rule "endRepairMonitor3d"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+		actions.publishEvent("ePayRepairReqdByGC1",$msg);
+end
+rule "endRepairMonitor2d"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+		actions.publishEvent("ePayRepairReqdByGC1",$msg);
+end

@@ -1,0 +1,3 @@
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursement2,ruSelectReimburseAlt");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruReimbursement2,ruSelectReimburseAlt");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruReimbursement2,ruSelectReimburseAlt");

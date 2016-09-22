@@ -1,0 +1,8 @@
+This work -> {[Any],[A, B, C]} -> Balance Wa=X, Wb=Y, Wc=Z   - Any traffic distributed to waA, wbB, wcC
+General - [a set of users/slice instances - in], [a set of alternative - out] -> Policy
+{[UserGold, A} -> deny/allow
+
+Condition -> Action
+
+if user("*") then choice("A","B","C")
+

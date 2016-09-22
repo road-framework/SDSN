@@ -1,0 +1,4 @@
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowPerLevelChange_3h,ruTowMonitor3h");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowPerLevelChange_3h,ruTowMonitor3h");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowPerLevelChange_4h,ruTowMonitor4h");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowPerLevelChange_4h,ruTowMonitor4h");

@@ -1,0 +1,36 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC2-per-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    oprMgt.addServiceNetworkStateImplementation("ResponseTime","states.ResponseTimeTarget","D:\\testing\\states.jar");
+    oprMgt.updateServiceNetworkStateImplementation("ResponseTime","state","active");
+
+    oprMgt.addServiceNetworkState("ReimburseTime", "ResponseTime", "vsn", new Classifier("HappyTours",""));
+    oprMgt.addServiceNetworkState("ReimburseTime", "ResponseTime", "vsn", new Classifier("EuroCars",""));
+
+    oprMgt.addRoutingRule("MM","MM_Routing_Diff_1.drl");
+    oprMgt.updateRoutingRule("MM","requestReimburse2","state","active");
+
+    oprMgt.addPassthroughRule("SC-MM","SC-MM_Diff_1.drl");
+    oprMgt.updatePassthroughRule("SC-MM","reimburse2","state","active");
+    oprMgt.updatePassthroughRule("SC-MM","notifyReimburseStatus2","state","active");
+
+    oprMgt.addRegulationUnit("ruReimbursementPerformanceV1");
+    oprMgt.addRoutingRulesToRegulationUnit("ruReimbursementPerformanceV1","requestReimburse2:MM");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruReimbursementPerformanceV1","reimburse2:SC-MM,notifyReimburseStatus2:SC-MM");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursementPerformanceV1");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursementPerformanceV1","state","active");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursementPerformanceV1");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursementPerformanceV1","state","active");
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+end

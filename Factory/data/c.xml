@@ -1,0 +1,72 @@
+<bpel:partnerLinks>
+    <!-- The 'client' role represents the requester of this service. -->
+    <bpel:partnerLink name="client"
+                      partnerLinkType="tns:RoadsideP3"
+                      myRole="RoadsideP3Provider"
+    />
+    <bpel:partnerLink name="scPlayer" partnerLinkType="tns:scPLType" partnerRole="scRole"></bpel:partnerLink>
+    <bpel:partnerLink name="grinPlayer" partnerLinkType="tns:grinPLType" partnerRole="grinRole"></bpel:partnerLink>
+    <bpel:partnerLink name="grexPlayer" partnerLinkType="tns:grexPLType" partnerRole="grexRole"></bpel:partnerLink>
+    <bpel:partnerLink name="tcseqPlayer" partnerLinkType="tns:tcSeqPLType"
+                      partnerRole="tcSeqRole"></bpel:partnerLink>
+    <bpel:partnerLink name="tcparPlayer" partnerLinkType="tns:tcParPLType"
+                      partnerRole="tcParRole"></bpel:partnerLink>
+    <bpel:partnerLink name="hcPlayer" partnerLinkType="tns:hcPLType" partnerRole="hcPLRole"></bpel:partnerLink>
+    <bpel:partnerLink name="vcPlayer" partnerLinkType="tns:vcPlayerPLType" partnerRole="vcRole"></bpel:partnerLink>
+    <bpel:partnerLink name="psPlayer" partnerLinkType="tns:psPLType" partnerRole="psRole"></bpel:partnerLink>
+</bpel:partnerLinks>
+
+        <!-- ================================================================= -->
+        <!-- VARIABLES                                                         -->
+        <!-- List of messages and XML documents used within this BPEL process  -->
+        <!-- ================================================================= -->
+<bpel:variables>
+<!-- Reference to the message passed as input during initiation -->
+<bpel:variable name="input"
+               messageType="tns:RoadsideP3RequestMessage"/>
+
+<!--
+  Reference to the message that will be returned to the requester
+  -->
+<bpel:variable name="output"
+               messageType="tns:RoadsideP3ResponseMessage"/>
+<bpel:variable name="tenantId" type="ns1:string"/>
+<bpel:variable name="anlyzeReq" messageType="ns9:analyzeRequest"></bpel:variable>
+<bpel:variable name="anlyzeRes" messageType="ns9:analyzeResponse"></bpel:variable>
+
+<bpel:variable name="grInLocReq" messageType="grinNs:getGarageLocationRequest"></bpel:variable>
+<bpel:variable name="grExLocReq" messageType="nsgrex:getGarageLocationRequest"></bpel:variable>
+<bpel:variable name="grExLocRes" messageType="nsgrex:getGarageLocationResponse"></bpel:variable>
+<bpel:variable name="grInLocRes" messageType="grinNs:getGarageLocationResponse"></bpel:variable>
+<bpel:variable name="pickupReq" messageType="ttpNs:pickUpRequest"></bpel:variable>
+<bpel:variable name="pickupRes" messageType="ttpNs:pickUpResponse"></bpel:variable>
+<bpel:variable name="orderTowSeq" messageType="ttsNs:towRequest"></bpel:variable>
+<bpel:variable name="rentRoomReq" messageType="hsNs:rentRoomRequest"></bpel:variable>
+<bpel:variable name="rentRoomRes" messageType="hsNs:rentRoomResponse"></bpel:variable>
+
+<bpel:variable name="orderTowSeqRes" messageType="ttsNs:towResponse"></bpel:variable>
+<bpel:variable name="rentVehicleSeqReq" messageType="vsNs:rentVehicleRequest"></bpel:variable>
+<bpel:variable name="rentVehicleSeqRes" messageType="vsNs:rentVehicleResponse"></bpel:variable>
+<bpel:variable name="payTowreq" messageType="ns9:payTTRequest"></bpel:variable>
+<bpel:variable name="payTowResd" messageType="ns9:payTTResponse"></bpel:variable>
+<bpel:variable name="payVehicleReq" messageType="ns9:payVCRequest"></bpel:variable>
+<bpel:variable name="payVehicleRes" messageType="ns9:payVCResponse"></bpel:variable>
+<bpel:variable name="payRoomReq" messageType="ns9:payHCRequest"></bpel:variable>
+<bpel:variable name="payRoomRes" messageType="ns9:payHCResponse"></bpel:variable>
+<bpel:variable name="endRoomRentReq" messageType="hsNs:endRoomRentRequest"></bpel:variable>
+<bpel:variable name="endRoomRentRes" messageType="hsNs:endRoomRentResponse"></bpel:variable>
+<bpel:variable name="endVehicleRentReq" messageType="vsNs:endVehicleRentRequest"></bpel:variable>
+<bpel:variable name="endVehicleRentRes" messageType="vsNs:endVehicleRentResponse"></bpel:variable>
+<bpel:variable name="grinDoRepairReq" messageType="nsgrex:doRepairRequest"></bpel:variable>
+<bpel:variable name="grinDoRepairRes" messageType="grinNs:doRepairResponse"></bpel:variable>
+<bpel:variable name="grexDoRepairReq" messageType="nsgrex:doRepairRequest"></bpel:variable>
+<bpel:variable name="grexDoRepairRes" messageType="grinNs:doRepairResponse"></bpel:variable>
+<bpel:variable name="orderPartsReq" messageType="psNs:orderPartsRequest"></bpel:variable>
+<bpel:variable name="orderPartsRes" messageType="psNs:orderPartsResponse"></bpel:variable>
+<bpel:variable name="payPartsReq" messageType="ns9:payPSRequest"></bpel:variable>
+<bpel:variable name="payPartsRes" messageType="ns9:payPSResponse"></bpel:variable>
+<bpel:variable name="deliverReq" messageType="ttpNs:deliverRequest"></bpel:variable>
+<bpel:variable name="deliverRes" messageType="ttpNs:deliverResponse"></bpel:variable>
+<bpel:variable name="assessRepairReq" messageType="nsgrex:assessRepairRequest"></bpel:variable>
+<bpel:variable name="assessRepairRes" messageType="nsgrex:assessRepairResponse"></bpel:variable>
+</bpel:variables>

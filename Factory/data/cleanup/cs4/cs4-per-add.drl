@@ -1,0 +1,10 @@
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairPerLevelChange_2d3d4d");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairPerLevelChange_3d4d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d3d4d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_3d4d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d4d");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d3d4d");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_3d4d");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d4d");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairPerLevelChange_2d");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairPerLevelChange_4d");

@@ -1,0 +1,62 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "addtaxihire_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="addtaxihire_opr", state=="incipient") ) and
+    ( $mpsOrg : ManagementPolicyState(id =="addtaxihire_org", state=="stage1done") )
+  then
+   disabledSet.disable("addtaxihire_opr_stage1");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTerminateV2","state","passive");
+    $mpsOpr.setState("stage1done");
+end
+rule "addtaxihire_opr_stage2"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="addtaxihire_opr", state=="stage1done") )
+    and ( $mpsOrg : ManagementPolicyState(id =="addtaxihire_org", state=="stage2done") )
+  then
+    disabledSet.disable("addtaxihire_opr_stage2");
+   //synchronization rule changes
+    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.addSynchronizationRule("MM","notifyTaxiBooking.drl");
+    oprMgt.addSynchronizationRule("SC","payTX.drl");
+    //routing rule changes
+    oprMgt.addRoutingRule("TX","TX_Routing.drl");
+    oprMgt.addRoutingRule("SC","payTXResponse.drl");
+    oprMgt.addRoutingRule("SC","analyzeResponseV6.drl");
+    //passthrough rule changes
+    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
+    oprMgt.addPassthroughRule("TX-MM","TX-MM.drl");
+    //global rule changes
+    oprMgt.addGlobalRule("terminateV3.drl");
+    // regulation unit changes
+    oprMgt.addRegulationUnit("ruHiringTaxi");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruHiringTaxi","orderTaxi:TX,notifyTaxiBooking:MM,payTX:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("ruHiringTaxi","analyzeResponseV6:SC,payTXResponse:SC,provideTaxiInvoice:TX,orderTaxiResponse:TX");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruHiringTaxi","orderTaxi:SC-TX,orderTaxiResponse:SC-TX,sendTaxiInvoice:SC-TX,sendTaxiInvoiceResponse:SC-TX,notifyTaxiBooking:TX-MM");
+    oprMgt.addRegulationUnit("ruTerminateV3");
+    oprMgt.addGlobalRulesToRegulationUnit("ruTerminateV3","terminateV3");
+    // process/VSN changes
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi,ruTerminateV3");
+    // State Changes
+    oprMgt.updateRegulationUnit("ruHiringTaxi","state","active");
+    oprMgt.updateRegulationUnit("ruTerminateV3","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTerminateV3","state","active");
+    $mpsOpr.setState("stage2done");
+end
+rule "addtaxihire_opr_stage3"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="addtaxihire_opr", state=="stage2done") ) and
+    ( $rukeyState1 : RegulationUnitKeyManagementState(id== "ruRentingVehicle", processId =="EuroCarsP1", state=="quiescence") )
+    and ( $rukeyState2 : RegulationUnitKeyManagementState(id== "ruTerminateV2", processId =="EuroCarsP1", state=="quiescence") )
+  then
+    disabledSet.disable("addtaxihire_opr_stage3");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle,ruTerminateV2");
+    $mpsOpr.setState("quiescence");
+end

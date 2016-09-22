@@ -1,0 +1,16 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "sendGCLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGCLocation", response==false)
+    then
+		actions.publishEvent("eGC3LocKnown",$msg);
+		actions.publishEvent("eRepairAcceptByGC3",$msg);
+end
+
+rule "sendGCLocationResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGCLocation", response==true)
+    then
+		actions.publishEvent("eDeliveredVehicleToGC3ByTC3",$msg);
+end

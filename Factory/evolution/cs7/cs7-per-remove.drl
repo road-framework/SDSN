@@ -1,0 +1,67 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC7-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+       $mps.setState("active");
+       long start1 = System.nanoTime();
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruSelectAccidentTow, ruTowingBySriTow," +
+               "ruSriTowAndMacRepair,ruActivateV1");
+              // State Changes
+       oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow,ruSwiftTowAndMacRepair,ruActivateV2");
+                    //routing rule changes
+
+       oprMgt.removeRegulationUnit("ruSelectAccidentTow");
+                                // State Changes
+             // TowingBySriTow regulation unit
+             oprMgt.removeRegulationUnit("ruTowingBySriTow");
+            // SriTowAndMacRepair regulation unit
+             oprMgt.removeRegulationUnit("ruSriTowAndMacRepair");
+       // Role LF2
+       orgMgt.removeRole("LF2");
+       orgMgt.removeRole("TC5");
+       // Role SC
+       orgMgt.updateTask("SC","PayLF","outputs", "remove","LF2.payLegalAid.Res");
+       orgMgt.updateTask("SC","PayLF","inputs", "remove","LF2.payLegalAid.Req");
+       orgMgt.updateTask("SC","Analyze","remove","outputs","SC-TC5.orderTow.Req,SC-LF2.inspectAccident.Req");
+       //Role GC1
+       orgMgt.updateTask("GC1","OrderRepair","remove","inputs","SC-GC1.orderRepair.Req");
+   
+       // contract-level changes
+       //Contract SC-LF2
+       orgMgt.removeContract("SC-LF2");
+       // contract LF2-TC5
+       orgMgt.removeContract("LF2-TC5");
+       // contract GC1-TC5
+       orgMgt.removeContract("GC1-TC5");
+       // contract SC-TC5
+       orgMgt.removeContract("SC-TC5");
+       // contract SC-GC1
+       // behaviour unit changes
+       orgMgt.removeBehaviorUnit("bTowingBySriTow");
+
+       orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bTowingBySwiftTow");
+       orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bTowingBySriTow");
+
+    oprMgt.removeSynchronizationRule("SC","payTC5");
+    oprMgt.removeSynchronizationRule("SC","payLF2");
+    oprMgt.removeSynchronizationRule("GC1","doRepairV3");
+
+    //routing rule changes
+    oprMgt.removeRoutingRule("GC1","orderRepairResponseV3");
+    oprMgt.removeRoutingRule("SC","analyzeResponseV11");
+    oprMgt.removeRoutingRule("SC","analyzeResponseV12");
+    oprMgt.removeRoutingRule("SC","payLFResponse2");
+
+    //passthrough rule changes
+       oprMgt.removeRoutingRule("SC","ruSelectAccidentTow");
+
+       long stop1 = System.nanoTime();
+       System.out.println("Remove : " + (stop1 - start1)/1000000);
+       $mps.setState("quiescence");
+end

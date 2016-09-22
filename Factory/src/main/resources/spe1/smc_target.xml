@@ -1,0 +1,284 @@
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="src/main/resources/spe1/data/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eEchoX1Req</tns1:CoS>
+            <tns1:CoT>eEchoX1Req * eEchoX1Res</tns1:CoT>
+            <tns1:CollaborationUnitRef>bEchoStart</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bEchoEnd</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bEcho1</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bEcho2</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruCreateVsnInstance</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAllow</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <InterVSNRegulation>
+        <tns1:Routing>
+            <tns1:RuleRef id="classify" place="X0"/>
+        </tns1:Routing>
+    </InterVSNRegulation>
+    <InterProcessRegulationUnits>
+        <tns1:InterProcessRegulationUnit id="ruAllow">
+            <tns1:Routing>
+                <tns1:RuleRef id="allow" place="X0"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+    </InterProcessRegulationUnits>
+    <InterCollaborationRegulationUnits>
+        <tns1:InterCollaborationRegulationUnit id="ruCreateVsnInstance">
+            <tns1:Routing>
+                <tns1:RuleRef id="createVsnInstance" place="X0"/>
+            </tns1:Routing>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="activateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+    </InterCollaborationRegulationUnits>
+    <CollaborationUnits>
+        <tns1:CollaborationUnit id="bEchoStart">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="X0.EchoRequest"
+                              postEP=" eEchoX1Req "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="echoRequest" place="X0"/>
+                </tns1:Routing>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bEchoEnd">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="X0.Notify" preEP="eNotify"/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="notify" place="X0"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="notify" place="X2-X0"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bEcho1">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="X1.Echo" preEP=" eEchoX1Req"/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="echoResponse" place="X1"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="echo" place="X1"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="echo" place="X0-X1"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bEcho2">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="X2.Echo" preEP="eEchoX2Req"/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="echoResponse" place="X2"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="echo" place="X2"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="echo" place="X1-X2"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+    </CollaborationUnits>
+    <Roles>
+        <Role id="X0" name="X0" entryRole="true" synchronization="X0_SYN.drl" routing="X0_Routing.drl">
+            <Tasks>
+                <tns1:Task id="EchoRequest" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="X0-X1" termId="echo" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="X2-X0" termId="notify" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="X1" name="X1" synchronization="X1_SYN.drl" routing="X1_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Echo">
+                    <tns1:Out>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="X0-X1" termId="echo" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="X0-X1" termId="echo" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="X2" name="X2" synchronization="X2_SYN.drl" routing="X2_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Echo">
+                    <tns1:Out>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="echo">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="X1-X2" termId="echo" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="X2-X0" termId="notify" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+    </Roles>
+    <Contracts>
+        <Contract id="X0-X1" passthrough="X0-X1.drl">
+            <Terms>
+                <Term id="echo" name="echo">
+                    <Operation name="echo">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>X0</RoleAID>
+            <RoleBID>X1</RoleBID>
+        </Contract>
+        <Contract id="X1-X2" passthrough="X1-X2.drl">
+            <Terms>
+                <Term id="echo" name="echo">
+                    <Operation name="echo">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>X1</RoleAID>
+            <RoleBID>X2</RoleBID>
+        </Contract>
+        <Contract id="X2-X0" passthrough="X2-X0.drl">
+            <Terms>
+                <Term id="notify" name="notify">
+                    <Operation name="notify">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>X2</RoleAID>
+            <RoleBID>X0</RoleBID>
+        </Contract>
+    </Contracts>
+    <ServiceBindings>
+        <ServiceBinding id="SB_X1">
+            <Endpoint>http://localhost:8082/axis2/services/EchoService</Endpoint>
+            <Roles>
+                <RoleID>X1</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="SB_X2">
+            <Endpoint>http://localhost:8082/axis2/services/EchoService</Endpoint>
+            <Roles>
+                <RoleID>X2</RoleID>
+            </Roles>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

@@ -1,0 +1,13 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "complain"
+    when
+		$event : MessageReceivedEvent(operationName == "complain",  response ==false)
+    then
+		$event.triggerEvent("ComplainRcvd");
+end
+rule "complainResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "complain",  response ==true)
+    then
+		$event.triggerEvent("MMNotify");
+end

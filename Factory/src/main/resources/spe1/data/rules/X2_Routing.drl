@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "echoResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "echoResponse", state=="forwardable")
+  then
+   actions.Forward("X2-X0.notify.Res","EchoEnd.xsl",$msg);
+end

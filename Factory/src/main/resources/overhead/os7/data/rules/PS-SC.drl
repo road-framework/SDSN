@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "payParts"
+    when
+		$msg : MessageReceivedEvent(operationName == "payParts", response==false)
+    then
+		actions.publishEvent("ePayPartsReq",$msg);
+end
+rule "payPartsResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payParts", response==true)
+    then
+		actions.publishEvent("ePSPaid",$msg);
+end

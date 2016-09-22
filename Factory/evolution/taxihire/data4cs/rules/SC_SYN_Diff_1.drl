@@ -1,0 +1,15 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "reimburse"
+  when
+  $e1 : EventRecord(eventId == "eReimburseReqd")
+  then
+   disabledSet.disable("reimburse");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.requestReimburse.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Reimburse.xsl","Reimburse");
+   actions.ExecuteTask(exMsg);
+end

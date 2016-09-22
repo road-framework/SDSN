@@ -1,0 +1,43 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC6-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+     $mps.setState("active");
+     long start1 = System.nanoTime();
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoring3d,ruRepairPerLevelChange_3d");
+     oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoring2d,ruRepairPerLevelChange_2d");
+     oprMgt.removePassthroughRulesFromRegulationUnit("ruRepairingByMacRepair","payAS:SC,reportAssessment:GC1");
+     oprMgt.removePassthroughRulesFromRegulationUnit("ruRepairingByMacRepair","payASResponse:SC,assessRepairResponse:AS,assessRepairResponse:GC1");
+     oprMgt.removePassthroughRulesFromRegulationUnit("ruRepairingByMacRepair","payAssessment:AS-SC,payAssessmentResponse:AS-SC,reportAssessment:AS-GC1");
+
+     oprMgt.removePassthroughRulesFromRegulationUnit("ruSwiftTowAndMacRepair","assessRepair:TC1-AS");
+
+     orgMgt.removeRole("AS");
+     orgMgt.removeTask("SC","PayAS");
+     orgMgt.updateTask("TC1","Deliver","outputs","remove","TC1-AS.assessRepair.Req");
+     orgMgt.removeTask("GC1","ReportAssessment");
+           // contract-level changes
+     orgMgt.removeContract("TC1-AS");
+     orgMgt.removeContract("AS-GC1");
+     orgMgt.removeContract("AS-SC");
+          // behaviour unit changes"
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","AS.AssessRepair");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","SC.PayAS");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","GC1.ReportAssessment");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","GC1.AssessRepair");
+     
+     oprMgt.removeSynchronizationRule("SC","payAS");
+     oprMgt.removeSynchronizationRule("GC1","reportAssessment");
+        //routing rule changes
+     oprMgt.removeRoutingRule("SC","payASResponse");
+     oprMgt.removeRoutingRule("GC1","assessRepairResponse");
+        //passthrough rule changes
+     long stop1 = System.nanoTime();
+     System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

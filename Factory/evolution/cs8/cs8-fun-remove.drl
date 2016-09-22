@@ -1,0 +1,49 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC8-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+      long start1 = System.nanoTime();
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruSelectAccommodation,ruRentingRoom2,ruTerminateV4");
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingRoom2,ruTerminateV4");
+         // regulation unit changes
+       oprMgt.removeRegulationUnit("ruRentingRoom2");
+              // new termination regulation unit
+       oprMgt.removeRegulationUnit("ruTerminateV4");
+
+       oprMgt.removeRegulationUnit("ruSelectAccommodation");
+
+       orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bRentingRoom2");
+       // Role HC2
+       orgMgt.removeRole("HC2");
+       // Role MM
+       orgMgt.removeTask("MM","NotifyRoomBooking");
+       orgMgt.updateTask("SC","PayHC","outputs","remove","SC-HC2.sendRoomInvoice.Res");
+       orgMgt.updateTask("SC","PayHC","inputs","remove","SC-HC2.sendRoomInvoice.Req");
+       orgMgt.updateTask("SC","Analyze","outputs","remove","SC-HC2.orderRoom.Req");
+       // contract-level changes
+       orgMgt.removeContract("SC-HC2");
+       orgMgt.removeContract("HC2-MM");
+       // behaviour unit changes
+       orgMgt.removeBehaviorUnit("bRentingRoom");
+       //synchronization rule changes
+       oprMgt.removeSynchronizationRule("MM","notifyRoomBooking");
+       oprMgt.removeSynchronizationRule("SC","payHC2");
+       //routing rule changes
+       oprMgt.removeRoutingRule("SC","analyzeResponseHC2");
+       oprMgt.removeRoutingRule("SC","payHC2Response");
+       oprMgt.removeRoutingRule("SC","selectAccommodation");
+
+       oprMgt.removeGlobalRule("terminateV4");
+     orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eHCPaid");
+             // VSN/Process Regulation Policy Changes
+     long stop1 = System.nanoTime();
+     System.out.println("Remove : " + (stop1 - start1)/1000000);
+     $mps.setState("quiescence");
+end

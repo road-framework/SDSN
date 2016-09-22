@@ -1,0 +1,3 @@
+HappyTour =  80
+AnyTrucks = 123
+EuroCars  = 157

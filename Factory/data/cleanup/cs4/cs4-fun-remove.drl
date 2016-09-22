@@ -1,0 +1,12 @@
+orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bTowingByMarkTow");
+orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP1","bTowingByMarkTow");
+orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP2","bTowingByMarkTow");
+orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bTowingBySwiftTow");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow,
+ruSwiftTowAndMacRepair,ruActivateV2");
+oprMgt.removeRoutingRule("SC","analyzeResponseV10");
+oprMgt.removeRoutingRulesFromRegulationUnit("ruTowingByMarkTow","analyzeResponseV10:SC");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowingByMarkTow,
+ruMarkTowAndMacRepair,ruActivateV1");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowingByMarkTow,
+ruMarkTowAndMacRepair,ruActivateV1");

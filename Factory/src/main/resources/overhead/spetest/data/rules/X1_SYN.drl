@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "echo"
+  when
+  $e1 : EventRecord(eventId == "eEchoX1Req")
+  then
+   disabledSet.disable("echo");
+   MessageWrapper [] msgs = actions.Pull(new String []{"X0-X1.echo.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Echo.xsl","Echo");
+   actions.ExecuteTask(exMsg);
+end

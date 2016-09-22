@@ -1,0 +1,24 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC5-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    //process 1
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","state", "passive");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bRentingRoom");
+    orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP1","bRentingVehicle");
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","CoT","eMMNotify * eHCPaid");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingRoom,ruTerminateV1");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingRoom,ruTerminateV1","state","active");
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","state", "active");
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

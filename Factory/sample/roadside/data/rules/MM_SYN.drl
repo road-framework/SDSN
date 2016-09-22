@@ -1,0 +1,37 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "notify"
+  when
+   EventRecord(eventId == "eMMNotify")
+  then
+   disabledSet.disable("terminateV1");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Res"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Notify.xsl","Notify");
+   exMsg.setUserResponse(true);
+   actions.ExecuteTask(exMsg);
+//   actions.Terminate(exMsg.getClassifier());
+end
+
+rule "terminateV2"
+  when
+   EventRecord(eventId == "eMMNotify") and EventRecord(eventId == "ePaidTX")
+  then
+   disabledSet.disable("terminateV2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Res"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Notify.xsl","Notify");
+   exMsg.setUserResponse(true);
+   actions.ExecuteTask(exMsg);
+//   actions.Terminate(exMsg.getClassifier());
+end
+
+rule "notifyTaxiBooking"
+  when
+   $e1 : EventRecord(eventId == "NotifyTaxiBookingReqd")
+  then
+   disabledSet.disable("notifyTaxiBooking");
+   MessageWrapper [] msgs = actions.Pull(new String []{"TX-MM.notifyTaxiBooking.Req"});
+   actions.ExecuteTask(msgs[0]);
+end

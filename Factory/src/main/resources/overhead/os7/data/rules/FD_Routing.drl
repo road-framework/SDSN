@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "reimburseResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "reimburseResponse", state=="forwardable")
+  then
+   actions.Forward("MM-FD.reimburse.Res","ReimburseRes.xsl",$msg);
+end

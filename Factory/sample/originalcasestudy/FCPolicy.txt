@@ -1,0 +1,16 @@
+Role MM {
+ Entry {
+  Key "VSN3.requestAssist" and table="ingress"
+  Actions {
+   If User(*) then Throttle("ThresholdBased",<VSN3_AL1,6>,<VSN3_AL2,9>);
+   If Read("Throttle.State") == "deny" then Drop("The quote has been exceeded");
+   If Read("throttle.state") == "allow" then Allow();
+  }
+}
+Entry {
+ Key "VSN3_AL1.MO_SC.iAnalyze" and table="egress"
+  Actions {
+    Transform("ianalyze.xslt"); Queue("VSN3_AL1","3");
+  }
+ }
+}

@@ -1,0 +1,55 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.ObligationComplianceEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.TermExecutedEvent;
+import au.edu.swin.ict.road.composite.contract.Contract;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+
+/** Global Variables **/
+global Contract contract;
+global FactTupleSpace fts;
+
+/** Events **/
+declare MessageReceivedEvent
+    @role(event)
+end
+
+declare TermExecutedEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare ObligationComplianceEvent
+    @role(event)
+    @expires(24h)
+end
+
+/** Permission Rules **/
+rule "orderTow rule"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTow", response ==false)//, isResponse==false
+    then
+    //	System.out.println("orderTow interpretation :TowReqd");
+    	//All the logic to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("TowReqd"); 
+end
+ 
+rule "payTowReq"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow" , response==false)
+    then
+   // 	System.out.println("payTow interpretation :PayTowReqdTTS ");
+    	//All the logic to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("PayTowReqdTTS");
+end
+ 
+rule "payTowRes"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow", response==true)
+    then
+    //	System.out.println("payTow response interpretation :TTSPaid ");
+    	//All the logic to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("TTSPaid");
+end

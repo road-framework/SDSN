@@ -1,0 +1,59 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC1-per-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    oprMgt.addServiceNetworkStateImplementation("ResponseTime","states.ResponseTimeTarget","D:\\testing\\states.jar");
+    oprMgt.updateServiceNetworkStateImplementation("ResponseTime","state","active");
+
+    oprMgt.addServiceNetworkState("AssistanceProcessTime", "ResponseTime", "vsn", new Classifier("HappyTours",""));
+    oprMgt.updateServiceNetworkState("AssistanceProcessTime","vsn", new Classifier("HappyTours",""),"state","active");
+    oprMgt.addServiceNetworkState("AssistanceProcessTime", "ResponseTime", "vsn", new Classifier("EuroCars",""));
+    oprMgt.updateServiceNetworkState("AssistanceProcessTime","vsn", new Classifier("EuroCars",""),"state","active");
+    oprMgt.addServiceNetworkState("AssistanceProcessTime", "ResponseTime", "vsn", new Classifier("AnyTrucks",""));
+    oprMgt.updateServiceNetworkState("AssistanceProcessTime","vsn", new Classifier("AnyTrucks",""),"state","active");
+
+    oprMgt.addServiceNetworkEvent("eMMNotify","MM",new Classifier("AnyTrucks","AnyTrucksP1","*"));
+    oprMgt.updateServiceNetworkEvent("eMMNotify",new Classifier("AnyTrucks","AnyTrucksP1","*"),"state","active");
+
+    oprMgt.removeRoutingRule("MM","admissionCheckV1");
+    oprMgt.removeRoutingRule("MM","admissionCheckV2");
+    oprMgt.removeRoutingRule("MM","admissionCheckV3");
+
+    oprMgt.addRoutingRule("MM","AssistentCasesLimitNew.drl");
+    oprMgt.updateRoutingRule("MM","admissionCheckV1","state","active");
+    oprMgt.updateRoutingRule("MM","admissionCheckV2","state","active");
+    oprMgt.updateRoutingRule("MM","admissionCheckV3","state","active");
+    oprMgt.updateRoutingRule("MM","snLevelAdmissionControl","state","active");
+
+    oprMgt.addPassthroughRule("SC-MM","SC-MM_Diff_2.drl");
+    oprMgt.updatePassthroughRule("SC-MM","assistMonitor","state","active");
+    oprMgt.updatePassthroughRule("SC-MM","assistInitiatedNotifyMonitor","state","active");
+
+    oprMgt.addRegulationUnit("ruCaseProcessingMonitoring");
+    oprMgt.updateRegulationUnit("ruCaseProcessingMonitoring","state","active");
+
+    oprMgt.addRegulationUnit("ruSnLevelAdmission");
+    oprMgt.addRoutingRulesToRegulationUnit("ruSnLevelAdmission","snLevelAdmissionControl:MM");
+    oprMgt.updateRegulationUnit("ruSnLevelAdmission","state","active");
+
+    oprMgt.addPassthroughRulesToRegulationUnit("ruCaseProcessingMonitoring","assistInitiatedNotifyMonitor:SC-MM,assistMonitor:SC-MM");
+
+    oprMgt.addRegulationUnitsToServiceNetworkRegulationPolicy("ruSnLevelAdmission");
+    oprMgt.updateRegulationUnitsOfServiceNetworkRegulationPolicy("ruSnLevelAdmission","state","active");
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("HappyTours","ruCaseProcessingMonitoring");
+    oprMgt.updateRegulationUnitsOfVSNRegulationPolicy("HappyTours","ruCaseProcessingMonitoring","state","active");
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("EuroCars","ruCaseProcessingMonitoring");
+    oprMgt.updateRegulationUnitsOfVSNRegulationPolicy("EuroCars","ruCaseProcessingMonitoring","state","active");
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("AnyTrucks","ruCaseProcessingMonitoring");
+    oprMgt.updateRegulationUnitsOfVSNRegulationPolicy("AnyTrucks","ruCaseProcessingMonitoring","state","active");
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+end

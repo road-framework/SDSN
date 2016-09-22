@@ -1,0 +1,14 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "payParts"
+    when
+		$msg : MessageReceivedEvent(operationName == "payParts", response==false)
+    then
+		$msg.triggerEvent("PayPartsReq");
+end
+
+rule "payPartsResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payParts", response==true)
+    then
+		$msg.triggerEvent("PSPaid");
+end

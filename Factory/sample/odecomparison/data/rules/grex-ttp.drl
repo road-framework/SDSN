@@ -1,0 +1,46 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.ObligationComplianceEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.TermExecutedEvent;
+import au.edu.swin.ict.road.composite.contract.Contract;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+
+/** Global Variables **/
+global Contract contract;
+global FactTupleSpace fts;
+
+/** Events **/
+declare MessageReceivedEvent
+    @role(event)
+end
+
+declare TermExecutedEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare ObligationComplianceEvent
+    @role(event)
+    @expires(24h)
+end
+
+/** Permission Rules **/
+rule "sendGRLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGRLocation", response==false)
+    then
+    //	System.out.println("sendGRLocation interpretation :GREXLocKnown and RepairAcceptEX");
+    	//All the logic to evaluate the message is here. 
+		$msg.setBlocked(false);
+		$msg.triggerEvent("GREXLocKnown");
+		$msg.triggerEvent("RepairAcceptEX");
+end
+
+rule "vehicleDelivered"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGRLocation", response==true)
+    then
+    	//System.out.println("sendGRLocation response interpretation :DeliveredVehicleEX");
+    	//All the logic to evaluate the message is here.
+		$msg.setBlocked(false);
+		$msg.triggerEvent("DeliveredVehicleEX");
+end

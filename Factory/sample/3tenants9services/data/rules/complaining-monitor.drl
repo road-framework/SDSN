@@ -1,0 +1,31 @@
+import au.edu.swin.ict.road.composite.rules.events.composite.PatternMatchedEvent;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+import au.edu.swin.ict.road.regulator.FactObject;
+
+/** Global Variables **/
+global FactTupleSpace fts;
+
+/** Events **/
+declare PatternMatchedEvent
+    @role(event)
+end
+
+rule "measure-usedcapacity rule"
+    when
+		$msg : PatternMatchedEvent(ep == "ComplainRcvd")//, isResponse==false
+    then
+    	System.out.println("[complaining-monitor.drl] orderTow interpretation");
+    	//All the logic to evaluate the message is here.
+		String id = $msg.getClassifier().getProcessId() +".Analyze";
+		FactObject factObject = fts.getFact("Capacity",id);
+		if(factObject == null){
+		   factObject = new FactObject("used",id,id);
+		   factObject.setAttribute("used", 1);
+		   fts.createFactRow(factObject);
+		} else {
+		  int usedCap = Integer.parseInt(factObject.getAttribute("used").toString());
+		  usedCap++;
+		  factObject.setAttribute("used", usedCap);
+		  fts.updateFact(factObject);
+		}
+end

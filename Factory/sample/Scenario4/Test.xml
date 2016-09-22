@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:SMC
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="TestSMC" dataDir="sample/Scenario4/data/" routingRuleFile="routing.drl"
+        compositeRuleFile="composite.drl">
+    <!--  Shortened but complex Scenario for benchmark test -->
+    <!--  process definitions -->
+    <ProcessDefinitions>
+        <!-- This is a process definition -->
+        <tns1:ProcessDefinition id="PDgold" descr="Process definitions for Gold customers">
+            <tns1:CoS>eComplainRcvd</tns1:CoS>
+            <tns1:CoT>eMemberNotified</tns1:CoT>
+            <tns1:BehaviorTermRefs>
+                <tns1:BehaviorTermId>Assist</tns1:BehaviorTermId>
+            </tns1:BehaviorTermRefs>
+        </tns1:ProcessDefinition>
+    </ProcessDefinitions>
+
+    <!-- Given below is the one and only behavior unit for this scenario-->
+    <BehaviorTerms>
+        <!-- This is a behavior  -->
+        <tns1:BehaviorTerm id="Assist">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="CO.Analyze" preEP="eComplainRcvd" postEP="eTowReqd" performanceVal="1h"/>
+                <tns1:TaskRef Id="TT.Tow" preEP=" eTowReqd" postEP="eTowSuccess" performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.Notify" preEP=" eTowSuccess" postEP="eMemberNotified" performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+    </BehaviorTerms>
+    <Facts>
+        <Fact name="Insurance" source="External">
+            <Identifier>MemberId</Identifier>
+            <Attributes>
+                <Attribute>Validity</Attribute>
+                <Attribute>Type</Attribute>
+                <Attribute>Priority</Attribute>
+                <Attribute>InsurancePlan</Attribute>
+            </Attributes>
+        </Fact>
+    </Facts>
+    <Roles>
+        <Role id="CO" name="CaseOfficer">
+            <Tasks>
+                <tns1:Task id="Analyze" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="CO_Analyze.xsl">
+                        <tns1:SrcMsg contractId="CO-MM" termId="complain" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TT" termId="orderTow" isResponse="false"
+                                        transformation="CO-TT_orderTow.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+
+                <tns1:Task id="Notify" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="notify">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>towing details</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="notify">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>towing details</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="CO_Notify.xsl">
+                        <tns1:SrcMsg contractId="CO-TT" termId="orderTow" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-MM" termId="complain" isResponse="true"
+                                        transformation="CO-MM_complain_Res.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TT" name="TowTruck">
+            <Tasks>
+                <tns1:Task id="Tow" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>Details</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>Details</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="TT_Tow.xsl">
+                        <tns1:SrcMsg contractId="CO-TT" termId="orderTow" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TT" termId="orderTow" isResponse="true"
+                                        transformation="CO-TT_orderTow_Res.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="MM" name="Member">
+
+            <Description>This is member role</Description>
+        </Role>
+    </Roles>
+    <Contracts>
+        <Contract id="CO-MM" type="permissive" ruleFile="co-mm.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="complain" name="complain">
+                    <Operation name="complain">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>details</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term to complain about an incident</Description>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>MM</RoleBID>
+            <Description>This is the contract btwn the CO and MM
+            </Description>
+        </Contract>
+        <Contract id="CO-TT" type="permissive" ruleFile="co-tt.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="orderTow" name="Tow ordering term">
+                    <Operation name="orderTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for ordering a towing</Description>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>TT</RoleBID>
+            <Description>This is the contract btwn the CO and TT
+            </Description>
+        </Contract>
+        <!--Contract id="MM-TT" type="permissive" ruleFile="mm-tt.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="towNotify" name="Notifying about the tow">
+                    <Operation name="towNotify">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>void</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for notifying the member about the towing</Description>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>TT</RoleBID>
+            <Description>This is the contract btwn the CO and GR
+            </Description>
+        </Contract-->
+
+    </Contracts>
+    <PlayerBindings>
+        <PlayerBinding id="myTT">
+            <Endpoint>http://localhost:8080/axis2/services/S4TTService</Endpoint>
+            <Roles>
+                <RoleID>TT</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myCO">
+            <Endpoint>http://localhost:8080/axis2/services/S4COService</Endpoint>
+            <Roles>
+                <RoleID>CO</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+    </PlayerBindings>
+    <OrganiserBinding>OrganiserBinding</OrganiserBinding>
+    <Description>Description</Description>
+
+</tns:SMC>

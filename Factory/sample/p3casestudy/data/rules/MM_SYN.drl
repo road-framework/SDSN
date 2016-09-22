@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.composite.regulation.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.serendip.event.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "notify"
+  when
+   $e1 : EventRecord(eventId == "MMNotify")
+  then
+   disabledSet.disable("notify");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.complain.Res"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Notify.xsl","Notify");
+   actions.ExecuteTask(exMsg);
+end

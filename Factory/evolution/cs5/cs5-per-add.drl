@@ -1,0 +1,19 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC1-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+       $mps.setState("active");
+       long start1 = System.nanoTime();
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowPerLevelChange_3h,ruTowMonitor3h");
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowPerLevelChange_3h,ruTowMonitor3h");
+       oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowPerLevelChange_4h,ruTowMonitor4h");
+       oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowPerLevelChange_4h,ruTowMonitor4h");
+       long stop1 = System.nanoTime();
+       System.out.println("Add : " + (stop1 - start1)/1000000);
+end

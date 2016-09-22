@@ -1,0 +1,24 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC11-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,ruNickRepairAndTowTow");
+
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bRepairingByMacRepair");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByMacRepair,ruSwiftTowAndMacRepair");
+
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByMacRepair,ruSwiftTowAndMacRepair","state","active");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+    $mps.setState("quiescence");
+end

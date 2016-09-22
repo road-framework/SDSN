@@ -1,0 +1,9 @@
+orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","state", "passive");
+orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP1","bRentingRoom");
+orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bRentingVehicle");
+orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","CoT","eMMNotify * eVCPaid");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingRoom,ruTerminateV1");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2");
+oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2",
+"state","active");
+orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","state", "active");

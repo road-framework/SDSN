@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "payTowResponseMonitor3h"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow", response==true)
+    then
+		actions.publishEvent("eTC1Paid",$msg);
+end
+rule "payTowResponseMonitor4h"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow", response==true)
+    then
+		actions.publishEvent("eTC1Paid",$msg);
+end

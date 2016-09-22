@@ -1,0 +1,20 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "assist"
+    when
+		$msg : MessageReceivedEvent(operationName == "assist",  response ==false)
+    then
+		actions.publishEvent("eAssistReqd",$msg);
+end
+rule "assistResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "assist",  response ==true)
+    then
+		actions.publishEvent("eMMNotify",$msg);
+end
+rule "assistInitiatedNotify"
+    when
+		$msg : MessageReceivedEvent(operationName == "caseStartNotify",  response ==false)
+    then
+		actions.publishEvent("eCaseAccepted",$msg);
+end

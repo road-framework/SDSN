@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:SMC xmlns:tns="http://www.swin.edu.au/ict/road/smc" name="RestaurantSMC"
+         routingRuleFile="routing.drl" compositeRuleFile="composite.drl" rulesDir="data/rules/">
+    <Roles>
+        <Role id="wt" name="Waiter">
+            <Description>The waiter role that will pass the message to cashier or
+                to chef.
+            </Description>
+        </Role>
+        <Role id="cf" name="Chef">
+            <Description>The chef role that will accept the message from waiter
+                and send back message after food is ready to pick up.
+            </Description>
+        </Role>
+        <Role id="cs" name="Cashier">
+            <Description>The cashier role that will accept the message from
+                waiter for billing.
+            </Description>
+        </Role>
+    </Roles>
+
+    <Contracts>
+        <Contract id="wt-cf" name="Waiter to Chef Contract" ruleFile="waiter-chef.drl"
+                  type="permissive">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="wt-cf-t1" name="Food Order Term" messageType="push"
+                      deonticType="permission">
+                    <Operation name="orderFood">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>foodId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>foodName</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>int</Type>
+                                <Name>amount</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for ordering a food to chef.</Description>
+                </Term>
+                <Term id="wt-cf-t2" name="Food Delivery Term" messageType="push"
+                      deonticType="permission">
+                    <Operation name="deliverFood">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>foodId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>foodName</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>destination</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>void</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for delivering preparing food from chef</Description>
+                </Term>
+            </Terms>
+            <RoleAID>wt</RoleAID>
+            <RoleBID>cf</RoleBID>
+            <Description>A contract between the waiter and the chef roles.
+            </Description>
+        </Contract>
+        <Contract id="wt-cs" name="Waiter to Cashier Contract"
+                  ruleFile="waiter-cashier.drl" type="permissive">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="wt-cs-t1" name="Bill Payment Term" messageType="push"
+                      deonticType="permission">
+                    <Operation name="payBill">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>tableId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>invoiceId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>int</Type>
+                                <Name>totalBill</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for paying bill to cashier</Description>
+                </Term>
+            </Terms>
+            <RoleAID>wt</RoleAID>
+            <RoleBID>cs</RoleBID>
+            <Description>A contract between the waiter and the cashier roles.
+            </Description>
+        </Contract>
+    </Contracts>
+
+    <PlayerBindings>
+        <PlayerBinding id="wtpb" name="Waiter Player Binding">
+            <Endpoint>none</Endpoint>
+            <Roles>
+                <RoleID>wt</RoleID>
+            </Roles>
+            <Description>The waiter player binding.</Description>
+        </PlayerBinding>
+        <PlayerBinding id="cfpb" name="Chef Player Binding">
+            <Endpoint>http://localhost:8080/Restaurant/services/ChefService
+            </Endpoint>
+            <Roles>
+                <RoleID>cf</RoleID>
+            </Roles>
+            <Description>The chef player binding.</Description>
+        </PlayerBinding>
+        <PlayerBinding id="cspb" name="Cashier Player Binding">
+            <Endpoint>http://localhost:8080/Restaurant/services/CashierService
+            </Endpoint>
+            <Roles>
+                <RoleID>cs</RoleID>
+            </Roles>
+            <Description>The cashier player binding.</Description>
+        </PlayerBinding>
+    </PlayerBindings>
+</tns:SMC>

@@ -1,0 +1,42 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "rentVehicle"
+    when
+		$msg : MessageReceivedEvent(operationName == "rentVehicle",  response ==false)
+    then
+		actions.publishEvent("eRentVehicleReqd",$msg);
+end
+rule "rentVehicleResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "rentVehicle",  response ==true)
+    then
+		actions.publishEvent("eRentedVehicle",$msg);
+end
+
+rule "endVehicleRent"
+    when
+		$msg : MessageReceivedEvent(operationName == "endVehicleRent",  response ==false)
+    then
+		actions.publishEvent("eEndVehicleRentReqd",$msg);
+end
+
+rule "endVehicleRentResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "endVehicleRent",  response ==true)
+    then
+		actions.publishEvent("eEndedVehicleRent",$msg);
+end
+
+rule "payVehicleRent"
+    when
+		$msg : MessageReceivedEvent(operationName == "payVehicleRent",  response ==false)
+    then
+		actions.publishEvent("ePayVCReqd",$msg);
+end
+
+rule "payVehicleRentResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payVehicleRent",  response ==true)
+    then
+		actions.publishEvent("eVCPaid",$msg);
+end

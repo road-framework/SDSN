@@ -1,0 +1,7 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "getGCLocation"
+    when
+		$event : MessageReceivedEvent(operationName == "getGCLocation",  response ==false)
+    then
+		$event.triggerEvent("GC2LocationReqdMM");
+end

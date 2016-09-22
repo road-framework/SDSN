@@ -1,0 +1,90 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC8-fun-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+      long start1 = System.nanoTime();
+       // role-level changes
+       // Role HC2
+       orgMgt.addRole("HC2","KandyHotel");
+       orgMgt.setServiceBinding("HC2", "http://localhost:8082/axis2/services/KandyHotelService");
+       orgMgt.addTask("HC2","OrderRoom","SC-HC2.orderRoom.Req","SC-HC2.orderRoom.Res,HC2-MM.notifyRoomBooking.Req");
+       orgMgt.addTask("HC2","ProvideRoomInvoice", null,"SC-HC2.orderRoom.Res,HC2-MM.sendRoomInvoice.Req");
+       orgMgt.updateTask("HC2","ProvideRoomInvoice","","mep","one-way");
+       orgMgt.setTaskQoS("HC2","OrderRoom","Throughput:400/d");
+       orgMgt.setTaskOutMessage("HC2","OrderRoom","orderRoom","String:content","String");
+       orgMgt.setTaskInMessage("HC2","OrderRoom","orderRoom","String:content","String");
+       orgMgt.setTaskInMessage("HC2","ProvideRoomInvoice","provideRoomInvoice","String:content","String");
+       // Role MM
+       orgMgt.addTask("MM","NotifyRoomBooking","HC2-MM.notifyRoomBooking.Req", null);
+       orgMgt.setTaskOutMessage("MM","NotifyRoomBooking","notifyRoomBooking","String:content","String");
+       // Role SC
+       orgMgt.updateTask("SC","PayHC","outputs","add","SC-HC2.sendRoomInvoice.Res");
+       orgMgt.updateTask("SC","PayHC","inputs","add","SC-HC2.sendRoomInvoice.Req");
+       orgMgt.updateTask("SC","Analyze","outputs","add","SC-HC2.orderRoom.Req");
+
+       // contract-level changes
+       orgMgt.addContract("SC-HC2","SC","HC2");
+       orgMgt.addTerm("SC-HC2","orderRoom","AtoB");
+       orgMgt.setTermOperation("SC-HC2","orderRoom","orderRoom","String:content","String");
+       orgMgt.addTerm("SC-HC2","sendRoomInvoice","BtoA");
+       orgMgt.setTermOperation("SC-HC2","sendRoomInvoice","sendRoomInvoice","String:content","String");
+       orgMgt.addContract("HC2-MM","HC2","MM");
+       orgMgt.addTerm("HC2-MM","notifyRoomBooking","AtoB");
+       orgMgt.setTermOperation("HC2-MM","notifyRoomBooking","notifyRoomBooking","String:content","String");
+
+       // behaviour unit changes
+       orgMgt.addBehaviorUnit("bRentingRoom");
+       orgMgt.addTaskToBehaviorUnit("bRentingRoom","HC2.OrderRoom","eOrderRoomReqd","eOrderedRoom * eNotifyRoomBookingReqd");
+       orgMgt.addTaskToBehaviorUnit("bRentingRoom","MM.NotifyRoomBooking","eNotifyRoomBookingReqd",null);
+       orgMgt.addTaskToBehaviorUnit("bRentingRoom","HC2.ProvideRoomInvoice",null,"ePayHC2Reqd");
+       orgMgt.addTaskToBehaviorUnit("bRentingRoom","SC.PayHC","ePayHC2Reqd","eHC2Paid");
+
+       //synchronization rule changes
+       oprMgt.addSynchronizationRule("HC2","HC2_SYN.drl");
+       oprMgt.addSynchronizationRule("MM","notifyRoomBooking.drl");
+       oprMgt.addSynchronizationRule("SC","payHC2.drl");
+
+       //routing rule changes
+       oprMgt.addRoutingRule("HC2","HC2_Routing.drl");
+       oprMgt.addRoutingRule("SC","payHC2Response.drl");
+       oprMgt.addRoutingRule("SC","analyzeResponseHC2.drl");
+
+       //passthrough rule changes
+       oprMgt.addPassthroughRule("SC-HC2","SC-HC2.drl");
+       oprMgt.addPassthroughRule("HC2-MM","HC2-MM.drl");
+
+       //global rule changes
+       oprMgt.addGlobalRule("terminateV4.drl");
+
+       // regulation unit changes
+       // Roomrent regulation unit
+       oprMgt.addRegulationUnit("ruRentingRoom2");
+       oprMgt.addSynchronizationRulesToRegulationUnit("ruRentingRoom2","orderRoom:HC2,notifyRoomBooking:MM,payHC2:SC");
+       oprMgt.addRoutingRulesToRegulationUnit("ruRentingRoom2","analyzeResponseHC2:SC,payHC2Response:SC,provideRoomInvoice:HC2,orderRoomResponse:HC2");
+       oprMgt.addPassthroughRulesToRegulationUnit("ruRentingRoom2","orderRoom:SC-HC2,orderRoomResponse:SC-HC2,sendRoomInvoice:SC-HC2,sendRoomInvoiceResponse:SC-HC2,notifyRoomBooking:HC2-MM");
+       // new termination regulation unit
+       oprMgt.addRegulationUnit("ruTerminateV4");
+       oprMgt.addGlobalRulesToRegulationUnit("ruTerminateV4","terminateV4");
+
+      oprMgt.addRoutingRule("SC","selectAccommodation.drl");
+      oprMgt.addRegulationUnit("ruSelectAccommodation");
+      oprMgt.addRoutingRulesToRegulationUnit("ruSelectAccommodation","selectAccommodation:SC");
+
+     orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bRentingRoom2");
+     orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * ( eHCPaid | eHC2Paid )");
+             // VSN/Process Regulation Policy Changes
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingRoom2,ruTerminateV4");
+      //routing rule changes
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruSelectAccommodation,ruRentingRoom2,ruTerminateV4");
+       // State Changes
+        long stop1 = System.nanoTime();
+           System.out.println("Add : " + (stop1 - start1)/1000000);
+     $mps.setState("quiescence");
+end

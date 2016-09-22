@@ -1,0 +1,9 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "orderRepairResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRepairResponse", state=="forwardable")
+  then
+   actions.Forward("GC2-TC4.sendGCLocation.Req","SendGC1LocationToTC4Req.xsl",$msg);
+end

@@ -1,0 +1,13 @@
+rule "sendGrLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "isendGRLocation")
+    then
+		$msg.triggerEvent("eGC1LocKnown");
+end
+rule "notifyDelivery"
+    when
+		$msg : MessageReceivedEvent(operationName == "iNotifyDelivery")
+    then
+    	((UsedCap)SNState.getFact("TC1.tDeliver", $msg).decrement());
+		$msg.triggerEvent("eDeliveredToGC1");
+end

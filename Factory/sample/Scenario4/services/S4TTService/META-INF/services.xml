@@ -1,0 +1,11 @@
+<service name="S4TTService" targetNamespace="http://tt.com">
+    <description>
+        This service is S4TTService
+    </description>
+    <schema schemaNamespace="http://tts.com"/>
+    <parameter name="ServiceClass">S4TTService</parameter>
+    <operation name="tow">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+
+    </operation>
+</service>

@@ -1,0 +1,13 @@
+<FlowControlPolicy id="">
+    <Rule>
+        <Conditions>
+
+        </Conditions>
+        <ThenActions>
+
+        </ThenActions>
+        <ElseActions>
+
+        </ElseActions>
+    </Rule>
+</FlowControlPolicy>

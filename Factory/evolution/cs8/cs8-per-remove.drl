@@ -1,0 +1,39 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC8-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+      $mps.setState("active");
+      long start1 = System.nanoTime();
+
+      oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursement2,ruSelectReimburseAlt");
+      oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursement2,ruSelectReimburseAlt");
+      oprMgt.removeRegulationUnit("ruReimbursement2");
+
+      oprMgt.removeRegulationUnit("ruSelectReimburseAlt");
+
+      //this is second reimbursement
+      orgMgt.removeRole("AC");
+      orgMgt.updateTask("MM","RequestReimburse","outputs","remove","AC-MM.requestReimburse.Req");
+      orgMgt.updateTask("MM","NotifyReimburseStatus","remove","inputs","AC-MM.notifyReimburseStatus.Req");
+
+      orgMgt.removeContract("AC-MM");
+
+      orgMgt.removeBehaviorUnit("bReimbursement2");
+
+      orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bReimbursement2");
+      orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bReimbursement2");
+
+      oprMgt.removeSynchronizationRule("MM","notifyReimburseStatus2");
+
+      oprMgt.removeRoutingRule("MM","requestReimburse2");
+      oprMgt.removeRoutingRule("MM","selectReimburseAlt");
+
+      long stop1 = System.nanoTime();
+      System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

@@ -1,0 +1,9 @@
+HappyTour1 =    11  ( Services 29 )   +18
+HappyTour2 =    27  ( Services 40 )   +13
+HappyTour3 =    42  ( Services  42 )  +0
+AnyTrucks1 =    17  ( Services 33 )   +16
+AnyTrucks2 =    41  ( Services 42 )   +1
+AnyTrucks3 =    65  ( Services  45)   -20
+EuroCars1  =    22  ( Services 39 )   +17
+EuroCars2  =    52  ( Services  47 )  -5
+EuroCars3  =    83  ( Services 43 )   -40

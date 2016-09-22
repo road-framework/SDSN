@@ -1,0 +1,41 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "rentRoom"
+    when
+		$event : MessageReceivedEvent(operationName == "rentRoom",  response ==false)
+    then
+		$event.triggerEvent("RentRoomReqd");
+end
+rule "rentRoomResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "rentRoom",  response ==true)
+    then
+		$event.triggerEvent("RentedRoom");
+end
+
+rule "endRoomRent"
+    when
+		$event : MessageReceivedEvent(operationName == "endRoomRent",  response ==false)
+    then
+		$event.triggerEvent("EndRoomRentReqd");
+end
+
+rule "endRoomRentResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "endRoomRent",  response ==true)
+    then
+		$event.triggerEvent("EndedRoomRent");
+end
+
+rule "payRoomRent"
+    when
+		$event : MessageReceivedEvent(operationName == "payRoomRent",  response ==false)
+    then
+		$event.triggerEvent("PayHCReqd");
+end
+
+rule "payRoomRentResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "payRoomRent",  response ==true)
+    then
+		$event.triggerEvent("HCPaid");
+end

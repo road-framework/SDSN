@@ -1,0 +1,29 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC11-per-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","CoT","eMMNotify * eVCPaid");
+    orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP1","bRentingRoom");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingRoom,ruTerminateV1");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bRentingVehicle");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2","state","active");
+
+    orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP2","bRepairingByAutoRepair");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByAutoRepair,ruSwiftTowAndAutoRepair");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP2","bRepairingByNickRepair");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByNickRepair,ruNickRepairAndTowTow");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByNickRepair,ruNickRepairAndTowTow","state","active");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+    $mps.setState("quiescence");
+end

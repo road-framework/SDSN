@@ -1,0 +1,17 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "orderRoomResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRoomResponse", state=="forwardable")
+  then
+   actions.Forward("SC-HC2.orderRoom.Res","OrderRoomRes.xsl",$msg);
+   actions.Forward("HC2-MM.notifyRoomBooking.Req","NotifyRoomBookingReq.xsl",$msg);
+end
+
+rule "provideRoomInvoice"
+  when
+   $msg : RoleServiceMessage(operationName== "provideRoomInvoice", state=="forwardable")
+  then
+   actions.Forward("SC-HC2.sendRoomInvoice.Req","SendRoomInvoiceReq.xsl",$msg);
+end

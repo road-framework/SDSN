@@ -1,0 +1,32 @@
+<proxy transports="https http">
+    <target>
+        <inSequence>
+            <log level="full"/>
+            <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+            <send>
+                <endpoint name="GeolocationEP">
+                    <http method="get" uri-template="........................"/>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <payloadFactory media-type="xml">
+                <format>
+                    <GetGeoLocationResponse xmlns="http://waa.swin.edu.au">
+                        <formattedAddress>$1</formattedAddress>
+                        <latitude>$2</latitude>
+                        <longtitude>$3</longtitude>
+                    </GetGeoLocationResponse>
+                </format>
+                <args>
+                    <arg evaluator="json" expression="$.results[0].formatted_address"/>
+                    <arg evaluator="json" expression="$.results[0].geometry.location.lat"/>
+                    <arg evaluator="json" expression="$.results[0].geometry.location.lng"/>
+                </args>
+            </payloadFactory>
+            <property name="messageType" value="text/xml"/>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </target>
+</proxy>

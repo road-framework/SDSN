@@ -1,0 +1,29 @@
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="evolution/legalassistence/data2/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eReimbursed * eT2Paid</tns1:CoT>
+            <tns1:ConfigurationDesign>
+                <tns1:BehaviorUnitId>bCaseHandling</tns1:BehaviorUnitId>
+                <tns1:BehaviorUnitId>bReimbursement</tns1:BehaviorUnitId>
+                <tns1:BehaviorUnitId>bTowingByTomTow</tns1:BehaviorUnitId>
+                <tns1:BehaviorUnitId>bRepairingByMacRepair</tns1:BehaviorUnitId>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationPolicy>
+                <tns1:RegulationUnitId>ruCaseHandling</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruReimbursement</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruTowingByTomTow</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruRepairingByMacRepair</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruTerminateV1</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruActivateV1</tns1:RegulationUnitId>
+            </tns1:RegulationPolicy>
+        </tns1:Process>
+        <tns1:RegulationPolicy>
+            <tns1:RegulationUnitId>ruAdmissionV1</tns1:RegulationUnitId>
+            <tns1:RegulationUnitId>ruCreateVsnInstance</tns1:RegulationUnitId>
+            <tns1:RegulationUnitId>ruDrop</tns1:RegulationUnitId>
+        </tns1:RegulationPolicy>
+    </VirtualServiceNetwork>
+</tns:ServiceNetwork>

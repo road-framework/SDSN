@@ -1,0 +1,19 @@
+1 Behavior bTowingParallel {
+2  TaskRef TC1.tPickUp {
+3   InitOn  "ePickUpReq";
+4   Triggers "ePickedUp";        }
+5  TaskRef TC1.tDeliverVehicle {
+6   InitOn  " eGC1LocKnown | eGC2LocKnown ";
+7   Triggers " ePayTC1Req *
+8            ( eDeliveredToGC1 |
+9            eDeliveredToGC2) "; }
+10  TaskRef SC.tPayTow {
+11   InitOn  "ePayTC1Req";
+12   Triggers "eTC1Paid";        }
+13 }
+14 Behavior bHandlingCall { ... };
+15 Behavior bTowingSequential { ... };
+16 Behavior bReparingExParts { ... };
+17 Behavior bReparingInParts { ... }
+18 Behavior bRentingRoom { ... };
+19 Behavior bRentingVehicle { ... };

@@ -1,0 +1,89 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "addaccidenttowing_orgmgt_stage1"
+  when
+    $mpsOrg: ManagementPolicyState (id =="addtaxihire_org", state=="incipient")
+  then
+    disabledSet.disable("addaccidenttowing_orgmgt_stage1");
+    System.out.println("Organizational management policy addtaxihire_org stage 1 has been started.");
+
+    orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","state", "passive");
+
+    System.out.println("Organizational management policy addtaxihire_org stage 1 has been completed successfully.");
+    $mpsOrg.setState("stage1done");
+end
+
+rule "addaddtaxihireing_orgmgt_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="addtaxihire_org", state=="stage1done") ) and  ( $mpsOpr : ManagementPolicyState (id =="addtaxihire_opr", state=="stage1done") )
+  then
+   disabledSet.disable("addaddtaxihireing_orgmgt_stage2");
+   System.out.println("Organizational management policy addtaxihire_org stage 2 has been started.");
+ // role-level changes
+    // Role TX
+    orgMgt.addRole("TX","14Cabs");
+    orgMgt.setServiceBinding("TX", "http://localhost:8082/axis2/services/TaxiHireService");
+    orgMgt.addTask("TX","OrderTaxi","SC-TX.orderTaxi.Req","SC-TX.orderTaxi.Res,TX-MM.notifyTaxiBooking.Req");
+    orgMgt.addTask("TX","ProvideTaxiInvoice", null,"SC-TX.orderTaxi.Res,TX-MM.sendTaxiInvoice.Req");
+    orgMgt.updateTask("TX","ProvideTaxiInvoice","set","mep","one-way");
+    orgMgt.setTaskQoS("TX","OrderTaxi","Throughput:400/d");
+    orgMgt.setTaskOutMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskInMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskInMessage("TX","ProvideTaxiInvoice","provideTaxiInvoice","String:content","String");
+    // Role MM
+    orgMgt.addTask("MM","NotifyTaxiBooking","TX-MM.notifyTaxiBooking.Req", null);
+    orgMgt.setTaskOutMessage("MM","NotifyTaxiBooking","notifyTaxiBooking","String:content","String");
+    // Role SC
+    orgMgt.addTask("SC","PayTX","SC-TX.sendTaxiInvoice.Req","SC-TX.sendTaxiInvoice.Res");
+    orgMgt.setTaskOutMessage("SC","PayTX","payTX","String:content","String");
+    orgMgt.setTaskInMessage("SC","PayTX","payTX","String:content","String");
+    orgMgt.updateTask("SC","Analyze","outputs","add","SC-TX.orderTaxi.Req");
+
+    // contract-level changes
+    orgMgt.addContract("SC-TX","SC","TX");
+    orgMgt.addTerm("SC-TX","orderTaxi","AtoB");
+    orgMgt.setTermOperation("SC-TX","orderTaxi","orderTaxi","String:content","String");
+    orgMgt.addTerm("SC-TX","sendTaxiInvoice","BtoA");
+    orgMgt.setTermOperation("SC-TX","sendTaxiInvoice","sendTaxiInvoice","String:content","String");
+    orgMgt.addContract("TX-MM","TX","MM");
+    orgMgt.addTerm("TX-MM","notifyTaxiBooking","AtoB");
+    orgMgt.setTermOperation("TX-MM","notifyTaxiBooking","notifyTaxiBooking","String:content","String");
+
+    // behaviour unit changes
+    orgMgt.addBehaviorUnit("bHiringTaxi");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.OrderTaxi","eOrderTaxiReqd","eOrderedTaxi * eNotifyTaxiBookingReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","MM.NotifyTaxiBooking","eNotifyTaxiBookingReqd",null);
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.ProvideTaxiInvoice",null,"ePayTXReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","SC.PayTX","ePayTXReqd","eTXPaid");
+    orgMgt.updateTaskOfBehaviorUnit("bCaseHandling","SC.Analyze","postEP","( eOrderTaxiReqd ) | ( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqdFromTC2  *  eRepairReqFromGC2BySC * eRentVehicleReqd )");
+
+    orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bRentingVehicle");
+    orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bHiringTaxi");
+    orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eTXPaid");
+
+    System.out.println("Organizational management policy addtaxihire_org stage 2 has been completed successfully.");
+    $mpsOrg.setState("stage2done");
+end
+
+rule "addaddtaxihireing_orgmgt_stage3"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="addtaxihire_org", state=="stage2done") ) and  (( $mpsOpr :
+   ManagementPolicyState (id =="addtaxihire_opr", state=="stage2done") ) or ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="addtaxihire_opr", state=="quiescence") ))
+  then
+    disabledSet.disable("addaddtaxihireing_orgmgt_stage3");
+    System.out.println("Organizational management policy addtaxihire_org stage 3 has been started.");
+
+    orgMgt.updateRole("TX","state","active");
+    orgMgt.updateContract("TX-MM","state","active");
+    orgMgt.updateContract("SC-TX","state","active");
+    orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","state", "active");
+
+    System.out.println("Organizational management policy addtaxihire_org stage 3 has been completed successfully.");
+    $mpsOrg.setState("quiescence");
+ end

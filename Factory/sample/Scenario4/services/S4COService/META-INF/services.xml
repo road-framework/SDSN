@@ -1,0 +1,13 @@
+<service name="S4COService" targetNamespace="http://co.com">
+    <description>
+        This service is S4COService
+    </description>
+    <schema schemaNamespace="http://cos.com"/>
+    <parameter name="ServiceClass">S4COService</parameter>
+    <operation name="analyze">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    </operation>
+    <operation name="notify">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    </operation>
+</service>

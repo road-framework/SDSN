@@ -1,0 +1,93 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "accidenttow_org_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="accidenttow_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="accidenttow_org", state=="stage1done") )
+  then
+    disabledSet.disable("accidenttow_org_stage1");
+    System.out.println("Operational management policy accidenttow_opr stage 1 has been started.");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV2","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruSwiftTowAndMacRepair","state",
+    "passive");
+    System.out.println("Operational management policy accidenttow_opr stage 1 has been completed successfully.");
+    $mpsOpr.setState("stage1done");
+end
+
+rule "accidenttow_org_stage2"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="accidenttow_opr", state=="stage1done") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="accidenttow_org", state=="stage2done") )
+  then
+    disabledSet.disable("accidenttow_org_stage2");
+    System.out.println("Operational management policy accidenttow_opr stage 2 has been started.");
+ // VSN/Process Regulation Policy Changes
+    //synchronization rule changes
+    oprMgt.addSynchronizationRule("TC3","TC3_SYN.drl");
+    oprMgt.addSynchronizationRule("LF","LF_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff_1.drl");
+    oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff_1.drl");
+
+    //routing rule changes
+    oprMgt.addRoutingRule("TC3","TC3_Routing.drl");
+    oprMgt.addRoutingRule("LF","LF_Routing.drl");
+    oprMgt.addRoutingRule("GC1","GC1_Routing_Diff_1.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff_1.drl");
+    oprMgt.updateRoutingRule("MM","admissionCheckV1","replace","admissionCheckV1_1.drl");
+
+    //passthrough rule changes
+    oprMgt.addPassthroughRule("SC-LF","SC-LF.drl");
+    oprMgt.addPassthroughRule("LF-TC3","LF-TC3.drl");
+    oprMgt.addPassthroughRule("SC-TC3","SC-TC3.drl");
+    oprMgt.addPassthroughRule("GC1-TC3","GC1-TC3.drl");
+    oprMgt.addPassthroughRule("SC-GC1","SC-GC1_Passthrough_Diff_1.drl");
+
+    // regulation unit changes
+    // TowingByMarkTow regulation unit
+    oprMgt.addRegulationUnit("ruTowingByMarkTow");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruTowingByMarkTow","payLF:SC, payTC3:SC, inspectAccident:LF");
+    oprMgt.addRoutingRulesToRegulationUnit("ruTowingByMarkTow","analyzeResponseV7:SC, analyzeResponseV8:SC, analyzeResponseV9:SC, payLFResponse:SC, inspectAccidentResponse:LF,towResponse:TC3");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruTowingByMarkTow","inspectAccident:SC-LF, payLegalAid:SC-LF, payLegalAidResponse:SC-LF,orderTow:SC-TC3, payTow:SC-TC3, payTowResponse:SC-TC3, authorizeTow:LF-TC3");
+
+   // MarkTowAndMacRepair regulation unit
+    oprMgt.addRegulationUnit("ruMarkTowAndMacRepair");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruMarkTowAndMacRepair","deliverGC1:TC1, doRepairV2:GC1, orderRepairV2:GC1, tow:TC3");
+    oprMgt.addRoutingRulesToRegulationUnit("ruMarkTowAndMacRepair","towResponseV2:TC3, orderRepairResponseV2:GC1");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruMarkTowAndMacRepair","sendGCLocation:GC1-TC3,sendGCLocationResponse:GC1-TC3");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingByMarkTow," +
+     "ruMarkTowAndMacRepair,ruActivateV1");
+    // State Changes
+    oprMgt.updateRegulationUnit("ruMarkTowAndMacRepair","state","active");
+    oprMgt.updateRegulationUnit("ruTowingByMarkTow","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruMarkTowAndMacRepair","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingByMarkTow","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV1","state","active");
+
+    System.out.println("Operational management policy accidenttow_opr stage 2 has been completed successfully.");
+    $mpsOpr.setState("stage2done");
+
+end
+
+rule "accidenttow_org_stage3"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="accidenttow_opr", state=="stage2done") )
+    and ( $rukeyState1 : RegulationUnitKeyManagementState(id== "ruTowingBySwiftTow", processId =="HappyToursP1", state=="quiescence") )
+    and ( $rukeyState2 : RegulationUnitKeyManagementState(id== "ruSwiftTowAndMacRepair", processId =="HappyToursP1", state=="quiescence") )
+    and ( $rukeyState3 : RegulationUnitKeyManagementState(id== "ruActivateV2", processId =="HappyToursP1",
+    state=="quiescence") )
+  then
+    disabledSet.disable("accidenttow_org_stage3");
+    System.out.println("Operational management policy accidenttow_opr stage 3 has been started.");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruSwiftTowAndMacRepair");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV2");
+    System.out.println("Operational management policy accidenttow_opr stage 3 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

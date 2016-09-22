@@ -1,0 +1,39 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "happytours_opr_1_stage_1"
+  when
+    $mpsOpr: ManagementPolicyState (id =="happytours_opr_1", state=="incipient")
+  then
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV2","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRentingVehicle","state","passive");
+    $mpsOpr.setState("stage_1_done");
+end
+
+rule "happytours_opr_1_stage_2"
+  when
+   ( $mpsOpr : ManagementPolicyState (id =="happytours_opr_1", state=="stage_1_done") ) and
+   ( $mpsOrg : ManagementPolicyState (id =="happytours_org_1", state=="stage_2_done") )
+  then
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRentingRoom,ruTerminateV1");
+    oprMgt.addParameterizedRegulationUnitToVSNRegulationPolicy(
+        "HappyTours","ruAdmissionV1","MM.routing.admissionCheckV1.limit=2,ruleFile=admissionCheck.drl");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRentingRoom","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1","state","active");
+    $mpsOpr.setState("stage_2_done");
+end
+
+rule "happytours_opr_1_stage_3"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="happytours_opr_1", state=="stage_2_done") )
+      and ( $rukeyState1 : RegulationUnitKeyManagementState(id== "ruRentingVehicle", processId =="HappyToursP1", state=="quiescence") )
+      and ( $rukeyState2 : RegulationUnitKeyManagementState(id== "ruTerminateV2", processId =="HappyToursP1", state=="quiescence") )
+  then
+   oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRentingVehicle");
+   oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV2");
+   $mpsOpr.setState("quiescence");
+ end

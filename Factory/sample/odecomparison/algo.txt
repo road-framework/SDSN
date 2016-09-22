@@ -1,0 +1,27 @@
+For each node Ni in ArchitectureVariant avId
+ IMTableKey = {VSM identifier, Ni.task.InMessageSignature}
+ addIMTableEntryKey (Ni.task.id, IMTableKey)
+ If Ni is the source node
+   updateIMTableEntryValue(Ni.id, IMTableKey ,“Throttle”, ”threshold=15”)
+   updateIMTableEntryValue(Ni.id, IMTableKey , “Drop”, “condition=deny”)
+   updateIMTableEntryValue(Ni.id, IMTableKey , “Allow”, “condition=allow”)
+ Else
+   updateIMTableEntryValue(id, IMTableKey , “Allow”, “condition=allow”)
+ RoutingTableKey = {VSM identifier, Ni.task.InMessageSignature }
+ addRoutingTableEntryKey(id, RoutingTableKey)
+ If Ni is the source node
+   updateRoutingTableEntryValue(Ni.id, RoutingTableKey ,“LoadBalance”, ”target=avId”)
+   updateRoutingTableEntryValue(Ni.id, RoutingTableKey ,“CreateInstance”, ”target=avId”)
+   updateRoutingTableEntryValue(Ni.id, RoutingTableKey ,“Forward”, ”Outports=Ni.OutEdges”)
+ Else
+   updateRoutingTableEntryValue (Ni.id, RoutingTableKey ,“Forward”, ”Outports=Ni.OutEdges”)
+ For each OutEdge out in Ni. OutEdges
+  EMTableKey = {avId, out.Signature}
+  addEMTable EntryKey(id, EMTableKey)
+  updateEMTableEntryValue(id, EMTableKey ,“Transform”, ”transFile=out.transFile”)
+  If Ni is the source node
+    updateEMTableEntryValue(id, EMTableKey ,“Queue”, ”id=EMTableKey;minRate=10;fairShare=12”)
+  Else
+    updateEMTableEntryValue(id, EMTableKey ,“PassThrough”)
+ End
+End

@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "payTX"
+  when
+   $e1 : EventRecord(eventId == "ePayTXReqd")
+  then
+   disabledSet.disable("payTX");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TX.sendTaxiInvoice.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayTX.xsl","PayTX");
+   actions.ExecuteTask(exMsg);
+end

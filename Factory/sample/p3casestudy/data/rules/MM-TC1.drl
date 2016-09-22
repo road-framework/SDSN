@@ -1,0 +1,7 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "pickUp"
+    when
+		$event : MessageReceivedEvent(operationName == "pickUp",  response ==false)
+    then
+		$event.triggerEvent("PickUpReq");
+end

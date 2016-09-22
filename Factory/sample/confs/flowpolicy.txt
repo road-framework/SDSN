@@ -1,0 +1,4 @@
+{[a set of users], [a set of alternatives]} -> Policy
+{[Any], [A,B,C]} -> Min Throughput X and Wa=f, Wb=g, Wc=h and Max-min
+
+If altArch(*) then shape("Min")

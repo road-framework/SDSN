@@ -1,0 +1,1597 @@
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="src/main/resources/overhead/os10/data/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eReimbursed * eHCPaid * eVCPaid * eTXPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bReimbursement</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByMacRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bPartsSupplyByJack</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bVehicleAssessment</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bLegalAssistance</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bHiringTaxi</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <InterVSNRegulation>
+        <tns1:Routing>
+            <tns1:RuleRef id="classify" place="MM"/>
+        </tns1:Routing>
+    </InterVSNRegulation>
+    <InterProcessRegulationUnits>
+        <tns1:InterProcessRegulationUnit id="ruAdmissionV1">
+            <tns1:Routing>
+                <tns1:RuleRef id="admissionCheckV1" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruDrop">
+            <tns1:Routing>
+                <tns1:RuleRef id="drop" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruCreateVsnInstance">
+            <tns1:Routing>
+                <tns1:RuleRef id="createVsnInstance" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+    </InterProcessRegulationUnits>
+    <InterCollaborationRegulationUnits>
+        <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="activateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+    </InterCollaborationRegulationUnits>
+    <CollaborationUnits>
+        <tns1:CollaborationUnit id="bCaseHandling">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="MM.RequestAssist"
+                              postEP=" eAssistReqd "/>
+                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
+                              postEP=" eMMNotify "/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" eMMNotify * eReimbursed "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="requestAssistV1" place="MM"/>
+                    <tns1:RuleRef id="analyzeResponse" place="SC"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="analyze" place="SC"/>
+                    <tns1:RuleRef id="notify" place="MM"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="assist" place="SC-MM"/>
+                    <tns1:RuleRef id="assistResponse" place="SC-MM"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bReimbursement">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="FD.Reimburse" preEP=" eReimburseReqd "
+                              postEP=" eReimbursed "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="requestAssistV2" place="MM"/>
+                    <tns1:RuleRef id="reimburseResponse" place="FD"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="reimburse" place="FD"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="reimburse" place="MM-FD"/>
+                    <tns1:RuleRef id="reimburseResponse" place="MM-FD"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bTowingByTomTow">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="TC2.Tow" preEP=" eTowReqd * eGCLocKnown * eTowAuthorized  "
+                              postEP=" ePayTowReqdByTC2 * eDeliveredVehicleToGCByTC2"/>
+                <tns1:TaskRef Id="SC.PayTC" preEP=" ePayTowReqdByTC2 " postEP=" eTC2Paid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payTCResponse" place="SC"/>
+                    <tns1:RuleRef id="towResponse" place="TC2"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="tow" place="TC2"/>
+                    <tns1:RuleRef id="payTC2" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderTow" place="SC-TC2"/>
+                    <tns1:RuleRef id="payTow" place="SC-TC2"/>
+                    <tns1:RuleRef id="payTowResponse" place="SC-TC2"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bRepairingByMacRepair">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="GC1.OrderRepair" preEP=" eRepairReqFromGC1BySC "
+                              postEP=" eRepairAcceptByGC1  * eSentGC1LocToTC2"/>
+                <tns1:TaskRef Id="GC1.AssessRepair" preEP=" eDeliveredVehicleToGC1ByTC2 "
+                              postEP=" eRepairAssessmentReq "/>
+                <tns1:TaskRef Id="GC1.DoRepair" preEP=" eReceivedParts " postEP=" ePayRepairReqdByGC1 "/>
+                <tns1:TaskRef Id="SC.PayGC" preEP=" ePayRepairReqdByGC1 " postEP=" eGC1Paid"/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payGCResponse" place="SC"/>
+                    <tns1:RuleRef id="orderRepairResponse" place="GC1"/>
+                    <tns1:RuleRef id="doRepairResponse" place="GC1"/>
+                    <tns1:RuleRef id="assessRepairResponse" place="GC1"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="payGC1" place="SC"/>
+                    <tns1:RuleRef id="orderRepair" place="GC1"/>
+                    <tns1:RuleRef id="doRepair" place="GC1"/>
+                    <tns1:RuleRef id="assessRepair" place="GC1"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderRepair" place="SC-GC1"/>
+                    <tns1:RuleRef id="payRepair" place="SC-GC1"/>
+                    <tns1:RuleRef id="payRepairResponse" place="SC-GC1"/>
+                    <tns1:RuleRef id="sendGCLocation" place="GC1-TC2"/>
+                    <tns1:RuleRef id="sendGCLocationResponse" place="GC1-TC2"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bPartsSupplyByJack">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="PS.OrderParts" preEP=" eOrderPartsReq " postEP=" eReceivedParts * ePayPartsReq"/>
+                <tns1:TaskRef Id="SC.PayPS" preEP=" ePayPartsReq " postEP=" ePSPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payPSResponse" place="SC"/>
+                    <tns1:RuleRef id="orderPartsResponse" place="PS"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="orderParts" place="PS"/>
+                    <tns1:RuleRef id="payPS" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderParts" place="GC1-PS"/>
+                    <tns1:RuleRef id="orderPartsResponse" place="GC1-PS"/>
+                    <tns1:RuleRef id="payParts" place="PS-SC"/>
+                    <tns1:RuleRef id="payPartsResponse" place="PS-SC"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bVehicleAssessment">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="AS.AssessRepair" preEP=" eRepairAssessmentReq "
+                              postEP=" eReceivedAssessmentReport * ePayAssessmentReq"/>
+                <tns1:TaskRef Id="GC1.ReceiveExternalAssessment" preEP=" eReceivedAssessmentReport "
+                              postEP=" eOrderPartsReq "/>
+                <tns1:TaskRef Id="SC.PayAS" preEP=" ePayAssessmentReq " postEP=" eASPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payASResponse" place="SC"/>
+                    <tns1:RuleRef id="assessRepairResponse" place="AS"/>
+                    <tns1:RuleRef id="receiveExternalAssessmentResponse" place="GC1"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="assessRepair" place="AS"/>
+                    <tns1:RuleRef id="payAS" place="SC"/>
+                    <tns1:RuleRef id="receiveExternalAssessment" place="GC1"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderRepairAssessment" place="GC1-AS"/>
+                    <tns1:RuleRef id="orderRepairAssessmentResponse" place="GC1-AS"/>
+                    <tns1:RuleRef id="payRepairAssessment" place="AS-SC"/>
+                    <tns1:RuleRef id="payRepairAssessmentsResponse" place="AS-SC"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bLegalAssistance">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="LF.InspectAccident" preEP=" eInspectAccidentReqd"
+                              postEP=" ePayLegalAidReqd * eTowAuthorized"/>
+                <tns1:TaskRef Id="SC.PayLF" preEP=" ePayLegalAidReqd " postEP=" eLFPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payLFResponse" place="SC"/>
+                    <tns1:RuleRef id="inspectAccidentResponse" place="LF"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="payLF" place="SC"/>
+                    <tns1:RuleRef id="inspectAccident" place="LF"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="inspectAccident" place="SC-LF"/>
+                    <tns1:RuleRef id="payLegalAid" place="SC-LF"/>
+                    <tns1:RuleRef id="payLegalAidResponse" place="SC-LF"/>
+                    <tns1:RuleRef id="authorizeTow" place="LF-TC2"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bRentingRoom">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="HC.RentRoom" preEP=" eRentRoomReqd " postEP=" eRentedRoom "/>
+                <tns1:TaskRef Id="HC.EndRoomRent" preEP=" eEndRoomRentReqd " postEP=" eEndedRoomRent "/>
+                <tns1:TaskRef Id="SC.PayHC" preEP=" ePayHCReqd " postEP=" eHCPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payHCResponse" place="SC"/>
+                    <tns1:RuleRef id="rentRoomResponse" place="HC"/>
+                    <tns1:RuleRef id="endRoomRentResponse" place="HC"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="rentRoom" place="HC"/>
+                    <tns1:RuleRef id="endRoomRent" place="HC"/>
+                    <tns1:RuleRef id="payHC" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="rentRoom" place="SC-HC"/>
+                    <tns1:RuleRef id="rentRoomResponse" place="SC-HC"/>
+                    <tns1:RuleRef id="endRoomRent" place="SC-HC"/>
+                    <tns1:RuleRef id="endRoomRentResponse" place="SC-HC"/>
+                    <tns1:RuleRef id="payRoomRent" place="SC-HC"/>
+                    <tns1:RuleRef id="payRoomRentResponse" place="SC-HC"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bRentingVehicle">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="VC.RentVehicle" preEP=" eRentVehicleReqd " postEP=" eRentedVehicle "/>
+                <tns1:TaskRef Id="VC.EndVehicleRent" preEP=" eEndVehicleRentReqd " postEP=" eEndedVehicleRent "/>
+                <tns1:TaskRef Id="SC.PayVC" preEP=" ePayVCReqd " postEP=" eVCPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payVCResponse" place="SC"/>
+                    <tns1:RuleRef id="rentVehicleResponse" place="VC"/>
+                    <tns1:RuleRef id="endVehicleRentResponse" place="VC"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="rentVehicle" place="VC"/>
+                    <tns1:RuleRef id="endVehicleRent" place="VC"/>
+                    <tns1:RuleRef id="payVC" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="rentVehicle" place="SC-VC"/>
+                    <tns1:RuleRef id="rentVehicleResponse" place="SC-VC"/>
+                    <tns1:RuleRef id="endVehicleRent" place="SC-VC"/>
+                    <tns1:RuleRef id="endVehicleRentResponse" place="SC-VC"/>
+                    <tns1:RuleRef id="payVehicleRent" place="SC-VC"/>
+                    <tns1:RuleRef id="payVehicleRentResponse" place="SC-VC"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bHiringTaxi">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="TX.OrderTaxi" preEP=" eOrderTaxiReqd "
+                              postEP=" ePayTXReqd * eNotifyTaxiBookingReqd "/>
+                <tns1:TaskRef Id="MM.NotifyTaxiBooking" preEP=" eNotifyTaxiBookingReqd"/>
+                <tns1:TaskRef Id="SC.PayTX" preEP=" ePayTXReqd " postEP=" eTXPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payTXResponse" place="SC"/>
+                    <tns1:RuleRef id="orderTaxiResponse" place="TX"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="orderTaxi" place="TX"/>
+                    <tns1:RuleRef id="notifyTaxiBooking" place="MM"/>
+                    <tns1:RuleRef id="payTX" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderTaxi" place="SC-TX"/>
+                    <tns1:RuleRef id="notifyTaxiBooking" place="TX-MM"/>
+                    <tns1:RuleRef id="sendTaxiInvoice" place="SC-TX"/>
+                    <tns1:RuleRef id="sendTaxiInvoiceResponse" place="SC-TX"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+    </CollaborationUnits>
+    <Roles>
+        <Role id="MM" name="Member" entryRole="true" synchronization="MM_SYN.drl" routing="MM_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RequestAssist" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickUpLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+                <tns1:Task id="NotifyTaxiBooking" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="notifyTaxiBooking">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="TX-MM" termId="notifyTaxiBooking" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="SC" name="24bySupportCenter" synchronization="SC_SYN.drl" routing="SC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Analyze">
+                    <tns1:Out>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-GC1" termId="orderRepair" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-LF" termId="inspectAccident" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-HC" termId="rentRoom" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-VC" termId="rentVehicle" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-TX" termId="orderTaxi" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayTC">
+                    <tns1:Out>
+                        <tns1:Operation name="payTC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payTC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayGC">
+                    <tns1:Out>
+                        <tns1:Operation name="payGC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payGC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-GC1" termId="payRepair" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-GC1" termId="payRepair" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayPS">
+                    <tns1:Out>
+                        <tns1:Operation name="payPS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payPS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayAS">
+                    <tns1:Out>
+                        <tns1:Operation name="payAS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payAS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="AS-SC" termId="payRepairAssessment" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="AS-SC" termId="payRepairAssessment" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayLF">
+                    <tns1:Out>
+                        <tns1:Operation name="payLF">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payLF">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-LF" termId="payLegalAid" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-LF" termId="payLegalAid" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayHC">
+                    <tns1:Out>
+                        <tns1:Operation name="payHC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payHC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-HC" termId="payRoomRent" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-HC" termId="payRoomRent" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayVC">
+                    <tns1:Out>
+                        <tns1:Operation name="payVC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payVC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-VC" termId="payVehicleRent" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-VC" termId="payVehicleRent" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayTX">
+                    <tns1:Out>
+                        <tns1:Operation name="payTX">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payTX">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TX" termId="sendTaxiInvoice" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TX" termId="sendTaxiInvoice" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="GC1" name="MacRepair" synchronization="GC1_SYN.drl" routing="GC1_Routing.drl">
+            <Tasks>
+                <tns1:Task id="OrderRepair">
+                    <tns1:Out>
+                        <tns1:Operation name="orderRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="orderRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-GC1" termId="orderRepair" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="DoRepair">
+                    <tns1:Out>
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC1-PS" termId="orderParts" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-GC1" termId="payRepair" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="AssessRepair">
+                    <tns1:Out>
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC1-AS" termId="orderRepairAssessment" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="ReceiveExternalAssessment">
+                    <tns1:Out>
+                        <tns1:Operation name="receiveExternalAssessment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="receiveExternalAssessment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC1-AS" termId="orderRepairAssessment" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC1-PS" termId="orderParts" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="FD" name="24byFinanceDept" synchronization="FD_SYN.drl" routing="FD_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Reimburse">
+                    <tns1:Out>
+                        <tns1:Operation name="reimburse">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="reimburse">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="MM-FD" termId="reimburse" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="MM-FD" termId="reimburse" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TC2" name="TomTow" synchronization="TC2_SYN.drl" routing="TC2_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Tow">
+                    <tns1:Out>
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
+                        <tns1:SrcMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>
+                        <tns1:ResultMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="PS" name="JackParts" synchronization="PS_SYN.drl" routing="PS_Routing.drl">
+            <Tasks>
+                <tns1:Task id="OrderParts">
+                    <tns1:Out>
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC1-PS" termId="orderParts" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC1-PS" termId="orderParts" isResponse="true"/>
+                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="AS" name="LanAS" synchronization="AS_SYN.drl" routing="AS_Routing.drl">
+            <Tasks>
+                <tns1:Task id="AssessRepair">
+                    <tns1:Out>
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC1-AS" termId="orderRepairAssessment" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC1-AS" termId="orderRepairAssessment" isResponse="true"/>
+                        <tns1:ResultMsg contractId="AS-SC" termId="payRepairAssessment" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="LF" name="AuLaw" synchronization="LF_SYN.drl" routing="LF_Routing.drl">
+            <Tasks>
+                <tns1:Task id="InspectAccident">
+                    <tns1:Out>
+                        <tns1:Operation name="inspectAccident">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>info</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="inspectAccident">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>info</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-LF" termId="inspectAccident" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-LF" termId="payLegalAid" isResponse="false"/>
+                        <tns1:ResultMsg contractId="LF-TC2" termId="authorizeTow" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="HC" name="AmayHotel" synchronization="HC_SYN.drl" routing="HC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RentRoom">
+                    <tns1:Out>
+                        <tns1:Operation name="rentRoom">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="rentRoom">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-HC" termId="rentRoom" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-HC" termId="rentRoom" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="EndRoomRent">
+                    <tns1:Out>
+                        <tns1:Operation name="endRoomRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="endRoomRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-HC" termId="endRoomRent" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-HC" termId="endRoomRent" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-HC" termId="payRoomRent" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="VC" name="SilverVehicles" synchronization="VC_SYN.drl" routing="VC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RentVehicle">
+                    <tns1:Out>
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-VC" termId="rentVehicle" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-VC" termId="rentVehicle" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="EndVehicleRent">
+                    <tns1:Out>
+                        <tns1:Operation name="endVehicleRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="endVehicleRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-VC" termId="endVehicleRent" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-VC" termId="endVehicleRent" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-VC" termId="payVehicleRent" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TX" name="14Cabs" synchronization="TX_SYN.drl" routing="TX_Routing.drl">
+            <Tasks>
+                <tns1:Task id="OrderTaxi">
+                    <tns1:Out>
+                        <tns1:Operation name="orderTaxi">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="orderTaxi">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TX" termId="orderTaxi" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TX" termId="orderTaxi" isResponse="true"/>
+                        <tns1:ResultMsg contractId="TX-MM" termId="notifyTaxiBooking" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="ProvideTaxiInvoice" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="provideTaxiInvoice">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TX" termId="sendTaxiInvoice" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+    </Roles>
+    <Contracts>
+        <Contract id="SC-MM" passthrough="SC-MM.drl">
+            <Terms>
+                <Term id="assist">
+                    <Operation name="assist">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>memId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>complain</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>MM</RoleBID>
+        </Contract>
+        <Contract id="MM-FD" passthrough="MM-FD.drl">
+            <Terms>
+                <Term id="reimburse">
+                    <Operation name="reimburse">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>FD</RoleBID>
+        </Contract>
+        <Contract id="SC-TC2" passthrough="SC-TC2.drl">
+            <Terms>
+                <Term id="payTow">
+                    <Operation name="payTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="orderTow">
+                    <Operation name="orderTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>TC2</RoleAID>
+            <RoleBID>SC</RoleBID>
+        </Contract>
+        <Contract id="GC1-TC2" passthrough="GC1-TC2.drl">
+            <Terms>
+                <Term id="sendGCLocation">
+                    <Operation name="sendGCLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GC1</RoleAID>
+            <RoleBID>TC2</RoleBID>
+        </Contract>
+        <Contract id="SC-GC1" passthrough="SC-GC1.drl">
+            <Terms>
+                <Term id="orderRepair">
+                    <Operation name="orderRepair">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payRepair">
+                    <Operation name="payRepair">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>GC1</RoleBID>
+        </Contract>
+        <Contract id="GC1-PS" passthrough="GC1-PS.drl">
+            <Terms>
+                <Term id="orderParts">
+                    <Operation name="orderParts">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GC1</RoleAID>
+            <RoleBID>PS</RoleBID>
+        </Contract>
+        <Contract id="PS-SC" passthrough="PS-SC.drl">
+            <Terms>
+                <Term id="payParts">
+                    <Operation name="payParts">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>PS</RoleAID>
+            <RoleBID>SC</RoleBID>
+        </Contract>
+        <Contract id="GC1-AS" passthrough="GC1-AS.drl">
+            <Terms>
+                <Term id="orderRepairAssessment">
+                    <Operation name="orderRepairAssessment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GC1</RoleAID>
+            <RoleBID>AS</RoleBID>
+        </Contract>
+        <Contract id="AS-SC" passthrough="AS-SC.drl">
+            <Terms>
+                <Term id="payRepairAssessment">
+                    <Operation name="payRepairAssessment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>AS</RoleAID>
+            <RoleBID>SC</RoleBID>
+        </Contract>
+        <Contract id="SC-LF" passthrough="SC-LF.drl">
+            <Terms>
+                <Term id="inspectAccident">
+                    <Operation name="inspectAccident">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>info</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payLegalAid" name="payLegalAid">
+                    <Operation name="payLegalAid">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>LF</RoleBID>
+        </Contract>
+        <Contract id="LF-TC2" passthrough="LF-TC2.drl">
+            <Terms>
+                <Term id="authorizeTow" name="authorizeTow">
+                    <Operation name="authorizeTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>LF</RoleAID>
+            <RoleBID>TC2</RoleBID>
+        </Contract>
+        <Contract id="SC-HC" passthrough="SC-HC.drl">
+            <Terms>
+                <Term id="rentRoom">
+                    <Operation name="rentRoom">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="endRoomRent">
+                    <Operation name="endRoomRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payRoomRent">
+                    <Operation name="payRoomRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>HC</RoleBID>
+        </Contract>
+        <Contract id="SC-VC" passthrough="SC-VC.drl">
+            <Terms>
+                <Term id="rentVehicle">
+                    <Operation name="rentVehicle">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="endVehicleRent">
+                    <Operation name="endVehicleRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payVehicleRent">
+                    <Operation name="payVehicleRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>VC</RoleBID>
+        </Contract>
+        <Contract id="SC-TX" passthrough="SC-TX.drl">
+            <Terms>
+                <Term id="orderTaxi">
+                    <Operation name="orderTaxi">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="sendTaxiInvoice" name="sendTaxiInvoice">
+                    <Operation name="sendTaxiInvoice">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>TX</RoleBID>
+        </Contract>
+        <Contract id="TX-MM" passthrough="TX-MM.drl">
+            <Terms>
+                <Term id="notifyTaxiBooking" name="notifyTaxiBooking">
+                    <Operation name="notifyTaxiBooking">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>TX</RoleAID>
+            <RoleBID>MM</RoleBID>
+        </Contract>
+    </Contracts>
+    <ServiceBindings>
+        <ServiceBinding id="SC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Roles>
+                <RoleID>SC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="FD_SB">
+            <Endpoint>http://localhost:8082/axis2/services/FinanceDepService</Endpoint>
+            <Roles>
+                <RoleID>FD</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TC2_SB">
+            <Endpoint>http://localhost:8082/axis2/services/TowServiceSeq</Endpoint>
+            <Roles>
+                <RoleID>TC2</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="GC1_SB">
+            <Endpoint>http://localhost:8082/axis2/services/InGarageService</Endpoint>
+            <Roles>
+                <RoleID>GC1</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="PS_SB">
+            <Endpoint>http://localhost:8082/axis2/services/PartSupplierService</Endpoint>
+            <Roles>
+                <RoleID>PS</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="AS_SB">
+            <Endpoint>http://localhost:8082/axis2/services/VehicleRepairAssessmentService</Endpoint>
+            <Roles>
+                <RoleID>AS</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="LF_SB">
+            <Endpoint>http://localhost:8082/axis2/services/AusLawService</Endpoint>
+            <Roles>
+                <RoleID>LF</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="HC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/HotelService</Endpoint>
+            <Roles>
+                <RoleID>HC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="VC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/VehicleRentalService</Endpoint>
+            <Roles>
+                <RoleID>VC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TX_SB">
+            <Endpoint>http://localhost:8082/axis2/services/TaxiHireService</Endpoint>
+            <Roles>
+                <RoleID>TX</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="OrgBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
+        </ServiceBinding>
+        <ServiceBinding id="OprBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

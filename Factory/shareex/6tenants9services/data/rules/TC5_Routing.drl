@@ -1,0 +1,10 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "towResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "towResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC5.payTow.Req","PayTC5Req.xsl",$msg);
+   actions.Forward("GC2-TC5.sendGCLocation.Res","SendGC5LocationRes.xsl",$msg);
+end

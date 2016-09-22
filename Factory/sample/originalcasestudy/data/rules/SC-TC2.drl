@@ -1,0 +1,21 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderTow"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTow", response ==false)//, isResponse==false
+    then
+		$msg.triggerEvent("TowReqd");
+end
+ 
+rule "payTow"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow" , response==false)
+    then
+		$msg.triggerEvent("PayTowReqdTC2");
+end
+ 
+rule "payTowResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow", response==true)
+    then
+		$msg.triggerEvent("TC2Paid");
+end

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.swin.edu.au/ict/road/monitor"
+            xmlns:tns="http://www.swin.edu.au/ict/road/monitor"
+            elementFormDefault="unqualified"
+            version="1.3">
+
+    <!-- monitor type -->
+    <xsd:complexType name="MonitorRoleType">
+
+        <!-- player attributes -->
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="MonitorType">
+        <xsd:sequence>
+            <xsd:element name="event" type="tns:MonitorEventType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="fact" type="tns:FactRefType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="analysis" type="tns:AnalysisType" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="MonitorEventType">
+        <xsd:attribute name="type" type="xsd:string" use="optional"></xsd:attribute>
+        <xsd:attribute name="pattern" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="FactRefType">
+        <xsd:attribute name="type" type="xsd:string" use="optional"></xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="AnalysisType">
+        <xsd:attribute name="script" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

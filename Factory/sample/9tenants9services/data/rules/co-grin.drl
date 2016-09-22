@@ -1,0 +1,69 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.ObligationComplianceEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.TermExecutedEvent;
+import au.edu.swin.ict.road.composite.contract.Contract;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+
+/** Global Variables **/
+global Contract contract;
+global FactTupleSpace fts;
+
+/** Events **/
+declare MessageReceivedEvent
+    @role(event)
+end
+
+declare TermExecutedEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare ObligationComplianceEvent
+    @role(event)
+    @expires(24h)
+end
+
+/** Permission Rules **/
+rule "orderRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderRepair" , response ==false)
+    then
+    	//System.out.println("orderRepair request interpretation :RepairReqdIN");
+    	//All the rules to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("RepairReqdIN");
+end
+
+rule "getGRLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "getGRLocation" , response ==false)
+    then
+    	//System.out.println("getGRLocation request interpretation :GRINLocationReqd");
+    	//All the rules to evaluate the message is here.
+		$msg.setBlocked(false);
+		$msg.triggerEvent("GRINLocationReqd");
+end
+
+rule "payRepairReq"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+    	//System.out.println("payRepair interpretation :RepairSuccessIN");
+    	//All the rules to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("PayRepairReqdIN");
+		#$msg.triggerEvent("RepairFailed"); 
+end
+
+
+rule "payRepairRes"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==true)
+    then
+    	//System.out.println("payRepair response interpretation :GRINPaid");
+    	//All the rules to evaluate the message is here. 
+		$msg.setBlocked(false);	
+		$msg.triggerEvent("GRINPaid");
+		
+end
+ 

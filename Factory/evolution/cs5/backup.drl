@@ -1,0 +1,85 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC1-per-add"
+  when
+    $mps : ManagementPolicyState(state=="incipient")
+  then
+    $mps.setState("active");
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP2","state", "passive");
+    // add new tow collaboration
+    orgMgt.addRole("TC4","ColeTow");
+    orgMgt.setServiceBinding("TC4", "http://localhost:8082/axis2/services/ColeTowService");
+    orgMgt.addTask("TC4","Tow","SC-TC4.orderTow.Req, GC2-TC4.sendGCLocation.Req","SC-TC4.payTow.Req, GC2-TC4.sendGCLocation.Res");
+    orgMgt.setTaskQoS("TC4","Tow","Throughput:350/d,ResponseTime:3h");
+    orgMgt.setTaskMessage("TC4","Tow","tow","String:pickupLocation,String:garageLocation","TowReturn");
+    // Role SC
+    orgMgt.updateTask("SC","Analyze","add","outputs","SC-TC4.orderTow.Req");
+    //Role GC2
+    orgMgt.updateTask("GC2","OrderRepair","add","inputs","SC-GC2.orderRepair.Req");
+    orgMgt.updateTask("GC2","OrderRepair","add","outputs","GC2-TC4.sendGCLocation.Req");
+    orgMgt.updateTask("GC2","AssessRepair","add","inputs","GC2-TC4.sendGCLocation.Res");
+    // contract-level changes
+    // contract GC2-TC4
+    orgMgt.addContract("GC2-TC4","GC2","TC4");
+    orgMgt.addTerm("GC2-TC4","sendGCLocation","AtoB");
+    orgMgt.setTermOperation("GC2-TC4","sendGCLocation","sendGCLocation","String:content","String");
+    // contract SC-TC4
+    orgMgt.addContract("SC-TC4","SC","TC4");
+    orgMgt.addTerm("SC-TC4","orderTow","AtoB");
+    orgMgt.setTermOperation("SC-TC4","orderTow","orderTow","String:content","String");
+    orgMgt.addTerm("SC-TC4","payTow","BtoA");
+    orgMgt.setTermOperation("SC-TC4","payTow","payTow","String:content","String");
+    
+    // behaviour unit changes
+    orgMgt.addBehaviorUnit("bTowingByColeTow");
+    orgMgt.addTaskToBehaviorUnit("bTowingByColeTow","TC4.Tow","eTowReqdFromTC4 * eSentGC2LocToTC4 * eAuthorizeTow","ePayTowReqdByTC4 * eDeliveredVehicleToGC2ByTC4");
+    orgMgt.addTaskToBehaviorUnit("bTowingByColeTow","SC.PayLF","ePayLFReqd","eLFPaid");
+    orgMgt.addTaskToBehaviorUnit("bTowingByColeTow","SC.PayTC","ePayT3Reqd","eT3Reqd");
+
+    orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP2","bTowingBySwiftTow");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP2","bTowingByColeTow");
+    orgMgt.updateRole("TC4","state","active");
+    orgMgt.updateContract("SC-TC4","state","active");
+    orgMgt.updateContract("TC4-GC2","state","active");
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP2","state", "active");
+
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruTowingBySwiftTow,ruSwiftTowAndAutoRepair,ruActivateV2","state","passive");
+
+    oprMgt.addSynchronizationRule("TC4","TC4_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff_cs5_per.drl");
+    oprMgt.addSynchronizationRule("GC2","GC2_SYN_Diff_cs5_per.drl");
+
+    //routing rule changes
+    oprMgt.addRoutingRule("TC4","TC4_Routing.drl");
+    oprMgt.addRoutingRule("GC2","GC2_Routing_Diff_cs5_per.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff_cs5_per.drl");
+
+    //passthrough rule changes
+    oprMgt.addPassthroughRule("SC-TC4","SC-TC4.drl");
+    oprMgt.addPassthroughRule("GC2-TC4","GC2-TC4.drl");
+    oprMgt.addPassthroughRule("SC-GC2","SC-GC2_Passthrough_Diff_1.drl");
+
+    // regulation unit changes
+    // TowingByMarkTow regulation unit
+    oprMgt.addRegulationUnit("ruTowingByColeTow");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruTowingByColeTow","payLF:SC, payTC4:SC, inspectAccident:LF");
+    oprMgt.addRoutingRulesToRegulationUnit("ruTowingByColeTow","analyzeResponseV7:SC, analyzeResponseV8:SC, analyzeResponseV9:SC, payLFResponse:SC, inspectAccidentResponse:LF,towResponse:TC4");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruTowingByColeTow","inspectAccident:SC-LF, payLegalAid:SC-LF, payLegalAidResponse:SC-LF,orderTow:SC-TC4, payTow:SC-TC4, payTowResponse:SC-TC4, authorizeTow:LF-TC4");
+
+   // MarkTowAndMacRepair regulation unit
+    oprMgt.addRegulationUnit("ruColeTowAndMacRepair");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruColeTowAndMacRepair","doRepairV3:GC2, orderRepairV3:GC2, tow:TC4");
+    oprMgt.addRoutingRulesToRegulationUnit("ruColeTowAndMacRepair","towResponseV2:TC4, orderRepairResponseV3:GC2");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruColeTowAndMacRepair","sendGCLocation:GC2-TC4,sendGCLocationResponse:GC2-TC4");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruTowingByColeTow,ruColeTowAndMacRepair,ruActivateV1");
+    // State Changes
+    oprMgt.updateRegulationUnit("ruColeTowAndMacRepair","state","active");
+    oprMgt.updateRegulationUnit("ruTowingByColeTow","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruColeTowAndMacRepair,ruTowingByColeTow,ruActivateV1","state","active");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruTowingBySwiftTow,ruSwiftTowAndMacRepair,ruActivateV2");
+end

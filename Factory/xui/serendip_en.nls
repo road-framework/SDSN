@@ -1,0 +1,22 @@
+#NLS (National Language Support) JAXFront V2.71 (10-2010-01)
+#Mon Jun 20 17:31:19 EST 2011
+/SMC%caption=[*]SMC
+/SMC/@name%label=[*]name
+/SMC/BehaviorTerms%caption=[*]BehaviorTerms
+/SMC/Contracts%caption=[*]Contracts
+/SMC/Description%label=[*]Description
+/SMC/MessageAnalyzer%caption=[*]MessageAnalyzer
+/SMC/OrganiserBinding%label=[*]OrganiserBinding
+/SMC/PlayerBindings%caption=[*]PlayerBindings
+/SMC/ProcessDefinitions%caption=[*]ProcessDefinitions
+/SMC/Roles%caption=[*]Roles
+/tns&co;SMC/@compositeRuleFile%label=[*]compositeRuleFile
+/tns&co;SMC/@name%validationMessage=
+/tns&co;SMC/@routingRuleFile%label=[*]routingRuleFile
+/tns&co;SMC/@rulesDir%label=[*]rulesDir
+/tns&co;SMC/Events%caption=[*]Events
+/tns&co;SMC/Messages%caption=[*]Messages
+/SMC/Contracts/Contract[list]%caption=[*]Contract
+/SMC/PlayerBindings/PlayerBinding[list]%caption=[*]PlayerBinding
+/SMC/Roles/Role[list]%caption=[*]Role
+/tns&co;SMC/ProcessDefinitions/tns1&co;ProcessDefinition%paging%0=

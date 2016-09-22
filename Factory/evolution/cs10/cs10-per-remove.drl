@@ -1,0 +1,25 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC10-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+
+    oprMgt.addRoutingRule("SC","selectRepair.drl");
+    oprMgt.addRegulationUnit("ruSelectRepair");
+    oprMgt.updateRegulationUnit("ruSelectRepair","state","active");
+    oprMgt.addRoutingRulesToRegulationUnit("ruSelectRepair","selectRepair:SC");
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,ruNickRepairAndTowTow,ruSelectRepair");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,ruNickRepairAndTowTow,ruSelectRepair","state","active");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+    $mps.setState("quiescence");
+end

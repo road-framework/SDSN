@@ -1,0 +1,18 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "checkAssessRepairResponseForParts" salience 1
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+  //if needs parts, re-execute .. disable this rule but - use dynamic routing to select ruPartsSupplyByGillParts
+   actions.AlterPath("ruTowingByTowTow,ruTomTowAndMacRepair","ruTowingByMarkTow,ruMarkTowAndMacRepair",$msg);
+end
+
+rule "assessRepairResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "assessRepairResponse", state=="forwardable")
+  then
+   actions.Forward("GC1-PS2.orderParts.Req","OrderPartsReq.xsl",$msg);
+end
+

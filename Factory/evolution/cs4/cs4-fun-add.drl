@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC4-fun-add"
+  when
+    $mps : ManagementPolicyState(id =="add", state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    orgMgt.updateVSN("EuroCars","state", "passive");
+    orgMgt.updateVSN("AnyTrucks","state", "passive");
+    orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bTowingByMarkTow");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bTowingByMarkTow");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP2","bTowingByMarkTow");
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bTowingBySwiftTow");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow,ruSwiftTowAndMacRepair,ruActivateV2");
+    orgMgt.updateVSN("EuroCars","state", "active");
+    orgMgt.updateVSN("AnyTrucks","state", "active");
+
+    //routing rule changes
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff_cs4_fun.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponseV10","state","active");
+
+    // regulation unit changes
+    oprMgt.addRoutingRulesToRegulationUnit("ruTowingByMarkTow","analyzeResponseV10:SC");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowingByMarkTow,ruMarkTowAndMacRepair,ruActivateV1");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowingByMarkTow,ruMarkTowAndMacRepair,ruActivateV1");
+    // State Changes
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTowingByMarkTow,ruMarkTowAndMacRepair,ruActivateV1","state","active");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowingByMarkTow,ruMarkTowAndMacRepair,ruActivateV1","state","active");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTowingBySwiftTow,ruSwiftTowAndMacRepair,ruActivateV2","state","active");
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+end

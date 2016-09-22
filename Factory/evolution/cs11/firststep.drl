@@ -1,0 +1,77 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC11firststep"
+  when
+    $mps : ManagementPolicyState(id =="firststep", state=="incipient")
+  then
+         // add Nick repair - no spare parts
+    orgMgt.addRole("GC3","NickRepair");
+    orgMgt.setServiceBinding("GC3", "http://localhost:8082/axis2/services/NickGarageService");
+    orgMgt.addTask("GC3","OrderRepair","SC-GC3.orderRepair.Req","GC3-TC2.sendGCLocation.Req");
+    orgMgt.addTask("GC3","DoRepair","GC2-TC2.sendGCLocation.Res","SC-GC3.payRepair.Req");
+    orgMgt.setTaskQoS("GC3","OrderRepair","Throughput:400/d; ResponseTime:10min");
+    orgMgt.setTaskQoS("GC3","DoRepair","Throughput:400/d; ResponseTime:3d");
+    orgMgt.setTaskOutMessage("GC3","OrderRepair","orderRepair","String:content","String");
+    orgMgt.setTaskInMessage("GC3","OrderRepair","orderRepair","String:content","String");
+    orgMgt.setTaskOutMessage("GC3","DoRepair","doRepair","String:content","String");
+    orgMgt.setTaskInMessage("GC3","DoRepair","doRepair","String:content","String");
+
+    orgMgt.updateTask("SC","Analyze","outputs","add","SC-GC3.orderRepair.Req");
+    orgMgt.updateTask("SC","PayGC","inputs","add","SC-GC3.payRepair.Req");
+    orgMgt.updateTask("SC","PayGC","outputs","add","SC-GC3.payRepair.Res");
+
+    orgMgt.updateTask("TC2","Tow","inputs","add","GC3-TC2.sendGCLocation.Req");
+    orgMgt.updateTask("TC2","Tow","outputs","add","GC3-TC3.sendGCLocation.Res");
+
+    // contract-level changes
+    orgMgt.addContract("SC-GC3","SC","GC3");
+    orgMgt.addTerm("SC-GC3","orderRepair","AtoB");
+    orgMgt.setTermOperation("SC-GC3","orderRepair","orderRepair","String:content","String");
+    orgMgt.addTerm("SC-GC3","payRepair","BtoA");
+    orgMgt.setTermOperation("SC-GC3","payRepair","payRepair","String:content","String");
+    orgMgt.addContract("TC2-GC3","TC2","GC3");
+    orgMgt.addTerm("TC2-GC3","sendGCLocation","BtoA");
+    orgMgt.setTermOperation("TC2-GC3","sendGCLocation","sendGCLocation","String:content","String");
+           // behaviour unit changes
+    orgMgt.addBehaviorUnit("bRepairingByNickRepair");
+    orgMgt.addTaskToBehaviorUnit("bRepairingByNickRepair","GC3.OrderRepair","eOrderRepairReqd","eGC3LocKnown");
+    orgMgt.addTaskToBehaviorUnit("bRepairingByNickRepair","GC3.DoRepair","eDeliveredVehicleToGC3ByTC2","ePayRepairReqdVByGC3");
+    orgMgt.addTaskToBehaviorUnit("bRepairingByNickRepair","SC.PayGC","ePayRepairReqdVByGC3","eGC3Paid");
+
+    orgMgt.updateTaskOfBehaviorUnit("bTowingByTomTow","TC2.Tow","preEP","eTowReqd *  ( eGC2LocKnown | eGC3LocKnown ) ");
+    orgMgt.updateTaskOfBehaviorUnit("bTowingByTomTow","TC2.Tow","postEP","ePayTowReqdByTC2 * ( eDeliveredVehicleToGC2ByTC2 | eDeliveredVehicleToGC3ByTC2)");
+    orgMgt.updateTaskOfBehaviorUnit("bCaseHandling","SC.Analyze","postEP","( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqd  *  eRepairReqFromGC2BySC * eRentVehicleReqd ) | ( eTowReqd  *  eRepairReqFromGC3BySC * eRentVehicleReqd )");
+
+    oprMgt.addSynchronizationRule("GC3","GC3_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff_cs9_perf.drl");
+    oprMgt.addSynchronizationRule("TC2","TC2_SYN_Diff_cs9_perf.drl");
+         //routing rule changes
+    oprMgt.addRoutingRule("GC3","GC3_Routing.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff_cs9_perf.drl");
+    oprMgt.addRoutingRule("TC2","TC2_Routing_Diff_cs9_perf.drl");
+    oprMgt.addRoutingRule("SC","selectRepair.drl");
+         //passthrough rule changes
+    oprMgt.addPassthroughRule("TC2-GC3","GC3-TC2.drl");
+    oprMgt.addPassthroughRule("SC-GC3","SC-GC3.drl");
+         //global rule changes
+         // regulation unit changes
+    oprMgt.addRegulationUnit("ruRepairingByNickRepair");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruRepairingByNickRepair","payGC3:SC,orderRepair:GC3");
+    oprMgt.addRoutingRulesToRegulationUnit("ruRepairingByNickRepair","analyzeResponseV6:SC,payGCResponseV6:SC,doRepairResponse:GC3");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruRepairingByNickRepair","orderRepair:SC-GC3,payRepair:SC-GC3,payRepairResponse:SC-GC3");
+
+    oprMgt.addRegulationUnit("ruNickRepairAndTowTow");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruNickRepairAndTowTow","tow2:TC2, doRepair:GC3");
+    oprMgt.addRoutingRulesToRegulationUnit("ruNickRepairAndTowTow","towResponse2:TC2,orderRepairResponse:GC3");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruNickRepairAndTowTow","sendGCLocation:TC2-GC3,sendGCLocationResponse:TC2-GC3");
+
+    oprMgt.addRegulationUnit("ruSelectRepair");
+    oprMgt.updateRegulationUnit("ruSelectRepair","state","active");
+    oprMgt.addRoutingRulesToRegulationUnit("ruSelectRepair","selectRepair:SC");
+
+    $mps.setState("quiescence");
+end

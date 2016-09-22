@@ -1,0 +1,30 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderRepair" , response ==false)
+    then
+		$msg.triggerEvent("RepairReqdGC1");
+end
+
+rule "getGCLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "getGCLocation" , response ==false)
+    then
+		$msg.triggerEvent("GC1LocationReqdSC");
+end
+
+rule "payRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+		$msg.triggerEvent("PayRepairReqdGC1");
+end
+
+
+rule "payRepairResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==true)
+    then
+		$msg.triggerEvent("GC1Paid");
+end
+ 

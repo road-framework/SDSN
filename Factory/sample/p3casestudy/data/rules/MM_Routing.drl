@@ -1,0 +1,75 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "classify"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="received")
+  then
+   actions.Classify($msg);
+end
+
+rule "admissionCheckV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="classified")
+  then
+   actions.FixedThroughput("requestAssistRequest","2,200",$msg);
+   update($msg);
+end
+
+rule "admissionCheckV2"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="classified")
+  then
+   actions.FixedThroughput("requestAssistRequest","157,20",$msg);
+   update($msg);
+end
+
+rule "admissionCheckV3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="classified")
+  then
+   actions.FixedThroughput("requestAssistRequest","123,20",$msg);
+   update($msg);
+end
+
+rule "drop"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="dropped")
+  then
+   actions.Drop($msg);
+end
+
+rule "processSelectionV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="admitted")
+  then
+   actions.WeightedRoundRobin("requestAssistRequest","AnyTrucksP1:2,AnyTrucksP2:1",$msg);
+end
+
+rule "requestAssistRequestV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="routed")
+  then
+   actions.Forward("SC-MM.complain.Req","ComplainReq.xsl",$msg);
+end
+
+rule "requestAssistRequestV2"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="routed")
+  then
+   actions.Forward("MM-TC1.pickUp.Req","PickUpReq.xsl",$msg);
+end
+
+rule "requestAssistRequestV3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="routed")
+  then
+   actions.Forward("MM-GC1.getGCLocation.Req","OrderRepairFromGC1ByMM.xsl",$msg);
+end
+
+rule "requestAssistRequestV4"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssistRequest", state=="routed")
+  then
+   actions.Forward("MM-GC2.getGCLocation.Req","OrderRepairReqFromGC2ByMM..xsl",$msg);
+end

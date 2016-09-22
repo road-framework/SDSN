@@ -1,0 +1,10 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "selectAccidentTow" salience 1
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+  //if accident tow  and tell to reexecute rules
+   actions.AlterPath("ruTowingByTowTow,ruTomTowAndMacRepair","ruTowingByMarkTow,ruMarkTowAndMacRepair",$msg);
+end

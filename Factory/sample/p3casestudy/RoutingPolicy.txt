@@ -1,0 +1,28 @@
+Role MM {
+ Entry {
+  Key "VSN3.requestAssist";
+   Actions {
+    If User(*) then LoadBalance("RoundRobin",<VSN3_AL1,1>,<VSN3_AL2,2>);
+    If Read("LoadBalance.State") == "VSN3_AL1" then CreateInstance("VSN3_AL1") and
+       Forward("MO_SC.iAnalyze","MO_GC2.iGetLocation","MO_TC1.iPickup");
+    If Read("LoadBalance.State") == "VSN3_AL1" then CreateInstance("VSN3_AL2") and
+       Forward("MO_SC.iAnalyze");
+    }
+   }
+}
+Role TC1 {
+ Entry {
+  Key "VSN3.deliverResponse";
+   Actions {
+    If Read("VSNArchId") == "VSN3_AL1" then Forward("SC_TC1.iPayTow","GC2_TC1.iSendLoc");
+   }
+ }
+}
+Role GC1 {
+ Entry {
+  Key "VSN3.repairResponse";
+   Actions {
+    If Read("VSNArchId") == "VSN3_AL1" then Forward("SC_GC1.iPayRepair");
+   }
+  }
+}

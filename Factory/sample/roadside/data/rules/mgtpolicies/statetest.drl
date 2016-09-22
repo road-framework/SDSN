@@ -1,0 +1,26 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.RoleManagementState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "OrganizationalChanges"
+  when
+    $mps : ManagementPolicyState(state=="incipient")
+  then
+    $mps.setState("active");
+    orgMgt.addRole("TX","14Cabs");
+    orgMgt.updateRole("VC","state","active");
+    orgMgt.updateRole("TX","state","quiescence");
+    System.out.println("Add done");
+end
+
+rule "OrganizationalChanges2"
+  when
+    $mps : ManagementPolicyState(state=="active")
+    RoleManagementState(id=="TX", state=="quiescence")
+  then
+    orgMgt.removeRole("TX");
+    $mps.setState("quiescence");
+    System.out.println("Removed done");
+end

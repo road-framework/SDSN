@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "payTX2Response"
+  when
+   $msg : RoleServiceMessage(operationName== "payTXResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TX2.sendTaxiInvoice.Res","SendTaxiInvoiceRes.xsl",$msg);
+end

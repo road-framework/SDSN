@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "analyze"
+  when
+   $e1 : EventRecord(eventId == "eAssistReqd")
+  then
+   disabledSet.disable("analyze");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Analyze.xsl","Analyze");
+   actions.ExecuteTask(exMsg);
+end

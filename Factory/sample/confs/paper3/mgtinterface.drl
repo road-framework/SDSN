@@ -1,0 +1,12 @@
+Operation addBehavior(String bId);
+Operation addTaskToBehavior(String bId, String tId,
+           String initOn, String triggers);
+Operation addVSN(String id);
+Operation addBehaviorToVSN(String vsnId, String bId);
+
+Operation addIMTableEntryKey(String id, String key);
+Operation updateIMTableEntryValue(String id, String key, String IMFunction, String funParmeters);
+Operation addEMTableEntryKey(String id, String key);
+Operation updateEMTableEntryValue(String id, String key, String EMFunction, String funParmeters);
+Operation addRoutingTableEntryKey(String id, String key);
+Operation updateRoutingTableEntryValue(String id, String key, String RoutingFunction, String funParmeters);

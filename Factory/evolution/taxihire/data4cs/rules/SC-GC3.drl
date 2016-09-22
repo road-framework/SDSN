@@ -1,0 +1,22 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderRepair" , response ==false)
+    then
+		actions.publishEvent("eRepairReqdFromGC3BySC",$msg);
+end
+
+rule "payRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==false)
+    then
+		actions.publishEvent("ePayRepairReqdByGC3",$msg);
+end
+
+rule "payRepairResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payRepair" , response ==true)
+    then
+		actions.publishEvent("eGC3Paid",$msg);
+end

@@ -1,0 +1,13 @@
+<RoutingPolicy id="" roleId="">
+    <Rule id="">
+        <Conditions>
+
+        </Conditions>
+        <ThenActions>
+
+        </ThenActions>
+        <ElseActions>
+
+        </ElseActions>
+    </Rule>
+</RoutingPolicy>

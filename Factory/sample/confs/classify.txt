@@ -1,0 +1,13 @@
+mediator Classifier cc1 {
+    consumes {
+        m_attributes : processId
+    }
+    conditions {
+        c1 : processId = "Tenant1"
+        c2 : fCapacity (id = MecRepair).utilization < 80
+    }
+    outports {
+        0: when c1
+        1: when c2
+    }
+}

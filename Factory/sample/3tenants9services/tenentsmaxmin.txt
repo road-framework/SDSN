@@ -1,0 +1,3 @@
+HappyTour = 68   ( Services 80 = 4, 14, 50 )	- 12
+AnyTrucks = 128  ( Services 123 = 22, 30, 76)	+ 5
+EuroCars  = 164  ( Services 157 = 40, 58, 66 ) + 7

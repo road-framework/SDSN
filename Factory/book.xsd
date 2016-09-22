@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://waa.swin.edu.au/xsd"
+           attributeFormDefault="qualified" elementFormDefault="qualified">
+    <xs:element name="Book" type="BookType"/>
+    <xs:complexType name="BookType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="authors" nillable="true" type="AuthorsType"/>
+            <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="isbn" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AuthorsType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="author" nillable="true" type="AuthorType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AuthorType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

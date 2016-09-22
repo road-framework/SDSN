@@ -1,0 +1,9 @@
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursementPerformanceV1");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursementPerformanceV1");
+oprMgt.removeRegulationUnit("ruReimbursementPerformanceV1");
+oprMgt.removeServiceNetworkStateImplementation("ResponseTime");
+oprMgt.removeServiceNetworkState("ReimburseTime", "vsn", new Classifier("HappyTours",""));
+oprMgt.removeServiceNetworkState("ReimburseTime", "vsn", new Classifier("EuroCars",""));
+oprMgt.removeRoutingRule("MM","requestReimburse2");
+oprMgt.removePassthroughRule("SC-MM","reimburse2");
+oprMgt.removePassthroughRule("SC-MM","notifyReimburseStatus2");

@@ -1,0 +1,29 @@
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+
+rule "classify"
+  when
+   $msg : RoleServiceMessage(operationName== "echo", state=="received")
+  then
+   actions.Classify($msg);
+end
+rule "allow"
+  when
+   $msg : RoleServiceMessage(operationName== "echo", state=="admittable")
+  then
+   actions.Allow($msg);
+end
+rule "createVsnInstance"
+  when
+   $msg : RoleServiceMessage(operationName== "echo", state=="instantiable")
+  then
+   actions.CreateVSNInstance($msg);
+   update($msg);
+end
+rule "echoRequest"
+  when
+   $msg : RoleServiceMessage(operationName== "echo", state=="forwardable")
+  then
+  actions.Forward("X0-X1.echo.Req","EchoStart.xsl",$msg);
+end

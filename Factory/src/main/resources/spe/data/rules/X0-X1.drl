@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "echo"
+    when
+		$msg : MessageReceivedEvent(operationName == "echo",  response ==false)
+    then
+		actions.publishEvent("eEchoX1Req",$msg);
+end
+rule "echoResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "echo",  response ==true)
+    then
+		actions.publishEvent("eEchoX1Res",$msg);
+end

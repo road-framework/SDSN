@@ -1,0 +1,301 @@
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="overhead/os2/data/" globalRegulation="roadside_global.drl">
+    <RegulationPolicy>
+        <tns1:RegulationUnitId>ruClassify</tns1:RegulationUnitId>
+    </RegulationPolicy>
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eReimbursed</tns1:CoT>
+            <tns1:ConfigurationDesign>
+                <tns1:BehaviorUnitId>bCaseHandling</tns1:BehaviorUnitId>
+                <tns1:BehaviorUnitId>bReimbursement</tns1:BehaviorUnitId>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationPolicy>
+                <tns1:RegulationUnitId>ruCaseHandling</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruReimbursement</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruTerminateV1</tns1:RegulationUnitId>
+                <tns1:RegulationUnitId>ruActivateV1</tns1:RegulationUnitId>
+            </tns1:RegulationPolicy>
+        </tns1:Process>
+        <tns1:RegulationPolicy>
+            <tns1:RegulationUnitId>ruAdmissionV1</tns1:RegulationUnitId>
+            <tns1:RegulationUnitId>ruCreateVsnInstance</tns1:RegulationUnitId>
+            <tns1:RegulationUnitId>ruDrop</tns1:RegulationUnitId>
+        </tns1:RegulationPolicy>
+    </VirtualServiceNetwork>
+    <RegulationUnits>
+        <tns1:RegulationUnit id="ruClassify">
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="classify" place="MM"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruActivateV1">
+            <tns1:Global>
+                <tns1:RegulationRuleId id="activateV1"/>
+            </tns1:Global>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RegulationRuleId id="terminateV1"/>
+            </tns1:Global>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RegulationRuleId id="terminateV1"/>
+            </tns1:Global>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruAdmissionV1">
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="admissionCheckV1" place="MM"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruDrop">
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="drop" place="MM"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruCreateVsnInstance">
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="createVsnInstance" place="MM"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruCaseHandling">
+            <tns1:Passthrough>
+                <tns1:RegulationRuleId id="assist" place="SC-MM"/>
+                <tns1:RegulationRuleId id="assistResponse" place="SC-MM"/>
+            </tns1:Passthrough>
+            <tns1:Synchronization>
+                <tns1:RegulationRuleId id="analyze" place="SC"/>
+                <tns1:RegulationRuleId id="notify" place="MM"/>
+            </tns1:Synchronization>
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="requestAssistV1" place="MM"/>
+                <tns1:RegulationRuleId id="analyzeResponse" place="SC"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+        <tns1:RegulationUnit id="ruReimbursement">
+            <tns1:Passthrough>
+                <tns1:RegulationRuleId id="reimburse" place="MM-FD"/>
+                <tns1:RegulationRuleId id="reimburseResponse" place="MM-FD"/>
+            </tns1:Passthrough>
+            <tns1:Synchronization>
+                <tns1:RegulationRuleId id="reimburse" place="FD"/>
+            </tns1:Synchronization>
+            <tns1:Routing>
+                <tns1:RegulationRuleId id="requestAssistV2" place="MM"/>
+                <tns1:RegulationRuleId id="reimburseResponse" place="FD"/>
+            </tns1:Routing>
+        </tns1:RegulationUnit>
+    </RegulationUnits>
+    <BehaviorUnits>
+        <tns1:BehaviorUnit id="bCaseHandling">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="MM.RequestAssist"
+                              postEP=" eAssistReqd "/>
+                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
+                              postEP=" eMMNotify "/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" eMMNotify * eReimbursed "/>
+            </tns1:TaskRefs>
+        </tns1:BehaviorUnit>
+        <tns1:BehaviorUnit id="bReimbursement">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="FD.Reimburse" preEP=" eReimburseReqd "
+                              postEP=" eReimbursed "/>
+            </tns1:TaskRefs>
+        </tns1:BehaviorUnit>
+    </BehaviorUnits>
+    <Roles>
+        <Role id="MM" name="Member" entryRole="true" synchronization="MM_SYN.drl" routing="MM_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RequestAssist" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickUpLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="SC" name="24bySupportCenter" synchronization="SC_SYN.drl" routing="SC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Analyze">
+                    <tns1:Out>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="FD" name="24byFinanceDept" synchronization="FD_SYN.drl" routing="FD_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Reimburse">
+                    <tns1:Out>
+                        <tns1:Operation name="reimburse">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="reimburse">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="MM-FD" termId="reimburse" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="MM-FD" termId="reimburse" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+    </Roles>
+    <Contracts>
+        <Contract id="SC-MM" passthrough="SC-MM.drl">
+            <Terms>
+                <Term id="assist">
+                    <Operation name="assist">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>memId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>complain</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>MM</RoleBID>
+        </Contract>
+        <Contract id="MM-FD" passthrough="MM-FD.drl">
+            <Terms>
+                <Term id="reimburse">
+                    <Operation name="reimburse">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>FD</RoleBID>
+        </Contract>
+    </Contracts>
+    <ServiceBindings>
+        <ServiceBinding id="SC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Roles>
+                <RoleID>SC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="FD_SB">
+            <Endpoint>http://localhost:8082/axis2/services/FinanceDepService</Endpoint>
+            <Roles>
+                <RoleID>FD</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="OrgBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
+        </ServiceBinding>
+        <ServiceBinding id="OprBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

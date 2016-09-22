@@ -1,0 +1,5 @@
+SN depolyment
+
+VSN deployment
+559
+VSN enactment

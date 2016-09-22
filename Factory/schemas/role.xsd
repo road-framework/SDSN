@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.swin.edu.au/ict/road/role" xmlns:tns="http://www.swin.edu.au/ict/road/role"
+            elementFormDefault="unqualified" version="1.3"
+            xmlns:Q1="http://www.ict.swin.edu.au/serendip/types"
+            xmlns:Q2="http://www.swin.edu.au/ict/road/monitor">
+
+    <!-- schema imports -->
+    <xsd:import schemaLocation="serendip.xsd"
+                namespace="http://www.ict.swin.edu.au/serendip/types"></xsd:import>
+    <xsd:import namespace="http://www.swin.edu.au/ict/road/contract"
+                schemaLocation="contract.xsd"/>
+    <xsd:import schemaLocation="monitor.xsd" namespace="http://www.swin.edu.au/ict/road/monitor"></xsd:import>
+
+    <xsd:complexType name="RoleLinkedFactType">
+        <xsd:sequence>
+            <xsd:element name="AcquisitionRegime">
+                <xsd:complexType>
+                    <xsd:attribute name="mode" use="required">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Active"/>
+                                <xsd:enumeration value="Passive"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                    <xsd:attribute name="SyncInterval" type="xsd:int"
+                                   use="required"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ProvisionRegime">
+                <xsd:complexType>
+                    <xsd:attribute name="mode" use="required">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Active"/>
+                                <xsd:enumeration value="Passive"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                    <xsd:attribute name="SyncInterval" type="xsd:int"
+                                   use="required"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="OnChange" type="xsd:boolean"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="monitor" type="xsd:boolean"
+                       use="required"/>
+        <xsd:attribute name="provide" type="xsd:boolean"
+                       use="required"/>
+    </xsd:complexType>
+
+    <!-- role type -->
+    <xsd:complexType name="RoleType">
+        <xsd:sequence>
+            <xsd:element name="Description" type="xsd:string"
+                         minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="LinkedFacts" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Fact" type="tns:RoleLinkedFactType"
+                                     minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ManagementResponsibilities" type="xsd:string"
+                         minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="Tasks" type="Q1:TasksType" maxOccurs="1"
+                         minOccurs="0"></xsd:element>
+            <xsd:element name="Monitor" type="Q2:MonitorType" maxOccurs="1"
+                         minOccurs="0"></xsd:element>
+        </xsd:sequence>
+
+        <!-- role attributes -->
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="name" type="xsd:string" use="optional"/>
+        <xsd:attribute name="monitoringPolicy" type="xsd:string" use="optional"/>
+        <xsd:attribute name="state" type="xsd:string" use="optional"/>
+        <xsd:attribute name="entryRole" type="xsd:boolean" default="false" use="optional"/>
+        <xsd:attribute name="synchronization" type="xsd:string" use="optional"/>
+        <xsd:attribute name="routing" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,9 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+
+rule "startRepairMonitor4d"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGCLocation", response==true)
+    then
+		actions.publishEvent("eDeliveredVehicleToGC1ByTC1",$msg);
+end

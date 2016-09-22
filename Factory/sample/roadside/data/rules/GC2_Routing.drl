@@ -1,0 +1,31 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "orderRepairResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRepairResponse", state=="routed")
+  then
+   actions.Forward("GC2-TC2.sendGCLocation.Req","SendGC2TC2LocationReq.xsl",$msg);
+end
+
+rule "orderRepairResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRepairResponse", state=="routed")
+  then
+   actions.Forward("GC2-TC1.sendGCLocation.Req","SendGC2TC1LocationReq.xsl",$msg);
+end
+
+rule "doRepairResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "doRepairResponse", state=="routed")
+  then
+   actions.Forward("SC-GC2.payRepair.Req","PayGC2Req.xsl",$msg);
+end
+
+rule "assessRepairResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "assessRepairResponse", state=="routed")
+  then
+   actions.Forward("GC2-PS.orderParts.Req","OrderPartsReq.xsl",$msg);
+end
+

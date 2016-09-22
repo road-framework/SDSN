@@ -1,0 +1,13 @@
+oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("HappyTours","ruRepairMonitoringV3,ruRepairPerLevelChange_2d3d4d");
+oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("EuroCars","ruRepairMonitoringV3,ruRepairPerLevelChange_3d4d");
+oprMgt.removeRegulationMechanism("SimpleMarker");
+orgMgt.setTaskQoS("GC1","DoRepair","Throughput:350/d,ResponseTime:2d;Throughput:350/d,ResponseTime:3d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d3d4d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_3d4d");
+oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d4d");
+oprMgt.removePassthroughRule("GC1-TC1","startRepairMonitor4d");
+oprMgt.removePassthroughRule("SC-GC1","endRepairMonitor4d");
+oprMgt.removeRegulationUnit("ruRepairMonitoringV3");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d3d4d");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_3d4d");
+oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d4d");

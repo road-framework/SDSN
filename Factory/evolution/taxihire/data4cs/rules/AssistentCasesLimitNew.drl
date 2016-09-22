@@ -1,0 +1,37 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+import au.edu.swin.ict.road.common.StateRecord
+import au.edu.swin.ict.road.common.Weight;
+import au.edu.swin.ict.road.common.VSN;
+import au.edu.swin.ict.road.common.ProcessManagementState;
+
+rule "admissionCheckV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","80,200:max:200",$msg);
+   update($msg);
+end
+rule "admissionCheckV2"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","157,20:max:200",$msg);
+   update($msg);
+end
+
+rule "admissionCheckV3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","123,20:max:200",$msg);
+   update($msg);
+end
+
+rule "snLevelAdmissionControl" salience 1
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="received")
+  then
+   actions.FixedThroughput("requestAssist","360,20:max:600",$msg);
+   update($msg);
+end

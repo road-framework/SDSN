@@ -1,0 +1,22 @@
+1  Role TC1 playedBy tc1Pb {
+2   Task tDeliver {
+3    UsingMsgs GC1_TC1.iSendLocation.Req, GC2_TC1.iSendLocation.Req;
+4    ResultingMsgs SC_TC1.iPayTow.Req, GC1_TC1.iNotifyDelivery.Req,
+5                    GC2_TC1.iNotifyDelivery.Req;
+6    QoS { Duration="2d" Capacity="20/d" }
+7    }
+8  }
+9  Role SC playedBy scPb { ... }, Role GC1 playedBy gc1Pb { ... };
+10 Contract GC1_TC1 {
+11  A is GC1, B is TC1;
+12  ITerm iSendLocation(String:location) from A to B;
+13  ITerm iNotifyDelivery(String:deliveryInfo) from B to A;
+14  RuleFile "GC1_TC1.drl";
+15 }
+16 Contract TC1_SC {
+17  A is TC1, B is SC;
+18  ITerm iPayTow(String:towBill) withResponse (String:ack)from A to B;
+19  ...
+20 }
+21 PlayerBinding tc1Pb { Endpint "www.swifttow.com/Service.Endpoint";};
+22 PlayerBinding scPb {...}, PlayerBinding gc1Pb {...};

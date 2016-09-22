@@ -1,0 +1,16 @@
+<module name="ROADModule" class="au.swin.ict.research.cs3.road.road4ws.roadmodule.ROADModule">
+    <InFlow>
+        <handler name="TenantDispatcher"
+                 class="au.swin.ict.research.cs3.road.road4ws.roadmodule.TenantDispatcher">
+            <order phase="Transport" phaseFirst="true"/>
+        </handler>
+        <handler name="InFlowROADHandler"
+                 class="au.swin.ict.research.cs3.road.road4ws.roadmodule.ROADMsgHandler">
+            <order phase="Dispatch"/>
+        </handler>
+    </InFlow>
+    <!-- parameter name="SMCFile" locked="true">E:\\ROAD\svn\road4ws\trunk\src\au\swin\ict\research\cs3\road\road4ws\roadmodule\META-INF\smc.xml</parameter-->
+    <!-- parameter name="RulesDir" locked="true">E:\\ROAD\svn\road4ws\trunk\src\au\swin\ict\research\cs3\road\road4ws\roadmodule\META-INF\rules\</parameter-->
+    <!-- [Should be improved] and taken from the module name or else should match with it -->
+    <!-- parameter name="CompositeName" locked="true">Composite1</parameter-->
+</module>

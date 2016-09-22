@@ -1,0 +1,95 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "OrganizationalChanges"
+  when
+    $mps : ManagementPolicyState(state=="incipient")
+  then
+    $mps.setState("active");
+    // role-level changes
+    // Role TX
+    orgMgt.addRole("TX","14Cabs");
+    orgMgt.setServiceBinding("TX", "http://localhost:8082/axis2/services/TaxiHireService");
+    orgMgt.addTask("TX","OrderTaxi","SC-TX.orderTaxi.Req","SC-TX.orderTaxi.Res,TX-MM.notifyTaxiBooking.Req");
+    orgMgt.addTask("TX","ProvideTaxiInvoice", null,"SC-TX.orderTaxi.Res,TX-MM.sendTaxiInvoice.Req");
+    orgMgt.updateTask("TX","ProvideTaxiInvoice","mep","one-way");
+    orgMgt.setTaskQoS("TX","OrderTaxi","Throughput:400/d");
+    orgMgt.setTaskOutMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskInMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskInMessage("TX","ProvideTaxiInvoice","provideTaxiInvoice","String:content","String");
+    // Role MM
+    orgMgt.addTask("MM","NotifyTaxiBooking","TX-MM.notifyTaxiBooking.Req", null);
+    orgMgt.setTaskOutMessage("MM","NotifyTaxiBooking","notifyTaxiBooking","String:content","String");
+    // Role SC
+    orgMgt.addTask("SC","PayTX","SC-TX.sendTaxiInvoice.Req","SC-TX.sendTaxiInvoice.Res");
+    orgMgt.setTaskOutMessage("SC","PayTX","payTX","String:content","String");
+    orgMgt.setTaskInMessage("SC","PayTX","payTX","String:content","String");
+    orgMgt.updateTask("SC","Analyze","outputs","SC-TX.orderTaxi.Req");
+
+    // contract-level changes
+    orgMgt.addContract("SC-TX","SC","TX");
+    orgMgt.addTerm("SC-TX","orderTaxi","AtoB");
+    orgMgt.setTermOperation("SC-TX","orderTaxi","orderTaxi","String:content","String");
+    orgMgt.addTerm("SC-TX","sendTaxiInvoice","BtoA");
+    orgMgt.setTermOperation("SC-TX","sendTaxiInvoice","sendTaxiInvoice","String:content","String");
+    orgMgt.addContract("TX-MM","TX","MM");
+    orgMgt.addTerm("TX-MM","notifyTaxiBooking","AtoB");
+    orgMgt.setTermOperation("TX-MM","notifyTaxiBooking","notifyTaxiBooking","String:content","String");
+
+    // behaviour unit changes
+    orgMgt.addBehaviorUnit("bHiringTaxi");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.OrderTaxi","eOrderTaxiReqd","eOrderedTaxi * eNotifyTaxiBookingReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","MM.NotifyTaxiBooking","eNotifyTaxiBookingReqd",null);
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.ProvideTaxiInvoice",null,"ePayTXReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","SC.PayTX","ePayTXReqd","eTXPaid");
+
+    orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bRentingVehicle");
+    orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bHiringTaxi");
+    orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eTXPaid");
+
+    System.out.println("Organizational management policy has been executed successfully.");
+
+    //Operational management changes
+
+    //synchronization rule changes
+    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.addSynchronizationRule("MM","notifyTaxiBooking.drl");
+    oprMgt.addSynchronizationRule("SC","payTX.drl");
+
+    //routing rule changes
+    oprMgt.addRoutingRule("TX","TX_Routing.drl");
+    oprMgt.addRoutingRule("SC","payTXResponse.drl");
+    oprMgt.addRoutingRule("SC","analyzeResponseV6.drl");
+
+    //passthrough rule changes
+    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
+    oprMgt.addPassthroughRule("TX-MM","TX-MM.drl");
+
+    //global rule changes
+    oprMgt.addGlobalRule("terminateV3.drl");
+
+    // regulation unit changes
+    // Taxihire regulation unit
+    oprMgt.addRegulationUnit("ruHiringTaxi");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruHiringTaxi","orderTaxi:TX,notifyTaxiBooking:MM,payTX:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("ruHiringTaxi","analyzeResponseV6:SC,payTXResponse:SC,provideTaxiInvoice:TX,orderTaxiResponse:TX");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruHiringTaxi","orderTaxi:SC-TX,orderTaxiResponse:SC-TX,sendTaxiInvoice:SC-TX,sendTaxiInvoiceResponse:SC-TX,notifyTaxiBooking:TX-MM");
+    // new termination regulation unit
+    oprMgt.addRegulationUnit("ruTerminateV3");
+    oprMgt.addGlobalRulesToRegulationUnit("ruTerminateV3","terminateV3");
+
+    // VSN/Process Regulaiton Policy Changes
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle,ruTerminateV2");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi,ruTerminateV3");
+
+    // State Changes
+    orgMgt.updateRole("TX","state","active");
+    orgMgt.updateContract("TX-MM","state","active");
+    orgMgt.updateContract("SC-TX","state","active");
+    oprMgt.updateRegulationUnit("ruHiringTaxi","state","active");
+    oprMgt.updateRegulationUnit("ruTerminateV3","state","active");
+
+    System.out.println("Operational management policy has been executed successfully.");
+end

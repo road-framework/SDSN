@@ -1,0 +1,9 @@
+oprMgt.addRoutingRule("SC","selectRepair.drl");
+oprMgt.addRegulationUnit("ruSelectRepair");
+oprMgt.updateRegulationUnit("ruSelectRepair","state","active");
+oprMgt.addRoutingRulesToRegulationUnit("ruSelectRepair","selectRepair:SC");
+orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,
+ruNickRepairAndTowTow,ruSelectRepair");
+oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,
+ruNickRepairAndTowTow,ruSelectRepair","state","active");

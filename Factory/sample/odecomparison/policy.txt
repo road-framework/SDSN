@@ -1,0 +1,14 @@
+Key<VSN3,requestAssist> =>
+    Throttle("ThresholdBased",<VSN3_AL1,3>,<VSN3_AL2,7>), If Read("Throttle.State") == "deny" then Drop(); If Read("throttle.state") == "allow" then Allow();
+Key<VSN3,requestAssist> =>
+    LoadBalance("RoundRobin",<VSN3_AL1,1>,<VSN3_AL2,2>), If Read("LoadBalance.State") == "VSN3_AL1"
+     then CreateInstance("VSN3_AL1") and Forward("MO_SC.iAnalyze","MO_GC2.iGetLocation","MO_TC1.iPickup"),
+        If Read("LoadBalance.State") == "VSN3_AL1" then CreateInstance("VSN3_AL2") and Forward("MO_SC.iAnalyze");
+Key<VSN3_AL1,MO_SC.iAnalyze> => Transform(),Queue("VSN3_AL1");
+
+Key<VSN3,requestAssist> => Throttle(), Drop() On "deny", Allow() On "allow";
+Key<VSN3,requestAssist> => LoadBalance(), If Read("LoadBalance.State") == "VSN3_AL1"
+     then CreateInstance("VSN3_AL1") and Forward("MO_SC.iAnalyze","MO_GC2.iGetLocation","MO_TC1.iPickup"),
+        If Read("LoadBalance.State") == "VSN3_AL1" then CreateInstance("VSN3_AL2") and Forward("MO_SC.iAnalyze");
+Key<VSN3_AL1,MO_SC.iAnalyze> => Transform(),Queue("VSN3_AL1");
+

@@ -1,0 +1,41 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "rentVehicle"
+    when
+		$event : MessageReceivedEvent(operationName == "rentVehicle",  response ==false)
+    then
+		$event.triggerEvent("RentVehicleReqd");
+end
+rule "rentVehicleResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "rentVehicle",  response ==true)
+    then
+		$event.triggerEvent("RentedVehicle");
+end
+
+rule "endVehicleRent"
+    when
+		$event : MessageReceivedEvent(operationName == "endVehicleRent",  response ==false)
+    then
+		$event.triggerEvent("EndVehicleRentReqd");
+end
+
+rule "endVehicleRentResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "endVehicleRent",  response ==true)
+    then
+		$event.triggerEvent("EndedVehicleRent");
+end
+
+rule "payVehicleRent"
+    when
+		$event : MessageReceivedEvent(operationName == "payVehicleRent",  response ==false)
+    then
+		$event.triggerEvent("PayVCReqd");
+end
+
+rule "payVehicleRentResponse"
+    when
+		$event : MessageReceivedEvent(operationName == "payVehicleRent",  response ==true)
+    then
+		$event.triggerEvent("VCPaid");
+end

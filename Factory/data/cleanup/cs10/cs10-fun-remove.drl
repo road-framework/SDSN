@@ -1,0 +1,3 @@
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursement2,ruSelectReimburseAlt");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruReimbursement2,ruSelectReimburseAlt");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruReimbursement2,ruSelectReimburseAlt");

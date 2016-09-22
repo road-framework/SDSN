@@ -1,0 +1,9 @@
+HappyTour1 =    11
+HappyTour2 =    27
+HappyTour3 =    42
+AnyTrucks1 =    17
+AnyTrucks2 =    41
+AnyTrucks3 =    65
+EuroCars1  =    22
+EuroCars2  =    52
+EuroCars3  =    83

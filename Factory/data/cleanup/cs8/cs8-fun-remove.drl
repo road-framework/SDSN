@@ -1,0 +1,22 @@
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruSelectAccommodation,ruRentingRoom2,
+ruTerminateV4");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingRoom2,ruTerminateV4");
+oprMgt.removeRegulationUnit("ruRentingRoom2");
+oprMgt.removeRegulationUnit("ruTerminateV4");
+oprMgt.removeRegulationUnit("ruSelectAccommodation");
+orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bRentingRoom2");
+orgMgt.removeRole("HC2");
+orgMgt.removeTask("MM","NotifyRoomBooking");
+orgMgt.updateTask("SC","PayHC","outputs","remove","SC-HC2.sendRoomInvoice.Res");
+orgMgt.updateTask("SC","PayHC","inputs","remove","SC-HC2.sendRoomInvoice.Req");
+orgMgt.updateTask("SC","Analyze","outputs","remove","SC-HC2.orderRoom.Req");
+orgMgt.removeContract("SC-HC2");
+orgMgt.removeContract("HC2-MM");
+orgMgt.removeBehaviorUnit("bRentingRoom");
+oprMgt.removeSynchronizationRule("MM","notifyRoomBooking");
+oprMgt.removeSynchronizationRule("SC","payHC2");
+oprMgt.removeRoutingRule("SC","analyzeResponseHC2");
+oprMgt.removeRoutingRule("SC","payHC2Response");
+oprMgt.removeRoutingRule("SC","selectAccommodation");
+oprMgt.removeGlobalRule("terminateV4");
+orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eHCPaid");

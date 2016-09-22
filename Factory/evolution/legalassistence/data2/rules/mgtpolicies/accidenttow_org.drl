@@ -1,0 +1,103 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "accidenttow_org_stage1"
+  when
+    $mpsOrg: ManagementPolicyState (id =="accidenttow_org", state=="incipient")
+  then
+    disabledSet.disable("accidenttow_org_stage1");
+    System.out.println("Organizational management policy accidenttow_org stage 1 has been started.");
+    orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "passive");
+    System.out.println("Organizational management policy accidenttow_org stage 1 has been completed successfully.");
+    $mpsOrg.setState("stage1done");
+end
+
+rule "accidenttow_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="accidenttow_org", state=="stage1done") ) and  ( $mpsOpr : ManagementPolicyState (id =="accidenttow_opr", state=="stage1done") )
+  then
+   disabledSet.disable("accidenttow_org_stage2");
+   System.out.println("Organizational management policy accidenttow_org stage 2 has been started.");
+    // role-level changes
+    // Role LF
+    orgMgt.addRole("LF","AusLaw");
+    orgMgt.setServiceBinding("LF", "http://localhost:8082/axis2/services/AusLawService");
+    orgMgt.addTask("LF","InspectAccident","SC-LF.inspectAccident.Req","SC-LF.payLegalAid.Req,LF-TC3.authorizeTow.Req");
+    orgMgt.setTaskQoS("LF","InspectAccident","Throughput:400/d,ResponseTime:30min");
+    orgMgt.setTaskMessage("LF","InspectAccident","inspectAccident","String:info","String");
+  // Role LF
+    orgMgt.addRole("TC3","MarkTow");
+    orgMgt.setServiceBinding("TC3", "http://localhost:8082/axis2/services/MarkTowService");
+    orgMgt.addTask("TC3","Tow","SC-TC3.orderTow.Req, GC1-TC3.sendGCLocation.Req, LF-TC3.authorizeTow.Req","SC-TC3.payTow.Req, GC1-TC3.sendGCLocation.Res");
+    orgMgt.setTaskQoS("TC3","Tow","Throughput:350/d,ResponseTime:2h");
+    orgMgt.setTaskMessage("TC3","Tow","tow","String:pickupLocation,String:garageLocation","TowReturn");
+    // Role SC
+    orgMgt.addTask("SC","PayLF","LF.payLegalAid.Req","LF.payLegalAid.Res");
+    orgMgt.setTaskMessage("SC","PayLF","payLF","String:content","String");
+    orgMgt.updateTask("SC","Analyze","add","outputs","SC-TC3.orderTow.Req,SC-LF.inspectAccident.Req");
+    //Role GC1
+    orgMgt.updateTask("GC1","OrderRepair","add","inputs","SC-GC1.orderRepair.Req");
+    orgMgt.updateTask("GC1","OrderRepair","add","outputs","GC1-TC3.sendGCLocation.Req");
+    orgMgt.updateTask("GC1","DoRepair","add","inputs","GC1-TC3.sendGCLocation.Res");
+
+    // contract-level changes
+    //Contract SC-LF
+    orgMgt.addContract("SC-LF","SC","LF");
+    orgMgt.addTerm("SC-LF","inspectAccident","AtoB");
+    orgMgt.setTermOperation("SC-LF","inspectAccident","inspectAccident","String:info","String");
+    orgMgt.addTerm("SC-LF","payLegalAid","BtoA");
+    orgMgt.setTermOperation("SC-LF","payLegalAid","payLegalAid","String:content","String");
+    // contract LF-TC3
+    orgMgt.addContract("LF-TC3","LF","TC3");
+    orgMgt.addTerm("LF-TC3","authorizeTow","AtoB");
+    orgMgt.setTermOperation("LF-TC3","authorizeTow","authorizeTow","String:content","String");
+    // contract GC1-TC3
+    orgMgt.addContract("GC1-TC3","GC1","TC3");
+    orgMgt.addTerm("GC1-TC3","sendGCLocation","AtoB");
+    orgMgt.setTermOperation("GC1-TC3","sendGCLocation","sendGCLocation","String:content","String");
+    // contract SC-TC3
+    orgMgt.addContract("SC-TC3","SC","TC3");
+    orgMgt.addTerm("SC-TC3","orderTow","AtoB");
+    orgMgt.setTermOperation("SC-TC3","orderTow","orderTow","String:content","String");
+    orgMgt.addTerm("SC-TC3","payTow","BtoA");
+    orgMgt.setTermOperation("SC-TC3","payTow","payTow","String:content","String");
+    // contract SC-GC1
+    orgMgt.addTerm("SC-GC1","orderRepair","AtoB");
+    orgMgt.setTermOperation("SC-GC1","orderRepair","orderRepair","String:content","String");
+
+    // behaviour unit changes
+    orgMgt.addBehaviorUnit("bTowingByMarkTow");
+    orgMgt.addTaskToBehaviorUnit("bTowingByMarkTow","LF.InspectAccident","eInspectAccidentReqd","ePayLegalAidReqd * eAuthorizedTow");
+    orgMgt.addTaskToBehaviorUnit("bTowingByMarkTow","TC3.Tow","eTowReqdFromTC3 * eSentGC1LocToTC3 * eAuthorizeTow","ePayTowReqdByTC3 * eDeliveredVehicleToGC1ByTC3");
+    orgMgt.addTaskToBehaviorUnit("bTowingByMarkTow","SC.PayLF","ePayLFReqd","eLFPaid");
+    orgMgt.addTaskToBehaviorUnit("bTowingByMarkTow","SC.PayTC","ePayT3Reqd","eT3Reqd");
+
+    orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bTowingBySwiftTow");
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bTowingByMarkTow");
+
+    System.out.println("Organizational management policy accidenttow_org stage 2 has been completed successfully.");
+    $mpsOrg.setState("stage2done");
+end
+
+rule "accidenttow_org_stage3"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="accidenttow_org", state=="stage2done") ) and  (( $mpsOpr :
+   ManagementPolicyState (id =="accidenttow_opr", state=="stage2done") ) or ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="accidenttow_opr", state=="quiescence") ))
+  then
+    disabledSet.disable("accidenttow_org_stage3");
+    System.out.println("Organizational management policy accidenttow_org stage 3 has been started.");
+    orgMgt.updateRole("LF","state","active");
+    orgMgt.updateRole("TC3","state","active");
+    orgMgt.updateContract("LF-TC3","state","active");
+    orgMgt.updateContract("SC-LF","state","active");
+    orgMgt.updateContract("SC-TC3","state","active");
+    orgMgt.updateContract("TC3-GC1","state","active");
+    orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "active");
+    System.out.println("Organizational management policy accidenttow_org stage 3 has been completed successfully.");
+    $mpsOrg.setState("quiescence");
+ end

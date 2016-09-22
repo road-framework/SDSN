@@ -1,0 +1,12 @@
+parser parser_type parser_instance_name {
+
+  extract from [data_type]  to [String]
+
+}
+
+parser HeaderParser parser_instance_name {
+  extract from [String]  to [String]
+}
+parser XPathBasedParser parser_instance name {
+  extract from [expression] to [String]
+}

@@ -1,0 +1,29 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "doRepairChangePerfLevel_2d3d4d" salience 1
+  when
+   $e1 : EventRecord(eventId == "eReceivedPartsFromPS2")
+  then
+   disabledSet.disable("doRepairChangePerfLevel");
+  // change the performance level via Marker - add SOAP header
+end
+
+rule "doRepairChangePerfLevel_3d4d" salience 1
+  when
+   $e1 : EventRecord(eventId == "eReceivedPartsFromPS2")
+  then
+   disabledSet.disable("doRepairChangePerfLevel");
+  // change the performance level via Marker - add SOAP header
+end
+
+rule "doRepairChangePerfLevel_2d4d" salience 1
+  when
+   $e1 : EventRecord(eventId == "eReceivedPartsFromPS2")
+  then
+   disabledSet.disable("doRepairChangePerfLevel");
+  // change the performance level via Marker - add SOAP header
+end

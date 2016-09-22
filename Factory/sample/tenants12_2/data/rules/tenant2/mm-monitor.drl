@@ -1,0 +1,33 @@
+import au.edu.swin.ict.road.composite.rules.events.composite.MessageReceivedAtSourceEvent;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+import au.edu.swin.ict.road.regulator.FactObject;
+
+/** Global Variables **/
+global FactTupleSpace fts;
+
+/** Events **/
+declare RoleServiceMessage
+    @role(event)
+end
+
+rule "measure-demand rule"
+    when
+		$msg : RoleServiceMessage(operationName == "complain")//, isResponse==false
+    then
+    	System.out.println("[mm-monitor.drl] orderTow interpretation");
+    	//All the logic to evaluate the message is here.
+		$msg.setBlocked(false);
+		String id = $msg.getMessageWrapper().getClassifier().getProcessGroupId();
+		FactObject factObject =
+		    fts.getFact("Demand",id);
+		if(factObject == null){
+		   factObject = new FactObject("Demand",id,id);
+		   factObject.setAttribute("demand", 1);
+		   fts.createFactRow(factObject);
+		} else {
+		  int demand = Integer.parseInt(factObject.getAttribute("demand").toString());
+		  demand++;
+		  factObject.setAttribute("demand", demand);
+		  fts.updateFact(factObject);
+		}
+end

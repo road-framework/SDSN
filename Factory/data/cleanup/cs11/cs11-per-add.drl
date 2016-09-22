@@ -1,0 +1,13 @@
+orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","CoT","eMMNotify * eVCPaid");
+orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP1","bRentingRoom");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingRoom,ruTerminateV1");
+orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bRentingVehicle");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2");
+oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruRentingVehicle,ruTerminateV2","state","active");
+orgMgt.removeBehaviorUnitFromProcess("AnyTrucks","AnyTrucksP2","bRepairingByAutoRepair");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByAutoRepair,
+ruSwiftTowAndAutoRepair");
+orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP2","bRepairingByNickRepair");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByNickRepair,ruNickRepairAndTowTow");
+oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruRepairingByNickRepair,
+ruNickRepairAndTowTow","state","active");

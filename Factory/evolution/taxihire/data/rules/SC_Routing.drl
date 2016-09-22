@@ -1,0 +1,100 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "analyzeResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.rentVehicle.Req","RentVehicleReq.xsl",$msg);
+end
+
+rule "analyzeResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC2.orderTow.Req","OrderTC2TowReq.xsl",$msg);
+end
+
+rule "analyzeResponseV4"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC2.orderRepair.Req","OrderRepairReqGC2.xsl",$msg);
+end
+
+rule "analyzeResponseV5"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-HC.rentRoom.Req","RentRoomReq.xsl",$msg);
+end
+
+rule "payTCResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "payTCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC1.payTow.Res","PayTC1Res.xsl",$msg);
+end
+
+rule "payTCResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "payTCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC2.payTow.Res","PayTC2Res.xsl",$msg);
+end
+
+rule "payGCResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC1.payRepair.Res","PayGC1Res.xsl",$msg);
+end
+
+rule "payGCResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC2.payRepair.Res","PayGC2Res.xsl",$msg);
+end
+
+rule "payGCResponseV3"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-MM.assist.Res","ComplainRes.xsl",$msg);
+end
+
+rule "payGCResponseV4"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-HC.endRoomRent.Req","EndRoomRentReq.xsl",$msg);
+end
+
+rule "payGCResponseV5"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.endVehicleRent.Req","EndVehicleRentReq.xsl",$msg);
+end
+
+rule "payPSResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payPSResponse", state=="forwardable")
+  then
+   actions.Forward("PS-SC.payParts.Res","PayPartsRes.xsl",$msg);
+end
+
+rule "payHCResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payHCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-HC.payRoomRent.Res","PayRoomRentRes.xsl",$msg);
+end
+
+rule "payVCResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payVCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.payVehicleRent.Res","PayVehicleRentRes.xsl",$msg);
+end

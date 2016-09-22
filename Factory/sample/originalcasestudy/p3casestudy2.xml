@@ -1,0 +1,1647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:SMC
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="p3casestudy" dataDir="sample/p3casestudy/data/" routingRuleFile="routing.drl"
+        compositeRuleFile="composite.drl">
+
+    <!-- Given below are a bunch of process definitions -->
+    <ProcessDefinitions id="AnyTrucks">
+        <!-- This is a process definition -->
+        <tns1:ProcessDefinition id="AnyTruckSeqTow" descr="Process definitions for AnyTruck using TomTow">
+            <tns1:CoS>ecomplainReqd</tns1:CoS>
+            <tns1:CoT>ecomplainResd * enotifyRoomPaymentReqd</tns1:CoT>
+            <tns1:BehaviorTermRefs>
+                <tns1:BehaviorTermId>CallHandlingSeqTowExRepairAccommodation</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RepairingExSeqTow</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>TowingSeq</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RentingRoom</tns1:BehaviorTermId>
+            </tns1:BehaviorTermRefs>
+            <tns1:Traffic>
+                <tns1:Preference>1</tns1:Preference>
+                <tns1:MaxCapacity>41</tns1:MaxCapacity>
+            </tns1:Traffic>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:ProcessDefinition>
+        <tns1:ProcessDefinition id="AnyTruckParTow" descr="Process definitions for AnyTruck using SwiftTow">
+            <tns1:CoS>ecomplainReqd</tns1:CoS>
+            <tns1:CoT>ecomplainResd * enotifyRoomPaymentReqd</tns1:CoT>
+            <tns1:BehaviorTermRefs>
+                <tns1:BehaviorTermId>CallHandlingParTowExRepairAccommodation</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RepairingExParTow</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>TowingPar</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RentingRoom</tns1:BehaviorTermId>
+            </tns1:BehaviorTermRefs>
+            <tns1:Traffic>
+                <tns1:Preference>2</tns1:Preference>
+                <tns1:MaxCapacity>82</tns1:MaxCapacity>
+            </tns1:Traffic>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:ProcessDefinition>
+        <tns1:Traffic>
+            <tns1:MaxCapacity>123</tns1:MaxCapacity>
+            <tns1:Interval>20</tns1:Interval>
+        </tns1:Traffic>
+    </ProcessDefinitions>
+
+    <ProcessDefinitions id="EuroCars">
+        <tns1:ProcessDefinition id="EuroCarsParTowAnExRepair" descr="Process definitions for EuroCars using SwiftTow">
+            <tns1:CoS>ecomplainReqd</tns1:CoS>
+            <tns1:CoT>ecomplainResd * enotifyVehiclePaymentReqd</tns1:CoT>
+            <tns1:BehaviorTermRefs>
+                <tns1:BehaviorTermId>CallHandlingSeqTowExRepairVehicleHire</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RepairingExSeqTow</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>TowingSeq</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RentingVehicle</tns1:BehaviorTermId>
+            </tns1:BehaviorTermRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+            <tns1:Traffic>
+                <tns1:MaxCapacity>157</tns1:MaxCapacity>
+            </tns1:Traffic>
+        </tns1:ProcessDefinition>
+        <tns1:Traffic>
+            <tns1:MaxCapacity>157</tns1:MaxCapacity>
+            <tns1:Interval>20</tns1:Interval>
+        </tns1:Traffic>
+    </ProcessDefinitions>
+
+    <ProcessDefinitions id="HappyTours">
+        <tns1:ProcessDefinition id="HappyTourParTowAnInRepair" descr="Process definitions for HappyTour using SwiftTow">
+            <tns1:CoS>ecomplainReqd</tns1:CoS>
+            <tns1:CoT>ecomplainResd * enotifyVehiclePaymentReqd</tns1:CoT>
+            <tns1:BehaviorTermRefs>
+                <tns1:BehaviorTermId>CallHandlingParTowInRepairVehicleHire</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RepairingInParTow</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>TowingPar</tns1:BehaviorTermId>
+                <tns1:BehaviorTermId>RentingVehicle</tns1:BehaviorTermId>
+            </tns1:BehaviorTermRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+            <tns1:Traffic>
+                <tns1:MaxCapacity>80</tns1:MaxCapacity>
+            </tns1:Traffic>
+        </tns1:ProcessDefinition>
+        <tns1:Traffic>
+            <tns1:MaxCapacity>80</tns1:MaxCapacity>
+            <tns1:Interval>20</tns1:Interval>
+        </tns1:Traffic>
+    </ProcessDefinitions>
+
+    <!-- Given below are a bunch of behavior units possibly referred by one or more business processes -->
+    <BehaviorTerms>
+        <!-- This is a behavior term -->
+        <tns1:BehaviorTerm id="CallHandlingSeqTowExRepairAccommodation">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="MM.RequestAssist" preEP=" ecomplainReqds " postEP=" ecomplainReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.Analyze" preEP=" ecomplainReqd "
+                              postEP=" eorderTowReqd * egetGRLocationReqd * erentRoomReqd"
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" ecomplainResd * enotifyRoomPaymentReqd "
+                              postEP="" performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="CallHandlingParTowExRepairAccommodation">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="MM.RequestAssist" preEP=" ComplainRcvds "
+                              postEP=" ecomplainReqd * egetGRLocationReqd * epickUpReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.Analyze" preEP=" ecomplainReqd "
+                              postEP=" erentRoomReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" ecomplainResd * enotifyRoomPaymentReqd "
+                              postEP="" performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="CallHandlingSeqTowExRepairVehicleHire">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="MM.RequestAssist" preEP=" ecomplainReqds " postEP=" ecomplainReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.Analyze" preEP=" ecomplainReqd "
+                              postEP=" eorderTowReqd * egetGRLocationReqd * erentVehicleReqd"
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" ecomplainResd * enotifyVehiclePaymentReqd "
+                              postEP="" performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="CallHandlingParTowInRepairVehicleHire">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="MM.RequestAssist" preEP=" ComplainRcvds "
+                              postEP="ecomplainReqd * egetGRLocationReqd * epickUpReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.Analyze" preEP=" ecomplainReqd "
+                              postEP="erentVehicleReqd"
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" ecomplainResd * enotifyVehiclePaymentReqd "
+                              postEP="" performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="TowingSeq">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="TTS.Tow" preEP=" eorderTowReqd * esendGRLocationReqd "
+                              postEP=" epayTowReqd * esendGRLocationResd"
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="CO.PayTT" preEP=" epayTowReqd " postEP=" epayTowResd " performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+                <tns1:Constraint>([eCarTowed] >0)->([eTowPaid] >0);</tns1:Constraint>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="TowingPar">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="TTP.PickUp" preEP=" epickUpReqd " postEP=" enotifyPickUpReqd "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="TTP.Deliver" preEP=" enotifyPickUpReqd * esendGRLocationReqd "
+                              postEP=" epayTowReqd * esendGRLocationResd"
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="CO.PayTT" preEP=" epayTowReqd " postEP=" epayTowResd " performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+                <tns1:Constraint></tns1:Constraint>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="RepairingExSeqTow">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="GREX.GetGRLocation" preEP=" egetGRLocationReqd "
+                              postEP="esendGRLocationReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="GREX.AssessRepair" preEP=" esendGRLocationResd " postEP=" eorderPartsReqd "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="PS.OrderParts" preEP=" eorderPartsReqd " postEP=" eorderPartsResd * epayPartsReqd"
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="GREX.DoRepair" preEP=" eorderPartsResd " postEP=" epayRepairReqd "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="CO.PayPS" preEP=" epayPartsReqd " postEP=" epayPartsResd " performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.PayGR" preEP=" epayRepairReqd " postEP=" epayRepairResd * ecomplainResd "
+                              performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints></tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="RepairingExParTow">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="GREX.GetGRLocationFromMM" preEP=" egetGRLocationReqd "
+                              postEP=" esendGRLocationReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="GREX.AssessRepair" preEP=" esendGRLocationResd " postEP=" eorderPartsReqd"
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="PS.OrderParts" preEP=" eorderPartsReqd " postEP=" eorderPartsResd * epayPartsReqd"
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="GREX.DoRepair" preEP=" eorderPartsResd " postEP=" epayRepairReqd "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="CO.PayPS" preEP=" epayPartsReqd " postEP=" epayPartsResd " performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.PayGR" preEP=" epayRepairReqd " postEP=" epayRepairResd * ecomplainResd "
+                              performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints></tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="RepairingInParTow">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="GRIN.GetGRLocation" preEP=" egetGRLocationReqd "
+                              postEP=" esendGRLocationReqd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="GRIN.DoRepair" preEP=" esendGRLocationResd " postEP=" PayRepairReqdIN "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="CO.PayGR" preEP=" epayRepairReqd " postEP=" epayRepairResd * ecomplainResd "
+                              performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints></tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="RentingVehicle">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="VC.RentVehicle" preEP=" erentVehicleReqd " postEP=" RentedVehicle "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="VC.EndVehicleRent" preEP="  eendVehicleRentReqd " postEP="  eendVehicleRentResd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.PayVC" preEP=" epayVehicleRentReqd " postEP=" epayVehicleRentResd "
+                              performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+                <tns1:Constraint></tns1:Constraint>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+        <tns1:BehaviorTerm id="RentingRoom">
+            <tns1:TaskRefs>
+                <tns1:TaskRef Id="HC.RentRoom" preEP=" erentRoomReqd " postEP=" RentedRoom "
+                              performanceVal="24h"/>
+                <tns1:TaskRef Id="HC.EndRoomRent" preEP=" eendRoomRentReqd " postEP=" eendRoomRentResd "
+                              performanceVal="2h"/>
+                <tns1:TaskRef Id="CO.PayHC" preEP=" epayRoomRentReqd " postEP=" epayRoomRentResd " performanceVal="2h"/>
+            </tns1:TaskRefs>
+            <tns1:Constraints>
+                <tns1:Constraint></tns1:Constraint>
+            </tns1:Constraints>
+        </tns1:BehaviorTerm>
+    </BehaviorTerms>
+    <Facts>
+        <Fact name="Demand" source="Internal">
+            <Attributes>
+                <Attribute>demand</Attribute>
+            </Attributes>
+        </Fact>
+        <Fact name="Capacity" source="Internal">
+            <Attributes>
+                <Attribute>reserved</Attribute>
+                <Attribute>used</Attribute>
+            </Attributes>
+        </Fact>
+    </Facts>
+    <Roles>
+        <Role id="MM" name="Member" entryRole="true">
+            <Monitor>
+                <analysis script="mm-monitor.drl"/>
+            </Monitor>
+            <LinkedFacts>
+                <Fact monitor="true" name="Demand" provide="false"/>
+            </LinkedFacts>
+            <Tasks>
+                <tns1:Task id="RequestAssist" isMsgDriven="false">
+                    <tns1:In isResponse="false">
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickUpLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-MM" termId="complain"
+                                        isResponse="false" transformation="ComplainReq.xsl"/>
+                        <tns1:ResultMsg contractId="MM-GRIN" termId="getGRLocation"
+                                        isResponse="false" transformation="GetLocationReqInMM.xsl"/>
+                        <tns1:ResultMsg contractId="MM-GREX" termId="getGRLocation"
+                                        isResponse="false" transformation="GetLocationReqExMM.xsl"/>
+                        <tns1:ResultMsg contractId="MM-TTP" termId="pickUp"
+                                        isResponse="false" transformation="PickUpReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" isMsgDriven="false">
+                    <tns1:Out deliveryType="push" isResponse="true">
+                        <tns1:Operation name="complain">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs transformation="Notify.xsl">
+                        <tns1:SrcMsg contractId="CO-MM" termId="complain"
+                                     isResponse="true"/>
+                        <tns1:SrcMsg contractId="CO-MM" termId="notifyRoomPayment"
+                                     isResponse="false"/>
+                        <tns1:SrcMsg contractId="CO-MM" termId="notifyVehiclePayment"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>This is member role</Description>
+        </Role>
+        <Role id="CO" name="CaseOfficer">
+            <Tasks>
+                <tns1:Task id="Analyze" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="Analyze.xsl">
+                        <tns1:SrcMsg contractId="CO-MM" termId="complain"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TTS" termId="orderTow"
+                                        isResponse="false" transformation="OrderTowSeqReq.xsl"/>
+                        <tns1:ResultMsg contractId="CO-GRIN" termId="getGRLocation"
+                                        isResponse="false" transformation="GetGRLocationInReq.xsl"/>
+                        <tns1:ResultMsg contractId="CO-GREX" termId="getGRLocation"
+                                        isResponse="false" transformation="GetGRLocationExReq.xsl"/>
+                        <tns1:ResultMsg contractId="CO-HC" termId="rentRoom"
+                                        isResponse="false" transformation="RentRoomReq.xsl"/>
+                        <tns1:ResultMsg contractId="CO-VC" termId="rentVehicle"
+                                        isResponse="false" transformation="RentVehicleReq.xsl"/>
+                    </tns1:ResultMsgs>
+                    <!--<tns1:QoS>-->
+                    <!--<tns1:CapacityUnit>1</tns1:CapacityUnit>-->
+                    <!--</tns1:QoS>-->
+                </tns1:Task>
+                <tns1:Task id="PayTT" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="payTT">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="payTT">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PayTT.xsl">
+                        <tns1:SrcMsg contractId="CO-TTS" termId="payTow"
+                                     isResponse="false"/>
+                        <tns1:SrcMsg contractId="CO-TTP" termId="payTow"
+                                     isResponse="false"/>
+                        <tns1:SrcMsg contractId="CO-TTP" termId="notifyPickUp"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TTS" termId="payTow"
+                                        isResponse="true" transformation="PayTowSeqRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-TTP" termId="payTow"
+                                        isResponse="true" transformation="PayTowParRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayGR" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="payGR">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="payGR">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PayGR.xsl">
+                        <tns1:SrcMsg contractId="CO-GRIN" termId="payRepair"
+                                     isResponse="false"/>
+                        <tns1:SrcMsg contractId="CO-GREX" termId="payRepair"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-GRIN" termId="payRepair"
+                                        isResponse="true" transformation="PayRepairInRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-GREX" termId="payRepair"
+                                        isResponse="true" transformation="PayRepairExRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-MM" termId="complain"
+                                        isResponse="true" transformation="ComplainRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-HC" termId="endRoomRent"
+                                        isResponse="false" transformation="EndRoomRentReq.xsl"/>
+                        <tns1:ResultMsg contractId="CO-VC" termId="endVehicleRent"
+                                        isResponse="false" transformation="EndVehicleRentReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayPS" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="payPS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="payPS">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PayPS.xsl">
+                        <tns1:SrcMsg contractId="PS-CO" termId="payParts"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="PS-CO" termId="payParts"
+                                        isResponse="true" transformation="PayPartsRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayHC" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="payHC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="payHC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PayHC.xsl">
+                        <tns1:SrcMsg contractId="CO-HC" termId="payRoomRent"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-HC" termId="payRoomRent"
+                                        isResponse="true" transformation="PayRoomRentRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-MM" termId="notifyRoomPayment"
+                                        isResponse="false" transformation="NotifyRoomPaymentReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayVC" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="payVC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="payVC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PayVC.xsl">
+                        <tns1:SrcMsg contractId="CO-VC" termId="payVehicleRent"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-VC" termId="payVehicleRent"
+                                        isResponse="true" transformation="PayVehicleRentRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-MM" termId="notifyVehiclePayment"
+                                        isResponse="false" transformation="NotifyVehiclePaymentReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+
+        <Role id="TTS" name="TowSeq">
+            <Tasks>
+                <tns1:Task id="Tow" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="TowSeq.xsl">
+                        <tns1:SrcMsg contractId="CO-TTS" termId="orderTow" isResponse="false"/>
+                        <tns1:SrcMsg contractId="GREX-TTS" termId="sendGRLocation" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TTS" termId="payTow" isResponse="false"
+                                        transformation="PayTowSeqReq.xsl"/>
+                        <tns1:ResultMsg contractId="GREX-TTS" termId="sendGRLocation" isResponse="true"
+                                        transformation="SendGRLocationExRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+
+        <Role id="TTP" name="TowPar">
+            <Tasks>
+                <tns1:Task id="PickUp" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="pickUp">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="pickUp">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="PickUp.xsl">
+                        <tns1:SrcMsg contractId="MM-TTP" termId="pickUp" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TTP" termId="notifyPickUp" isResponse="false"
+                                        transformation="NotifyPickUpReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Deliver" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="deliver">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="deliver">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="Deliver.xsl">
+                        <tns1:SrcMsg contractId="GRIN-TTP" termId="sendGRLocation" isResponse="false"/>
+                        <tns1:SrcMsg contractId="GREX-TTP" termId="sendGRLocation" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-TTP" termId="payTow" isResponse="false"
+                                        transformation="PayTowParReq.xsl"/>
+                        <tns1:ResultMsg contractId="GRIN-TTP" termId="sendGRLocation" isResponse="true"
+                                        transformation="SendGRLocationInRes.xsl"/>
+                        <tns1:ResultMsg contractId="GREX-TTP" termId="sendGRLocation" isResponse="true"
+                                        transformation="SendGRLocationExParRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+
+        <Role id="GRIN" name="GarageIn">
+            <Tasks>
+                <tns1:Task id="GetGRLocation" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="GetGRINLocation.xsl">
+                        <tns1:SrcMsg contractId="MM-GRIN" termId="getGRLocation"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GRIN-TTP" termId="sendGRLocation"
+                                        isResponse="false" transformation="SendGRLocationInReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="DoRepair" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="DoRepairIN.xsl">
+                        <tns1:SrcMsg contractId="GRIN-TTP" termId="sendGRLocation"
+                                     isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-GRIN" termId="payRepair"
+                                        isResponse="false" transformation="PayRepairInReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>Description</Description>
+        </Role>
+
+        <Role id="GREX" name="GarageEx">
+            <Tasks>
+                <tns1:Task id="GetGRLocation" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="GetGREXLocation.xsl">
+                        <!--<tns1:SrcMsg contractId="MM-GREX" termId="getGRLocation"-->
+                        <!--isResponse="false"/>-->
+                        <tns1:SrcMsg contractId="CO-GREX" termId="getGRLocation"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GREX-TTS" termId="sendGRLocation"
+                                        isResponse="false" transformation="SendGRLocationSeqReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="GetGRLocationFromMM" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="getGarageLocation">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="GetGREXLocationMM.xsl">
+                        <tns1:SrcMsg contractId="MM-GREX" termId="getGRLocation"
+                                     isResponse="false"/>
+                        <!--<tns1:SrcMsg contractId="CO-GREX" termId="getGRLocation"-->
+                        <!--isResponse="false"/>-->
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GREX-TTP" termId="sendGRLocation"
+                                        isResponse="false" transformation="SendGRLocationParReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="DoRepair" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="doRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="DoRepairEX.xsl">
+                        <tns1:SrcMsg contractId="GREX-PS" termId="orderParts"
+                                     isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-GREX" termId="payRepair"
+                                        isResponse="false" transformation="PayRepairExReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="AssessRepair" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="assessRepair">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="AssessRepair.xsl">
+                        <tns1:SrcMsg contractId="GREX-TTS" termId="sendGRLocation"
+                                     isResponse="true"/>
+                        <tns1:SrcMsg contractId="GREX-TTP" termId="sendGRLocation"
+                                     isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GREX-PS" termId="orderParts"
+                                        isResponse="false" transformation="OrderPartsReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>Description</Description>
+        </Role>
+
+        <Role id="HC" name="HotelChain">
+            <Tasks>
+                <tns1:Task id="RentRoom" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="rentRoom">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="rentRoom">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="RentRoom.xsl">
+                        <tns1:SrcMsg contractId="CO-HC" termId="rentRoom"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-HC" termId="rentRoom"
+                                        isResponse="true" transformation="RentRoomRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="EndRoomRent" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="endRoomRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="endRoomRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="EndRoomRent.xsl">
+                        <tns1:SrcMsg contractId="CO-HC" termId="endRoomRent"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-HC" termId="endRoomRent"
+                                        isResponse="true" transformation="EndRoomRentRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-HC" termId="payRoomRent"
+                                        isResponse="false" transformation="PayRoomRentReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>Description</Description>
+        </Role>
+
+        <Role id="VC" name="VehicleRentalCompanyRole">
+            <Tasks>
+                <tns1:Task id="RentVehicle" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="RentVehicle.xsl">
+                        <tns1:SrcMsg contractId="CO-VC" termId="rentVehicle"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-VC" termId="rentVehicle"
+                                        isResponse="true" transformation="RentVehicleRes.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="EndVehicleRent" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="endVehicleRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="endVehicleRent">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="EndVehicleRent.xsl">
+                        <tns1:SrcMsg contractId="CO-VC" termId="endVehicleRent" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="CO-VC" termId="endVehicleRent"
+                                        isResponse="true" transformation="EndVehicleRentRes.xsl"/>
+                        <tns1:ResultMsg contractId="CO-VC" termId="payVehicleRent"
+                                        isResponse="false" transformation="PayVehicleRentReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>Description</Description>
+        </Role>
+
+        <Role id="PS" name="PartSupplierRole">
+            <Tasks>
+                <tns1:Task id="OrderParts" isMsgDriven="false">
+                    <tns1:Out deliveryType="push">
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In isResponse="true">
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs transformation="OrderParts.xsl">
+                        <tns1:SrcMsg contractId="GREX-PS" termId="orderParts"
+                                     isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GREX-PS" termId="orderParts"
+                                        isResponse="true" transformation="OrderPartsRes.xsl"/>
+                        <tns1:ResultMsg contractId="PS-CO" termId="payParts"
+                                        isResponse="false" transformation="PayPartsReq.xsl"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+            <Description>Description</Description>
+        </Role>
+    </Roles>
+
+    <Contracts>
+        <Contract id="CO-MM" type="permissive" ruleFile="co-mm.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="complain" name="complain term">
+                    <Operation name="complain">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>memId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>complain</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for complaining</Description>
+                </Term>
+                <Term id="notifyRoomPayment" name="notifyRoomPayment ordering term">
+                    <Operation name="notifyRoomPayment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for notifyRoomPayment</Description>
+                </Term>
+                <Term id="notifyVehiclePayment" name="notifyVehiclePayment ordering term">
+                    <Operation name="notifyVehiclePayment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for notifyVehiclePayment</Description>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>MM</RoleBID>
+            <Description>This is the contract btwn the CO and MM
+            </Description>
+        </Contract>
+        <Contract id="MM-GRIN" type="permissive" ruleFile="mm-grin.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="getGRLocation" name="ask to send garage location term">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for ask to send garage location</Description>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>GRIN</RoleBID>
+            <Description>This is the contract btwn the MM and GRIN
+            </Description>
+        </Contract>
+        <Contract id="MM-GREX" type="permissive" ruleFile="mm-grex.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="getGRLocation" name="ask to send garage location term">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for ask to send garage location</Description>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>GREX</RoleBID>
+            <Description>This is the contract btwn the MM and GREX
+            </Description>
+        </Contract>
+        <Contract id="MM-TTP" type="permissive" ruleFile="mm-ttp.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="pickUp" name="PickUp the broken vehicle term">
+                    <Operation name="pickUp">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for pickUp the broken vehicle</Description>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>TTP</RoleBID>
+            <Description>This is the contract btwn the MM and TTP
+            </Description>
+        </Contract>
+        <Contract id="CO-TTP" type="permissive" ruleFile="co-ttp.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="payTow" name="Term for payment">
+                    <Operation name="payTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for paying</Description>
+                </Term>
+                <Term id="notifyPickUp" name="Term for notifyPickUp">
+                    <Operation name="notifyPickUp">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for notifyPickUp</Description>
+                </Term>
+            </Terms>
+            <RoleAID>TTP</RoleAID>
+            <RoleBID>CO</RoleBID>
+            <Description>This is the contract btwn the CO and TTP
+            </Description>
+        </Contract>
+        <Contract id="CO-TTS" type="permissive" ruleFile="co-tts.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="payTow" name="Term for payment">
+                    <Operation name="payTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for paying</Description>
+                </Term>
+                <Term id="orderTow" name="Term for orderTow">
+                    <Operation name="orderTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for orderTow</Description>
+                </Term>
+            </Terms>
+            <RoleAID>TTS</RoleAID>
+            <RoleBID>CO</RoleBID>
+            <Description>This is the contract btwn the CO and TTP
+            </Description>
+        </Contract>
+        <Contract id="CO-GRIN" type="permissive" ruleFile="co-grin.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <!--<Term id="orderRepair" name="Repair ordering term">-->
+                <!--<Operation name="orderRepair">-->
+                <!--<Parameters>-->
+                <!--<Parameter>-->
+                <!--<Type>String</Type>-->
+                <!--<Name>content</Name>-->
+                <!--</Parameter>-->
+                <!--</Parameters>-->
+                <!--<Return>String</Return>-->
+                <!--</Operation>-->
+                <!--<Direction>AtoB</Direction>-->
+                <!--<Description>Term for ordering a repair</Description>-->
+                <!--</Term>-->
+                <Term id="getGRLocation" name="getGRLocation term">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for getGRLocation</Description>
+                </Term>
+                <Term id="payRepair" name="Payment for GR">
+                    <Operation name="payRepair">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for paying the Garage</Description>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>GRIN</RoleBID>
+            <Description>This is the contract btwn the CO and GRIN
+            </Description>
+        </Contract>
+        <Contract id="CO-GREX" type="permissive" ruleFile="co-grex.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="getGRLocation" name="getGRLocation term">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                    <Description>Term for getGRLocation</Description>
+                </Term>
+                <Term id="payRepair" name="Payment for GR">
+                    <Operation name="payRepair">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                    <Description>Term for paying the Garage</Description>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>GREX</RoleBID>
+            <Description>This is the contract btwn the CO and GREX
+            </Description>
+        </Contract>
+        <Contract id="GREX-TTP" type="permissive" ruleFile="grex-ttp.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="sendGRLocation" name="term to send the garage location">
+                    <Operation name="sendGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="getGRLocation" name="term getGRLocation">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GREX</RoleAID>
+            <RoleBID>TTP</RoleBID>
+            <Description>This is the contract btwn the GREX and TTP
+            </Description>
+        </Contract>
+        <Contract id="GRIN-TTP" type="permissive" ruleFile="grin-ttp.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="sendGRLocation" name="term to send the garage location">
+                    <Operation name="sendGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="getGRLocation" name="term getGRLocation">
+                    <Operation name="getGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GRIN</RoleAID>
+            <RoleBID>TTP</RoleBID>
+            <Description>This is the contract btwn the GREX and TTS
+            </Description>
+        </Contract>
+        <Contract id="GREX-TTS" type="permissive" ruleFile="grex-tts.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="sendGRLocation" name="term to send the garage location">
+                    <Operation name="sendGRLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GREX</RoleAID>
+            <RoleBID>TTS</RoleBID>
+            <Description>This is the contract btwn the GREX and TTS
+            </Description>
+        </Contract>
+        <Contract id="GREX-PS" type="permissive" ruleFile="grex-ps.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="orderParts" name="term to order parts">
+                    <Operation name="orderParts">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>GREX</RoleAID>
+            <RoleBID>PS</RoleBID>
+            <Description>This is the contract btwn the GREX and TTS
+            </Description>
+        </Contract>
+        <Contract id="PS-CO" type="permissive" ruleFile="ps-co.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="payParts" name="term to payParts">
+                    <Operation name="payParts">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>PS</RoleAID>
+            <RoleBID>CO</RoleBID>
+            <Description>This is the contract btwn PS and CO
+            </Description>
+        </Contract>
+        <Contract id="CO-HC" type="permissive" ruleFile="co-hc.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="rentRoom" name="term to rentRoom">
+                    <Operation name="rentRoom">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="endRoomRent" name="term to endRoomRent">
+                    <Operation name="endRoomRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payRoomRent" name="term to payRoomRent">
+                    <Operation name="payRoomRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>HC</RoleBID>
+            <Description>This is the contract btwn HC and CO
+            </Description>
+        </Contract>
+        <Contract id="CO-VC" type="permissive" ruleFile="co-vc.drl">
+            <Abstract>false</Abstract>
+            <State>Incipient</State>
+            <Terms>
+                <Term id="rentVehicle" name="term to rentVehicle">
+                    <Operation name="rentVehicle">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="endVehicleRent" name="term to endVehicleRent">
+                    <Operation name="endVehicleRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="payVehicleRent" name="term to payVehicleRent">
+                    <Operation name="payVehicleRent">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CO</RoleAID>
+            <RoleBID>VC</RoleBID>
+            <Description>This is the contract btwn VC and CO
+            </Description>
+        </Contract>
+    </Contracts>
+
+    <PlayerBindings>
+        <PlayerBinding id="myGRIn">
+            <Endpoint>http://localhost:8082/axis2/services/InGarageService</Endpoint>
+            <Roles>
+                <RoleID>GRIN</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myGREx">
+            <Endpoint>http://localhost:8082/axis2/services/ExGarageService</Endpoint>
+            <Roles>
+                <RoleID>GREX</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myTTS">
+            <Endpoint>http://localhost:8082/axis2/services/TowServiceSeq</Endpoint>
+            <Roles>
+                <RoleID>TTS</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myTTP">
+            <Endpoint>http://localhost:8082/axis2/services/TowServicePar</Endpoint>
+            <Roles>
+                <RoleID>TTP</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myCO">
+            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Roles>
+                <RoleID>CO</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myPS">
+            <Endpoint>http://localhost:8082/axis2/services/PartSupplierService</Endpoint>
+            <Roles>
+                <RoleID>PS</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myHC">
+            <Endpoint>http://localhost:8082/axis2/services/HotelService</Endpoint>
+            <Roles>
+                <RoleID>HC</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+        <PlayerBinding id="myVC">
+            <Endpoint>http://localhost:8082/axis2/services/VehicleRentalService</Endpoint>
+            <Roles>
+                <RoleID>VC</RoleID>
+            </Roles>
+            <Description>Description</Description>
+        </PlayerBinding>
+    </PlayerBindings>
+    <OrganiserBinding>OrganiserBinding</OrganiserBinding>
+    <Description>Description</Description>
+</tns:SMC>

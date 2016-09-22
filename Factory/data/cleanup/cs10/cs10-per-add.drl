@@ -1,0 +1,5 @@
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,
+ruNickRepairAndTowTow,ruSelectRepair");
+oprMgt.removeRoutingRule("SC","selectRepair");
+oprMgt.removeRegulationUnit("ruSelectRepair");
+orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");  

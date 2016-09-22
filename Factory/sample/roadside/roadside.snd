@@ -1,0 +1,613 @@
+ServiceNetwork RoadsideAssistence globalRegulation "global.drl" { 
+	VirtualServiceNetwork AnyTrucks {
+		Process AnyTrucksP1 {
+			CoS "eComplainRcvd";
+			CoT "eMMNotify * eHCPaid";
+			ConfigurationDesign {
+				BehaviorUnitRef bCaseHandling;
+				BehaviorUnitRef bRepairingByAutoRepair;
+				BehaviorUnitRef bTowingByTomTow;
+				BehaviorUnitRef bRentingRoom;
+			}
+			RegulationPolicy {
+				RegulationUnitRef ruCaseHandling;
+				RegulationUnitRef ruRepairingByAutoRepair;
+				RegulationUnitRef ruTowingByTomTow;
+				RegulationUnitRef ruRentingRoom;
+				RegulationUnitRef ruTomTowAndAutoRepair;				
+				RegulationUnitRef ruActivateV1;
+				RegulationUnitRef ruTerminateV1;
+			}
+			QoS responseTime "6d"	throughput "41/d";			
+		}
+		Process AnyTrucksP2 {
+			CoS "eComplainRcvd * ePickUpReq * eGC2LocationReqdByMM";
+			CoT "eMMNotify * eHCPaid";
+			ConfigurationDesign {
+				BehaviorUnitRef bCaseHandling;
+				BehaviorUnitRef bRepairingByAutoRepair;
+				BehaviorUnitRef bTowingBySwiftTow;
+				BehaviorUnitRef bRentingRoom;
+			}
+			RegulationPolicy {
+				RegulationUnitRef ruCaseHandling;
+				RegulationUnitRef ruRepairingByAutoRepair;
+				RegulationUnitRef ruTowingBySwiftTow;
+				RegulationUnitRef ruRentingRoom;
+				RegulationUnitRef ruSwiftTowAndAutoRepair;	
+				RegulationUnitRef ruActivateV2;
+				RegulationUnitRef ruTerminateV1;
+			}
+			QoS responseTime "6d"	throughput "82/d";			
+		}
+		RegulationPolicy {
+			RegulationUnitRef ruClassify;
+			RegulationUnitRef ruAdmissionProcessSelection;
+			RegulationUnitRef ruDrop;
+		}
+	}
+	VirtualServiceNetwork EuroCars {
+		Process EuroCarsP1 {
+			CoS "eComplainRcvd";
+			CoT "eMMNotify * eVCPaid";
+			ConfigurationDesign {
+				BehaviorUnitRef bCaseHandling;
+				BehaviorUnitRef bRepairingByAutoRepair;
+				BehaviorUnitRef bTowingByTomTow;
+				BehaviorUnitRef bRentingVehicle;
+			}
+			RegulationPolicy {
+				RegulationUnitRef ruCaseHandling;
+				RegulationUnitRef ruRepairingByAutoRepair;
+				RegulationUnitRef ruTowingByTomTow;
+				RegulationUnitRef ruRentingVehicle;
+				RegulationUnitRef ruTomTowAndAutoRepair;		
+				RegulationUnitRef ruActivateV1;
+				RegulationUnitRef ruTerminateV2;
+			}
+			QoS responseTime "6d"	throughput "157/d";			
+		}
+		RegulationPolicy {
+			RegulationUnitRef ruClassify;
+			RegulationUnitRef ruAdmissionV2;
+			RegulationUnitRef ruDrop;
+		}
+	}
+	VirtualServiceNetwork HappyTours {
+		Process HappyToursP1 {
+			CoS "eComplainRcvd * ePickUpReq * eGC2LocationReqdByMM";
+			CoT "eMMNotify * eVCPaid";
+			ConfigurationDesign {
+				BehaviorUnitRef bCaseHandling;
+				BehaviorUnitRef bRepairingByMacRepair;
+				BehaviorUnitRef bTowingBySwiftTow;
+				BehaviorUnitRef bRentingVehicle;
+			}
+			RegulationPolicy {
+				RegulationUnitRef ruCaseHandling;
+				RegulationUnitRef ruRepairingByMacRepair;
+				RegulationUnitRef ruTowingBySwiftTow;
+				RegulationUnitRef ruRentingVehicle;
+				RegulationUnitRef ruSwiftTowAndMacRepair;		
+				RegulationUnitRef ruActivateV2;
+				RegulationUnitRef ruTerminateV2;
+			}
+			QoS responseTime "6d" throughput "157/d";			
+		}
+		RegulationPolicy {
+			RegulationUnitRef ruClassify;
+			RegulationUnitRef ruAdmissionV1;
+			RegulationUnitRef ruDrop;
+		}
+	}
+	RegulationUnit ruClassify {
+		Routing {
+			RuleRef MM.classify;
+		}
+	}
+	RegulationUnit ruTerminateV1 {
+		Global {
+			RuleRef terminateV1;
+		}
+	}
+	RegulationUnit ruTerminateV2 {
+		Global {
+			RuleRef terminateV2;
+		}
+	}
+	RegulationUnit ruActivateV1 {
+		Global {
+			RuleRef activateV1;
+		}
+	}
+  RegulationUnit ruActivateV2 {
+		Global {
+			RuleRef activateV2;
+		}
+	}
+	RegulationUnit ruAdmissionV1 {
+		Routing {
+			RuleRef MM.admissionCheckV1;
+		}
+	}
+	RegulationUnit ruAdmissionV2 {
+		Routing {
+			RuleRef  MM.admissionCheckV2;
+		}
+	}	
+	RegulationUnit ruDrop {
+		Routing {
+			RuleRef MM.drop;
+		}
+	}
+	RegulationUnit ruCaseHandling {
+		Routing {
+			RuleRef MM.requestAssistV1;
+			RuleRef MM.payGCResponseV3;
+		}
+		Synchronization {
+			RuleRef SC.analyze;
+		}		
+		Passthrough {
+			RuleRef SC_MM.complain;
+			RuleRef SC_MM.complainResponse;
+		}
+	}
+	RegulationUnit ruAdmissionProcessSelection {
+		Routing {
+			RuleRef MM.admissionCheckV3;
+			RuleRef MM.processSelectionV1;
+		}
+	}
+	RegulationUnit ruRentingRoom {
+		Routing {
+			RuleRef SC.analyzeResponseV5;
+			RuleRef SC.payGCResponseV4;
+			RuleRef SC.payHCResponse;
+			RuleRef HC.rentRoomResponse;
+			RuleRef HC.endRoomRentResponse;
+		}
+		Synchronization {
+			RuleRef HC.rentRoom;
+			RuleRef HC.endRoomRent;
+			RuleRef SC.payHC;
+		}
+		Passthrough {
+			RuleRef SC_HC.rentRoom;
+			RuleRef SC_HC.rentRoomResponse;
+			RuleRef SC_HC.endRoomRent;
+			RuleRef SC_HC.endRoomRentResponse;
+			RuleRef SC_HC.payRoomRent;
+			RuleRef SC_HC.payRoomRentResponse;
+		}		
+	}
+	RegulationUnit ruRentingVehicle {
+			Routing {
+			RuleRef SC.analyzeResponseV1;
+			RuleRef SC.payGCResponseV5;
+			RuleRef SC.payVCResponse;
+			RuleRef VC.rentVehicleResponse;
+			RuleRef VC.endVehicleRentResponse;
+		}
+		Synchronization {
+			RuleRef VC.rentVehicle;
+			RuleRef VC.endVehicleRent;
+			RuleRef SC.payVC;
+		}
+		Passthrough {
+			RuleRef SC_VC.rentVehicle;
+			RuleRef SC_VC.rentVehicleResponse;
+			RuleRef SC_VC.endVehicleRent;
+			RuleRef SC_VC.endVehicleRentResponse;
+			RuleRef SC_VC.payVehicleRent;
+			RuleRef SC_VC.payVehicleRentResponse;
+		}		
+	}
+	RegulationUnit ruRepairingByMacRepair {
+		Routing {
+			RuleRef SC.payGCResponseV1;
+			RuleRef GC1.doRepairResponse;
+		}
+		Synchronization {
+			RuleRef GC1.doRepair;
+			RuleRef SC.payGC1;
+		}
+		Passthrough {
+			RuleRef SC_GC1.orderRepair;
+			RuleRef SC_GC1.payRepair;
+			RuleRef SC_GC1.payRepairResponse;
+		}
+	}
+	RegulationUnit ruRepairingByAutoRepair {
+		Routing {
+			RuleRef SC.payGCResponseV2;
+			RuleRef SC.payPSResponse;
+			RuleRef PS.orderPartsResponse;
+			RuleRef GC2.doRepairResponse;
+			RuleRef GC2.assessRepairResponse;
+		}
+		Synchronization {
+			RuleRef GC2.doRepair;
+			RuleRef PS.orderParts;
+			RuleRef SC.payGC2;
+			RuleRef SC.payPS;
+		}
+		Passthrough {
+			RuleRef SC_GC2.payRepair;
+			RuleRef SC_GC2.payRepairResponse;
+			RuleRef GC2_PS.orderParts;
+			RuleRef GC2_PS.orderPartsResponse;
+			RuleRef PS_SC.payParts;
+			RuleRef PS_SC.payPartsResponse;
+		}		
+	}
+	RegulationUnit ruTowingBySwiftTow {
+		Routing {
+			RuleRef SC.payTCResponseV1;
+			RuleRef TC1.pickUpResponse;
+			RuleRef TC1.deliverResponseV1;
+			RuleRef MM.requestAssistV2;
+		}
+		Synchronization {
+			RuleRef TC1.pickUp;
+			RuleRef SC.payTC1;
+		}
+		Passthrough {
+			RuleRef MM_TC1.pickUp;
+			RuleRef SC_TC1.notifyPickUp;
+			RuleRef SC_TC1.payTow;
+			RuleRef SC_TC1.payTowResponse;
+		}
+	}
+	RegulationUnit ruTowingByTomTow {
+		Routing {
+			RuleRef SC.payTCResponseV2;
+			RuleRef SC.analyzeResponseV2;
+		}
+		Synchronization {
+			RuleRef TC2.tow;
+			RuleRef SC.payTC2;
+		}
+		Passthrough {
+			RuleRef SC_TC2.orderTow;
+			RuleRef SC_TC2.payTow;
+			RuleRef SC_TC2.payTowResponse;
+		}
+	}
+	RegulationUnit ruSwiftTowAndMacRepair {
+		Routing {
+			RuleRef TC1.deliverResponseV2;
+			RuleRef MM.requestAssistV3;
+			RuleRef GC1.getGarageLocationResponse;
+		}
+		Synchronization {
+			RuleRef TC1.deliverGC;
+			RuleRef GC1.getGCLocation;
+		}
+		Passthrough {
+			RuleRef MM_GC1.getGCLocation;
+			RuleRef GC1_TC1.sendGCLocation;
+			RuleRef GC1_TC1.sendGCLocationResponse;
+		}
+	}
+	RegulationUnit ruSwiftTowAndAutoRepair {
+		Routing {
+			RuleRef TC1.deliverResponseV3;
+			RuleRef GC2.getGarageLocationResponseV2;
+			RuleRef MM.requestAssistV4;
+		}
+		Synchronization {
+			RuleRef TC1.deliverGC2;
+			RuleRef GC2.assessRepairTC1;
+			RuleRef GC2.getGCLocationFromMM;
+		}
+		Passthrough {
+			RuleRef MM_GC2.getGCLocation;
+			RuleRef GC2_TC1.sendGCLocation;
+			RuleRef GC2_TC1.sendGCLocationResponse;
+		}		
+	}
+	RegulationUnit ruTomTowAndAutoRepair {
+		Routing {
+			RuleRef GC2.getGarageLocationResponseV1;
+			RuleRef SC.analyzeResponseV4;
+			RuleRef TC2.towResponse;
+		}
+		Synchronization {
+			RuleRef TC2.assessRepairTC2;
+			RuleRef GC2.getGCLocation;
+		}
+		Passthrough {
+			RuleRef SC_GC2.getGCLocation;
+			RuleRef GC2_TC2.sendGCLocation;
+			RuleRef GC2_TC2.sendGCLocationResponse;
+		}
+	}
+	BehaviorUnit bCaseHandling {
+		TaskRef MM.RequestAssist {
+			InitOn "eComplainRcvd";
+			Triggers "( eComplainRcvd ) | ( eComplainRcvd * ( eGC1LocationReqdByMM  | eGC2LocationReqdByMM ) * ePickUpReq )";
+		}
+		TaskRef SC.Analyze {
+			InitOn "eComplainRcvd";
+			Triggers "( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqd  *  eGC2LocationReqBydSC * eRentVehicleReqd )";
+		}
+		TaskRef MM.Notify {
+			InitOn "MMNotify";
+		}
+	}
+	BehaviorUnit bTowingByTomTow {
+		TaskRef TC2.Tow {
+			InitOn "eTowReqd * eGC2LocKnown ";
+			Triggers "ePayTowReqdTC2 * eDeliveredVehicleToGC2ByTC2";
+		}
+		TaskRef SC.PayTC {
+			InitOn "ePayTowReqdByTC2 ";
+			Triggers "eTC2Paid";
+		}		
+	}
+	BehaviorUnit bTowingBySwiftTow {
+		TaskRef TC1.PickUp {
+			InitOn "ePickUpReq";
+			Triggers "ePickedUp";
+		}
+		TaskRef TC1.Deliver {
+			InitOn " ePickedUp * ( eGC2LocKnown | eGC1LocKnown ) ";
+			Triggers "ePayTowReqdTC1 * eDeliveredVehicleToGC2ByTC1";
+		}
+		TaskRef SC.PayTC {
+			InitOn "ePayTowReqdByTC1";
+			Triggers "eTC1Paid";			
+		}
+	}
+	BehaviorUnit bRepairingByAutoRepair {
+		TaskRef GC2.GetGCLocation {
+			InitOn "eGC2LocationReqdBySC | eGC2LocationReqdByMM ";
+			Triggers "RepairAcceptByGC2  *  GC2LocKnown ";
+			
+		}
+		TaskRef GC2.AssessRepair {
+			InitOn "eDeliveredVehicleToGC2ByTC1 | eDeliveredVehicleToGC2ByTC2";
+			Triggers "eOrderPartsReq ";
+		}
+		TaskRef PS.OrderParts {
+			InitOn "eOrderPartsReq ";
+			Triggers "eReceivedParts * ePayPartsReq ";
+		}
+		TaskRef GC2.DoRepair {
+			InitOn "eReceivedParts ";
+			Triggers "ePayRepairReqdByGC2 ";
+		}
+		TaskRef SC.PayPS {
+			InitOn "ePayPartsReq ";
+			Triggers "ePSPaid ";
+		}
+		TaskRef SC.PayGC {
+			InitOn "ePayRepairReqdByGC2 ";
+			Triggers "GC2Paid";
+		}
+	}
+	BehaviorUnit bRepairingByMacRepair {
+		TaskRef GC1.GetGCLocation {
+			InitOn "eGC1LocationReqdByMM";
+			Triggers "eRepairAcceptByGC1  *  eGC1LocKnown";
+		}
+		TaskRef GC1.DoRepair {
+			InitOn "eDeliveredVehicleToGC1ByTC1 ";
+			Triggers "ePayRepairReqdbyGC1";
+		}
+		TaskRef SC.PayGC {
+			InitOn "ePayRepairReqdByGC1";
+			Triggers "eGC2Paid";
+		}
+	}
+	BehaviorUnit bRentingVehicle {
+		TaskRef VC.RentVehicle {
+			InitOn "eRentVehicleReqd";
+			Triggers"eRentedVehicle";
+		}
+		TaskRef VC.EndVehicleRent {
+			InitOn "eEndVehicleRentReqd";
+			Triggers"eEndedVehicleRent";
+		}
+		TaskRef SC.PayVC {
+			InitOn "ePayVCReqd";
+			Triggers"eVCPaid";
+		}
+	}
+	BehaviorUnit bRentingRoom {
+			TaskRef HC.RentRoom {
+			InitOn "eRentRoomReqd";
+			Triggers"eRentedRoom";
+		}
+		TaskRef HC.EndRoomRent {
+			InitOn "eEndRoomRentReqd";
+			Triggers"eEndedRoomRent";
+		}
+		TaskRef SC.PayHC {
+			InitOn "ePayHCReqd";
+			Triggers"eHCPaid";
+		}		
+	}
+	Role MM synchronization "MM_SYN.drl" routing "MM_Routing.drl" {
+		Task RequestAssist mep one-way {
+			Outputs SC_MM.complain.Req, MM_GC1.getGCLocation.Req, MM_GC2.getGCLocation.Req, MM_TC1.pickUp.Req;		
+		}
+		Task Notify mep notification {
+			Inputs SC_MM.complain.Res;
+		}
+	}	
+	Role SC name "24bySupportCenter" synchronization "SC_SYN.drl" routing "SC_Routing.drl" {
+		Task Analyze {
+			Inputs SC_MM.complain.Req;
+			Outputs SC_TC2.orderTow.Req, SC_GC1.getGCLocation.Req, SC_GC2.getGCLocation.Req, SC_HC.rentRoom.Req,SC_VC.rentVehicle.Req;		
+			QoS responseTime "30min" throughput "1000/d";	
+		}
+		Task PayTC {
+			Inputs SC_TC2.payTow.Req, SC_TC1.payTow.Req, SC_TC1.notifyPickUp.Req;
+			Outputs SC_TC1.payTow.Res, SC_TC2.payTow.Res;
+		}
+		Task PayGC {
+			Inputs SC_GC1.payRepair.Req, SC_GC2.payRepair.Req;
+			Outputs SC_GC1.payRepair.Res, SC_GC2.payRepair.Res, SC_MM.complain.Res, SC_HC.endRoomRent.Req, SC_VC.endVehicleRent.Req;
+		}
+		Task PayPS {
+			Inputs PS_SC.payParts.Req;
+			Outputs PS_SC.payParts.Res;
+		}
+		Task PayHC {
+			Inputs SC_HC.payRoomRent.Req;
+			Outputs SC_HC.payRoomRent.Res;
+		}
+		Task PayVC {
+			Inputs SC_VC.payVehicleRent.Req;
+			Outputs SC_VC.payVehicleRent.Res;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/CaseOfficerService";
+	}
+	Role TC1 name "SwiftTow" synchronization "TC1_SYN.drl" routing "TC1_Routing.drl"{
+		Task PickUp {
+			Inputs MM_TC1.pickUp.Req;
+			Outputs SC_TC1.notifyPickUp.Req;
+		}
+		Task Deliver {
+			Inputs GC1_TC1.sendGCLocation.Req, GC2_TC1.sendGCLocation.Req;
+			Outputs SC_TC1.payTow.Req, GC1_TC1.sendGCLocation.Res, GC2_TC1.sendGCLocation.Res;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/TowServicePar";
+	}
+	Role TC2 name "TomTow" synchronization "TC2_SYN.drl" routing "TC2_Routing.drl" {
+		Task Tow {
+			Inputs SC_TC2.orderTow.Req, GC2_TC2.sendGCLocation.Req;
+			Outputs SC_TC2.payTow.Req, GC2_TC2.sendGCLocation.Res;
+		}		
+		ServiceBinding "http://localhost:8082/axis2/services/TowServiceSeq";
+	}
+	Role GC1  name "MacRepair" synchronization "GC1_SYN.drl" routing "GC1_Routing.drl" {
+		Task GetGCLocation {
+			Inputs MM_GC1.getGCLocation.Req;
+			Outputs GC1_TC1.sendGCLocation.Req;
+		}
+		Task DoRepair {
+			Inputs GC1_TC1.sendGCLocation.Res;
+			Outputs SC_GC1.payRepair.Req;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/InGarageService";
+	}
+	Role GC2 name "AutoRepair" synchronization "GC2_SYN.drl" routing "GC2_Routing.drl" {
+		Task GetGCLocation {
+			Inputs SC_GC2.getGCLocation.Req, MM_GC2.getGCLocation.Req;
+			Outputs GC2_TC2.sendGCLocation.Req;
+		}
+		Task AssessRepair {
+			Inputs GC2_TC2.sendGCLocation.Res, GC2_TC1.sendGCLocation.Res;
+			Outputs GC2_PS.orderParts.Req;
+		}
+		Task DoRepair {
+			Inputs GC2_PS.orderParts.Res;
+			Outputs SC_GC2.payRepair.Req;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/ExGarageService";
+	}
+	Role HC name "AmayHotel" synchronization "HC_SYN.drl" routing "HC_Routing.drl" {
+		Task RentRoom {
+			Inputs SC_HC.rentRoom.Req;
+			Outputs SC_HC.rentRoom.Res;
+		}
+		Task EndRoomRent {
+			Inputs SC_HC.endRoomRent.Req;
+			Outputs SC_HC.payRoomRent.Req;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/HotelService";
+	}
+	Role VC name "SilverVehicles" synchronization "VC_SYN.drl" routing "VC_Routing.drl" {
+		Task RentRoom {
+			Inputs SC_VC.rentVehicle.Req;
+			Outputs SC_VC.rentVehicle.Res;
+		}
+		Task EndRoomRent {
+			Inputs SC_VC.endVehicleRent.Req;
+			Outputs SC_VC.payVehicleRent.Req;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/VehicleRentalService";
+	}
+	Role PS name "JackParts" synchronization "PS_SYN.drl" routing "PS_Routing.drl" {
+		Task OrderParts {
+			Inputs GC2_PS.orderParts.Req;
+			Outputs GC2_PS.orderParts.Res, PS_SC.payParts.Req;
+		}
+		ServiceBinding "http://localhost:8082/axis2/services/PartSupplierService";
+	}
+	Contract SC_MM passthrough"SC-MM.drl" {
+		A is SC, B is MM;
+		ITerm complain(String:content) withResponse (String:ack) from BtoA;
+	}
+	Contract MM_GC1 passthrough "MM-GC1.drl" {
+		A is MM, B is GC1;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from AtoB;
+	}
+	Contract MM_GC2 passthrough "MM-GC2.drl" {
+		A is MM, B is GC2;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from AtoB;
+	}
+	Contract MM_TC1 passthrough "MM-TC1.drl" {
+		A is MM, B is TC1;
+		ITerm pickUp(String:content) withResponse (String:ack) from AtoB;
+	}
+	Contract SC_TC1 passthrough "SC-TC1.drl" {
+		A is TC1, B is SC;
+		ITerm payTow(String:content) withResponse (String:ack) from AtoB;
+		ITerm notifyPickUp(String:content) withResponse (String:ack) from AtoB;		
+	}
+	Contract SC_TC2 passthrough "SC-TC2.drl" {
+		A is TC2, B is SC;
+		ITerm payTow(String:content) withResponse (String:ack) from AtoB;
+		ITerm orderTow(String:content) withResponse (String:ack) from BtoA;		
+	}
+	Contract SC_GC1 passthrough "SC-GC1.drl" {
+		A is SC, B is GC1;
+		ITerm payRepair(String:content) withResponse (String:ack) from BtoA;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from AtoB;		
+	}
+	Contract SC_GC2 passthrough "SC-GC2.drl" {
+		A is SC, B is GC2;
+		ITerm payRepair(String:content) withResponse (String:ack) from BtoA;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from AtoB;		
+	}	
+	Contract GC2_TC1  passthrough "GC2-TC1.drl" {
+		A is GC2, B is TC1;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from BtoA;
+		ITerm sendGCLocation(String:content) withResponse (String:ack) from AtoB;	
+	}
+	Contract GC1_TC1  passthrough "GC1-TC1.drl" {
+		A is GC1, B is TC1;
+		ITerm getGCLocation(String:content) withResponse (String:ack) from BtoA;
+		ITerm sendGCLocation(String:content) withResponse (String:ack) from AtoB;	
+	}
+	Contract GC2_TC2  passthrough "GC2-TC2.drl" {
+		A is GC2, B is TC2;		
+		ITerm sendGCLocation(String:content) withResponse (String:ack) from AtoB;	
+	}
+	Contract GC2_PS  passthrough "GC2-PS.drl" {
+		A is GC2, B is PS;		
+		ITerm orderParts(String:content) withResponse (String:ack) from AtoB;	
+	}
+	Contract PS_SC  passthrough "PS-SC.drl" {
+		A is PS, B is SC;		
+		ITerm payParts(String:content) withResponse (String:ack) from AtoB;	
+	}
+	Contract SC_HC  passthrough "SC-HC.drl" {
+		A is SC, B is HC;
+		ITerm rentRoom(String:content) withResponse (String:ack) from AtoB;
+		ITerm endRoomRent(String:content) withResponse (String:ack) from AtoB;	
+		ITerm payRoomRent(String:content) withResponse (String:ack) from BtoA;	
+	}
+	Contract SC_VC  passthrough "SC-VC.drl" {
+		A is SC, B is VC;
+		ITerm rentVehicle(String:content) withResponse (String:ack) from AtoB;
+		ITerm endVehicleRent(String:content) withResponse (String:ack) from AtoB;	
+		ITerm payVehicleRent(String:content) withResponse (String:ack) from BtoA;	
+	}
+	OrganizerBinding "http://localhost:8081/axis2/services/addtaxihire2_organizer";
+	OperationalManagerBinding "http://localhost:8081/axis2/services/addTaxiHire_OperationalManager";
+}

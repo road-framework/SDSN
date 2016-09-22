@@ -1,0 +1,9 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "deliverResponseV3"
+  when
+   $msg : RoleServiceMessage(operationName== "deliverResponse", state=="forwardable")
+  then
+   actions.Forward(actions.Synthesize("TC1-AS.assessRepair.Req","AssessRepairReq.xsl",$msg));
+end

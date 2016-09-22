@@ -1,0 +1,11 @@
+global au.edu.swin.ict.road.composite.regulation.sglobal.GlobalActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+
+rule "terminateV4"
+when
+   ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eHC2Paid"))
+then
+    disabledSet.disable("terminateV4");
+    actions.TerminateVSNInstance($e1.getClassifier());
+end

@@ -1,0 +1,18 @@
+import au.edu.swin.ict.road.composite.rules.events.composite.MessageReceivedAtSourceEvent;
+import au.edu.swin.ict.road.regulator.FactTupleSpace;
+import au.edu.swin.ict.road.composite.routing.*;
+
+/** Events **/
+declare RoleServiceMessage
+    @role(event)
+end
+
+rule "routingAtMM"
+    when
+		$msg : RoleServiceMessage(operationName == "complain", roleId=="MM")
+		$drs : RoutingPolicy()
+    then
+    	System.out.println("Routing rules are applied at role : " + $msg.getRoleId());
+    	$drs.get("RoundRobin").execute($msg);
+    	$drs.get("Forward").execute($msg);
+end

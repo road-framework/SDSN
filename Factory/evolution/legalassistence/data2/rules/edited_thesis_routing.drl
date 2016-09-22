@@ -1,0 +1,51 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+import au.edu.swin.ict.road.common.StateRecord
+import au.edu.swin.ict.road.common.Weight;
+import au.edu.swin.ict.road.common.VSN;
+import au.edu.swin.ict.road.common.ProcessManagementState;
+
+rule "classify"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Received")
+  then
+   actions.Classify($msg);
+end
+rule "admissionCheck_V3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Admittable")
+  then
+   actions.AdmissionControl("requestAssist","123,1d",$msg);
+   update($msg);
+end
+rule "processSelection_V1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Routable")
+  then
+   actions.LoadBalance("requestAssist","AnyTrucksP1:2,AnyTrucksP2:1",$msg);
+   update($msg);
+end
+rule "drop"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Droppable")
+  then
+   actions.Drop($msg);
+end
+rule "createVsnInstance"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Instantiable")
+  then
+   actions.CreateVSNInstance($msg);
+end
+rule "requestAssist_V1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Forwardable")
+  then
+  actions.Forward(actions.Synthesize("SC-MM.assist.Req","ComplainReq.xsl",$msg));
+end
+rule "requestAssist_V1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="Schedulable")
+  then
+  actions.Schedule(actions.Synthesize("SC-MM.assist.Req","ComplainReq.xsl",$msg));
+end

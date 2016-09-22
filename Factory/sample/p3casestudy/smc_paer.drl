@@ -1,0 +1,74 @@
+1 VirtualServiceNetwork VSN1 {
+2    Alternative AL1 {
+3     BehaviorRef bHandlingCall, bTowingPar, bRepairingInt, and bRentingVehicle;
+4     RoutingPolicy rpFile1;
+5     FlowControlPolicy fcpFile1; }
+6  }
+7  VirtualServiceNetwork VSN2 {
+8    Alternative AL1 {
+9     BehaviorRef bHandlingCall, bTowingPar, bRepairingExt, and bRentingVehicle; ..}
+10 }
+11 VirtualServiceNetwork VSN3 {
+12   Alternative AL1{
+13    BehaviorRef  bHandlingCall, bRepairingExt, bTowingPar, and bRentingRoom; ...}
+14   Alternative AL2{
+15    BehaviorRef  bHandlingCall, bRepairingExt, bTowingSeq, and bRentingRoom; ...}
+16 }
+17 Behavior bHandlingCall {
+18   TaskRef MO.tRequestAssist {
+19    Triggers "ePickUpReqTC1 | eGRLocReqdGC2 | eGRLocReqdGC1 | eAnalyzeReq"; }
+20   TaskRef SC.tAnalyze { InitOn  "eAnalyzeReq";
+21    Triggers "eTowReqTC2 | eRentRoomReq | eRentVehcileReq | eGRLocReqdGC2"; }
+22   TaskRef MO.tNotify { InitOn  "eMONotifyReq"; }
+23 }
+24 Behavior bTowingPar {
+25   TaskRef TC1.tPickUp { InitOn  "ePickUpReqTC1"; Triggers "ePickedUpTC1"; }
+26   TaskRef TC1.tDeliver { InitOn  "ePickedUpTC1 * (eGRLocKnownGC1|eGRLocKnownGC2)";
+27          Triggers "(eDeliveredToGC1 | eDeliveredToGC2) * ePayTC1Req"; }
+28   TaskRef SC.tPayTow { InitOn  "ePayTC1Req"; Triggers "eTC1Paid"; }
+29 }
+30 Behavior bReparingInt {
+31   TaskRef GC1.tGetLocation { InitOn  "eGRLocReqdGC1"; Triggers "eGRLocKnownGC1"; }
+32   TaskRef GC1.tRepair { InitOn  "eDeliveredToCG1"; Triggers "ePayGC1Reqd"; }
+33   TaskRef SC.tPayRepair { InitOn "ePayGC1Reqd"; Triggers "eGC1Paid*eMONotifyReqd";}
+34 }
+39 Behavior bTowingSeq { ... }, Behavior bReparingInParts { ...  };
+36 Behavior bRentingRoom { ... } , Behavior bRentingVehicle { ... };
+37 Role MO {
+38   Task tRequestAssist{ ResultingMsgs MO_SC.iAnalyze.Req, MO_GC1.iGetLocation.Req,
+30                                 MO_GC2.iGetLocation.Req, MO_TC1.iPickup.Req; }
+40   Task tNotify{...}
+41 }
+42 Role SC playedBy scPb {
+43  Task tAnalyze{...}, Task tPayRepair{...}, Task tPayTow{...}
+44  Task tPayRoomRent{...},Task tPayVehicleRent{...},Task tPayParts{...}
+45 }
+46 Role GC1 playedBy gc1Pb {
+47  Task tRepair {
+48    QoS { duration="2d" capacity="20/d" }
+49    UsingMsgs GC1_TC1.iSendLoc.Res;  ResultingMsgs SC_GC1.iPayRepair.Req; }
+50  Task tGetLocation {...}
+51 }
+52 Role TC1 playedBy tc1Pb {
+53  Task tDeliver {
+54   QoS { duration="1h" capacity="29/d" }
+55   UsingMsgs GC1_TC1.iSendLoc.Req, GC2_TC1.iSendLoc.Req;
+56   ResultingMsgs SC_TC1.iPayTow.Req, GC1_TC1.iSendLoc.Res, GC2_TC1.iSendLoc.Res; }
+57   Task tPickUp {...}
+58 }
+59 Role TC2 playedBy tc2Pb {...}, Role GC2 playedBy gc2Pb {..},
+60 Role HC playedBy hcPb {..}, Role VC playedBy vcPb {..}, Role PS playedBy psPb {..}
+61 Contract GC1_TC1 {
+62   RuleFile "GC1_TC1.drl";
+63   ITerm iSendLoc(String:info) withResponse (String:ack)from GC1 to TC1; ...}
+64 Contract GC2_TC1 {
+65   ITerm iSendLoc(String:info) withResponse (String:ack)from GC2 to TC1; ...}
+66 Contract SC_TC1 { ITerm iPayTow(..) withResponse (..) from TC1 to SC; ..}
+67 Contract SC_GC1 { ITerm iPayRepair(..) withResponse (..) from SC to GC1; ..}
+68 Contract VC_MO {..}, Contract HC_MO {..}, Contract MO_TC1 {..},
+69 Contract SC_GC1 {..}, Contract SC_VC {..}, Contract SC_HC{..},
+70 Contract SC_TC1 {..},Contract SC_TC2{..}, Contract PS_SC{..}, Contract GC1_TC1{..}
+71 Contract GC2_PS {..}, Contract GC2_TC1 {..}, Contract GC2_TC2{..}
+72 PlayerBinding gc1Pb { endpint "www.macgc.com/Service" }, PlayerBinding scPb {..}
+73 PlayerBinding tc1Pb {..},PlayerBinding tc12Pb {..},PlayerBinding gc2Pb {..},
+74 PlayerBinding psPb {..},PlayerBinding vcPb {..},PlayerBinding hcPb {..},

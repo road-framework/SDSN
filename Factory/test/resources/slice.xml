@@ -1,0 +1,36 @@
+<ProcessDefinitions id="Tenant3" routingPolicy="tenant1-routing.drl" flowControlPolicy="tenant1-flow.drl"
+                    xmlns:tns1="http://www.ict.swin.edu.au/serendip/types">
+    <!-- This is a process definition -->
+    <tns1:ProcessDefinition id="PDGoldT3" descr="Process definitions for Gold customers">
+        <tns1:CoS>ComplainRcvd</tns1:CoS>
+        <tns1:CoT>TTPaid * GRPaid * MMNotif</tns1:CoT>
+        <tns1:BehaviorTermRefs>
+            <tns1:BehavirTermId>Complaining</tns1:BehavirTermId>
+            <tns1:BehavirTermId>Towing</tns1:BehavirTermId>
+            <tns1:BehavirTermId>Repairing</tns1:BehavirTermId>
+        </tns1:BehaviorTermRefs>
+        <tns1:Constraints>
+        </tns1:Constraints>
+        <tns1:Monitor>
+            <analysis script="pdgold-monitor.drl"/>
+        </tns1:Monitor>
+    </tns1:ProcessDefinition>
+    <tns1:ProcessDefinition id="PDSilverT3" descr="Process definitions for Silver customers">
+        <tns1:CoS>ComplainRcvd</tns1:CoS>
+        <tns1:CoT>TTPaid * GRPaid * MMNotif</tns1:CoT>
+        <tns1:BehaviorTermRefs>
+            <tns1:BehavirTermId>Complaining</tns1:BehavirTermId>
+            <tns1:BehavirTermId>Towing</tns1:BehavirTermId>
+            <tns1:BehavirTermId>Repairing</tns1:BehavirTermId>
+        </tns1:BehaviorTermRefs>
+        <tns1:Constraints>
+        </tns1:Constraints>
+        <tns1:Monitor>
+            <analysis script="pdsilver-monitor.drl"/>
+        </tns1:Monitor>
+    </tns1:ProcessDefinition>
+    <tns1:Traffic>
+        <tns1:MinCapacity>6</tns1:MinCapacity>
+        <tns1:Interval>360</tns1:Interval>
+    </tns1:Traffic>
+</ProcessDefinitions>

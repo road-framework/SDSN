@@ -1,0 +1,7 @@
+orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bRepairingByMacRepair");
+oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByMacRepair,ruSwiftTowAndMacRepair");
+orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");
+oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,
+ruNickRepairAndTowTow,ruSelectRepair");
+oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,
+ruNickRepairAndTowTow","state","active");

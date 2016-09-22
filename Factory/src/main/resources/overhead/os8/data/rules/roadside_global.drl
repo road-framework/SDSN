@@ -1,0 +1,18 @@
+global au.edu.swin.ict.road.composite.regulation.sglobal.GlobalActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "activateV1"
+when
+    $e1 : EventRecord(eventId == "eAssistReqd")
+then
+    disabledSet.disable("activateV1");
+    actions.ChangeVSNInstanceState($e1.getClassifier(),"active");
+end
+rule "terminateV1"
+when
+    ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed")) and ($e3 : EventRecord(eventId == "eHCPaid"))
+then
+    disabledSet.disable("terminateV1");
+    actions.TerminateVSNInstance($e1.getClassifier());
+end

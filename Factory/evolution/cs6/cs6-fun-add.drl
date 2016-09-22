@@ -1,0 +1,74 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC6-fun-add"
+  when
+    $mps : ManagementPolicyState(id =="add", state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    //extend mac repair with spare parts
+     // add Nick repair - no spare parts
+     orgMgt.addRole("PS2","GillParts");
+     orgMgt.setServiceBinding("PS2", "http://localhost:8082/axis2/services/GillPSService");
+     orgMgt.addTask("PS2","OrderParts","GC1-PS2.orderParts.Req","GC1-PS2.orderParts.Res, PS2-SC.payParts.Req");
+     orgMgt.setTaskQoS("PS2","OrderParts","Throughput:400/d; ResponseTime:2d");
+     orgMgt.setTaskOutMessage("PS2","OrderParts","orderParts","String:content","String");
+     orgMgt.setTaskInMessage("PS2","OrderParts","orderParts","String:content","String");
+     orgMgt.addTask("GC1","AssessRepair","GC1-TC1.sendGCLocation.Res","GC1-PS2.orderParts.Req");
+     orgMgt.updateTask("GC1","DoRepair","inputs","add","GC1-PS2.orderParts.Res");
+     orgMgt.updateTask("SC","PayPS","inputs","add","PS2-SC.payParts.Req");
+     orgMgt.updateTask("SC","PayPS","outputs","add","PS2-SC.payParts.Res");
+           // contract-level changes
+     orgMgt.addContract("GC1-PS2","GC1","PS2");
+     orgMgt.addTerm("GC1-PS2","orderParts","AtoB");
+     orgMgt.setTermOperation("GC1-PS2","orderParts","orderParts","String:content","String");
+       // contract-level changes
+     orgMgt.addContract("PS2-SC","PS2","SC");
+     orgMgt.addTerm("PS2-SC","payParts","AtoB");
+     orgMgt.setTermOperation("PS2-SC","payParts","payParts","String:content","String");
+
+          // behaviour unit changes"
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","PS2.OrderParts","OrderPartsReqFromPS2","eReceivedPartsFromPS2 * ePayPartsReqByPS2");
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","SC.PayPS","ePayPartsReqByPS2","ePS2Paid");
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","SC.PayGC","ePayRepairReqdByGC1","eGC1Paid");
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","GC1.AssessRepair","eDeliveredVehicleToGC1ByTC1","ePayPartsReqByPS2");
+     orgMgt.updateTaskOfBehaviorUnit("bRepairingByMacRepair","GC1.DoRepair","preEP","eReceivedParts");
+
+     oprMgt.addSynchronizationRule("PS2","PS2_SYN.drl");
+     oprMgt.addSynchronizationRule("SC","SC_SYN_Diff_cs6_fun.drl");
+     oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff_cs6_fun.drl");
+        //routing rule changes
+     oprMgt.addRoutingRule("PS2","PS2_Routing.drl");
+     oprMgt.addRoutingRule("SC","SC_Routing_Diff_cs6_fun.drl");
+     oprMgt.addRoutingRule("GC1","GC1_Routing_Diff_cs6_fun.drl");
+        //passthrough rule changes
+     oprMgt.addPassthroughRule("GC1-PS2","GC1-PS2.drl");
+     oprMgt.addPassthroughRule("PS2-SC","PS2-SC.drl");
+        // regulation unit changes
+        // Need to create separate reg unit for parts .. and use dynamic routing - routing for a conf design fragment
+     oprMgt.addRegulationUnit("ruPartsSupplyByGillParts");
+     oprMgt.addSynchronizationRulesToRegulationUnit("ruPartsSupplyByGillParts","orderParts:PS2,payPS2:SC");
+     oprMgt.addRoutingRulesToRegulationUnit("ruPartsSupplyByGillParts","payPSResponse2:SC,assessRepairResponse:GC1,orderPartsResponse:PS2");
+     oprMgt.addPassthroughRulesToRegulationUnit("ruPartsSupplyByGillParts","orderParts:GC1-PS2,payParts:PS2-SC,orderPartsResponse:GC1-PS2,payPartsResponse:PS2-SC");
+     oprMgt.addSynchronizationRulesToRegulationUnit("ruPartsSupplyByGillParts","assessRepairTC1:GC1");
+
+     oprMgt.addRoutingRulesToRegulationUnit("ruRepairingByMacRepair","checkAssessRepairResponseForParts:GC1");
+     oprMgt.addSynchronizationRulesToRegulationUnit("ruSwiftTowAndMacRepair","assessRepairTC1:GC1");
+     oprMgt.updateRegulationUnit("ruPartsSupplyByGillParts","state","active");
+        // process/VSN changes
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruPartsSupplyByGillParts");
+     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruPartsSupplyByGillParts","state","active");
+
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruPartsSupplyByGillParts");
+     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruPartsSupplyByGillParts","state","active");
+
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruPartsSupplyByGillParts");
+     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruPartsSupplyByGillParts","state","active");
+
+     long stop1 = System.nanoTime();
+     System.out.println("Add : " + (stop1 - start1)/1000000);
+end

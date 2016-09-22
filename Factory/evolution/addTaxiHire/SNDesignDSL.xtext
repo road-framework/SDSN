@@ -1,0 +1,158 @@
+grammar org.road.SDSN.DesignLang with org.eclipse.xtext.common.Terminals
+
+generate serendipLang "http://www.road.org/SDSN/DesignLang"
+
+Script:
+	(imports+=Import)*
+	(sn=SNDef);
+		
+Import:
+	'import' qlfdName=path 'as' name=ID ';';
+
+SNDef:
+	'ServiceNetwork' name=ID ('globalRegulation' rules=STRING)? '{'
+	(vsns+=VSNDef)*
+	(rus+=RegulationUnit)*
+	(bus+=BehaviorUnit)*
+	(roles+=Role)*
+	(contracts+=Contract)*
+	(organizerBinding=OrganizerBinding)?
+	(operationalManagerBinding=OperationalManagerBinding)?
+	'}';
+	
+VSNDef:
+	'VirtualServiceNetwork' name=ID '{'
+	(processes+=PdDef)*
+	(vsnPolicy=RegulationPolicy)?
+   '}';
+	
+PdDef:
+	'Process' name=ID '{'
+	(cos=Cos)?
+	(cot=Cot)?
+	configDesign=ConfigurationDesign
+	regPolicy=RegulationPolicy
+	(QoS=QoS)?
+	'}';
+	
+ConfigurationDesign:
+	'ConfigurationDesign' '{'
+	burefs+=BehaviorUnitRef+
+	'}';
+	
+RegulationPolicy:
+	'RegulationPolicy' '{'
+	 rurefs+=RegulationUnitRef+
+	'}';
+	
+BehaviorUnit:
+	'BehaviorUnit' name=ID ('extends' superType=[BehaviorUnit])? '{'
+	tasks+=TaskRef+
+	'}';
+
+RegulationUnit:
+	'RegulationUnit' name=ID ('extends' superType=[RegulationUnit])? '{'
+	 (rUnit+=RoutingUnit+)?
+	 (sUnit+=SynchronizationUnit+)?
+	 (pUnit+=PassthroughUnit+)?
+	 (gUnit+=GlobalUnit+)?
+    '}';
+
+RoutingUnit:
+	'Routing' '{'
+	 rRules+=RoutingRuleRef+
+	'}';
+	
+SynchronizationUnit:
+	'Synchronization' '{'
+	 sRules+=SynRuleRef+
+	'}';
+	
+PassthroughUnit:
+	'Passthrough' '{'
+	 pRules+=PassthroughRuleRef+
+	'}';
+	
+GlobalUnit:
+	'Global' '{'
+	 gRules+=GlobalRuleRef+
+	'}';
+
+RegulationUnitRef:
+	'RegulationUnitRef' parentBT=[RegulationUnit] ';';
+	
+BehaviorUnitRef:
+	'BehaviorUnitRef' parentBT=[BehaviorUnit] ';';
+
+SynRuleRef:
+	'RuleRef' role=[Role] '.'  name=ID ';';
+	
+RoutingRuleRef:
+	'RuleRef' role=[Role] '.'  name=ID ';';
+	
+PassthroughRuleRef:
+	'RuleRef' contract=[Contract] '.' name=ID ';';
+	
+GlobalRuleRef:
+	'RuleRef' name=ID ';';
+	
+TaskRef:
+	'TaskRef' role=[Role] '.' name=ID '{'
+	('InitOn' eppre=STRING ';')?
+	('Triggers' eppost=STRING ';')?	
+	'}';
+	
+QoS:
+	'QoS' ('responseTime' rs=STRING )? ('throughput' th=STRING ) ';' ;
+
+TaskDef:
+	'Task' name=ID ('mep' mep=("one-way" | "solicit-response" | "request-response" | "notification"))? '{'
+	('Inputs' srcMsgs=Msgs ';')?
+	('Outputs' resultMsgs=Msgs ';')?
+	(QoS=QoS)?
+	'}';
+
+Msgs:
+	msgs+=Msg (',' msgs+=Msg)*;
+
+Msg:
+	(contractPart=[Contract]) '.' (termPart=ID) '.' (direction=("Req" | "Res")) ;
+
+Cot:
+	'CoT' value=STRING ';';
+
+Cos:
+	'CoS' value=STRING ';';
+
+Role:
+	'Role' name=ID ('name' sName=STRING)? ('synchronization' synchronization=STRING)? ('routing' routing=STRING)? '{'
+	taskDefs+=TaskDef*
+    (serviceBinding=ServiceBinding)?
+	'}';
+
+Contract:
+	'Contract' name=ID ('passthrough' ruleFileName=STRING)? '{'
+	'A is' roleA=[Role] ',' 'B is' roleB=[Role] ';'
+	terms+=ITerm*	
+	'}';
+
+ITerm:
+	'ITerm' name=ID
+	'(' params+=ParamType (',' params+=ParamType)* ')'
+	('withResponse' '(' returnParam=(ParamType) ')')?
+	'from' direction=("AtoB" | "BtoA") ';';
+	
+ParamType:
+	paramType=ID ':' paramName=ID;
+
+ServiceBinding:
+	'ServiceBinding' epr=STRING';';
+
+OrganizerBinding:
+	'OrganizerBinding' epr=STRING ';';
+
+OperationalManagerBinding:
+    'OperationalManagerBinding' epr=STRING ';';
+
+path:
+	pathValue=ID ('.' ID)*;

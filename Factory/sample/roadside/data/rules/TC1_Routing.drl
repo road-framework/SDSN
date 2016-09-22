@@ -1,0 +1,30 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "pickUpResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "pickUpResponse", state=="routed")
+  then
+   actions.Forward("SC-TC1.notifyPickUp.Req","NotifyPickUpReq.xsl",$msg);
+end
+
+rule "deliverResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "deliverResponse", state=="routed")
+  then
+   actions.Forward("SC-TC1.payTow.Req","PayTC1Req.xsl",$msg);
+end
+
+rule "deliverResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "deliverResponse", state=="routed")
+  then
+   actions.Forward("GC1-TC1.sendGCLocation.Res","SendGC1LocationRes.xsl",$msg);
+end
+
+rule "deliverResponseV3"
+  when
+   $msg : RoleServiceMessage(operationName== "deliverResponse", state=="routed")
+  then
+   actions.Forward("GC2-TC1.sendGCLocation.Res","SendTC1GC2LocationRes.xsl",$msg);
+end

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jaxfront version=2.71;time=2011-09-05 22:29:40.357;xui=road1.xui;xsd=smc.xsd;nsMapping=%KEYhttp://www.jaxfront.com/xui%VAL%KEYhttp://www.w3.org/2001/XMLSchema%VALxsd%KEYhttp://www.w3.org/2001/XMLSchema-instance%VALxsi?>
+<XUI  xsi:schemaLocation="http://www.jaxfront.com/xui jar:file:/C:/Program%20Files/JAXFront-2.71/lib/jaxfront-core.jar!/xui.xsd" xmlns="http://www.jaxfront.com/xui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+       <component xpath="/tns:SMC"></component>
+       <component xpath="/tns:SMC/@compositeRuleFile">
+              <style>
+                     <plugIn class="com.jaxfront.swing.ui.beans.FileDialog"></plugIn>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/@name">
+              <style>
+                     <mode editable="false">
+                            <message/>
+                     </mode>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/@routingRuleFile">
+              <style>
+                     <plugIn class="com.jaxfront.swing.ui.beans.FileDialog"></plugIn>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/@rulesDir">
+              <style>
+                     <plugIn class="com.jaxfront.swing.ui.beans.FileDialog"></plugIn>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/Events">
+              <style>
+                     <mode visible="true">
+                            <message/>
+                     </mode>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/Messages">
+              <style>
+                     <mode visible="false">
+                            <message/>
+                     </mode>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/BehaviorTerms/tns1:BehaviorTerm[list]">
+              <style>
+                     <list allowSorting="true" selectionMode="single">
+                            <tab/>
+                     </list>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/Contracts/Contract">
+              <style>
+                     <mode childrenView="tab">
+                            <message/>
+                     </mode>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/PlayerBindings/PlayerBinding[list]">
+              <style>
+                     <list>
+                            <tab/>
+                     </list>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition">
+              <style>
+                     <layout useRestrictivePaging="false"></layout>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition[list]">
+              <style>
+                     <list>
+                            <tab/>
+                     </list>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/Roles/Role[list]"></component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition/tns1:BehaviorTermRefs">
+              <style>
+                     <mode childrenView="tab">
+                            <message/>
+                     </mode>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/BehaviorTerms/tns1:BehaviorTerm[4]/tns1:TaskRefs/tns1:TaskRefs">
+              <style>
+                     <treeEntry>
+                            <occurrence showAsOptional="true"></occurrence>
+                     </treeEntry>
+                     <layout useRestrictivePaging="false">
+                            <table>
+                                   <row>22.0,,C</row>
+                                   <row>22.0,,C</row>
+                                   <row>22.0,,C</row>
+                                   <row>22.0,,C</row>
+                                   <row>22.0,,C</row>
+                                   <column>0.29,,C</column>
+                                   <column>0.34,,</column>
+                                   <column>0.36,,</column>
+                                   <column>0.6,,C</column>
+                                   <cell dimension="1,0,F,C">
+                                          <type>
+                                                 <xpath>./@Id</xpath>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="0,0,F,C">
+                                          <type>
+                                                 <label xpath="./@Id"></label>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="1,1,F,C">
+                                          <type>
+                                                 <xpath>./@preEP</xpath>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="0,1,F,C">
+                                          <type>
+                                                 <label xpath="./@preEP"></label>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="3,1,F,C">
+                                          <type>
+                                                 <xpath>./@postEP</xpath>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="2,1,F,C">
+                                          <type>
+                                                 <label xpath="./@postEP"></label>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="1,3,F,C">
+                                          <type>
+                                                 <xpath>./@override</xpath>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="0,3,F,C">
+                                          <type>
+                                                 <label xpath="./@override"></label>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="3,2,F,C">
+                                          <type>
+                                                 <xpath>./@performanceVal</xpath>
+                                          </type>
+                                   </cell>
+                                   <cell dimension="2,2,F,C">
+                                          <type>
+                                                 <label xpath="./@performanceVal"></label>
+                                          </type>
+                                   </cell>
+                            </table>
+                     </layout>
+              </style>
+       </component>
+       <component xpath="/tns:SMC/BehaviorTerms/tns1:BehaviorTerm[4]/tns1:TaskRefs/tns1:TaskRefs"></component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition/tns1:BehaviorTermRefs/tns1:BehavirTermId[list]"></component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition[1]/tns1:BehaviorTermRefs/tns1:BehavirTermId"></component>
+       <component xpath="/tns:SMC/ProcessDefinitions/tns1:ProcessDefinition[2]/tns1:BehaviorTermRefs/tns1:BehavirTermId"></component>
+</XUI>

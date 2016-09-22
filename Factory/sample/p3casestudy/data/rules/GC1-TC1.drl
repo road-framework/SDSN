@@ -1,0 +1,15 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "sendGCLocation"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGCLocation", response==false)
+    then
+		$msg.triggerEvent("GC1LocKnown");
+		$msg.triggerEvent("RepairAcceptGC1");
+end
+
+rule "sendGCLocationResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendGCLocation", response==true)
+    then
+		$msg.triggerEvent("DeliveredVehicleGC1");
+end

@@ -1,0 +1,63 @@
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.ObligationComplianceEvent;
+import au.edu.swin.ict.road.composite.rules.events.contract.TermExecutedEvent;
+import au.edu.swin.ict.road.composite.message.IMessageExaminer;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+import au.edu.swin.ict.road.composite.message.SOAPExaminer;
+import au.edu.swin.ict.road.composite.contract.Contract;
+
+/** Global Variables **/
+global Contract contract;
+
+/** Events **/
+declare MessageReceivedEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare TermExecutedEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare ObligationComplianceEvent
+    @role(event)
+    @expires(24h)
+end
+
+declare MessageWrapper
+    @role(message)
+end
+
+/** Permission Rules **/
+rule "SOAP message with orderFood signature"
+salience 100
+no-loop
+    when
+       	$check : SOAPExaminer()	
+		$event : MessageReceivedEvent(operationName == "orderFood")
+    then    
+    	$check.addQueryName("customer-name");
+    	$check.addQueryName("payment");
+    	$check.addQueryName("meat");
+    	$check.addQueryName("wine");
+    	$check.evaluateMessage();
+    	update($check);
+end
+
+rule "Order Food"
+    when
+		$event : MessageReceivedEvent(operationName == "orderFood")
+    then
+		$event.setBlocked(false);
+		System.out.println($event.getMessageWrapper().getOperationName());
+		System.out.println("Food order request from Waiter to Chef");
+end
+
+rule "Make Complaint"
+    when
+        $event : MessageReceivedEvent( operationName  == "makeComplaint" )
+    then
+        $event.setBlocked(false);    
+end
+

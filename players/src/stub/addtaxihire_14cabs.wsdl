@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://ws.apache.org/axis2" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws.apache.org/axis2">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.apache.org/axis2">
+            <xs:element name="provideTaxiInvoiceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="provideTaxiInvoiceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="content" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="provideTaxiInvoiceRequest">
+        <wsdl:part name="parameters" element="ns:provideTaxiInvoiceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="provideTaxiInvoiceResponse">
+        <wsdl:part name="parameters" element="ns:provideTaxiInvoiceResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="addtaxihire_14cabsPortType">
+        <wsdl:operation name="provideTaxiInvoice">
+            <wsdl:input message="ns:provideTaxiInvoiceRequest" wsaw:Action="urn:provideTaxiInvoice"/>
+            <wsdl:output message="ns:provideTaxiInvoiceResponse" wsaw:Action="urn:provideTaxiInvoiceResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="addtaxihire_14cabsSoap11Binding" type="ns:addtaxihire_14cabsPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="provideTaxiInvoice">
+            <soap:operation soapAction="urn:provideTaxiInvoice" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="addtaxihire_14cabsSoap12Binding" type="ns:addtaxihire_14cabsPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="provideTaxiInvoice">
+            <soap12:operation soapAction="urn:provideTaxiInvoice" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="addtaxihire_14cabsHttpBinding" type="ns:addtaxihire_14cabsPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="provideTaxiInvoice">
+            <http:operation location="provideTaxiInvoice"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="addtaxihire_14cabs">
+        <wsdl:port name="addtaxihire_14cabsHttpSoap11Endpoint" binding="ns:addtaxihire_14cabsSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="addtaxihire_14cabsHttpSoap12Endpoint" binding="ns:addtaxihire_14cabsSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="addtaxihire_14cabsHttpEndpoint" binding="ns:addtaxihire_14cabsHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

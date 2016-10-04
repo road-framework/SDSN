@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://ws.apache.org/axis2/xsd/book" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.apache.org/axis2/book" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://ws.apache.org/axis2/xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://ws.apache.org/axis2/book">
+    <wsdl:documentation>BookService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" xmlns:ax22="http://ws.apache.org/axis2/xsd" elementFormDefault="qualified" targetNamespace="http://ws.apache.org/axis2/xsd">
+            <xs:complexType name="AuthorType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AuthorsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="author" nillable="true" type="ax22:AuthorType"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://ws.apache.org/axis2/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.apache.org/axis2/xsd/book">
+            <xs:import namespace="http://ws.apache.org/axis2/xsd"/>
+            <xs:element name="addAuthor">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="authors" nillable="true" type="ax22:AuthorsType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addAuthorResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="addAuthorRequest">
+        <wsdl:part name="parameters" element="ns:addAuthor"/>
+    </wsdl:message>
+    <wsdl:message name="addAuthorResponse">
+        <wsdl:part name="parameters" element="ns:addAuthorResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BookServicePortType">
+        <wsdl:operation name="addAuthor">
+            <wsdl:input message="tns:addAuthorRequest" wsaw:Action="urn:addAuthor"/>
+            <wsdl:output message="tns:addAuthorResponse" wsaw:Action="urn:addAuthorResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BookServiceSoap11Binding" type="tns:BookServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="addAuthor">
+            <soap:operation soapAction="urn:addAuthor" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BookServiceSoap12Binding" type="tns:BookServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="addAuthor">
+            <soap12:operation soapAction="urn:addAuthor" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BookServiceHttpBinding" type="tns:BookServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="addAuthor">
+            <http:operation location="addAuthor"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="BookService">
+        <wsdl:port name="BookServiceHttpSoap11Endpoint" binding="tns:BookServiceSoap11Binding">
+            <soap:address location="http://localhost:8082/axis2/services/BookService.BookServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="BookServiceHttpSoap12Endpoint" binding="tns:BookServiceSoap12Binding">
+            <soap12:address location="http://localhost:8082/axis2/services/BookService.BookServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="BookServiceHttpEndpoint" binding="tns:BookServiceHttpBinding">
+            <http:address location="http://localhost:8082/axis2/services/BookService.BookServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

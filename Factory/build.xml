@@ -17,7 +17,7 @@
 
     <path id="lib.classpath">
         <fileset dir="../lib" includes="*.jar"/>
-        <fileset dir="D:/software/axis2-1.7.1/lib" includes="*.jar"/>
+         <!--<fileset dir="D:/software/axis2-1.7.1/lib" includes="*.jar"/>-->
       <!--<fileset dir="../lib/jaxfront" includes="*.jar"/>-->
         <fileset dir="../lib" includes="*.jar"/>
     </path>

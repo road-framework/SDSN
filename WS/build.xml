@@ -35,7 +35,7 @@
     <path id="lib.classpath">
         <fileset dir="../lib" includes="*.jar"/>
         <fileset dir="../Factory" includes="ROADfactory.jar"/>
-        <fileset dir="D:/software/axis2-1.7.1/lib" includes="*.jar"/>
+       
         <!--<fileset dir="${axis2.home}/lib" includes="*.jar" />-->
         <pathelement location="build/road4ws.jar"/>
     </path>

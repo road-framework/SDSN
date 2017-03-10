@@ -41,170 +41,170 @@
     <RegulationUnits>
         <tns1:RegulationUnit id="ruClassify">
             <tns1:Routing>
-                <tns1:RegulationRuleId id="classify" place="MM"/>
+                <tns1:RuleRef id="classify" place="MM"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruActivateV1">
             <tns1:Global>
-                <tns1:RegulationRuleId id="activateV1"/>
+                <tns1:RuleRef id="activateV1"/>
             </tns1:Global>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruTerminateV1">
             <tns1:Global>
-                <tns1:RegulationRuleId id="terminateV1"/>
+                <tns1:RuleRef id="terminateV1"/>
             </tns1:Global>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruTerminateV1">
             <tns1:Global>
-                <tns1:RegulationRuleId id="terminateV1"/>
+                <tns1:RuleRef id="terminateV1"/>
             </tns1:Global>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruAdmissionV1">
             <tns1:Routing>
-                <tns1:RegulationRuleId id="admissionCheckV1" place="MM"/>
+                <tns1:RuleRef id="admissionCheckV1" place="MM"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruDrop">
             <tns1:Routing>
-                <tns1:RegulationRuleId id="drop" place="MM"/>
+                <tns1:RuleRef id="drop" place="MM"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruCreateVsnInstance">
             <tns1:Routing>
-                <tns1:RegulationRuleId id="createVsnInstance" place="MM"/>
+                <tns1:RuleRef id="createVsnInstance" place="MM"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruCaseHandling">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="assist" place="SC-MM"/>
-                <tns1:RegulationRuleId id="assistResponse" place="SC-MM"/>
+                <tns1:RuleRef id="assist" place="SC-MM"/>
+                <tns1:RuleRef id="assistResponse" place="SC-MM"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="analyze" place="SC"/>
-                <tns1:RegulationRuleId id="notify" place="MM"/>
+                <tns1:RuleRef id="analyze" place="SC"/>
+                <tns1:RuleRef id="notify" place="MM"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="requestAssistV1" place="MM"/>
-                <tns1:RegulationRuleId id="analyzeResponse" place="SC"/>
+                <tns1:RuleRef id="requestAssistV1" place="MM"/>
+                <tns1:RuleRef id="analyzeResponse" place="SC"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruReimbursement">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="reimburse" place="MM-FD"/>
-                <tns1:RegulationRuleId id="reimburseResponse" place="MM-FD"/>
+                <tns1:RuleRef id="reimburse" place="MM-FD"/>
+                <tns1:RuleRef id="reimburseResponse" place="MM-FD"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="reimburse" place="FD"/>
+                <tns1:RuleRef id="reimburse" place="FD"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="requestAssistV2" place="MM"/>
-                <tns1:RegulationRuleId id="reimburseResponse" place="FD"/>
+                <tns1:RuleRef id="requestAssistV2" place="MM"/>
+                <tns1:RuleRef id="reimburseResponse" place="FD"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruTowingByTomTow">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="orderTow" place="SC-TC2"/>
-                <tns1:RegulationRuleId id="payTow" place="SC-TC2"/>
-                <tns1:RegulationRuleId id="payTowResponse" place="SC-TC2"/>
+                <tns1:RuleRef id="orderTow" place="SC-TC2"/>
+                <tns1:RuleRef id="payTow" place="SC-TC2"/>
+                <tns1:RuleRef id="payTowResponse" place="SC-TC2"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="tow" place="TC2"/>
-                <tns1:RegulationRuleId id="payTC2" place="SC"/>
+                <tns1:RuleRef id="tow" place="TC2"/>
+                <tns1:RuleRef id="payTC2" place="SC"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payTCResponse" place="SC"/>
-                <tns1:RegulationRuleId id="towResponse" place="TC2"/>
+                <tns1:RuleRef id="payTCResponse" place="SC"/>
+                <tns1:RuleRef id="towResponse" place="TC2"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruRepairingByMacRepair">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="orderRepair" place="SC-GC1"/>
-                <tns1:RegulationRuleId id="payRepair" place="SC-GC1"/>
-                <tns1:RegulationRuleId id="payRepairResponse" place="SC-GC1"/>
-                <tns1:RegulationRuleId id="sendGCLocation" place="GC1-TC2"/>
-                <tns1:RegulationRuleId id="sendGCLocationResponse" place="GC1-TC2"/>
+                <tns1:RuleRef id="orderRepair" place="SC-GC1"/>
+                <tns1:RuleRef id="payRepair" place="SC-GC1"/>
+                <tns1:RuleRef id="payRepairResponse" place="SC-GC1"/>
+                <tns1:RuleRef id="sendGCLocation" place="GC1-TC2"/>
+                <tns1:RuleRef id="sendGCLocationResponse" place="GC1-TC2"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="payGC1" place="SC"/>
-                <tns1:RegulationRuleId id="orderRepair" place="GC1"/>
-                <tns1:RegulationRuleId id="doRepair" place="GC1"/>
-                <tns1:RegulationRuleId id="assessRepair" place="GC1"/>
+                <tns1:RuleRef id="payGC1" place="SC"/>
+                <tns1:RuleRef id="orderRepair" place="GC1"/>
+                <tns1:RuleRef id="doRepair" place="GC1"/>
+                <tns1:RuleRef id="assessRepair" place="GC1"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payGCResponse" place="SC"/>
-                <tns1:RegulationRuleId id="orderRepairResponse" place="GC1"/>
-                <tns1:RegulationRuleId id="doRepairResponse" place="GC1"/>
-                <tns1:RegulationRuleId id="assessRepairResponse" place="GC1"/>
+                <tns1:RuleRef id="payGCResponse" place="SC"/>
+                <tns1:RuleRef id="orderRepairResponse" place="GC1"/>
+                <tns1:RuleRef id="doRepairResponse" place="GC1"/>
+                <tns1:RuleRef id="assessRepairResponse" place="GC1"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruPartsSupplyByJack">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="orderParts" place="GC1-PS"/>
-                <tns1:RegulationRuleId id="orderPartsResponse" place="GC1-PS"/>
-                <tns1:RegulationRuleId id="payParts" place="PS-SC"/>
-                <tns1:RegulationRuleId id="payPartsResponse" place="PS-SC"/>
+                <tns1:RuleRef id="orderParts" place="GC1-PS"/>
+                <tns1:RuleRef id="orderPartsResponse" place="GC1-PS"/>
+                <tns1:RuleRef id="payParts" place="PS-SC"/>
+                <tns1:RuleRef id="payPartsResponse" place="PS-SC"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="orderParts" place="PS"/>
-                <tns1:RegulationRuleId id="payPS" place="SC"/>
+                <tns1:RuleRef id="orderParts" place="PS"/>
+                <tns1:RuleRef id="payPS" place="SC"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payPSResponse" place="SC"/>
-                <tns1:RegulationRuleId id="orderPartsResponse" place="PS"/>
+                <tns1:RuleRef id="payPSResponse" place="SC"/>
+                <tns1:RuleRef id="orderPartsResponse" place="PS"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruVehicleAssessment">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="orderRepairAssessment" place="GC1-AS"/>
-                <tns1:RegulationRuleId id="orderRepairAssessmentResponse" place="GC1-AS"/>
-                <tns1:RegulationRuleId id="payRepairAssessment" place="AS-SC"/>
-                <tns1:RegulationRuleId id="payRepairAssessmentsResponse" place="AS-SC"/>
+                <tns1:RuleRef id="orderRepairAssessment" place="GC1-AS"/>
+                <tns1:RuleRef id="orderRepairAssessmentResponse" place="GC1-AS"/>
+                <tns1:RuleRef id="payRepairAssessment" place="AS-SC"/>
+                <tns1:RuleRef id="payRepairAssessmentsResponse" place="AS-SC"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="assessRepair" place="AS"/>
-                <tns1:RegulationRuleId id="payAS" place="SC"/>
-                <tns1:RegulationRuleId id="receiveExternalAssessment" place="GC1"/>
+                <tns1:RuleRef id="assessRepair" place="AS"/>
+                <tns1:RuleRef id="payAS" place="SC"/>
+                <tns1:RuleRef id="receiveExternalAssessment" place="GC1"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payASResponse" place="SC"/>
-                <tns1:RegulationRuleId id="assessRepairResponse" place="AS"/>
-                <tns1:RegulationRuleId id="receiveExternalAssessmentResponse" place="GC1"/>
+                <tns1:RuleRef id="payASResponse" place="SC"/>
+                <tns1:RuleRef id="assessRepairResponse" place="AS"/>
+                <tns1:RuleRef id="receiveExternalAssessmentResponse" place="GC1"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruLegalAssistance">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="inspectAccident" place="SC-LF"/>
-                <tns1:RegulationRuleId id="payLegalAid" place="SC-LF"/>
-                <tns1:RegulationRuleId id="payLegalAidResponse" place="SC-LF"/>
-                <tns1:RegulationRuleId id="authorizeTow" place="LF-TC2"/>
+                <tns1:RuleRef id="inspectAccident" place="SC-LF"/>
+                <tns1:RuleRef id="payLegalAid" place="SC-LF"/>
+                <tns1:RuleRef id="payLegalAidResponse" place="SC-LF"/>
+                <tns1:RuleRef id="authorizeTow" place="LF-TC2"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="payLF" place="SC"/>
-                <tns1:RegulationRuleId id="inspectAccident" place="LF"/>
+                <tns1:RuleRef id="payLF" place="SC"/>
+                <tns1:RuleRef id="inspectAccident" place="LF"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payLFResponse" place="SC"/>
-                <tns1:RegulationRuleId id="inspectAccidentResponse" place="LF"/>
+                <tns1:RuleRef id="payLFResponse" place="SC"/>
+                <tns1:RuleRef id="inspectAccidentResponse" place="LF"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
         <tns1:RegulationUnit id="ruRentingRoom">
             <tns1:Passthrough>
-                <tns1:RegulationRuleId id="rentRoom" place="SC-HC"/>
-                <tns1:RegulationRuleId id="rentRoomResponse" place="SC-HC"/>
-                <tns1:RegulationRuleId id="endRoomRent" place="SC-HC"/>
-                <tns1:RegulationRuleId id="endRoomRentResponse" place="SC-HC"/>
-                <tns1:RegulationRuleId id="payRoomRent" place="SC-HC"/>
-                <tns1:RegulationRuleId id="payRoomRentResponse" place="SC-HC"/>
+                <tns1:RuleRef id="rentRoom" place="SC-HC"/>
+                <tns1:RuleRef id="rentRoomResponse" place="SC-HC"/>
+                <tns1:RuleRef id="endRoomRent" place="SC-HC"/>
+                <tns1:RuleRef id="endRoomRentResponse" place="SC-HC"/>
+                <tns1:RuleRef id="payRoomRent" place="SC-HC"/>
+                <tns1:RuleRef id="payRoomRentResponse" place="SC-HC"/>
             </tns1:Passthrough>
             <tns1:Synchronization>
-                <tns1:RegulationRuleId id="rentRoom" place="HC"/>
-                <tns1:RegulationRuleId id="endRoomRent" place="HC"/>
-                <tns1:RegulationRuleId id="payHC" place="SC"/>
+                <tns1:RuleRef id="rentRoom" place="HC"/>
+                <tns1:RuleRef id="endRoomRent" place="HC"/>
+                <tns1:RuleRef id="payHC" place="SC"/>
             </tns1:Synchronization>
             <tns1:Routing>
-                <tns1:RegulationRuleId id="payHCResponse" place="SC"/>
-                <tns1:RegulationRuleId id="rentRoomResponse" place="HC"/>
-                <tns1:RegulationRuleId id="endRoomRentResponse" place="HC"/>
+                <tns1:RuleRef id="payHCResponse" place="SC"/>
+                <tns1:RuleRef id="rentRoomResponse" place="HC"/>
+                <tns1:RuleRef id="endRoomRentResponse" place="HC"/>
             </tns1:Routing>
         </tns1:RegulationUnit>
     </RegulationUnits>

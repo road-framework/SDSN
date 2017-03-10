@@ -13,7 +13,6 @@
         <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
-        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
     </VirtualServiceNetwork>
     <InterVSNRegulation>
         <tns1:Routing>
@@ -41,11 +40,6 @@
         <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
             <tns1:Global>
                 <tns1:RuleRef id="activateV1"/>
-            </tns1:Global>
-        </tns1:InterCollaborationRegulationUnit>
-        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
-            <tns1:Global>
-                <tns1:RuleRef id="terminateV1"/>
             </tns1:Global>
         </tns1:InterCollaborationRegulationUnit>
         <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">

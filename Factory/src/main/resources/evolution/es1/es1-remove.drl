@@ -1,0 +1,36 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC1-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("HappyTours","ruCaseProcessingMonitoring");
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("EuroCars","ruCaseProcessingMonitoring");
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("AnyTrucks","ruCaseProcessingMonitoring");
+    oprMgt.removeRegulationUnitsFromServiceNetworkRegulationPolicy("ruSnLevelAdmission");
+    oprMgt.removeServiceNetworkStateImplementation("ResponseTime");
+    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("HappyTours",""));
+    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("EuroCars",""));
+    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("AnyTrucks",""));
+    oprMgt.removeServiceNetworkEvent("eMMNotify",new Classifier("AnyTrucks","AnyTrucksP1","*"));
+    oprMgt.removeRoutingRule("MM","admissionCheckV1");
+    oprMgt.removeRoutingRule("MM","admissionCheckV2");
+    oprMgt.removeRoutingRule("MM","admissionCheckV3");
+    oprMgt.removeRoutingRule("MM","snLevelAdmissionControl");
+    oprMgt.addRoutingRule("MM","AssistentCasesLimitRevert.drl");
+    oprMgt.updateRoutingRule("MM","admissionCheckV1","state","active");
+    oprMgt.updateRoutingRule("MM","admissionCheckV2","state","active");
+    oprMgt.updateRoutingRule("MM","admissionCheckV3","state","active");
+    oprMgt.removePassthroughRule("SC-MM","assistMonitor");
+    oprMgt.removePassthroughRule("SC-MM","assistInitiatedNotifyMonitor");
+    oprMgt.removeRegulationUnit("ruCaseProcessingMonitoring");
+    oprMgt.removeRegulationUnit("ruSnLevelAdmission");
+    long stop1 = System.nanoTime();
+    System.out.println("Remove :  " + (stop1 - start1)/1000000);
+end

@@ -1,0 +1,209 @@
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="src/main/resources/overhead/os1/data/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify</tns1:CoT>
+            <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <InterVSNRegulation>
+        <tns1:Routing>
+            <tns1:RuleRef id="classify" place="MM"/>
+        </tns1:Routing>
+    </InterVSNRegulation>
+    <InterProcessRegulationUnits>
+        <tns1:InterProcessRegulationUnit id="ruAdmissionV1">
+            <tns1:Routing>
+                <tns1:RuleRef id="admissionCheckV1" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruDrop">
+            <tns1:Routing>
+                <tns1:RuleRef id="drop" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruCreateVsnInstance">
+            <tns1:Routing>
+                <tns1:RuleRef id="createVsnInstance" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+    </InterProcessRegulationUnits>
+    <InterCollaborationRegulationUnits>
+        <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="activateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+    </InterCollaborationRegulationUnits>
+    <CollaborationUnits>
+        <tns1:CollaborationUnit id="CaseHandling">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="MM.RequestAssist"
+                              postEP=" eAssistReqd "/>
+                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
+                              postEP=" eMMNotify "/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" eMMNotify "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Routing>
+                    <tns1:RuleRef id="requestAssistV1" place="MM"/>
+                    <tns1:RuleRef id="analyzeResponse" place="SC"/>
+                </tns1:Routing>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="analyze" place="SC"/>
+                    <tns1:RuleRef id="notify" place="MM"/>
+                </tns1:Synchronization>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="assist" place="SC-MM"/>
+                    <tns1:RuleRef id="assistResponse" place="SC-MM"/>
+                </tns1:Passthrough>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+    </CollaborationUnits>
+    <Roles>
+        <Role id="MM" name="Member" entryRole="true" synchronization="MM_SYN.drl" routing="MM_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RequestAssist" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickUpLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="SC" name="24bySupportCenter" synchronization="SC_SYN.drl" routing="SC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Analyze">
+                    <tns1:Out>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+    </Roles>
+    <Contracts>
+        <Contract id="SC-MM" passthrough="SC-MM.drl">
+            <Terms>
+                <Term id="assist">
+                    <Operation name="assist">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>memId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>complain</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>MM</RoleBID>
+        </Contract>
+    </Contracts>
+    <ServiceBindings>
+        <ServiceBinding id="SC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Roles>
+                <RoleID>SC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="OrgBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
+        </ServiceBinding>
+        <ServiceBinding id="OprBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

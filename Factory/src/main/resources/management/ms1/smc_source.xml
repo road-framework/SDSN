@@ -1,0 +1,16 @@
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="src/main/resources/overhead/os1/data/">
+    <ServiceBindings>
+        <ServiceBinding id="OrgBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
+        </ServiceBinding>
+        <ServiceBinding id="OprBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

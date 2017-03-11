@@ -6,16 +6,16 @@
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eReimbursed * eHCPaid * eVCPaid * eTXPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bReimbursement</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRepairingByMacRepair</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bPartsSupplyByJack</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bVehicleAssessment</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bLegalAssistance</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bHiringTaxi</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>Reimbursement</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>TowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RepairingByMacRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>PartsSupplyByJack</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>VehicleAssessment</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>LegalAssistance</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RentingRoom</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>HiringTaxi</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
@@ -56,14 +56,9 @@
                 <tns1:RuleRef id="terminateV1"/>
             </tns1:Global>
         </tns1:InterCollaborationRegulationUnit>
-        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
-            <tns1:Global>
-                <tns1:RuleRef id="terminateV1"/>
-            </tns1:Global>
-        </tns1:InterCollaborationRegulationUnit>
     </InterCollaborationRegulationUnits>
     <CollaborationUnits>
-        <tns1:CollaborationUnit id="bCaseHandling">
+        <tns1:CollaborationUnit id="CaseHandling">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="MM.RequestAssist"
                               postEP=" eAssistReqd "/>
@@ -86,7 +81,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bReimbursement">
+        <tns1:CollaborationUnit id="Reimbursement">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="FD.Reimburse" preEP=" eReimburseReqd "
                               postEP=" eReimbursed "/>
@@ -105,7 +100,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bTowingByTomTow">
+        <tns1:CollaborationUnit id="TowingByTomTow">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="TC2.Tow" preEP=" eTowReqd * eGCLocKnown * eTowAuthorized  "
                               postEP=" ePayTowReqdByTC2 * eDeliveredVehicleToGCByTC2"/>
@@ -127,7 +122,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bRepairingByMacRepair">
+        <tns1:CollaborationUnit id="RepairingByMacRepair">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="GC1.OrderRepair" preEP=" eRepairReqFromGC1BySC "
                               postEP=" eRepairAcceptByGC1  * eSentGC1LocToTC2"/>
@@ -158,7 +153,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bPartsSupplyByJack">
+        <tns1:CollaborationUnit id="PartsSupplyByJack">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="PS.OrderParts" preEP=" eOrderPartsReq " postEP=" eReceivedParts * ePayPartsReq"/>
                 <tns1:TaskRef Id="SC.PayPS" preEP=" ePayPartsReq " postEP=" ePSPaid "/>
@@ -180,7 +175,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bVehicleAssessment">
+        <tns1:CollaborationUnit id="VehicleAssessment">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="AS.AssessRepair" preEP=" eRepairAssessmentReq "
                               postEP=" eReceivedAssessmentReport * ePayAssessmentReq"/>
@@ -207,7 +202,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bLegalAssistance">
+        <tns1:CollaborationUnit id="LegalAssistance">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="LF.InspectAccident" preEP=" eInspectAccidentReqd"
                               postEP=" ePayLegalAidReqd * eTowAuthorized"/>
@@ -230,7 +225,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bRentingRoom">
+        <tns1:CollaborationUnit id="RentingRoom">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="HC.RentRoom" preEP=" eRentRoomReqd " postEP=" eRentedRoom "/>
                 <tns1:TaskRef Id="HC.EndRoomRent" preEP=" eEndRoomRentReqd " postEP=" eEndedRoomRent "/>
@@ -257,7 +252,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bRentingVehicle">
+        <tns1:CollaborationUnit id="RentingVehicle">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="VC.RentVehicle" preEP=" eRentVehicleReqd " postEP=" eRentedVehicle "/>
                 <tns1:TaskRef Id="VC.EndVehicleRent" preEP=" eEndVehicleRentReqd " postEP=" eEndedVehicleRent "/>
@@ -284,7 +279,7 @@
                 </tns1:Passthrough>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bHiringTaxi">
+        <tns1:CollaborationUnit id="HiringTaxi">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="TX.OrderTaxi" preEP=" eOrderTaxiReqd "
                               postEP=" ePayTXReqd * eNotifyTaxiBookingReqd "/>

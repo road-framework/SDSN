@@ -10,7 +10,7 @@
             <soapenv:Header/>
             <soapenv:Body>
                 <q0:echo xmlns:q0="http://ws.apache.org/axis2/xsd/echo">
-                   Hello2
+                    Hello2
                 </q0:echo>
             </soapenv:Body>
         </soapenv:Envelope>

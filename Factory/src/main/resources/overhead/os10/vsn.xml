@@ -5,16 +5,16 @@
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eReimbursed * eHCPaid * eVCPaid * eTXPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bReimbursement</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRepairingByMacRepair</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bPartsSupplyByJack</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bVehicleAssessment</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bLegalAssistance</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bHiringTaxi</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>Reimbursement</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>TowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RepairingByMacRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>PartsSupplyByJack</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>VehicleAssessment</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>LegalAssistance</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RentingRoom</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>RentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>HiringTaxi</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>

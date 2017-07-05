@@ -1,4 +1,3 @@
-
 public class PFactIdentifier {
 
     private String identifierKey;

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
  */
 public class VehicleRepairAssessmentService {
     private static Logger log = Logger.getLogger(InGarageService.class.getName());
+
     public String assessRepair(String content) throws AxisFault {
         if (log.isInfoEnabled()) {
             log.info("assessRepair in VehicleRepairAssessmentService  received >>>>>>>>> : " + content);

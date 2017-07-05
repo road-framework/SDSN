@@ -1,4 +1,3 @@
-
 public class PFacts {
     private PFact[] fact;
 

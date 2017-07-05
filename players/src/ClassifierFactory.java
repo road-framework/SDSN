@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ClassifierFactory {
 
-    public static Classifier createClassifier(SOAPEnvelope envelope){
+    public static Classifier createClassifier(SOAPEnvelope envelope) {
         MessageContext cMessageContext =
                 MessageContext.getCurrentMessageContext();
         SOAPEnvelope soapEnvelope = cMessageContext.getEnvelope();

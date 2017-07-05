@@ -64,7 +64,7 @@ public class JaxbFactory {
         System.out.println(soapEnvelope);
         Book book1 =
                 JaxbFactory.toBook(soapEnvelope.getBody().getFirstElement().getFirstElement(),
-                                   new Class[]{Book.class, Author.class});
+                        new Class[]{Book.class, Author.class});
         System.out.println(book1.getIsbn());
     }
 

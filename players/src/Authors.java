@@ -2,7 +2,7 @@
  * TODO
  */
 public class Authors {
-    private Author author [];
+    private Author author[];
 
     public Author[] getAuthor() {
         return author;

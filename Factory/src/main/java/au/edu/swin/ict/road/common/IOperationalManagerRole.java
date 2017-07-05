@@ -53,19 +53,49 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult updateRegulationUnit(String ruId, String property, String value);
 
+    public OperationalMgtOpResult addInterCollaborationRegulationUnit(String ruId);
+
+    public OperationalMgtOpResult addInterProcessRegulationUnit(String ruId);
+
+    public OperationalMgtOpResult addInterVSNRegulation(String ruId);
+
     public OperationalMgtOpResult addSynchronizationRulesToRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addSynchronizationRulesToInterProcessRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addSynchronizationRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addSynchronizationRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
 
     public OperationalMgtOpResult removeSynchronizationRulesFromRegulationUnit(String ruId, String ruleIds);
 
     public OperationalMgtOpResult addRoutingRulesToRegulationUnit(String ruId, String ruleIds);
 
+    public OperationalMgtOpResult addRoutingRulesToInterProcessRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addRoutingRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
+
     public OperationalMgtOpResult removeRoutingRulesFromRegulationUnit(String ruId, String ruleIds);
 
     public OperationalMgtOpResult addPassthroughRulesToRegulationUnit(String ruId, String ruleIds);
 
+    public OperationalMgtOpResult addPassthroughRulesToInterProcessRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addPassthroughRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addPassthroughRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
+
     public OperationalMgtOpResult removePassthroughRulesFromRegulationUnit(String ruId, String ruleIds);
 
     public OperationalMgtOpResult addGlobalRulesToRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addGlobalRulesToInterProcessRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addGlobalRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
 
     public OperationalMgtOpResult removeGlobalRulesFromRegulationUnit(String ruId, String ruleIds);
 

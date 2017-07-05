@@ -3,34 +3,61 @@ global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
 import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
 
-rule "ChangesForC1-per-remove"
+rule "es1_opr_stage1"
   when
-    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+    ( $mpsOpr : ManagementPolicyState (id =="es1_opr_stage1", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es1_org_stage1", state=="stage1done") )
   then
-    $mps.setState("active");
-    long start1 = System.nanoTime();
-    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("HappyTours","ruCaseProcessingMonitoring");
-    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("EuroCars","ruCaseProcessingMonitoring");
-    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("AnyTrucks","ruCaseProcessingMonitoring");
-    oprMgt.removeRegulationUnitsFromServiceNetworkRegulationPolicy("ruSnLevelAdmission");
-    oprMgt.removeServiceNetworkStateImplementation("ResponseTime");
-    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("HappyTours",""));
-    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("EuroCars",""));
-    oprMgt.removeServiceNetworkState("AssistanceProcessTime", "vsn", new Classifier("AnyTrucks",""));
-    oprMgt.removeServiceNetworkEvent("eMMNotify",new Classifier("AnyTrucks","AnyTrucksP1","*"));
-    oprMgt.removeRoutingRule("MM","admissionCheckV1");
-    oprMgt.removeRoutingRule("MM","admissionCheckV2");
-    oprMgt.removeRoutingRule("MM","admissionCheckV3");
-    oprMgt.removeRoutingRule("MM","snLevelAdmissionControl");
-    oprMgt.addRoutingRule("MM","AssistentCasesLimitRevert.drl");
-    oprMgt.updateRoutingRule("MM","admissionCheckV1","state","active");
-    oprMgt.updateRoutingRule("MM","admissionCheckV2","state","active");
-    oprMgt.updateRoutingRule("MM","admissionCheckV3","state","active");
-    oprMgt.removePassthroughRule("SC-MM","assistMonitor");
-    oprMgt.removePassthroughRule("SC-MM","assistInitiatedNotifyMonitor");
-    oprMgt.removeRegulationUnit("ruCaseProcessingMonitoring");
-    oprMgt.removeRegulationUnit("ruSnLevelAdmission");
-    long stop1 = System.nanoTime();
-    System.out.println("Remove :  " + (stop1 - start1)/1000000);
+    disabledSet.disable("es1_opr_stage1");
+    System.out.println("Operational management policy es1_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("MM","MM_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN.drl");
+
+    oprMgt.addRoutingRule("SC","MM_Routing.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing.drl");
+
+    oprMgt.addPassthroughRule("SC-MM","SC-MM.drl");
+    oprMgt.addGlobalRule("roadside_global.drl");
+
+    oprMgt.addRegulationUnit("CaseHandling");
+    oprMgt.addSynchronizationRulesToRegulationUnit("CaseHandling","analyze:SC,notify:MM");
+    oprMgt.addRoutingRulesToRegulationUnit("CaseHandling","MM:requestAssistV1,SC:analyzeResponse");
+    oprMgt.addPassthroughRulesToRegulationUnit("CaseHandling","assist:SC-MM,assistResponse:SC-MM");
+
+    oprMgt.addInterCollaborationRegulationUnit("ruActivateV1");
+    oprMgt.addGlobalRulesToInterCollaborationRegulationUnit("ruActivateV1","activateV1");
+
+    oprMgt.addInterCollaborationRegulationUnit("ruTerminateV1");
+    oprMgt.addGlobalRulesToInterCollaborationRegulationUnit("ruTerminateV1","terminateV1");
+
+    oprMgt.addInterProcessRegulationUnit("ruAdmissionV1");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruAdmissionV1","MM:admissionCheckV1");
+
+    oprMgt.addInterProcessRegulationUnit("ruDrop");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruDrop","MM:drop");
+
+    oprMgt.addInterProcessRegulationUnit("ruCreateVsnInstance");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruCreateVsnInstance","MM:createVsnInstance");
+
+    oprMgt.addInterVSNRegulation("roadside_intervsn");
+    oprMgt.addRoutingRulesToInterVSNRegulationUnit("roadside_intervsn","MM:classify");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1,ruActivateV1");
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("HappyTours","ruAdmissionV1,ruCreateVsnInstance,ruDrop");
+    oprMgt.addRegulationUnitsToServiceNetworkRegulationPolicy("roadside_intervsn");
+
+    oprMgt.updateRegulationUnit("CaseHandling","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV1","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1","state","active");
+    oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruAdmissionV1","state","active");
+    oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruCreateVsnInstance","state","active");
+    oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruDrop","state","active");
+    oprMgt.updateRegulationUnitsOfServiceNetworkRegulationPolicy("roadside_intervsn","state","active");
+
+    System.out.println("Operational management policy es1_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("stage1done");
+    $mpsOpr.setState("quiescence");
 end

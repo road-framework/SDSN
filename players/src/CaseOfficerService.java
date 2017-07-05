@@ -29,7 +29,7 @@ public class CaseOfficerService implements Lifecycle {
         OperationRateLimiter rateLimier = opRateLimiters.get("analyze");
         if (log.isInfoEnabled()) {
             log.info("analyze in CaseOfficerService received >>>>>>>>> : " + memId
-                     + " :::: " + complainDetails);
+                    + " :::: " + complainDetails);
         }
         if (!rateLimier.tryConsume()) {
             String msg = "Capacity limit has reached for Analyse : " + rateLimier.getThreshold();

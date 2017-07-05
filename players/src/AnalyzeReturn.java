@@ -1,5 +1,3 @@
-
-
 public class AnalyzeReturn {
 
     private String orderTow;
@@ -30,7 +28,7 @@ public class AnalyzeReturn {
      * Gets the value of the orderTow property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getOrderTow() {
         return orderTow;
@@ -50,7 +48,7 @@ public class AnalyzeReturn {
      * Gets the value of the orderRepair property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getOrderRepair() {
         return orderRepair;

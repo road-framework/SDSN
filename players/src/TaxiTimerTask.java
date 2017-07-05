@@ -22,7 +22,7 @@ public class TaxiTimerTask extends TimerTask {
         try {
             Addtaxihire_14CabsStub cabsStub =
                     new Addtaxihire_14CabsStub("http://localhost:8080/axis2/services/t/" +
-                                               classifier.getVsnId() + "/roadside_14cabs");
+                            classifier.getVsnId() + "/roadside_14cabs");
             Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest request = new Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest();
             request.setContent("40$");
             cabsStub._getServiceClient().addStringHeader(
@@ -37,10 +37,8 @@ public class TaxiTimerTask extends TimerTask {
                     HTTPConstants.CONNECTION_TIMEOUT, 932323434);
             Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse response = cabsStub.provideTaxiInvoice(request);
             System.out.println(response.get_return());
-        }
-        catch (AxisFault ignored) {
-        }
-        catch (RemoteException ignored) {
+        } catch (AxisFault ignored) {
+        } catch (RemoteException ignored) {
         }
     }
 }

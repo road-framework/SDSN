@@ -13,7 +13,7 @@ public class ExGarageService {
 
     public ExGarageService() {
         roadProperties = ROADProperties.getInstance("players.properties");
-        opRateLimiters.put("orderRepair", new OperationRateLimiter("ExGarageService","orderRepairr", roadProperties));
+        opRateLimiters.put("orderRepair", new OperationRateLimiter("ExGarageService", "orderRepairr", roadProperties));
         opRateLimiters.put("doRepair", new OperationRateLimiter("ExGarageService", "doRepair", roadProperties));
         opRateLimiters.put("assessRepair", new OperationRateLimiter("ExGarageService", "assessRepair", roadProperties));
     }

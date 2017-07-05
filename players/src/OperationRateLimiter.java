@@ -14,7 +14,7 @@ public class OperationRateLimiter {
     private ROADProperties roadProperties;
     private long windowLength = 2 * 60 * 1000;
     private int threshold = Integer.MAX_VALUE;
-    private long averageResponseTime = 5*1000;
+    private long averageResponseTime = 5 * 1000;
     private AtomicInteger rate = new AtomicInteger(0);
     private TimeLimiter limiter;
     private ROADThreadPool roadThreadPool;
@@ -63,7 +63,7 @@ public class OperationRateLimiter {
 //        }
     }
 
-    public void refill(){
+    public void refill() {
         // TODO  just for test - correctly fix as below
 //        lock.lock();
 //        try {

@@ -12,7 +12,6 @@ import au.edu.swin.ict.road.xml.bindings.*;
 import au.edu.swin.ict.serendip.composition.Task;
 import au.edu.swin.ict.serendip.core.ProcessDefinition;
 import au.edu.swin.ict.serendip.core.VSNDefinition;
-import au.edu.swin.ict.road.common.StatWriter;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMText;
 import org.apache.log4j.Logger;
@@ -1015,6 +1014,8 @@ public class OrganiserRole implements IOrganiserRole {
                     }
                 } else if ("mep".equals(property)) {
                     taskType.setMep(value);
+                } else if ("state".equals(property)) {
+                    taskType.setState(value);
                 }
             }
         }

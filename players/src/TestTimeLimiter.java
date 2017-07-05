@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
  * TODO documentation
  */
 public class TestTimeLimiter {
-    public static void main(String [] args){
+    public static void main(String[] args) {
         SimpleTimeLimiter timeLimiter = new SimpleTimeLimiter();
         long startTime = 0;
         try {
@@ -20,6 +20,6 @@ public class TestTimeLimiter {
             System.out.println("Timeour");
             // The requirement is to create an artificial delay = average response time
         }
-        System.out.println("TimeSpent : " + (System.currentTimeMillis()- startTime));
+        System.out.println("TimeSpent : " + (System.currentTimeMillis() - startTime));
     }
 }

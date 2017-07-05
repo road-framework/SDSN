@@ -1,11 +1,7 @@
-import org.apache.axiom.soap.SOAPEnvelope;
-import org.apache.axiom.soap.SOAPHeader;
-import org.apache.axiom.soap.SOAPHeaderBlock;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.MessageContext;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Timer;
 
 
@@ -16,6 +12,7 @@ public class TaxiHireService {
 
     private static Logger log = Logger.getLogger(HotelService.class.getName());
     private Timer timer = new Timer(true);
+
     public TaxiHireService() {
     }
 
@@ -33,7 +30,7 @@ public class TaxiHireService {
         if (log.isInfoEnabled()) {
             log.info(result);
         }
-        timer.schedule(new TaxiTimerTask(classifier),100);
+        timer.schedule(new TaxiTimerTask(classifier), 100);
         return result;
     }
 }

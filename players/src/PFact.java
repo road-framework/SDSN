@@ -1,4 +1,3 @@
-
 public class PFact {
     private String name;
     private String source;

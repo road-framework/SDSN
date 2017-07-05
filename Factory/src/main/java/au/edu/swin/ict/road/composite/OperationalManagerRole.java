@@ -27,10 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class OperationalManagerRole implements IOperationalManagerRole {
 
+    private static Logger log = Logger.getLogger(OperationalManagerRole.class.getName());
     private Composite composite;
     private ServiceNetwork smcBinding;
     private LinkedBlockingQueue<MessageWrapper> outQueue;
-    private static Logger log = Logger.getLogger(OperationalManagerRole.class.getName());
     private AtomicInteger buNumber = new AtomicInteger(1);
 
     public OperationalManagerRole(Composite composite) {
@@ -96,7 +96,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             }
         }
         return new OperationalMgtOpResult(true, "The regulation mechanism " +
-                                                rmId + "has been updated. property : " + property + " value : " + value);
+                rmId + "has been updated. property : " + property + " value : " + value);
     }
 
     @Override
@@ -289,6 +289,39 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
+    public OperationalMgtOpResult addInterProcessRegulationUnit(String ruId1) {
+        log.info("Operational Manager : addInterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        ServiceNetwork smcCur = composite.getSmcBinding();
+        InterProcessRegulationUnitType unitType = new InterProcessRegulationUnitType();
+        unitType.setId(ruId);
+        smcCur.getInterProcessRegulationUnits().getInterProcessRegulationUnit().add(unitType);
+        composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
+        return new OperationalMgtOpResult(true, "The InterProcessRegulationUnit " + ruId1 + "has been added.");
+    }
+
+    public OperationalMgtOpResult addInterCollaborationRegulationUnit(String ruId1) {
+        log.info("Operational Manager : addInterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        ServiceNetwork smcCur = composite.getSmcBinding();
+        InterCollaborationRegulationUnitType unitType = new InterCollaborationRegulationUnitType();
+        unitType.setId(ruId);
+        smcCur.getInterCollaborationRegulationUnits().getInterCollaborationRegulationUnit().add(unitType);
+        composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been added.");
+    }
+
+    public OperationalMgtOpResult addInterVSNRegulation(String ruId1) {
+        log.info("Operational Manager : addInterVSNRegulation: " + ruId1);
+        String ruId = ruId1.trim();
+        ServiceNetwork smcCur = composite.getSmcBinding();
+        InterVSNRegulationType unitType = new InterVSNRegulationType();
+        smcCur.setInterVSNRegulation(unitType);
+        composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
+        return new OperationalMgtOpResult(true, "The InterVSNRegulation " + ruId1 + "has been added.");
+    }
+
+    @Override
     public OperationalMgtOpResult addSynchronizationRulesToRegulationUnit(String ruId1, String ruleIds1) {
         log.info("Operational Manager : add  sync rules to the regulation unit : " + ruId1);
         String ruId = ruId1.trim();
@@ -316,6 +349,90 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         }
         composite.deploySyncRulesOfRegulationUnit(ruId, added);
         return new OperationalMgtOpResult(true, "The sync rules to the regulation unit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addSynchronizationRulesToInterProcessRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add  sync rules to the InterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterProcessRegulationUnitType unitType = new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getSynchronization();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setSynchronization(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+
+        }
+        composite.deploySyncRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The sync rules to the InterProcessRegulationUnit" + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addSynchronizationRulesToInterCollaborationRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add  sync rules to the InterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterCollaborationRegulationUnitType unitType = new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getSynchronization();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setSynchronization(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+
+        }
+        composite.deploySyncRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The sync rules to the InterCollaborationRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addSynchronizationRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add  sync rules to the InterVSNRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType unitType = smcBinding.getInterVSNRegulation();
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getSynchronization();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setSynchronization(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+
+        }
+        composite.deploySyncRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The sync rules to the InterVSNRegulationUnit " + ruId + "have been added.");
     }
 
     @Override
@@ -381,6 +498,88 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
+    public OperationalMgtOpResult addRoutingRulesToInterProcessRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add routing rules to the InterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterProcessRegulationUnitType unitType = new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getRouting();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setRouting(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployRoutingRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The routing rules to the InterProcessRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addRoutingRulesToInterCollaborationRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add routing rules to the InterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterCollaborationRegulationUnitType unitType =
+                new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getRouting();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setRouting(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployRoutingRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The routing rules to the InterCollaborationRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add routing rules to the InterVSNRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType unitType = smcBinding.getInterVSNRegulation();
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getRouting();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                unitType.setRouting(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployRoutingRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The routing rules to the InterVSNRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
     public OperationalMgtOpResult removeRoutingRulesFromRegulationUnit(String ruId1, String ruleIds1) {
         log.info("Operational Manager : remove routing rules from the regulation unit : " + ruId1);
         String ruId = ruId1.trim();
@@ -442,6 +641,88 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
+    public OperationalMgtOpResult addPassthroughRulesToInterProcessRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add passthrough rules to the InterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterProcessRegulationUnitType designType = new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getPassthrough();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setPassthrough(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployPassthroughRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The passthrough rules to the InterProcessRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addPassthroughRulesToInterCollaborationRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add passthrough rules to the InterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterCollaborationRegulationUnitType designType =
+                new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getPassthrough();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setPassthrough(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployPassthroughRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The passthrough rules to the InterCollaborationRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addPassthroughRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add passthrough rules to the InterVSNRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType designType = smcBinding.getInterVSNRegulation();
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getPassthrough();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setPassthrough(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployPassthroughRulesOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The passthrough rules to the InterVSNRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
     public OperationalMgtOpResult removePassthroughRulesFromRegulationUnit(String ruId1, String ruleIds1) {
         log.info("Operational Manager : remove passthrough rules from the regulation unit : " + ruId1);
         String ruId = ruId1.trim();
@@ -500,6 +781,90 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         }
         composite.deployGlobalRuleOfRegulationUnit(ruId, added);
         return new OperationalMgtOpResult(true, "The global rules to the regulation unit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addGlobalRulesToInterProcessRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add global rules to the InterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterProcessRegulationUnitType designType =
+                new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getGlobal();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setGlobal(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+//                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployGlobalRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The global rules to the InterProcessRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addGlobalRulesToInterCollaborationRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add global rules to the InterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterCollaborationRegulationUnitType designType =
+                new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getGlobal();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setGlobal(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+//                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployGlobalRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The global rules to the InterCollaborationRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : add global rules to the VSNRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType designType =
+                smcBinding.getInterVSNRegulation();
+        List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
+        if (designType != null) {
+            RegulationRuleRef ruleRef = designType.getGlobal();
+            if (ruleRef == null) {
+                ruleRef = new RegulationRuleRef();
+                designType.setGlobal(ruleRef);
+            }
+            String[] ruleIdList = ruleIds.split(",");
+            for (String rule : ruleIdList) {
+                String[] pars = rule.trim().split(":");
+                RegulationRuleIdType ruleIdType = new RegulationRuleIdType();
+                ruleIdType.setId(pars[0].trim());
+//                ruleIdType.setPlace(pars[1].trim());
+                ruleRef.getRuleRef().add(ruleIdType);
+                added.add(ruleIdType);
+            }
+        }
+        composite.deployGlobalRuleOfRegulationUnit(ruId, added);
+        return new OperationalMgtOpResult(true, "The global rules to the VSNRegulationUnit " + ruId + "have been added.");
     }
 
     @Override
@@ -582,7 +947,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             }
         }
         return new OperationalMgtOpResult(true, "The regulation unit of the process " +
-                                                processId + "have been updated. property : " + property + " value : " + value);
+                processId + "have been updated. property : " + property + " value : " + value);
     }
 
     public OperationalMgtOpResult updateRegulationUnitsOfProcessRegulationPolicy(String vsnId1, String processId1,
@@ -595,7 +960,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             updateRegulationUnitOfProcessRegulationPolicy(vsnId1, processId1, ruId, property1, value1);
         }
         return new OperationalMgtOpResult(true, "The regulation unit of the process " +
-                                                processId1 + "have been updated. property : " + property1 + " value : " + value1);
+                processId1 + "have been updated. property : " + property1 + " value : " + value1);
     }
 
     @Override
@@ -728,7 +1093,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             }
         }
         return new OperationalMgtOpResult(true, "The regulation unit of the vsn " +
-                                                vsnId1 + "have been updated. property : " + property + " value : " + value);
+                vsnId1 + "have been updated. property : " + property + " value : " + value);
     }
 
     public OperationalMgtOpResult updateRegulationUnitsOfVSNRegulationPolicy(String vsnId1, String ruIds1, String property1, String value1) {
@@ -740,24 +1105,24 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             updateRegulationUnitOfVSNRegulationPolicy(vsnId1, ruId, property1, value1);
         }
         return new OperationalMgtOpResult(true, "The regulation unit of the vsn " +
-                                                value1 + "have been updated. property : " + property1 + " value : " + value1);
+                value1 + "have been updated. property : " + property1 + " value : " + value1);
 
     }
 
     @Override
     public OperationalMgtOpResult addRegulationUnitsToServiceNetworkRegulationPolicy(String ruIds1) {
         log.info("Operational Manager : add regulation units " + ruIds1 + " to the service network ");
-        String ruIds = ruIds1.trim();
+//        String ruIds = ruIds1.trim();
         InterVSNRegulationType regPolicy = smcBinding.getInterVSNRegulation();
         if (regPolicy == null) {
             regPolicy = new InterVSNRegulationType();
             smcBinding.setInterVSNRegulation(regPolicy);
         }
-        String[] ruIdArray = ruIds.split(",");
-        List<String> stringList = new ArrayList<String>(ruIdArray.length);
-        for (String s : ruIdArray) {
-            stringList.add(s.trim());
-        }
+//        String[] ruIdArray = ruIds.split(",");
+//        List<String> stringList = new ArrayList<String>(ruIdArray.length);
+//        for (String s : ruIdArray) {
+//            stringList.add(s.trim());
+//        }
         composite.deployNetworkLevelPolicies(regPolicy, ManagementState.STATE_PASSIVE);
         return new OperationalMgtOpResult(true, "The regulation units " + ruIds1 + "have been added.");
     }
@@ -874,7 +1239,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             }
         }
         return new OperationalMgtOpResult(true, "The SN state implementation " +
-                                                stateType + "has been updated. property : " + property + " value : " + value);
+                stateType + "has been updated. property : " + property + " value : " + value);
     }
 
     @Override
@@ -894,7 +1259,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             if ("instance".equals(scope)) {
                 composite.getServiceNetworkState().
                         getVsnState(classifier.getVsnId()).getProcessState(classifier.getProcessId()).
-                                 getProcessInstanceState(classifier.getProcessInsId()).putInCache(stateId, stateRecord);
+                        getProcessInstanceState(classifier.getProcessInsId()).putInCache(stateId, stateRecord);
             } else if ("process".equals(scope)) {
                 composite.getServiceNetworkState().getVsnState(classifier.getVsnId()).
                         getProcessState(classifier.getProcessId()).putInCache(stateId, stateRecord);
@@ -920,7 +1285,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             if ("instance".equals(scope)) {
                 composite.getServiceNetworkState().
                         getVsnState(classifier.getVsnId()).getProcessState(classifier.getProcessId()).
-                                 getProcessInstanceState(classifier.getProcessInsId()).removeFromCache(stateId);
+                        getProcessInstanceState(classifier.getProcessInsId()).removeFromCache(stateId);
             } else if ("process".equals(scope)) {
                 composite.getServiceNetworkState().getVsnState(classifier.getVsnId()).
                         getProcessState(classifier.getProcessId()).removeFromCache(stateId);
@@ -948,7 +1313,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             if ("instance".equals(scope)) {
                 stateRecord = composite.getServiceNetworkState().
                         getVsnState(classifier.getVsnId()).getProcessState(classifier.getProcessId()).
-                                               getProcessInstanceState(classifier.getProcessInsId()).retrieveFromCache(stateId);
+                        getProcessInstanceState(classifier.getProcessInsId()).retrieveFromCache(stateId);
             } else if ("process".equals(scope)) {
                 stateRecord = composite.getServiceNetworkState().getVsnState(classifier.getVsnId()).
                         getProcessState(classifier.getProcessId()).retrieveFromCache(stateId);
@@ -1074,6 +1439,6 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         composite.getPlayerBindingMap().put(pbId, playerBinding);
         composite.updateRoleBindings(playerBinding, true);
         return new OrganiserMgtOpResult(true, "New PlayerBinding "
-                                              + playerBinding.getId() + " added successfully");
+                + playerBinding.getId() + " added successfully");
     }
 }

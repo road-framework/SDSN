@@ -16,7 +16,7 @@
  */
 
 public class SimpleService {
-    
+
     public String echo(String arg) {
         return arg;
     }

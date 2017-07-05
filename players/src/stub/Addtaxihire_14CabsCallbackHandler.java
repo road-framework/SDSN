@@ -1,6 +1,6 @@
 /**
  * Addtaxihire_14CabsCallbackHandler.java
- *
+ * <p>
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
@@ -43,7 +43,7 @@ public abstract class Addtaxihire_14CabsCallbackHandler {
      * override this method for handling normal response from provideTaxiInvoice operation
      */
     public void receiveResultprovideTaxiInvoice(
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse result) {
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse result) {
     }
 
     /**

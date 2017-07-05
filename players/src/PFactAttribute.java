@@ -1,4 +1,3 @@
-
 public class PFactAttribute {
     private String attributeKey;
     private String attributeValue;

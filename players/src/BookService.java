@@ -26,7 +26,7 @@ public class BookService {
         return "added";
     }
 
-    public String addBookOM(OMElement message){
+    public String addBookOM(OMElement message) {
         System.out.println(message);
         return "added";
     }

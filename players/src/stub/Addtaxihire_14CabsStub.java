@@ -1,6 +1,6 @@
 /**
  * Addtaxihire_14CabsStub.java
- *
+ * <p>
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
@@ -24,8 +24,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      *Constructor that takes in a configContext
      */
     public Addtaxihire_14CabsStub(
-        org.apache.axis2.context.ConfigurationContext configurationContext,
-        java.lang.String targetEndpoint) throws org.apache.axis2.AxisFault {
+            org.apache.axis2.context.ConfigurationContext configurationContext,
+            java.lang.String targetEndpoint) throws org.apache.axis2.AxisFault {
         this(configurationContext, targetEndpoint, false);
     }
 
@@ -33,9 +33,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      * Constructor that takes in a configContext  and useseperate listner
      */
     public Addtaxihire_14CabsStub(
-        org.apache.axis2.context.ConfigurationContext configurationContext,
-        java.lang.String targetEndpoint, boolean useSeparateListener)
-        throws org.apache.axis2.AxisFault {
+            org.apache.axis2.context.ConfigurationContext configurationContext,
+            java.lang.String targetEndpoint, boolean useSeparateListener)
+            throws org.apache.axis2.AxisFault {
         //To populate AxisService
         populateAxisService();
         populateFaults();
@@ -44,23 +44,23 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                 _service);
 
         _serviceClient.getOptions()
-                      .setTo(new org.apache.axis2.addressing.EndpointReference(
-                targetEndpoint));
+                .setTo(new org.apache.axis2.addressing.EndpointReference(
+                        targetEndpoint));
         _serviceClient.getOptions().setUseSeparateListener(useSeparateListener);
 
         //Set the soap version
         _serviceClient.getOptions()
-                      .setSoapVersionURI(org.apache.axiom.soap.SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
+                .setSoapVersionURI(org.apache.axiom.soap.SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
     }
 
     /**
      * Default Constructor
      */
     public Addtaxihire_14CabsStub(
-        org.apache.axis2.context.ConfigurationContext configurationContext)
-        throws org.apache.axis2.AxisFault {
+            org.apache.axis2.context.ConfigurationContext configurationContext)
+            throws org.apache.axis2.AxisFault {
         this(configurationContext,
-            "http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap12Endpoint/");
+                "http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap12Endpoint/");
     }
 
     /**
@@ -68,14 +68,14 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      */
     public Addtaxihire_14CabsStub() throws org.apache.axis2.AxisFault {
         this(
-            "http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap12Endpoint/");
+                "http://localhost:8080/axis2/services/addtaxihire_14cabs.addtaxihire_14cabsHttpSoap12Endpoint/");
     }
 
     /**
      * Constructor taking the target endpoint
      */
     public Addtaxihire_14CabsStub(java.lang.String targetEndpoint)
-        throws org.apache.axis2.AxisFault {
+            throws org.apache.axis2.AxisFault {
         this(null, targetEndpoint);
     }
 
@@ -88,7 +88,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         counter = counter + 1;
 
         return java.lang.Long.toString(java.lang.System.currentTimeMillis()) +
-        "_" + counter;
+                "_" + counter;
     }
 
     private void populateAxisService() throws org.apache.axis2.AxisFault {
@@ -122,8 +122,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      * @param provideTaxiInvoiceRequest0
      */
     public stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse provideTaxiInvoice(
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0)
-        throws java.rmi.RemoteException {
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0)
+            throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = null;
 
         try {
@@ -132,8 +132,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
             addPropertyToOperationClient(_operationClient,
-                org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
-                "&");
+                    org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
+                    "&");
 
             // create a message context
             _messageContext = new org.apache.axis2.context.MessageContext();
@@ -142,13 +142,13 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
             org.apache.axiom.soap.SOAPEnvelope env = null;
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
-                                                        .getSoapVersionURI()),
+                            .getSoapVersionURI()),
                     provideTaxiInvoiceRequest0,
                     optimizeContent(
-                        new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "provideTaxiInvoice")),
+                            new javax.xml.namespace.QName(
+                                    "http://ws.apache.org/axis2", "provideTaxiInvoice")),
                     new javax.xml.namespace.QName(
-                        "http://ws.apache.org/axis2", "provideTaxiInvoice"));
+                            "http://ws.apache.org/axis2", "provideTaxiInvoice"));
 
             //adding SOAP soap_headers
             _serviceClient.addHeadersToEnvelope(env);
@@ -165,7 +165,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
             org.apache.axiom.soap.SOAPEnvelope _returnEnv = _returnMessageContext.getEnvelope();
 
             java.lang.Object object = fromOM(_returnEnv.getBody()
-                                                       .getFirstElement(),
+                            .getFirstElement(),
                     stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.class,
                     getEnvelopeNamespaces(_returnEnv));
 
@@ -175,25 +175,25 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
             if (faultElt != null) {
                 if (faultExceptionNameMap.containsKey(
-                            new org.apache.axis2.client.FaultMapKey(
+                        new org.apache.axis2.client.FaultMapKey(
                                 faultElt.getQName(), "provideTaxiInvoice"))) {
                     //make the fault by reflection
                     try {
                         java.lang.String exceptionClassName = (java.lang.String) faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(
-                                    faultElt.getQName(), "provideTaxiInvoice"));
+                                faultElt.getQName(), "provideTaxiInvoice"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
                         java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
                         java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
 
                         //message class
                         java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(
-                                    faultElt.getQName(), "provideTaxiInvoice"));
+                                faultElt.getQName(), "provideTaxiInvoice"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
                         java.lang.Object messageObject = fromOM(faultElt,
                                 messageClass, null);
                         java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
-                                new java.lang.Class[] { messageClass });
-                        m.invoke(ex, new java.lang.Object[] { messageObject });
+                                new java.lang.Class[]{messageClass});
+                        m.invoke(ex, new java.lang.Object[]{messageObject});
 
                         throw new java.rmi.RemoteException(ex.getMessage(), ex);
                     } catch (java.lang.ClassCastException e) {
@@ -224,7 +224,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         } finally {
             if (_messageContext.getTransportOut() != null) {
                 _messageContext.getTransportOut().getSender()
-                               .cleanup(_messageContext);
+                        .cleanup(_messageContext);
             }
         }
     }
@@ -236,16 +236,16 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      * @param provideTaxiInvoiceRequest0
      */
     public void startprovideTaxiInvoice(
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0,
-        final stub.Addtaxihire_14CabsCallbackHandler callback)
-        throws java.rmi.RemoteException {
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0,
+            final stub.Addtaxihire_14CabsCallbackHandler callback)
+            throws java.rmi.RemoteException {
         org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
         _operationClient.getOptions().setAction("urn:provideTaxiInvoice");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
         addPropertyToOperationClient(_operationClient,
-            org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
-            "&");
+                org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
+                "&");
 
         // create SOAP envelope with that payload
         org.apache.axiom.soap.SOAPEnvelope env = null;
@@ -253,13 +253,13 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
-                                                    .getSoapVersionURI()),
+                        .getSoapVersionURI()),
                 provideTaxiInvoiceRequest0,
                 optimizeContent(
-                    new javax.xml.namespace.QName(
-                        "http://ws.apache.org/axis2", "provideTaxiInvoice")),
+                        new javax.xml.namespace.QName(
+                                "http://ws.apache.org/axis2", "provideTaxiInvoice")),
                 new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-                    "provideTaxiInvoice"));
+                        "provideTaxiInvoice"));
 
         // adding SOAP soap_headers
         _serviceClient.addHeadersToEnvelope(env);
@@ -270,102 +270,102 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         _operationClient.addMessageContext(_messageContext);
 
         _operationClient.setCallback(new org.apache.axis2.client.async.AxisCallback() {
-                public void onMessage(
+            public void onMessage(
                     org.apache.axis2.context.MessageContext resultContext) {
-                    try {
-                        org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
+                try {
+                    org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
 
-                        java.lang.Object object = fromOM(resultEnv.getBody()
-                                                                  .getFirstElement(),
-                                stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.class,
-                                getEnvelopeNamespaces(resultEnv));
-                        callback.receiveResultprovideTaxiInvoice((stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse) object);
-                    } catch (org.apache.axis2.AxisFault e) {
-                        callback.receiveErrorprovideTaxiInvoice(e);
-                    }
+                    java.lang.Object object = fromOM(resultEnv.getBody()
+                                    .getFirstElement(),
+                            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.class,
+                            getEnvelopeNamespaces(resultEnv));
+                    callback.receiveResultprovideTaxiInvoice((stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse) object);
+                } catch (org.apache.axis2.AxisFault e) {
+                    callback.receiveErrorprovideTaxiInvoice(e);
                 }
+            }
 
-                public void onError(java.lang.Exception error) {
-                    if (error instanceof org.apache.axis2.AxisFault) {
-                        org.apache.axis2.AxisFault f = (org.apache.axis2.AxisFault) error;
-                        org.apache.axiom.om.OMElement faultElt = f.getDetail();
+            public void onError(java.lang.Exception error) {
+                if (error instanceof org.apache.axis2.AxisFault) {
+                    org.apache.axis2.AxisFault f = (org.apache.axis2.AxisFault) error;
+                    org.apache.axiom.om.OMElement faultElt = f.getDetail();
 
-                        if (faultElt != null) {
-                            if (faultExceptionNameMap.containsKey(
-                                        new org.apache.axis2.client.FaultMapKey(
-                                            faultElt.getQName(),
-                                            "provideTaxiInvoice"))) {
-                                //make the fault by reflection
-                                try {
-                                    java.lang.String exceptionClassName = (java.lang.String) faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(
-                                                faultElt.getQName(),
-                                                "provideTaxiInvoice"));
-                                    java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                                    java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                    if (faultElt != null) {
+                        if (faultExceptionNameMap.containsKey(
+                                new org.apache.axis2.client.FaultMapKey(
+                                        faultElt.getQName(),
+                                        "provideTaxiInvoice"))) {
+                            //make the fault by reflection
+                            try {
+                                java.lang.String exceptionClassName = (java.lang.String) faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(
+                                        faultElt.getQName(),
+                                        "provideTaxiInvoice"));
+                                java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+                                java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
+                                java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
 
-                                    //message class
-                                    java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(
-                                                faultElt.getQName(),
-                                                "provideTaxiInvoice"));
-                                    java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
-                                    java.lang.Object messageObject = fromOM(faultElt,
-                                            messageClass, null);
-                                    java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
-                                            new java.lang.Class[] { messageClass });
-                                    m.invoke(ex,
-                                        new java.lang.Object[] { messageObject });
+                                //message class
+                                java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(
+                                        faultElt.getQName(),
+                                        "provideTaxiInvoice"));
+                                java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+                                java.lang.Object messageObject = fromOM(faultElt,
+                                        messageClass, null);
+                                java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
+                                        new java.lang.Class[]{messageClass});
+                                m.invoke(ex,
+                                        new java.lang.Object[]{messageObject});
 
-                                    callback.receiveErrorprovideTaxiInvoice(new java.rmi.RemoteException(
-                                            ex.getMessage(), ex));
-                                } catch (java.lang.ClassCastException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (java.lang.ClassNotFoundException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (java.lang.NoSuchMethodException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (java.lang.reflect.InvocationTargetException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (java.lang.IllegalAccessException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (java.lang.InstantiationException e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                } catch (org.apache.axis2.AxisFault e) {
-                                    // we cannot intantiate the class - throw the original Axis fault
-                                    callback.receiveErrorprovideTaxiInvoice(f);
-                                }
-                            } else {
+                                callback.receiveErrorprovideTaxiInvoice(new java.rmi.RemoteException(
+                                        ex.getMessage(), ex));
+                            } catch (java.lang.ClassCastException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (java.lang.ClassNotFoundException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (java.lang.NoSuchMethodException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (java.lang.reflect.InvocationTargetException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (java.lang.IllegalAccessException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (java.lang.InstantiationException e) {
+                                // we cannot intantiate the class - throw the original Axis fault
+                                callback.receiveErrorprovideTaxiInvoice(f);
+                            } catch (org.apache.axis2.AxisFault e) {
+                                // we cannot intantiate the class - throw the original Axis fault
                                 callback.receiveErrorprovideTaxiInvoice(f);
                             }
                         } else {
                             callback.receiveErrorprovideTaxiInvoice(f);
                         }
                     } else {
-                        callback.receiveErrorprovideTaxiInvoice(error);
+                        callback.receiveErrorprovideTaxiInvoice(f);
                     }
+                } else {
+                    callback.receiveErrorprovideTaxiInvoice(error);
                 }
+            }
 
-                public void onFault(
+            public void onFault(
                     org.apache.axis2.context.MessageContext faultContext) {
-                    org.apache.axis2.AxisFault fault = org.apache.axis2.util.Utils.getInboundFaultFromMessageContext(faultContext);
-                    onError(fault);
-                }
+                org.apache.axis2.AxisFault fault = org.apache.axis2.util.Utils.getInboundFaultFromMessageContext(faultContext);
+                onError(fault);
+            }
 
-                public void onComplete() {
-                    try {
-                        _messageContext.getTransportOut().getSender()
-                                       .cleanup(_messageContext);
-                    } catch (org.apache.axis2.AxisFault axisFault) {
-                        callback.receiveErrorprovideTaxiInvoice(axisFault);
-                    }
+            public void onComplete() {
+                try {
+                    _messageContext.getTransportOut().getSender()
+                            .cleanup(_messageContext);
+                } catch (org.apache.axis2.AxisFault axisFault) {
+                    callback.receiveErrorprovideTaxiInvoice(axisFault);
                 }
-            });
+            }
+        });
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
@@ -383,7 +383,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      *  A utility method that copies the namepaces from the SOAPEnvelope
      */
     private java.util.Map getEnvelopeNamespaces(
-        org.apache.axiom.soap.SOAPEnvelope env) {
+            org.apache.axiom.soap.SOAPEnvelope env) {
         java.util.Map returnMap = new java.util.HashMap();
         java.util.Iterator namespaceIterator = env.getAllDeclaredNamespaces();
 
@@ -410,38 +410,38 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest param,
-        boolean optimizeContent) throws org.apache.axis2.AxisFault {
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest param,
+            boolean optimizeContent) throws org.apache.axis2.AxisFault {
         try {
             return param.getOMElement(stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest.MY_QNAME,
-                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                    org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
         }
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse param,
-        boolean optimizeContent) throws org.apache.axis2.AxisFault {
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse param,
+            boolean optimizeContent) throws org.apache.axis2.AxisFault {
         try {
             return param.getOMElement(stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.MY_QNAME,
-                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                    org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
         }
     }
 
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
-        org.apache.axiom.soap.SOAPFactory factory,
-        stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest param,
-        boolean optimizeContent, javax.xml.namespace.QName methodQName)
-        throws org.apache.axis2.AxisFault {
+            org.apache.axiom.soap.SOAPFactory factory,
+            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest param,
+            boolean optimizeContent, javax.xml.namespace.QName methodQName)
+            throws org.apache.axis2.AxisFault {
         try {
             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
             emptyEnvelope.getBody()
-                         .addChild(param.getOMElement(
-                    stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest.MY_QNAME,
-                    factory));
+                    .addChild(param.getOMElement(
+                            stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest.MY_QNAME,
+                            factory));
 
             return emptyEnvelope;
         } catch (org.apache.axis2.databinding.ADBException e) {
@@ -455,21 +455,21 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
      *  get the default envelope
      */
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
-        org.apache.axiom.soap.SOAPFactory factory) {
+            org.apache.axiom.soap.SOAPFactory factory) {
         return factory.getDefaultEnvelope();
     }
 
     private java.lang.Object fromOM(org.apache.axiom.om.OMElement param,
-        java.lang.Class type, java.util.Map extraNamespaces)
-        throws org.apache.axis2.AxisFault {
+                                    java.lang.Class type, java.util.Map extraNamespaces)
+            throws org.apache.axis2.AxisFault {
         try {
             if (stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest.class.equals(
-                        type)) {
+                    type)) {
                 return stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
             if (stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.class.equals(
-                        type)) {
+                    type)) {
                 return stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
         } catch (java.lang.Exception e) {
@@ -524,9 +524,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * @return org.apache.axiom.om.OMElement
          */
         public org.apache.axiom.om.OMElement getOMElement(
-            final javax.xml.namespace.QName parentQName,
-            final org.apache.axiom.om.OMFactory factory)
-            throws org.apache.axis2.databinding.ADBException {
+                final javax.xml.namespace.QName parentQName,
+                final org.apache.axiom.om.OMFactory factory)
+                throws org.apache.axis2.databinding.ADBException {
             org.apache.axiom.om.OMDataSource dataSource = new org.apache.axis2.databinding.ADBDataSource(this,
                     MY_QNAME);
 
@@ -534,15 +534,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         public void serialize(final javax.xml.namespace.QName parentQName,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException,
+                              javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException,
                 org.apache.axis2.databinding.ADBException {
             serialize(parentQName, xmlWriter, false);
         }
 
         public void serialize(final javax.xml.namespace.QName parentQName,
-            javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
-            throws javax.xml.stream.XMLStreamException,
+                              javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
+                throws javax.xml.stream.XMLStreamException,
                 org.apache.axis2.databinding.ADBException {
             java.lang.String prefix = null;
             java.lang.String namespace = null;
@@ -550,7 +550,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
             prefix = parentQName.getPrefix();
             namespace = parentQName.getNamespaceURI();
             writeStartElement(prefix, namespace, parentQName.getLocalPart(),
-                xmlWriter);
+                    xmlWriter);
 
             if (serializeType) {
                 java.lang.String namespacePrefix = registerPrefix(xmlWriter,
@@ -559,13 +559,13 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                 if ((namespacePrefix != null) &&
                         (namespacePrefix.trim().length() > 0)) {
                     writeAttribute("xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance", "type",
-                        namespacePrefix + ":provideTaxiInvoiceRequest",
-                        xmlWriter);
+                            "http://www.w3.org/2001/XMLSchema-instance", "type",
+                            namespacePrefix + ":provideTaxiInvoiceRequest",
+                            xmlWriter);
                 } else {
                     writeAttribute("xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance", "type",
-                        "provideTaxiInvoiceRequest", xmlWriter);
+                            "http://www.w3.org/2001/XMLSchema-instance", "type",
+                            "provideTaxiInvoiceRequest", xmlWriter);
                 }
             }
 
@@ -576,7 +576,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                 if (localContent == null) {
                     // write the nil attribute
                     throw new org.apache.axis2.databinding.ADBException(
-                        "content cannot be null!!");
+                            "content cannot be null!!");
                 } else {
                     xmlWriter.writeCharacters(localContent);
                 }
@@ -588,7 +588,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         private static java.lang.String generatePrefix(
-            java.lang.String namespace) {
+                java.lang.String namespace) {
             if (namespace.equals("http://ws.apache.org/axis2")) {
                 return "ns1";
             }
@@ -600,9 +600,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Utility method to write an element start tag.
          */
         private void writeStartElement(java.lang.String prefix,
-            java.lang.String namespace, java.lang.String localPart,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                       java.lang.String namespace, java.lang.String localPart,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
 
             if (writerPrefix != null) {
@@ -624,10 +624,10 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute with the ns prefix
          */
         private void writeAttribute(java.lang.String prefix,
-            java.lang.String namespace, java.lang.String attName,
-            java.lang.String attValue,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                    java.lang.String namespace, java.lang.String attName,
+                                    java.lang.String attValue,
+                                    javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (xmlWriter.getPrefix(namespace) == null) {
                 xmlWriter.writeNamespace(prefix, namespace);
                 xmlWriter.setPrefix(prefix, namespace);
@@ -640,9 +640,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute without the ns prefix
          */
         private void writeAttribute(java.lang.String namespace,
-            java.lang.String attName, java.lang.String attValue,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                    java.lang.String attName, java.lang.String attValue,
+                                    javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (namespace.equals("")) {
                 xmlWriter.writeAttribute(attName, attValue);
             } else {
@@ -655,9 +655,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute without the ns prefix
          */
         private void writeQNameAttribute(java.lang.String namespace,
-            java.lang.String attName, javax.xml.namespace.QName qname,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                         java.lang.String attName, javax.xml.namespace.QName qname,
+                                         javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String attributeNamespace = qname.getNamespaceURI();
             java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
 
@@ -685,8 +685,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          *  method to handle Qnames
          */
         private void writeQName(javax.xml.namespace.QName qname,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String namespaceURI = qname.getNamespaceURI();
 
             if (namespaceURI != null) {
@@ -700,8 +700,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                 if (prefix.trim().length() > 0) {
                     xmlWriter.writeCharacters(prefix + ":" +
-                        org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                            qname));
+                            org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qname));
                 } else {
                     // i.e this is the default namespace
                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
@@ -714,8 +714,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         private void writeQNames(javax.xml.namespace.QName[] qnames,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                 javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (qnames != null) {
                 // we have to store this data until last moment since it is not possible to write any
                 // namespace data after writing the charactor data
@@ -741,8 +741,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                         if (prefix.trim().length() > 0) {
                             stringToWrite.append(prefix).append(":")
-                                         .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                    qnames[i]));
+                                    .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                            qnames[i]));
                         } else {
                             stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
                                     qnames[i]));
@@ -761,9 +761,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Register a namespace prefix
          */
         private java.lang.String registerPrefix(
-            javax.xml.stream.XMLStreamWriter xmlWriter,
-            java.lang.String namespace)
-            throws javax.xml.stream.XMLStreamException {
+                javax.xml.stream.XMLStreamWriter xmlWriter,
+                java.lang.String namespace)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
 
             if (prefix == null) {
@@ -793,8 +793,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          *
          */
         public javax.xml.stream.XMLStreamReader getPullParser(
-            javax.xml.namespace.QName qName)
-            throws org.apache.axis2.databinding.ADBException {
+                javax.xml.namespace.QName qName)
+                throws org.apache.axis2.databinding.ADBException {
             java.util.ArrayList elementList = new java.util.ArrayList();
             java.util.ArrayList attribList = new java.util.ArrayList();
 
@@ -807,12 +807,12 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                             localContent));
                 } else {
                     throw new org.apache.axis2.databinding.ADBException(
-                        "content cannot be null!!");
+                            "content cannot be null!!");
                 }
             }
 
             return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName,
-                elementList.toArray(), attribList.toArray());
+                    elementList.toArray(), attribList.toArray());
         }
 
         /**
@@ -827,8 +827,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
              *                If this object is a complex type, the reader is positioned at the end element of its outer element
              */
             public static ProvideTaxiInvoiceRequest parse(
-                javax.xml.stream.XMLStreamReader reader)
-                throws java.lang.Exception {
+                    javax.xml.stream.XMLStreamReader reader)
+                    throws java.lang.Exception {
                 ProvideTaxiInvoiceRequest object = new ProvideTaxiInvoiceRequest();
 
                 int event;
@@ -841,8 +841,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                         reader.next();
 
                     if (reader.getAttributeValue(
-                                "http://www.w3.org/2001/XMLSchema-instance",
-                                "type") != null) {
+                            "http://www.w3.org/2001/XMLSchema-instance",
+                            "type") != null) {
                         java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                                 "type");
 
@@ -857,15 +857,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                             nsPrefix = (nsPrefix == null) ? "" : nsPrefix;
 
                             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
-                                        ":") + 1);
+                                    ":") + 1);
 
                             if (!"provideTaxiInvoiceRequest".equals(type)) {
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext()
-                                                               .getNamespaceURI(nsPrefix);
+                                        .getNamespaceURI(nsPrefix);
 
                                 return (ProvideTaxiInvoiceRequest) ExtensionMapper.getTypeObject(nsUri,
-                                    type, reader);
+                                        type, reader);
                             }
                         }
                     }
@@ -881,16 +881,16 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                     if (reader.isStartElement() &&
                             new javax.xml.namespace.QName(
-                                "http://ws.apache.org/axis2", "content").equals(
-                                reader.getName())) {
+                                    "http://ws.apache.org/axis2", "content").equals(
+                                    reader.getName())) {
                         nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                                 "nil");
 
                         if ("true".equals(nillableValue) ||
                                 "1".equals(nillableValue)) {
                             throw new org.apache.axis2.databinding.ADBException(
-                                "The element: " + "content" +
-                                "  cannot be null");
+                                    "The element: " + "content" +
+                                            "  cannot be null");
                         }
 
                         java.lang.String content = reader.getElementText();
@@ -910,7 +910,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                     if (reader.isStartElement()) {
                         // A start element we are not expecting indicates a trailing invalid property
                         throw new org.apache.axis2.databinding.ADBException(
-                            "Unexpected subelement " + reader.getName());
+                                "Unexpected subelement " + reader.getName());
                     }
                 } catch (javax.xml.stream.XMLStreamException e) {
                     throw new java.lang.Exception(e);
@@ -923,10 +923,10 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
     public static class ExtensionMapper {
         public static java.lang.Object getTypeObject(
-            java.lang.String namespaceURI, java.lang.String typeName,
-            javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+                java.lang.String namespaceURI, java.lang.String typeName,
+                javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
             throw new org.apache.axis2.databinding.ADBException(
-                "Unsupported type " + namespaceURI + " " + typeName);
+                    "Unsupported type " + namespaceURI + " " + typeName);
         }
     }
 
@@ -974,9 +974,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * @return org.apache.axiom.om.OMElement
          */
         public org.apache.axiom.om.OMElement getOMElement(
-            final javax.xml.namespace.QName parentQName,
-            final org.apache.axiom.om.OMFactory factory)
-            throws org.apache.axis2.databinding.ADBException {
+                final javax.xml.namespace.QName parentQName,
+                final org.apache.axiom.om.OMFactory factory)
+                throws org.apache.axis2.databinding.ADBException {
             org.apache.axiom.om.OMDataSource dataSource = new org.apache.axis2.databinding.ADBDataSource(this,
                     MY_QNAME);
 
@@ -984,15 +984,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         public void serialize(final javax.xml.namespace.QName parentQName,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException,
+                              javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException,
                 org.apache.axis2.databinding.ADBException {
             serialize(parentQName, xmlWriter, false);
         }
 
         public void serialize(final javax.xml.namespace.QName parentQName,
-            javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
-            throws javax.xml.stream.XMLStreamException,
+                              javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
+                throws javax.xml.stream.XMLStreamException,
                 org.apache.axis2.databinding.ADBException {
             java.lang.String prefix = null;
             java.lang.String namespace = null;
@@ -1000,7 +1000,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
             prefix = parentQName.getPrefix();
             namespace = parentQName.getNamespaceURI();
             writeStartElement(prefix, namespace, parentQName.getLocalPart(),
-                xmlWriter);
+                    xmlWriter);
 
             if (serializeType) {
                 java.lang.String namespacePrefix = registerPrefix(xmlWriter,
@@ -1009,13 +1009,13 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                 if ((namespacePrefix != null) &&
                         (namespacePrefix.trim().length() > 0)) {
                     writeAttribute("xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance", "type",
-                        namespacePrefix + ":provideTaxiInvoiceResponse",
-                        xmlWriter);
+                            "http://www.w3.org/2001/XMLSchema-instance", "type",
+                            namespacePrefix + ":provideTaxiInvoiceResponse",
+                            xmlWriter);
                 } else {
                     writeAttribute("xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance", "type",
-                        "provideTaxiInvoiceResponse", xmlWriter);
+                            "http://www.w3.org/2001/XMLSchema-instance", "type",
+                            "provideTaxiInvoiceResponse", xmlWriter);
                 }
             }
 
@@ -1026,7 +1026,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                 if (local_return == null) {
                     // write the nil attribute
                     throw new org.apache.axis2.databinding.ADBException(
-                        "return cannot be null!!");
+                            "return cannot be null!!");
                 } else {
                     xmlWriter.writeCharacters(local_return);
                 }
@@ -1038,7 +1038,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         private static java.lang.String generatePrefix(
-            java.lang.String namespace) {
+                java.lang.String namespace) {
             if (namespace.equals("http://ws.apache.org/axis2")) {
                 return "ns1";
             }
@@ -1050,9 +1050,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Utility method to write an element start tag.
          */
         private void writeStartElement(java.lang.String prefix,
-            java.lang.String namespace, java.lang.String localPart,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                       java.lang.String namespace, java.lang.String localPart,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
 
             if (writerPrefix != null) {
@@ -1074,10 +1074,10 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute with the ns prefix
          */
         private void writeAttribute(java.lang.String prefix,
-            java.lang.String namespace, java.lang.String attName,
-            java.lang.String attValue,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                    java.lang.String namespace, java.lang.String attName,
+                                    java.lang.String attValue,
+                                    javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (xmlWriter.getPrefix(namespace) == null) {
                 xmlWriter.writeNamespace(prefix, namespace);
                 xmlWriter.setPrefix(prefix, namespace);
@@ -1090,9 +1090,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute without the ns prefix
          */
         private void writeAttribute(java.lang.String namespace,
-            java.lang.String attName, java.lang.String attValue,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                    java.lang.String attName, java.lang.String attValue,
+                                    javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (namespace.equals("")) {
                 xmlWriter.writeAttribute(attName, attValue);
             } else {
@@ -1105,9 +1105,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Util method to write an attribute without the ns prefix
          */
         private void writeQNameAttribute(java.lang.String namespace,
-            java.lang.String attName, javax.xml.namespace.QName qname,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                         java.lang.String attName, javax.xml.namespace.QName qname,
+                                         javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String attributeNamespace = qname.getNamespaceURI();
             java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
 
@@ -1135,8 +1135,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          *  method to handle Qnames
          */
         private void writeQName(javax.xml.namespace.QName qname,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String namespaceURI = qname.getNamespaceURI();
 
             if (namespaceURI != null) {
@@ -1150,8 +1150,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                 if (prefix.trim().length() > 0) {
                     xmlWriter.writeCharacters(prefix + ":" +
-                        org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                            qname));
+                            org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qname));
                 } else {
                     // i.e this is the default namespace
                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
@@ -1164,8 +1164,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         private void writeQNames(javax.xml.namespace.QName[] qnames,
-            javax.xml.stream.XMLStreamWriter xmlWriter)
-            throws javax.xml.stream.XMLStreamException {
+                                 javax.xml.stream.XMLStreamWriter xmlWriter)
+                throws javax.xml.stream.XMLStreamException {
             if (qnames != null) {
                 // we have to store this data until last moment since it is not possible to write any
                 // namespace data after writing the charactor data
@@ -1191,8 +1191,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                         if (prefix.trim().length() > 0) {
                             stringToWrite.append(prefix).append(":")
-                                         .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                    qnames[i]));
+                                    .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                            qnames[i]));
                         } else {
                             stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
                                     qnames[i]));
@@ -1211,9 +1211,9 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          * Register a namespace prefix
          */
         private java.lang.String registerPrefix(
-            javax.xml.stream.XMLStreamWriter xmlWriter,
-            java.lang.String namespace)
-            throws javax.xml.stream.XMLStreamException {
+                javax.xml.stream.XMLStreamWriter xmlWriter,
+                java.lang.String namespace)
+                throws javax.xml.stream.XMLStreamException {
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
 
             if (prefix == null) {
@@ -1243,8 +1243,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
          *
          */
         public javax.xml.stream.XMLStreamReader getPullParser(
-            javax.xml.namespace.QName qName)
-            throws org.apache.axis2.databinding.ADBException {
+                javax.xml.namespace.QName qName)
+                throws org.apache.axis2.databinding.ADBException {
             java.util.ArrayList elementList = new java.util.ArrayList();
             java.util.ArrayList attribList = new java.util.ArrayList();
 
@@ -1257,12 +1257,12 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                             local_return));
                 } else {
                     throw new org.apache.axis2.databinding.ADBException(
-                        "return cannot be null!!");
+                            "return cannot be null!!");
                 }
             }
 
             return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName,
-                elementList.toArray(), attribList.toArray());
+                    elementList.toArray(), attribList.toArray());
         }
 
         /**
@@ -1277,8 +1277,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
              *                If this object is a complex type, the reader is positioned at the end element of its outer element
              */
             public static ProvideTaxiInvoiceResponse parse(
-                javax.xml.stream.XMLStreamReader reader)
-                throws java.lang.Exception {
+                    javax.xml.stream.XMLStreamReader reader)
+                    throws java.lang.Exception {
                 ProvideTaxiInvoiceResponse object = new ProvideTaxiInvoiceResponse();
 
                 int event;
@@ -1291,8 +1291,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                         reader.next();
 
                     if (reader.getAttributeValue(
-                                "http://www.w3.org/2001/XMLSchema-instance",
-                                "type") != null) {
+                            "http://www.w3.org/2001/XMLSchema-instance",
+                            "type") != null) {
                         java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                                 "type");
 
@@ -1307,15 +1307,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                             nsPrefix = (nsPrefix == null) ? "" : nsPrefix;
 
                             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
-                                        ":") + 1);
+                                    ":") + 1);
 
                             if (!"provideTaxiInvoiceResponse".equals(type)) {
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext()
-                                                               .getNamespaceURI(nsPrefix);
+                                        .getNamespaceURI(nsPrefix);
 
                                 return (ProvideTaxiInvoiceResponse) ExtensionMapper.getTypeObject(nsUri,
-                                    type, reader);
+                                        type, reader);
                             }
                         }
                     }
@@ -1331,16 +1331,16 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
                     if (reader.isStartElement() &&
                             new javax.xml.namespace.QName(
-                                "http://ws.apache.org/axis2", "return").equals(
-                                reader.getName())) {
+                                    "http://ws.apache.org/axis2", "return").equals(
+                                    reader.getName())) {
                         nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                                 "nil");
 
                         if ("true".equals(nillableValue) ||
                                 "1".equals(nillableValue)) {
                             throw new org.apache.axis2.databinding.ADBException(
-                                "The element: " + "return" +
-                                "  cannot be null");
+                                    "The element: " + "return" +
+                                            "  cannot be null");
                         }
 
                         java.lang.String content = reader.getElementText();
@@ -1360,7 +1360,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
                     if (reader.isStartElement()) {
                         // A start element we are not expecting indicates a trailing invalid property
                         throw new org.apache.axis2.databinding.ADBException(
-                            "Unexpected subelement " + reader.getName());
+                                "Unexpected subelement " + reader.getName());
                     }
                 } catch (javax.xml.stream.XMLStreamException e) {
                     throw new java.lang.Exception(e);

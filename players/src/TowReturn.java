@@ -1,5 +1,3 @@
-
-
 public class TowReturn {
 
     private String orderTowResponse;
@@ -9,7 +7,7 @@ public class TowReturn {
      * Gets the value of the orderTowResponse property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getOrderTowResponse() {
         return orderTowResponse;
@@ -29,7 +27,7 @@ public class TowReturn {
      * Gets the value of the sendGRLocationResponse property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getSendGRLocationResponse() {
         return sendGRLocationResponse;

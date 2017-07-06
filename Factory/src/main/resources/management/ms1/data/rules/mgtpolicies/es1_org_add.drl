@@ -6,7 +6,7 @@ import au.edu.swin.ict.road.common.Classifier;
 
 rule "es1_org_stage1"
   when
-  $mpsOrg : ManagementPolicyState(id =="es1_org_stage1", state=="incipient")
+  $mpsOrg : ManagementPolicyState(id =="es1_org", state=="incipient")
    then
    disabledSet.disable("es1_org_stage1");
    $mpsOrg.setState("active");
@@ -16,11 +16,10 @@ rule "es1_org_stage1"
    orgMgt.updateTask("MM","RequestAssist","add","mep","one-way");
 
    orgMgt.addTask("MM","Notify", "SC-MM.assist.Res",null);
-   orgMgt.setTaskInMessage("MM","Notify","requestAssist","String:memId,String:complain","String");
+   orgMgt.setTaskOutMessage("MM","Notify","requestAssist","String:memId,String:complain","String");
    orgMgt.updateTask("MM","Notify","add","mep","notification");
 
    orgMgt.addRole("SC","24bySupportCenter");
-
    orgMgt.addTask("SC","Analyze","SC-MM.assist.Req","SC-MM.assist.Res");
    orgMgt.setTaskInMessage("SC","Analyze","analyze","String:memId,String:complainDetails","AnalyzeReturn");
    orgMgt.setTaskOutMessage("SC","Analyze","analyze","String:memId,String:complainDetails","AnalyzeReturn");
@@ -44,10 +43,10 @@ end
 
 rule "es1_org_stage2"
   when
-   ( $mpsOrg : ManagementPolicyState(id =="es1_org_stage1", state=="stage1done") ) and  (( $mpsOpr :
-   ManagementPolicyState (id =="es1_opr_stage1", state=="stage1done") ) or ( $mpsOpr :
+   ( $mpsOrg : ManagementPolicyState(id =="es1_org", state=="stage1done") ) and  (( $mpsOpr :
+   ManagementPolicyState (id =="es1_opr", state=="stage1done") ) or ( $mpsOpr :
                                                                                ManagementPolicyState (id
-                                                                               =="es1_opr_stage1", state=="quiescence") ))
+                                                                               =="es1_opr", state=="quiescence") ))
   then
     disabledSet.disable("es1_org_stage2");
     System.out.println("Organizational management policy es1_org_stage2 has been started.");

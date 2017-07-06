@@ -1,7 +1,7 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/overhead/os1/data/">
+        name="roadside" dataDir="src/main/resources/management/ms1/data/">
     <ServiceBindings>
         <ServiceBinding id="OrgBinding">
             <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>

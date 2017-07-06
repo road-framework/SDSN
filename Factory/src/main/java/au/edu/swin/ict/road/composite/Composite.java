@@ -686,7 +686,10 @@ public class Composite implements Runnable {
     }
 
     private void extractBehaviourData(CollaborationUnitsType collaborationUnitsType) {
-
+        if (null == collaborationUnitsType) {
+            log.warn("No collaborationUnitsType in the descriptor");
+            return;
+        }
         for (CollaborationUnitType collaborationUnitType : collaborationUnitsType.getCollaborationUnit()) {
             MonitorType monitorType = collaborationUnitType.getMonitor();
             if (monitorType != null) {

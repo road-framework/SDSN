@@ -7,8 +7,8 @@ import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
 
 rule "es1_opr_stage1"
   when
-    ( $mpsOpr : ManagementPolicyState (id =="es1_opr_stage1", state=="incipient") ) and ( $mpsOrg :
-    ManagementPolicyState(id =="es1_org_stage1", state=="stage1done") )
+    ( $mpsOpr : ManagementPolicyState (id =="es1_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es1_org", state=="stage1done") )
   then
     disabledSet.disable("es1_opr_stage1");
     System.out.println("Operational management policy es1_opr_stage1 has been started.");
@@ -24,7 +24,7 @@ rule "es1_opr_stage1"
 
     oprMgt.addRegulationUnit("CaseHandling");
     oprMgt.addSynchronizationRulesToRegulationUnit("CaseHandling","analyze:SC,notify:MM");
-    oprMgt.addRoutingRulesToRegulationUnit("CaseHandling","MM:requestAssistV1,SC:analyzeResponse");
+    oprMgt.addRoutingRulesToRegulationUnit("CaseHandling","requestAssistV1:MM,analyzeResponse:SC");
     oprMgt.addPassthroughRulesToRegulationUnit("CaseHandling","assist:SC-MM,assistResponse:SC-MM");
 
     oprMgt.addInterCollaborationRegulationUnit("ruActivateV1");
@@ -34,16 +34,16 @@ rule "es1_opr_stage1"
     oprMgt.addGlobalRulesToInterCollaborationRegulationUnit("ruTerminateV1","terminateV1");
 
     oprMgt.addInterProcessRegulationUnit("ruAdmissionV1");
-    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruAdmissionV1","MM:admissionCheckV1");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruAdmissionV1","admissionCheckV1:MM");
 
     oprMgt.addInterProcessRegulationUnit("ruDrop");
-    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruDrop","MM:drop");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruDrop","drop:MM");
 
     oprMgt.addInterProcessRegulationUnit("ruCreateVsnInstance");
-    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruCreateVsnInstance","MM:createVsnInstance");
+    oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruCreateVsnInstance","createVsnInstance:MM");
 
     oprMgt.addInterVSNRegulation("roadside_intervsn");
-    oprMgt.addRoutingRulesToInterVSNRegulationUnit("roadside_intervsn","MM:classify");
+    oprMgt.addRoutingRulesToInterVSNRegulationUnit("roadside_intervsn","classify:MM");
 
     oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1,ruActivateV1");
     oprMgt.addRegulationUnitsToVSNRegulationPolicy("HappyTours","ruAdmissionV1,ruCreateVsnInstance,ruDrop");

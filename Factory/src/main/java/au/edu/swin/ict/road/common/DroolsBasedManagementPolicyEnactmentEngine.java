@@ -63,7 +63,7 @@ public class DroolsBasedManagementPolicyEnactmentEngine extends BaseManagementSt
         if (new File(ruleFile).exists()) {
             return new DroolsManagementRules(ruleFile, rulesDir);
         } else {
-            String mgtPolicyDir = "mgtpolicies\\";
+            String mgtPolicyDir = "mgtpolicies" +"/";
             return new DroolsManagementRules(ruleFile, rulesDir + mgtPolicyDir);
         }
     }

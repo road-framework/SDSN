@@ -295,6 +295,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         ServiceNetwork smcCur = composite.getSmcBinding();
         InterProcessRegulationUnitType unitType = new InterProcessRegulationUnitType();
         unitType.setId(ruId);
+        InterProcessRegulationUnitsType unitsTyp = smcCur.getInterProcessRegulationUnits();
+        if (unitsTyp == null) {
+            smcCur.setInterProcessRegulationUnits(new InterProcessRegulationUnitsType());
+        }
         smcCur.getInterProcessRegulationUnits().getInterProcessRegulationUnit().add(unitType);
         composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
         return new OperationalMgtOpResult(true, "The InterProcessRegulationUnit " + ruId1 + "has been added.");
@@ -306,6 +310,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         ServiceNetwork smcCur = composite.getSmcBinding();
         InterCollaborationRegulationUnitType unitType = new InterCollaborationRegulationUnitType();
         unitType.setId(ruId);
+        InterCollaborationRegulationUnitsType unitsType = smcCur.getInterCollaborationRegulationUnits();
+        if (unitsType == null) {
+            smcCur.setInterCollaborationRegulationUnits(new InterCollaborationRegulationUnitsType());
+        }
         smcCur.getInterCollaborationRegulationUnits().getInterCollaborationRegulationUnit().add(unitType);
         composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
         return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been added.");

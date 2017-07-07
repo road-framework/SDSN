@@ -146,7 +146,7 @@ public class OrganiserRole implements IOrganiserRole {
         ServiceNetwork definitionsType =
                 (ServiceNetwork) JaxbFactory.toObjects(
                         vsnConf.getFirstElement(), new Class[]{ServiceNetwork.class, ProcessDefinitionsType.class, ProcessDefinitionType.class,
-                                                               InterProcessRegulationUnitsType.class, InterProcessRegulationUnitsType.class, QoSType.class, TrafficModelType.class, ConstraintsType.class, MonitorType.class});
+                                InterProcessRegulationUnitsType.class, InterProcessRegulationUnitsType.class, QoSType.class, TrafficModelType.class, ConstraintsType.class, MonitorType.class});
         composite.addProcessGroup(definitionsType.getVirtualServiceNetwork().get(0));
         long endTime = System.currentTimeMillis();
         StatWriter.writeResTime("Service", endTime - startTime);
@@ -179,16 +179,16 @@ public class OrganiserRole implements IOrganiserRole {
             MessageWrapper msg, String destinationRoleId) {
 
         log.info("Sending a management message to Role:"
-                 + destinationRoleId + " from the" + "organiser role");
+                + destinationRoleId + " from the" + "organiser role");
 
         if (composite.getRoleMap().containsKey(destinationRoleId)) {
             Role destRole = composite.getRoleMap().get(destinationRoleId);
             destRole.organiserPutOutgoingManagement(msg);
             return new OrganiserMgtOpResult(true,
-                                            "Management message sent");
+                    "Management message sent");
         } else
             return new OrganiserMgtOpResult(false,
-                                            "Management message not sent. Destination role not found");
+                    "Management message not sent. Destination role not found");
     }
 
     @Override
@@ -202,13 +202,18 @@ public class OrganiserRole implements IOrganiserRole {
 //        roleType.setSynchronization(syncRules);
         Role newRole = new Role(roleType, composite.getRulesDir());
         newRole.getMgtState().subscribe(composite.getPolicyEnactmentEngine());
+        ServiceNetwork.Roles roles = composite.getSmcBinding().getRoles();
+        if (roles == null) {
+            roles = new ServiceNetwork.Roles();
+            composite.getSmcBinding().setRoles(roles);
+        }
         composite.getSmcBinding().getRoles().getRole().add(roleType);
         composite.getSerendipEngine().subscribe(newRole);
         try {
             composite.postRoleDeployment(newRole);
             composite.notifyAddRoleListeners(newRole);
             return new OrganiserMgtOpResult(true, "New role "
-                                                  + newRole.getId() + " added successfully");
+                    + newRole.getId() + " added successfully");
         } catch (CompositeInstantiationException e) {
             return new OrganiserMgtOpResult(false, e.getMessage());
         }
@@ -222,10 +227,10 @@ public class OrganiserRole implements IOrganiserRole {
             removedRole.getMgtState().notifyRemoval();
             composite.notifyRemoveRoleListeners(removedRole);
             return new OrganiserMgtOpResult(true, "Role" + roleId
-                                                  + " has been sucessfully removed");
+                    + " has been sucessfully removed");
         } else
             return new OrganiserMgtOpResult(false, "Role" + roleId
-                                                   + " was not removed. Role not found");
+                    + " was not removed. Role not found");
     }
 
     @Override
@@ -244,7 +249,7 @@ public class OrganiserRole implements IOrganiserRole {
             role.setRouting(value);
         }
         return new OrganiserMgtOpResult(true, "Property " + property + "of Role" + roleId
-                                              + " was successfully updated with value " + value);
+                + " was successfully updated with value " + value);
     }
 
     @Override
@@ -278,11 +283,11 @@ public class OrganiserRole implements IOrganiserRole {
         Contract newContract = null;
         try {
             newContract = new Contract(id.trim(), name.trim(), description, state.trim(), type,
-                                       ruleFile, isAbstract, composite.getRulesDir());
+                    ruleFile, isAbstract, composite.getRulesDir());
             newContract.getMgtState().subscribe(composite.getPolicyEnactmentEngine());
             composite.addContractInternal(newContract, roleAId, roleBId);
             return new OrganiserMgtOpResult(true, "Contract "
-                                                  + newContract.getId() + " was successfully added");
+                    + newContract.getId() + " was successfully added");
         } catch (CompositeInstantiationException e) {
             return new OrganiserMgtOpResult(false, e.getMessage());
         } catch (ConsistencyViolationException e) {
@@ -297,12 +302,12 @@ public class OrganiserRole implements IOrganiserRole {
         if (result != null) {
             result.getMgtState().notifyRemoval();
             return new OrganiserMgtOpResult(true,
-                                            "Contract with the id '" + contractId
-                                            + "' has been removed from thcomposite");
+                    "Contract with the id '" + contractId
+                            + "' has been removed from thcomposite");
         } else {
             return new OrganiserMgtOpResult(false,
-                                            "Contract with the id '" + contractId
-                                            + "' was not removed as it could not be found");
+                    "Contract with the id '" + contractId
+                            + "' was not removed as it could not be found");
         }
     }
 
@@ -321,7 +326,7 @@ public class OrganiserRole implements IOrganiserRole {
                     contract.setPassthroughRules(value);
                 } catch (CompositeInstantiationException e) {
                     return new OrganiserMgtOpResult(false,
-                                                    "Error setting passthrough of the contract " + contractId + ", error : " + e.getMessage());
+                            "Error setting passthrough of the contract " + contractId + ", error : " + e.getMessage());
                 }
             }
         }
@@ -334,8 +339,8 @@ public class OrganiserRole implements IOrganiserRole {
         Contract contract = composite.getContractMap().get(contractId);
         if (contract == null) {
             log.fatal("New term with id '" + contractId
-                      + "' has NOT been added. Contract with the id '"
-                      + contractId + "' can not be found!");
+                    + "' has NOT been added. Contract with the id '"
+                    + contractId + "' can not be found!");
 
         } else {
             boolean result = composite.addTermInternal(termId, new Term(termId, direction, contract.getContractRules()), contract);
@@ -346,8 +351,8 @@ public class OrganiserRole implements IOrganiserRole {
         return new OrganiserMgtOpResult(
                 false,
                 "Term "
-                + contractId
-                + " could not be added as the specified contract does not exist");
+                        + contractId
+                        + " could not be added as the specified contract does not exist");
     }
 
     private OrganiserMgtOpResult addNewTerm(String id, String name,
@@ -357,16 +362,16 @@ public class OrganiserRole implements IOrganiserRole {
         Contract contract = composite.getContractMap().get(contractId);
 
         boolean result = composite.addTermInternal(id, new Term(id, name, messageType, deonticType,
-                                                                description, contract.getContractRules(), direction), contract);
+                description, contract.getContractRules(), direction), contract);
         if (result)
             return new OrganiserMgtOpResult(result, "Term " + id
-                                                    + " was successfully added");
+                    + " was successfully added");
         else
             return new OrganiserMgtOpResult(
                     result,
                     "Term "
-                    + id
-                    + " could not be added as the specified contract does not exist");
+                            + id
+                            + " could not be added as the specified contract does not exist");
     }
 
     public OrganiserMgtOpResult updateTerm(String contractId, String termId, String property, String value) {
@@ -374,13 +379,13 @@ public class OrganiserRole implements IOrganiserRole {
         boolean result = composite.updateTermPrivate(termId, contractId, property, value);
         if (result) {
             return new OrganiserMgtOpResult(result, "Term " + termId
-                                                    + " was successfully added");
+                    + " was successfully added");
         } else {
             return new OrganiserMgtOpResult(
                     result,
                     "Term "
-                    + termId
-                    + " could not be added as the specified contract does not exist");
+                            + termId
+                            + " could not be added as the specified contract does not exist");
         }
     }
 
@@ -395,10 +400,10 @@ public class OrganiserRole implements IOrganiserRole {
         boolean result = composite.deleteTerm(ctId.trim(), termId.trim());
         if (result)
             return new OrganiserMgtOpResult(result, "Term " + termId
-                                                    + " was successfully removed");
+                    + " was successfully removed");
         else
             return new OrganiserMgtOpResult(result, "Term " + termId
-                                                    + " was not found");
+                    + " was not found");
     }
 
 
@@ -407,14 +412,14 @@ public class OrganiserRole implements IOrganiserRole {
                                                  String termId, String contractName) {
         log.info("Organiser: addNewOperation");
         boolean result = composite.addOperation(operationName.trim(), operationReturnType.trim(),
-                                                parameters, termId.trim(), contractName.trim());
+                parameters, termId.trim(), contractName.trim());
         if (result)
             return new OrganiserMgtOpResult(result,
-                                            "Operation successfully added");
+                    "Operation successfully added");
         else
             return new OrganiserMgtOpResult(result,
-                                            "Could not change operation. " + "Term with id: '"
-                                            + termId + "' not found.");
+                    "Could not change operation. " + "Term with id: '"
+                            + termId + "' not found.");
     }
 
     private OrganiserMgtOpResult setOutMessageType(String deliveryType,
@@ -425,7 +430,7 @@ public class OrganiserRole implements IOrganiserRole {
         Role role = composite.getRoleMap().get(rId.trim());
         if (role == null) {
             return new OrganiserMgtOpResult(false,
-                                            "Could not set the out message.A role cannot be found : " + rId);
+                    "Could not set the out message.A role cannot be found : " + rId);
         }
 
         TasksType tasksType = role.getRoleType().getTasks();
@@ -438,7 +443,7 @@ public class OrganiserRole implements IOrganiserRole {
         }
         if (taskType == null) {
             return new OrganiserMgtOpResult(false,
-                                            "Could not set the out message. A task cannot be found : " + tId);
+                    "Could not set the out message. A task cannot be found : " + tId);
         }
         String mep = taskType.getMep();
         if (mep == null) {
@@ -469,7 +474,7 @@ public class OrganiserRole implements IOrganiserRole {
         Role role = composite.getRoleMap().get(rId.trim());
         if (role == null) {
             return new OrganiserMgtOpResult(false,
-                                            "Could not set the in message.A role cannot be found : " + rId);
+                    "Could not set the in message.A role cannot be found : " + rId);
         }
 
         TasksType tasksType = role.getRoleType().getTasks();
@@ -482,7 +487,7 @@ public class OrganiserRole implements IOrganiserRole {
         }
         if (taskType == null) {
             return new OrganiserMgtOpResult(false,
-                                            "Could not set the in message. A task cannot be found : " + tId);
+                    "Could not set the in message. A task cannot be found : " + tId);
         }
         String mep = taskType.getMep();
         if (mep == null) {
@@ -513,11 +518,11 @@ public class OrganiserRole implements IOrganiserRole {
         boolean result = composite.deleteOperation(operationName, termId);
         if (result)
             return new OrganiserMgtOpResult(result,
-                                            "Operation successfully removed");
+                    "Operation successfully removed");
         else
             return new OrganiserMgtOpResult(result,
-                                            "Could not remove operation. " + "Term with id: '"
-                                            + termId + "' not found.");
+                    "Could not remove operation. " + "Term with id: '"
+                            + termId + "' not found.");
     }
 
 
@@ -686,7 +691,7 @@ public class OrganiserRole implements IOrganiserRole {
             return new OrganiserMgtOpResult(false, "Unknown property " + property + " for ProcessDefinition");
         }
         return new OrganiserMgtOpResult(true, "ProcessDefinition " + processId +
-                                              " hss been updated. property : " + property + " value : " + value);
+                " hss been updated. property : " + property + " value : " + value);
     }
 
     @Override
@@ -699,7 +704,7 @@ public class OrganiserRole implements IOrganiserRole {
             pdType.getCollaborationUnitRef().add(id.trim());
         }
         return new OrganiserMgtOpResult(true, "Configuration design for the process  " + processId +
-                                              " hss been set with behavior units : " + buIds);
+                " hss been set with behavior units : " + buIds);
     }
 
     @Override
@@ -709,7 +714,7 @@ public class OrganiserRole implements IOrganiserRole {
         ProcessDefinitionType pdType = new SMCDataExtractor(smcCur).getProcessDefinition(vsnId, processId);
         pdType.getCollaborationUnitRef().add(buId);
         return new OrganiserMgtOpResult(true, "Configuration design for the process  " + processId +
-                                              " hss been updated with behavior unit : " + buId);
+                " hss been updated with behavior unit : " + buId);
     }
 
     @Override
@@ -729,7 +734,7 @@ public class OrganiserRole implements IOrganiserRole {
             pdType.getCollaborationUnitRef().remove(tobeRemoved);
         }
         return new OrganiserMgtOpResult(true, "Configuration design for the process  " + processId +
-                                              " hss been updated by removing the behavior unit : " + buId);
+                " hss been updated by removing the behavior unit : " + buId);
     }
 
     @Override
@@ -751,7 +756,7 @@ public class OrganiserRole implements IOrganiserRole {
         pdType.getCollaborationUnitRef().remove(tobeRemoved);
         pdType.getCollaborationUnitRef().add(buIdNew);
         return new OrganiserMgtOpResult(true, "Configuration design for the process  " + processId +
-                                              " hss been updated by replacing the behavior unit : " + buIdOld + "  with " + buIdNew);
+                " hss been updated by replacing the behavior unit : " + buIdOld + "  with " + buIdNew);
     }
 
     /*
@@ -1072,7 +1077,7 @@ public class OrganiserRole implements IOrganiserRole {
             newContract = new Contract(id.trim(), composite.getRulesDir());
             composite.addContractInternal(newContract, roleAId.trim(), roleBId.trim());
             return new OrganiserMgtOpResult(true, "Contract "
-                                                  + newContract.getId() + " was successfully added");
+                    + newContract.getId() + " was successfully added");
         } catch (CompositeInstantiationException e) {
             return new OrganiserMgtOpResult(false, e.getMessage());
         } catch (ConsistencyViolationException e) {
@@ -1119,7 +1124,7 @@ public class OrganiserRole implements IOrganiserRole {
         composite.getPlayerBindingMap().put(pbId.trim(), playerBinding);
         composite.updateRoleBindings(playerBinding, true);
         return new OrganiserMgtOpResult(true, "New PlayerBinding "
-                                              + playerBinding.getId() + " added successfully");
+                + playerBinding.getId() + " added successfully");
     }
 
     private OrganiserMgtOpResult removeServiceBinding(String pbId) {
@@ -1129,7 +1134,7 @@ public class OrganiserRole implements IOrganiserRole {
         PlayerBinding playerBinding = composite.getPlayerBindingMap().remove(pbId);
         composite.updateRoleBindings(playerBinding, false);
         return new OrganiserMgtOpResult(true, "New PlayerBinding "
-                                              + playerBinding.getId() + " removed successfully");
+                + playerBinding.getId() + " removed successfully");
     }
 
     private OrganiserMgtOpResult updateServiceBinding2(String pbId, String property, String value) {
@@ -1143,7 +1148,7 @@ public class OrganiserRole implements IOrganiserRole {
         composite.getPlayerBindingMap().put(pbId, playerBinding);
         composite.updateRoleBindings(playerBinding, true);
         return new OrganiserMgtOpResult(true, "New PlayerBinding "
-                                              + playerBinding.getId() + " updated successfully");
+                + playerBinding.getId() + " updated successfully");
     }
 
     private OrganiserMgtOpResult addNewBehavior(String bid, String extendfrom) {
@@ -1156,6 +1161,10 @@ public class OrganiserRole implements IOrganiserRole {
         }
         if (btt.getConfigurationDesign() == null) {
             btt.setConfigurationDesign(new ConfigurationDesignType());
+        }
+        CollaborationUnitsType collaborationUnitsType = smcCur.getCollaborationUnits();
+        if (collaborationUnitsType == null) {
+            smcCur.setCollaborationUnits(new CollaborationUnitsType());
         }
         smcCur.getCollaborationUnits().getCollaborationUnit().add(btt);
         return new OrganiserMgtOpResult(true, "BehaviorUnit " + bid + " has been added");
@@ -1248,7 +1257,7 @@ public class OrganiserRole implements IOrganiserRole {
         List<SrcMsgType> tobeRemoved = new ArrayList<SrcMsgType>();
         for (SrcMsgType srcMsgType : tt.getSrcMsgs().getSrcMsg()) {
             String msgId = srcMsgType.getContractId() + "."
-                           + srcMsgType.getTermId() + ".";
+                    + srcMsgType.getTermId() + ".";
             msgId += srcMsgType.isIsResponse() ? "Res" : "Req";
             if (srcMsgList.contains(msgId)) {
                 tobeRemoved.add(srcMsgType);
@@ -1266,7 +1275,7 @@ public class OrganiserRole implements IOrganiserRole {
         List<ResultMsgType> tobeRemoved = new ArrayList<ResultMsgType>();
         for (ResultMsgType resultMsgType : tt.getResultMsgs().getResultMsg()) {
             String msgId = resultMsgType.getContractId() + "."
-                           + resultMsgType.getTermId() + ".";
+                    + resultMsgType.getTermId() + ".";
             msgId += resultMsgType.isIsResponse() ? "Res" : "Req";
             if (resultList.contains(msgId)) {
                 tobeRemoved.add(resultMsgType);

@@ -1,0 +1,50 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es2_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es2_org", state=="incipient")
+   then
+   disabledSet.disable("es2_org_stage1");
+   System.out.println("Organizational management policy es2_org_stage1 has been started.");
+   orgMgt.addRole("FD","24byFinanceDept");
+   orgMgt.addTask("FD","Reimburse","MM-FD.reimburse.Req","MM-FD.reimburse.Res");
+   orgMgt.setTaskInMessage("FD","Reimburse","reimburse","String:content","String");
+   orgMgt.setTaskOutMessage("FD","Reimburse","reimburse","String:content","String");
+   orgMgt.setServiceBinding("FD","http://localhost:8082/axis2/services/FinanceDepService");
+
+   orgMgt.updateTask("MM","RequestAssist","add","inputs","MM-FD.reimburse.Req");
+   orgMgt.updateTask("MM","Notify","add","outputs","MM-FD.reimburse.Res");
+
+   orgMgt.addContract("MM-FD","MM","FD");
+   orgMgt.addTerm("MM-FD","reimburse","AtoB");
+   orgMgt.setTermOperation("MM-FD","reimburse","reimburse","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd * eReimburseReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify * eReimbursed");
+   orgMgt.addBehaviorUnit("Reimbursement");
+   orgMgt.addTaskToBehaviorUnit("Reimbursement","FD.Reimburse","eReimburseReqd","eReimbursed");
+
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed");
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","Reimbursement");
+   System.out.println("Organizational management policy es2_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es2_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es2_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es2_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es2_org_stage2");
+   System.out.println("Organizational management policy es2_org_stage2 has been started.");
+   orgMgt.updateRole("FD","state","active");
+   orgMgt.updateContract("MM-FD","state","active");
+   orgMgt.updateBehaviorUnit("Reimbursement","state","active");
+   System.out.println("Organizational management policy es2_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

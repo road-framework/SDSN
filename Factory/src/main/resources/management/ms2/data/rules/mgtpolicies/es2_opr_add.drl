@@ -1,0 +1,37 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es2_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es2_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es2_org", state=="stage1done") )
+  then
+    disabledSet.disable("es2_opr_stage1");
+    System.out.println("Operational management policy es2_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("FD","FD_SYN.drl");
+    oprMgt.removeSynchronizationRule("MM","notify");
+    oprMgt.addSynchronizationRule("MM","MM_SYN_Diff_Replace.drl");
+
+    oprMgt.addRoutingRule("MM","MM_Routing_Diff.drl");
+    oprMgt.addRoutingRule("FD","FD_Routing.drl");
+
+    oprMgt.addPassthroughRule("MM-FD","MM-FD.drl");
+    oprMgt.updateGlobalRule("terminateV1","replace","roadside_global_Diff_Replace.drl");
+
+    oprMgt.addRegulationUnit("Reimbursement");
+    oprMgt.addSynchronizationRulesToRegulationUnit("Reimbursement","reimburse:FD");
+    oprMgt.addRoutingRulesToRegulationUnit("Reimbursement","requestAssistV2:MM,reimburseResponse:FD");
+    oprMgt.addPassthroughRulesToRegulationUnit("Reimbursement","reimburse:MM-FD,reimburseResponse:MM-FD");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","Reimbursement");
+
+    oprMgt.updateRegulationUnit("Reimbursement","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","Reimbursement","state","active");
+
+    System.out.println("Operational management policy es2_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

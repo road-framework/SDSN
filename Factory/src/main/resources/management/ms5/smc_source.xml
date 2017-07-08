@@ -1,7 +1,7 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/overhead/os5/data/" globalRegulation="roadside_global.drl">
+        name="roadside" dataDir="src/main/resources/overhead/os4/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
@@ -10,7 +10,6 @@
             <tns1:CollaborationUnitRef>Reimbursement</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>TowingByTomTow</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>RepairingByMacRepair</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>PartsSupplyByJack</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
@@ -121,9 +120,7 @@
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="GC1.OrderRepair" preEP=" eRepairReqFromGC1BySC "
                               postEP=" eRepairAcceptByGC1  * eSentGC1LocToTC2"/>
-                <tns1:TaskRef Id="GC1.AssessRepair" preEP=" eDeliveredVehicleToGC1ByTC2 "
-                              postEP=" eOrderPartsReq "/>
-                <tns1:TaskRef Id="GC1.DoRepair" preEP=" eReceivedParts " postEP=" ePayRepairReqdByGC1 "/>
+                <tns1:TaskRef Id="GC1.DoRepair" preEP=" eDeliveredVehicleGC1ByTC2 " postEP=" ePayRepairReqdByGC1 "/>
                 <tns1:TaskRef Id="SC.PayGC" preEP=" ePayRepairReqdByGC1 " postEP=" eGC1Paid"/>
             </tns1:ConfigurationDesign>
             <tns1:RegulationDesign>
@@ -138,35 +135,11 @@
                     <tns1:RuleRef id="payGC1" place="SC"/>
                     <tns1:RuleRef id="orderRepair" place="GC1"/>
                     <tns1:RuleRef id="doRepair" place="GC1"/>
-                    <tns1:RuleRef id="assessRepair" place="GC1"/>
                 </tns1:Synchronization>
                 <tns1:Routing>
                     <tns1:RuleRef id="payGCResponse" place="SC"/>
                     <tns1:RuleRef id="orderRepairResponse" place="GC1"/>
                     <tns1:RuleRef id="doRepairResponse" place="GC1"/>
-                    <tns1:RuleRef id="assessRepairResponse" place="GC1"/>
-                </tns1:Routing>
-            </tns1:RegulationDesign>
-        </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="PartsSupplyByJack">
-            <tns1:ConfigurationDesign>
-                <tns1:TaskRef Id="PS.OrderParts" preEP=" eOrderPartsReq " postEP=" eReceivedParts * ePayPartsReq"/>
-                <tns1:TaskRef Id="SC.PayPS" preEP=" ePayPartsReq " postEP=" ePSPaid "/>
-            </tns1:ConfigurationDesign>
-            <tns1:RegulationDesign>
-                <tns1:Passthrough>
-                    <tns1:RuleRef id="orderParts" place="GC1-PS"/>
-                    <tns1:RuleRef id="orderPartsResponse" place="GC1-PS"/>
-                    <tns1:RuleRef id="payParts" place="PS-SC"/>
-                    <tns1:RuleRef id="payPartsResponse" place="PS-SC"/>
-                </tns1:Passthrough>
-                <tns1:Synchronization>
-                    <tns1:RuleRef id="orderParts" place="PS"/>
-                    <tns1:RuleRef id="payPS" place="SC"/>
-                </tns1:Synchronization>
-                <tns1:Routing>
-                    <tns1:RuleRef id="payPSResponse" place="SC"/>
-                    <tns1:RuleRef id="orderPartsResponse" place="PS"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
@@ -321,36 +294,6 @@
                         <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
-                <tns1:Task id="PayPS">
-                    <tns1:Out>
-                        <tns1:Operation name="payPS">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:Out>
-                    <tns1:In>
-                        <tns1:Operation name="payPS">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:In>
-                    <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
-                    </tns1:SrcMsgs>
-                    <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="true"/>
-                    </tns1:ResultMsgs>
-                </tns1:Task>
             </Tasks>
         </Role>
         <Role id="GC1" name="MacRepair" synchronization="GC1_SYN.drl" routing="GC1_Routing.drl">
@@ -409,40 +352,10 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="GC1-PS" termId="orderParts" isResponse="true"/>
-                    </tns1:SrcMsgs>
-                    <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="SC-GC1" termId="payRepair" isResponse="false"/>
-                    </tns1:ResultMsgs>
-                </tns1:Task>
-                <tns1:Task id="AssessRepair">
-                    <tns1:Out>
-                        <tns1:Operation name="assessRepair">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:Out>
-                    <tns1:In>
-                        <tns1:Operation name="assessRepair">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:In>
-                    <tns1:SrcMsgs>
                         <tns1:SrcMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="true"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="GC1-PS" termId="orderParts" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-GC2" termId="payRepair" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
@@ -521,41 +434,6 @@
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>
                         <tns1:ResultMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="true"/>
-                    </tns1:ResultMsgs>
-                </tns1:Task>
-            </Tasks>
-        </Role>
-        <Role id="PS" name="JackParts" synchronization="PS_SYN.drl" routing="PS_Routing.drl">
-            <Tasks>
-                <tns1:Task id="OrderParts">
-                    <tns1:Out>
-                        <tns1:Operation name="orderParts">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:Out>
-                    <tns1:In>
-                        <tns1:Operation name="orderParts">
-                            <Parameters>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>content</Name>
-                                </Parameter>
-                            </Parameters>
-                            <Return>String</Return>
-                        </tns1:Operation>
-                    </tns1:In>
-                    <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="GC1-PS" termId="orderParts" isResponse="false"/>
-                    </tns1:SrcMsgs>
-                    <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="GC1-PS" termId="orderParts" isResponse="true"/>
-                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
@@ -680,42 +558,6 @@
             <RoleAID>SC</RoleAID>
             <RoleBID>GC1</RoleBID>
         </Contract>
-        <Contract id="GC1-PS" passthrough="GC1-PS.drl">
-            <Terms>
-                <Term id="orderParts">
-                    <Operation name="orderParts">
-                        <Parameters>
-                            <Parameter>
-                                <Type>String</Type>
-                                <Name>content</Name>
-                            </Parameter>
-                        </Parameters>
-                        <Return>String</Return>
-                    </Operation>
-                    <Direction>AtoB</Direction>
-                </Term>
-            </Terms>
-            <RoleAID>GC1</RoleAID>
-            <RoleBID>PS</RoleBID>
-        </Contract>
-        <Contract id="PS-SC" passthrough="PS-SC.drl">
-            <Terms>
-                <Term id="payParts">
-                    <Operation name="payParts">
-                        <Parameters>
-                            <Parameter>
-                                <Type>String</Type>
-                                <Name>content</Name>
-                            </Parameter>
-                        </Parameters>
-                        <Return>String</Return>
-                    </Operation>
-                    <Direction>AtoB</Direction>
-                </Term>
-            </Terms>
-            <RoleAID>PS</RoleAID>
-            <RoleBID>SC</RoleBID>
-        </Contract>
     </Contracts>
     <ServiceBindings>
         <ServiceBinding id="SC_SB">
@@ -740,12 +582,6 @@
             <Endpoint>http://localhost:8082/axis2/services/InGarageService</Endpoint>
             <Roles>
                 <RoleID>GC1</RoleID>
-            </Roles>
-        </ServiceBinding>
-        <ServiceBinding id="PS_SB">
-            <Endpoint>http://localhost:8082/axis2/services/PartSupplierService</Endpoint>
-            <Roles>
-                <RoleID>PS</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="OrgBinding">

@@ -319,14 +319,14 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been added.");
     }
 
-    public OperationalMgtOpResult addInterVSNRegulation(String ruId1) {
-        log.info("Operational Manager : addInterVSNRegulation: " + ruId1);
-        String ruId = ruId1.trim();
+    public OperationalMgtOpResult setInterVSNRegulation() {
+        log.info("Operational Manager : setInterVSNRegulation");
+        String ruId = "network";
         ServiceNetwork smcCur = composite.getSmcBinding();
         InterVSNRegulationType unitType = new InterVSNRegulationType();
         smcCur.setInterVSNRegulation(unitType);
         composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
-        return new OperationalMgtOpResult(true, "The InterVSNRegulation " + ruId1 + "has been added.");
+        return new OperationalMgtOpResult(true, "InterVSNRegulation has been added.");
     }
 
     @Override
@@ -438,6 +438,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
                 added.add(ruleIdType);
             }
 
+        }
+        for (RegulationRuleIdType ruleIdType : unitType.getSynchronization().getRuleRef()) {
+            composite.getRole(ruleIdType.getPlace()).getRoutingRegTable().addVSNTableEntry("network",
+                    new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_PASSIVE), ruId));
         }
         composite.deploySyncRulesOfRegulationUnit(ruId, added);
         return new OperationalMgtOpResult(true, "The sync rules to the InterVSNRegulationUnit " + ruId + "have been added.");
@@ -561,9 +565,9 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
-    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
-        log.info("Operational Manager : add routing rules to the InterVSNRegulationUnit : " + ruId1);
-        String ruId = ruId1.trim();
+    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruleIds1) {
+        log.info("Operational Manager : add routing rules to the InterVSNRegulationUnit ");
+        String ruId = "network";
         String ruleIds = ruleIds1.trim();
         InterVSNRegulationType unitType = smcBinding.getInterVSNRegulation();
         List<RegulationRuleIdType> added = new ArrayList<RegulationRuleIdType>();
@@ -583,8 +587,12 @@ public class OperationalManagerRole implements IOperationalManagerRole {
                 added.add(ruleIdType);
             }
         }
+        for (RegulationRuleIdType ruleIdType : unitType.getRouting().getRuleRef()) {
+            composite.getRole(ruleIdType.getPlace()).getRoutingRegTable().addVSNTableEntry("network",
+                    new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_PASSIVE), ruId));
+        }
         composite.deployRoutingRuleOfRegulationUnit(ruId, added);
-        return new OperationalMgtOpResult(true, "The routing rules to the InterVSNRegulationUnit " + ruId + "have been added.");
+        return new OperationalMgtOpResult(true, "The routing rules to the InterVSNRegulationUnit have been added.");
     }
 
     @Override
@@ -725,6 +733,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
                 ruleRef.getRuleRef().add(ruleIdType);
                 added.add(ruleIdType);
             }
+        }
+        for (RegulationRuleIdType ruleIdType : designType.getPassthrough().getRuleRef()) {
+            composite.getRole(ruleIdType.getPlace()).getRoutingRegTable().addVSNTableEntry("network",
+                    new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_PASSIVE), ruId));
         }
         composite.deployPassthroughRulesOfRegulationUnit(ruId, added);
         return new OperationalMgtOpResult(true, "The passthrough rules to the InterVSNRegulationUnit " + ruId + "have been added.");
@@ -913,12 +925,20 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         String processId = processId1.trim();
         String ruIds = ruIds1.trim();
         String[] ruIdArray = ruIds.split(",");
-        List<String> stringList = new ArrayList<String>(ruIdArray.length);
+        List<String> interColList = new ArrayList<String>();
+        List<String> colList = new ArrayList<String>();
+        SMCDataExtractor smcDataExtractor = new SMCDataExtractor(smcBinding);
         for (String s : ruIdArray) {
-            stringList.add(s.trim());
+            s = s.trim();
+            if (smcDataExtractor.getCollaborationUnitTypeById(s) != null) {
+                colList.add(s);
+            } else {
+                interColList.add(s);
+            }
         }
-        new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).addAll(stringList);
-        composite.deployProcessRegulationPolicy(vsnId, processId, stringList, ManagementState.STATE_PASSIVE);
+        smcDataExtractor.getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).addAll(interColList);
+        composite.deployProcessRegulationPolicy(vsnId, processId, interColList, ManagementState.STATE_PASSIVE);
+        composite.deployProcessCollaborationUnitMappings(vsnId, processId, colList, ManagementState.STATE_PASSIVE);
         return new OperationalMgtOpResult(true, "The regulation units to the process " + processId + "have been added.");
     }
 
@@ -929,12 +949,20 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         String processId = processId1.trim();
         String ruIds = ruIds1.trim();
         String[] ruIdArray = ruIds.split(",");
-        List<String> stringList = new ArrayList<String>(ruIdArray.length);
+        List<String> interColList = new ArrayList<String>();
+        List<String> colList = new ArrayList<String>();
+        SMCDataExtractor smcDataExtractor = new SMCDataExtractor(smcBinding);
         for (String s : ruIdArray) {
-            stringList.add(s.trim());
+            s = s.trim();
+            if (smcDataExtractor.getCollaborationUnitTypeById(s) != null) {
+                colList.add(s);
+            } else {
+                interColList.add(s);
+            }
         }
-        new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).removeAll(stringList);
-        composite.undeployProcessRegulationPolicy(vsnId, processId, stringList);
+        new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).removeAll(interColList);
+        composite.undeployProcessRegulationPolicy(vsnId, processId, interColList);
+        composite.undeployProcessCollaborationUnitMappings(vsnId, processId, colList);
         return new OperationalMgtOpResult(true, "The regulation units from the process " + processId + "have been removed.");
     }
 
@@ -1150,13 +1178,19 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
-    public OperationalMgtOpResult updateRegulationUnitsOfServiceNetworkRegulationPolicy(String ruIds, String property, String value) {
-        return null;
-    }
-
-    @Override
-    public OperationalMgtOpResult updateRegulationUnitOfServiceNetworkRegulationPolicy(String ruIds, String property, String value) {
-        return null;
+    public OperationalMgtOpResult updateServiceNetworkRegulationPolicy(String property1, String value1) {
+        log.info("Operational Manager : update the regulation at service network level : property : " + property1 + " value : " + value1);
+        String value = value1.trim();
+        String property = property1.trim();
+        if ("state".equals(property)) {
+            if ("active".equals(value)) {
+                composite.activateRegulationUnitForServiceNetwork();
+            } else if ("passive".equals(value)) {
+                composite.passivateRegulationUnitForServiceNetwork();
+            }
+        }
+        return new OperationalMgtOpResult(true, "The regulation at the service network level " +
+                "have been updated. property : " + property1 + " value : " + value1);
     }
 
     @Override

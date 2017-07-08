@@ -16,7 +16,7 @@ rule "es1_opr_stage1"
     oprMgt.addSynchronizationRule("MM","MM_SYN.drl");
     oprMgt.addSynchronizationRule("SC","SC_SYN.drl");
 
-    oprMgt.addRoutingRule("SC","MM_Routing.drl");
+    oprMgt.addRoutingRule("MM","MM_Routing.drl");
     oprMgt.addRoutingRule("SC","SC_Routing.drl");
 
     oprMgt.addPassthroughRule("SC-MM","SC-MM.drl");
@@ -42,22 +42,22 @@ rule "es1_opr_stage1"
     oprMgt.addInterProcessRegulationUnit("ruCreateVsnInstance");
     oprMgt.addRoutingRulesToInterProcessRegulationUnit("ruCreateVsnInstance","createVsnInstance:MM");
 
-    oprMgt.addInterVSNRegulation("roadside_intervsn");
-    oprMgt.addRoutingRulesToInterVSNRegulationUnit("roadside_intervsn","classify:MM");
+    oprMgt.setInterVSNRegulation();
+    oprMgt.addRoutingRulesToInterVSNRegulationUnit("classify:MM");
 
-    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1,ruActivateV1");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1,ruActivateV1,CaseHandling");
     oprMgt.addRegulationUnitsToVSNRegulationPolicy("HappyTours","ruAdmissionV1,ruCreateVsnInstance,ruDrop");
     oprMgt.addRegulationUnitsToServiceNetworkRegulationPolicy("roadside_intervsn");
 
     oprMgt.updateRegulationUnit("CaseHandling","state","active");
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV1","state","active");
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","CaseHandling","state","active");
     oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruAdmissionV1","state","active");
     oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruCreateVsnInstance","state","active");
     oprMgt.updateRegulationUnitOfVSNRegulationPolicy("HappyTours","ruDrop","state","active");
-    oprMgt.updateRegulationUnitsOfServiceNetworkRegulationPolicy("roadside_intervsn","state","active");
+    oprMgt.updateServiceNetworkRegulationPolicy("state","active");
 
     System.out.println("Operational management policy es1_opr_stage1 has been completed successfully.");
-    $mpsOpr.setState("stage1done");
     $mpsOpr.setState("quiescence");
 end

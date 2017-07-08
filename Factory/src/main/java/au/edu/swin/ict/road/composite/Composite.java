@@ -162,7 +162,7 @@ public class Composite implements Runnable {
      *                                         the rules files.
      */
     public Composite(ServiceNetwork smcBinding) throws ConsistencyViolationException,
-                                                       CompositeInstantiationException {
+            CompositeInstantiationException {
         this.smcBinding = smcBinding;
         serviceNetworkState = new ServiceNetworkState(smcBinding.getName());
         description = null;
@@ -453,7 +453,7 @@ public class Composite implements Runnable {
      */
     public String toString() {
         return "Composite name: " + this.getName()
-               + ". Composite description: " + this.getDescription();
+                + ". Composite description: " + this.getDescription();
     }
 
     /**
@@ -505,7 +505,7 @@ public class Composite implements Runnable {
         DroolsCompositeRules rules = null;
         try {
             rules = new DroolsCompositeRules(ruleFile, rulesDir,
-                                             (IInternalOrganiserView) organiserRole);
+                    (IInternalOrganiserView) organiserRole);
         } catch (RulesException e) {
             throw new CompositeInstantiationException(e.getMessage());
         }
@@ -534,7 +534,7 @@ public class Composite implements Runnable {
                 // If not void then put response signature
                 if (!(t.getOperation().getReturnType().equalsIgnoreCase("void")))
                     b.getRoutingTable().putResponseSignature(    //TODO indika
-                                                                 t.getOperation().getName(), c);
+                            t.getOperation().getName(), c);
             } else {
                 // Put the request signature
                 b.getRoutingTable().putRequestSignature(
@@ -590,7 +590,7 @@ public class Composite implements Runnable {
      */
     public void extractData(ServiceNetwork smcBinding)
             throws ConsistencyViolationException,
-                   CompositeInstantiationException {
+            CompositeInstantiationException {
 
         if (smcBinding.getDescription() != null) {
             description = smcBinding.getDescription();
@@ -623,7 +623,7 @@ public class Composite implements Runnable {
         if (passThroughRef != null) {
             for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
                 getContract(ruleIdType.getPlace()).getPassthroughRegTable().addVSNTableEntry("network",
-                                                                                             new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
+                        new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
             }
             deployPassthroughRulesOfRegulationUnit(ruId, passThroughRef.getRuleRef());
         }
@@ -631,7 +631,7 @@ public class Composite implements Runnable {
         if (synRegRuleRef != null) {
             for (RegulationRuleIdType synRuleID : synRegRuleRef.getRuleRef()) {
                 getRole(synRuleID.getPlace()).getSynchronizationRegTable().addVSNTableEntry("network",
-                                                                                            new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
+                        new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
             }
             deploySyncRulesOfRegulationUnit(ruId, synRegRuleRef.getRuleRef());
         }
@@ -639,14 +639,14 @@ public class Composite implements Runnable {
         if (routingRuleRef != null) {
             for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
                 getRole(ruleIdType.getPlace()).getRoutingRegTable().addVSNTableEntry("network",
-                                                                                     new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
+                        new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
             }
             deployRoutingRuleOfRegulationUnit(ruId, routingRuleRef.getRuleRef());
         }
         RegulationRuleRef globalRuleRef = ruType.getGlobal();
         if (globalRuleRef != null) {
             globalRegTable.addVSNTableEntry("network",
-                                            new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
+                    new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state), ruId));
             deployGlobalRuleOfRegulationUnit(ruId, globalRuleRef.getRuleRef());
         }
     }
@@ -948,8 +948,8 @@ public class Composite implements Runnable {
             if (passThroughRef != null) {
                 for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
                     getContract(ruleIdType.getPlace()).getPassthroughRegTable().addVSNTableEntry(vsnId + "_" +
-                                                                                                 processId, new
-                                                                                                         RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state, vsnId, processId), ruId));
+                            processId, new
+                            RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state, vsnId, processId), ruId));
                 }
             }
             RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
@@ -979,8 +979,8 @@ public class Composite implements Runnable {
             if (passThroughRef != null) {
                 for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
                     getContract(ruleIdType.getPlace()).getPassthroughRegTable().addVSNTableEntry(vsnId + "_" +
-                                                                                                 processId, new
-                                                                                                         RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state, vsnId, processId), ruId));
+                            processId, new
+                            RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state, vsnId, processId), ruId));
                 }
             }
             RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
@@ -1066,7 +1066,22 @@ public class Composite implements Runnable {
         processDefinition.reIncludeAllVSInstances(pids);
         SMCDataExtractor extractor = new SMCDataExtractor(smcBinding);
         InterCollaborationRegulationUnitType ruType = extractor.getInterCollaborationRegulationUnitTypeById(ruId);
-        RegulationRuleRef passThroughRef = ruType.getPassthrough();
+        RegulationRuleRef passThroughRef;
+        RegulationRuleRef synRegRuleRef;
+        RegulationRuleRef routingRuleRef;
+        RegulationRuleRef globalRuleRef;
+        if (ruType == null) {
+            RegulationDesignType regulationDesign = extractor.getCollaborationUnitTypeById(ruId).getRegulationDesign();
+            passThroughRef = regulationDesign.getPassthrough();
+            synRegRuleRef = regulationDesign.getSynchronization();
+            routingRuleRef = regulationDesign.getRouting();
+            globalRuleRef = regulationDesign.getGlobal();
+        } else {
+            passThroughRef = ruType.getPassthrough();
+            synRegRuleRef = ruType.getSynchronization();
+            routingRuleRef = ruType.getRouting();
+            globalRuleRef = ruType.getGlobal();
+        }
         if (passThroughRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
@@ -1087,7 +1102,6 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
         if (synRegRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
@@ -1108,7 +1122,6 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef routingRuleRef = ruType.getRouting();
         if (routingRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
@@ -1129,7 +1142,7 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef globalRuleRef = ruType.getGlobal();
+
         if (globalRuleRef != null) {
             RegulationUnitKey unitKey = globalRegTable.getVSNTableEntry
                     (vsnId + "_" + processId, ruId);
@@ -1232,6 +1245,57 @@ public class Composite implements Runnable {
         }
     }
 
+    public void passivateRegulationUnitForServiceNetwork() {
+        String ruId = "network";
+        InterVSNRegulationType ruType = smcBinding.getInterVSNRegulation();
+        RegulationRuleRef passThroughRef = ruType.getPassthrough();
+        if (passThroughRef != null) {
+            List<String> checked = new ArrayList<String>();
+            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
+                if (!checked.contains(ruleIdType.getPlace())) {
+                    RegulationUnitKey unitKey =
+                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().subscribe(policyEnactmentEngine);
+                    unitKey.getMgtState().setState(ManagementState.STATE_QUIESCENCE);
+                }
+            }
+        }
+        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
+        if (synRegRuleRef != null) {
+            List<String> checked = new ArrayList<String>();
+            for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
+                if (!checked.contains(ruleIdType.getPlace())) {
+                    RegulationUnitKey unitKey =
+                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().subscribe(policyEnactmentEngine);
+                    unitKey.getMgtState().setState(ManagementState.STATE_QUIESCENCE);
+                }
+            }
+        }
+        RegulationRuleRef routingRuleRef = ruType.getRouting();
+        if (routingRuleRef != null) {
+            List<String> checked = new ArrayList<String>();
+            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
+                if (!checked.contains(ruleIdType.getPlace())) {
+                    RegulationUnitKey unitKey =
+                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().subscribe(policyEnactmentEngine);
+                    unitKey.getMgtState().setState(ManagementState.STATE_QUIESCENCE);
+                }
+            }
+        }
+        RegulationRuleRef globalRuleRef = ruType.getGlobal();
+        if (globalRuleRef != null) {
+            RegulationUnitKey unitKey = globalRegTable.getVSNTableEntry
+                    ("network", ruId);
+            unitKey.getMgtState().subscribe(policyEnactmentEngine);
+            unitKey.getMgtState().setState(ManagementState.STATE_QUIESCENCE);
+        }
+    }
+
     private void subscribeToVSNInstances(Collection<ProcessInstance> instances, BaseManagedElement listner) {
         for (ProcessInstance instance : instances) {
             instance.getMgtState().subscribe(listner);
@@ -1244,7 +1308,22 @@ public class Composite implements Runnable {
         Collection<ProcessInstance> instances = pIns.values();
         SMCDataExtractor extractor = new SMCDataExtractor(smcBinding);
         InterCollaborationRegulationUnitType ruType = extractor.getInterCollaborationRegulationUnitTypeById(ruId);
-        RegulationRuleRef passThroughRef = ruType.getPassthrough();
+        RegulationRuleRef passThroughRef;
+        RegulationRuleRef synRegRuleRef;
+        RegulationRuleRef routingRuleRef;
+        RegulationRuleRef globalRuleRef;
+        if (ruType == null) {
+            RegulationDesignType regulationDesign = extractor.getCollaborationUnitTypeById(ruId).getRegulationDesign();
+            passThroughRef = regulationDesign.getPassthrough();
+            synRegRuleRef = regulationDesign.getSynchronization();
+            routingRuleRef = regulationDesign.getRouting();
+            globalRuleRef = regulationDesign.getGlobal();
+        } else {
+            passThroughRef = ruType.getPassthrough();
+            synRegRuleRef = ruType.getSynchronization();
+            routingRuleRef = ruType.getRouting();
+            globalRuleRef = ruType.getGlobal();
+        }
         if (passThroughRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
@@ -1261,7 +1340,6 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
         if (synRegRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
@@ -1278,7 +1356,6 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef routingRuleRef = ruType.getRouting();
         if (routingRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
@@ -1295,7 +1372,6 @@ public class Composite implements Runnable {
                 }
             }
         }
-        RegulationRuleRef globalRuleRef = ruType.getGlobal();
         if (globalRuleRef != null) {
             RegulationUnitKey unitKey = globalRegTable.getVSNTableEntry
                     (vsnId + "_" + processId, ruId);
@@ -1308,9 +1384,6 @@ public class Composite implements Runnable {
     }
 
     public void activateRegulationUnitForVSN(String vsnId, String ruId) {
-//        Map<String, ProcessInstance> pIns = serendipEngine.getLiveProcessInstances(vsnId, processId);
-//        Collection<String> pids = pIns.keySet();
-//        Collection<ProcessInstance> instances = pIns.values();
         SMCDataExtractor extractor = new SMCDataExtractor(smcBinding);
         InterProcessRegulationUnitType ruType = extractor.getInterProcessRegulationUnitTypeById(ruId);
         RegulationRuleRef passThroughRef = ruType.getPassthrough();
@@ -1376,105 +1449,155 @@ public class Composite implements Runnable {
         }
     }
 
-    private void passivateRegulationUnit(CollaborationUnitType ruType) {
-        RegulationRuleRef passThroughRef = ruType.getRegulationDesign().getPassthrough();
-        List<String> pids = serendipEngine.getLiveProcessInstancesIds();
-        String ruId = ruType.getId();
+    public void activateRegulationUnitForServiceNetwork() {
+        String ruId = "network";
+        InterVSNRegulationType ruType = smcBinding.getInterVSNRegulation();
+        RegulationRuleRef passThroughRef = ruType.getPassthrough();
         if (passThroughRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
                 if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
-                    regulationRuleSet.includeAllVSInstances(pids);
+                    RegulationUnitKey unitKey =
+                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().setState(ManagementState.STATE_ACTIVE);
                     checked.add(ruleIdType.getPlace());
                 }
             }
         }
-        RegulationRuleRef synRegRuleRef = ruType.getRegulationDesign().getSynchronization();
+        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
         if (synRegRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
                 if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
-                    regulationRuleSet.includeAllVSInstances(pids);
+                    RegulationUnitKey unitKey =
+                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().setState(ManagementState.STATE_ACTIVE);
                     checked.add(ruleIdType.getPlace());
                 }
             }
         }
-        RegulationRuleRef routingRuleRef = ruType.getRegulationDesign().getRouting();
+        RegulationRuleRef routingRuleRef = ruType.getRouting();
         if (routingRuleRef != null) {
             List<String> checked = new ArrayList<String>();
             for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
                 if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
-                    regulationRuleSet.includeAllVSInstances(pids);
+                    RegulationUnitKey unitKey =
+                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getVSNTableEntry
+                                    ("network", ruId);
+                    unitKey.getMgtState().setState(ManagementState.STATE_ACTIVE);
                     checked.add(ruleIdType.getPlace());
                 }
             }
         }
-        RegulationRuleRef globalRuleRef = ruType.getRegulationDesign().getGlobal();
+        RegulationRuleRef globalRuleRef = ruType.getGlobal();
         if (globalRuleRef != null) {
-            RegulationRuleSet regulationRuleSet = globalRegTable.getRegulationRuleSet(ruId);
-            regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
-            regulationRuleSet.includeAllVSInstances(pids);
+            RegulationUnitKey unitKey = globalRegTable.getVSNTableEntry
+                    ("network", ruId);
+            unitKey.getMgtState().setState(ManagementState.STATE_ACTIVE);
         }
     }
-
-    private void activateRegulationUnit(CollaborationUnitType ruType) {
-        RegulationRuleRef passThroughRef = ruType.getRegulationDesign().getPassthrough();
-        List<String> pids = serendipEngine.getLiveProcessInstancesIds();
-        String ruId = ruType.getId();
-        if (passThroughRef != null) {
-            List<String> checked = new ArrayList<String>();
-            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
-                if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
-                    regulationRuleSet.excludeAllVSInstances(pids);
-                    checked.add(ruleIdType.getPlace());
-                }
-            }
-        }
-        RegulationRuleRef synRegRuleRef = ruType.getRegulationDesign().getSynchronization();
-        if (synRegRuleRef != null) {
-            List<String> checked = new ArrayList<String>();
-            for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
-                if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
-                    regulationRuleSet.excludeAllVSInstances(pids);
-                    checked.add(ruleIdType.getPlace());
-                }
-            }
-        }
-        RegulationRuleRef routingRuleRef = ruType.getRegulationDesign().getRouting();
-        if (routingRuleRef != null) {
-            List<String> checked = new ArrayList<String>();
-            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
-                if (!checked.contains(ruleIdType.getPlace())) {
-                    RegulationRuleSet regulationRuleSet =
-                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getRegulationRuleSet(ruId);
-                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
-                    regulationRuleSet.excludeAllVSInstances(pids);
-                    checked.add(ruleIdType.getPlace());
-                }
-            }
-        }
-        RegulationRuleRef globalRuleRef = ruType.getRegulationDesign().getGlobal();
-        if (globalRuleRef != null) {
-            RegulationRuleSet regulationRuleSet = globalRegTable.getRegulationRuleSet(ruId);
-            regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
-            regulationRuleSet.excludeAllVSInstances(pids);
-        }
-    }
+//
+//    private void passivateRegulationUnit(CollaborationUnitType ruType) {
+//        RegulationRuleRef passThroughRef = ruType.getRegulationDesign().getPassthrough();
+//        List<String> pids = serendipEngine.getLiveProcessInstancesIds();
+//        String ruId = ruType.getId();
+//        if (passThroughRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
+//                    regulationRuleSet.includeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef synRegRuleRef = ruType.getRegulationDesign().getSynchronization();
+//        if (synRegRuleRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
+//                    regulationRuleSet.includeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef routingRuleRef = ruType.getRegulationDesign().getRouting();
+//        if (routingRuleRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
+//                    regulationRuleSet.includeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef globalRuleRef = ruType.getRegulationDesign().getGlobal();
+//        if (globalRuleRef != null) {
+//            RegulationRuleSet regulationRuleSet = globalRegTable.getRegulationRuleSet(ruId);
+//            regulationRuleSet.getMgtState().setState(ManagementState.STATE_PASSIVE);
+//            regulationRuleSet.includeAllVSInstances(pids);
+//        }
+//    }
+//
+//    private void activateRegulationUnit(CollaborationUnitType ruType) {
+//        RegulationRuleRef passThroughRef = ruType.getRegulationDesign().getPassthrough();
+//        List<String> pids = serendipEngine.getLiveProcessInstancesIds();
+//        String ruId = ruType.getId();
+//        if (passThroughRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getContract(ruleIdType.getPlace()).getPassthroughRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
+//                    regulationRuleSet.excludeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef synRegRuleRef = ruType.getRegulationDesign().getSynchronization();
+//        if (synRegRuleRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : synRegRuleRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getRole(ruleIdType.getPlace()).getSynchronizationRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
+//                    regulationRuleSet.excludeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef routingRuleRef = ruType.getRegulationDesign().getRouting();
+//        if (routingRuleRef != null) {
+//            List<String> checked = new ArrayList<String>();
+//            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
+//                if (!checked.contains(ruleIdType.getPlace())) {
+//                    RegulationRuleSet regulationRuleSet =
+//                            getRole(ruleIdType.getPlace()).getRoutingRegTable().getRegulationRuleSet(ruId);
+//                    regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
+//                    regulationRuleSet.excludeAllVSInstances(pids);
+//                    checked.add(ruleIdType.getPlace());
+//                }
+//            }
+//        }
+//        RegulationRuleRef globalRuleRef = ruType.getRegulationDesign().getGlobal();
+//        if (globalRuleRef != null) {
+//            RegulationRuleSet regulationRuleSet = globalRegTable.getRegulationRuleSet(ruId);
+//            regulationRuleSet.getMgtState().setState(ManagementState.STATE_ACTIVE);
+//            regulationRuleSet.excludeAllVSInstances(pids);
+//        }
+//    }
 
     private ProcessPath createProcessPath(ProcessDefinitionType pdDef, VSNDefinition group) {
         SMCDataExtractor extractor = new SMCDataExtractor(smcBinding);
@@ -1605,7 +1728,7 @@ public class Composite implements Runnable {
                 Contract inCon = getContract(edge.getSrcMsgType().getContractId());
                 if (inCon == null) {
                     throw new RuntimeException("No contract by the id : " +
-                                               edge.getSrcMsgType().getContractId());
+                            edge.getSrcMsgType().getContractId());
                 }
                 Role sourceRole;
                 String operationName;
@@ -1668,7 +1791,7 @@ public class Composite implements Runnable {
                     //per slice - not per path
                     if (!ingressFlowCtPolicy.contains("StaticFairRateController")) {
                         ingressFlowCtPolicy.add(new StaticFairRateController(group.getInterval(),
-                                                                             group.getThreshold(), this));
+                                group.getThreshold(), this));
                     }
                 } else {
                     //TODO local rate controller
@@ -1694,7 +1817,7 @@ public class Composite implements Runnable {
                 String taskRef = node.getTaskRefType().getId();
                 if (!group.contains(taskRef, flowControlKey)) {
                     group.addLocalFlowPolicyKey(node.getTaskRefType().getId(),
-                                                new FlowPolicyInfo(flowControlKey, sourceRole.getId()));
+                            new FlowPolicyInfo(flowControlKey, sourceRole.getId()));
                 }
 
                 //Setup egress flow policy table
@@ -1741,7 +1864,7 @@ public class Composite implements Runnable {
                 String roleID = refId.substring(0, refId.indexOf("."));
                 String taskId = refId.substring(refId.indexOf(".") + 1);
                 performanceModel.addTaskNode(new TaskNode(getTaskTypeById(roleID, taskId),
-                                                          taskRefType, roleID, threshold));
+                        taskRefType, roleID, threshold));
             }
         }
         return performanceModel;
@@ -1900,7 +2023,7 @@ public class Composite implements Runnable {
         List<FactType> factList = facts.getFact();
         for (FactType factType : factList) {
             FactObject factObj = new FactObject(factType.getName(),
-                                                factType.getIdentifier(), "unidentified");
+                    factType.getIdentifier(), "unidentified");
 
             if (factType.getSource().equalsIgnoreCase("external")) {
                 factObj.setFactSource(FactObject.EXTERNAL_SOURCE);
@@ -1927,7 +2050,7 @@ public class Composite implements Runnable {
      */
     public void extractContracts(ServiceNetwork.Contracts contracts)
             throws ConsistencyViolationException,
-                   CompositeInstantiationException {
+            CompositeInstantiationException {
         if (null == contracts) {
             log.warn("No contracts in the descriptor");
             return;
@@ -1969,7 +2092,7 @@ public class Composite implements Runnable {
         newRole.setComposite(this);
         roleMap.put(newRole.getId(), newRole);
         log.info("Adding role with id '" + newRole.getId() + "' to composite "
-                 + name);
+                + name);
 
         newRole.setScheduler(new MessageDeliverer(newRole, compositeRules));
 //        workerList.add(newWorker);
@@ -1997,7 +2120,7 @@ public class Composite implements Runnable {
             }
             roleMap.remove(role.getId());
             log.info("Role with id '" + roleId
-                     + "' has been removed from this composite.");
+                    + "' has been removed from this composite.");
 
             //TODO: Remove worker thread too? use workerList and role id - Kau (100% CPU problem)
 
@@ -2005,7 +2128,7 @@ public class Composite implements Runnable {
             return role;
         }
         log.fatal("Role with id '" + roleId
-                  + "' can not be found in this composite.");
+                + "' can not be found in this composite.");
         return null;
     }
 
@@ -2025,11 +2148,11 @@ public class Composite implements Runnable {
 
         if (!(containsRole(roleAId))) {
             throw new ConsistencyViolationException(roleAId + " in contract "
-                                                    + newContract.getId() + " does not exist");
+                    + newContract.getId() + " does not exist");
         }
         if (!(containsRole(roleBId))) {
             throw new ConsistencyViolationException(roleBId + " in contract "
-                                                    + newContract.getId() + " does not exist");
+                    + newContract.getId() + " does not exist");
         }
 
         // get roles and add them as party a and b
@@ -2053,7 +2176,7 @@ public class Composite implements Runnable {
         this.notifyUpdateRoleListeners(roleB);
 
         log.info("Adding contract " + newContract.getId() + " to composite "
-                 + name);
+                + name);
     }
 
     /**
@@ -2078,10 +2201,10 @@ public class Composite implements Runnable {
             this.notifyUpdateRoleListeners(contract.getRoleB());
 
             log.info("Contract with the id '" + contractId
-                     + "' has been removed from the composite");
+                    + "' has been removed from the composite");
         }
         log.info("Contract with the id '" + contractId
-                 + "' was not removed as it could not be found");
+                + "' was not removed as it could not be found");
         return contract;
     }
 
@@ -2100,8 +2223,8 @@ public class Composite implements Runnable {
         this.notifyUpdateRoleListeners(contract.getRoleB());
 
         log.info("New term with id '" + id
-                 + "' has been added to the contract with the id '"
-                 + contract.getId() + "'");
+                + "' has been added to the contract with the id '"
+                + contract.getId() + "'");
         return true;
     }
 
@@ -2118,13 +2241,13 @@ public class Composite implements Runnable {
             this.notifyUpdateRoleListeners(contract.getRoleB());
 
             log.info("New term with id '" + id
-                     + "' has been added to the contract with the id '"
-                     + contractId + "'");
+                    + "' has been added to the contract with the id '"
+                    + contractId + "'");
             return true;
         } else
             log.fatal("New term with id '" + id
-                      + "' has NOT been added. Contract with the id '"
-                      + contractId + "' can not be found!");
+                    + "' has NOT been added. Contract with the id '"
+                    + contractId + "' can not be found!");
 
         return false;
     }
@@ -2150,14 +2273,14 @@ public class Composite implements Runnable {
                 this.notifyUpdateRoleListeners(c.getRoleB());
 
                 log.info("The term with the id '"
-                         + termId
-                         + "' has been removed from the contract with the id '"
-                         + c.getId() + "'.");
+                        + termId
+                        + "' has been removed from the contract with the id '"
+                        + c.getId() + "'.");
                 return true;
             }
         }
         log.info("The term with the id '" + termId
-                 + "' has NOT been removed. The term id can not be found!");
+                + "' has NOT been removed. The term id can not be found!");
         return false;
     }
 
@@ -2177,7 +2300,7 @@ public class Composite implements Runnable {
 
         // create the new operation
         Operation newOperation = new Operation(operationName, paramList,
-                                               operationReturnType);
+                operationReturnType);
 
         boolean found = false;
         Term term = null;
@@ -2196,7 +2319,7 @@ public class Composite implements Runnable {
         // if no term with that id found get out
         if (!found) {
             log.fatal("Could not change operation. Term with id: '" + termId
-                      + "' not found.");
+                    + "' not found.");
             return false;
         }
 
@@ -2228,7 +2351,7 @@ public class Composite implements Runnable {
         // if no term with that id found get out
         if (!found) {
             log.fatal("Could not remove operation. Term with id: '" + termId
-                      + "' not found.");
+                    + "' not found.");
             return false;
         }
 
@@ -2266,7 +2389,7 @@ public class Composite implements Runnable {
                         .add(new RuleChangeTracker("insert", contract
                                 .getRules().getRuleFile(), newRule, contractId));
                 log.info("A new rule has been inserted in the conract with the id '"
-                         + contractId + "'.");
+                        + contractId + "'.");
 
                 this.notifyUpdateRoleListeners(contract.getRoleA());
                 this.notifyUpdateRoleListeners(contract.getRoleB());
@@ -2274,7 +2397,7 @@ public class Composite implements Runnable {
             }
         }
         log.fatal("New rule couldn't be inserted in the contract with the id  '"
-                  + contractId + "'. Contract does not exist");
+                + contractId + "'. Contract does not exist");
         return false;
     }
 

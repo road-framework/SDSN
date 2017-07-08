@@ -57,7 +57,7 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addInterProcessRegulationUnit(String ruId);
 
-    public OperationalMgtOpResult addInterVSNRegulation(String ruId);
+    public OperationalMgtOpResult setInterVSNRegulation();
 
     public OperationalMgtOpResult addSynchronizationRulesToRegulationUnit(String ruId, String ruleIds);
 
@@ -75,7 +75,7 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addRoutingRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
 
-    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
+    public OperationalMgtOpResult addRoutingRulesToInterVSNRegulationUnit(String ruleIds);
 
     public OperationalMgtOpResult removeRoutingRulesFromRegulationUnit(String ruId, String ruleIds);
 
@@ -121,9 +121,7 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult removeRegulationUnitsFromServiceNetworkRegulationPolicy(String ruIds);
 
-    public OperationalMgtOpResult updateRegulationUnitsOfServiceNetworkRegulationPolicy(String ruIds, String property, String value);
-
-    public OperationalMgtOpResult updateRegulationUnitOfServiceNetworkRegulationPolicy(String ruIds, String property, String value);
+    public OperationalMgtOpResult updateServiceNetworkRegulationPolicy(String property, String value);
 
     public OperationalMgtOpResult addServiceNetworkEvent(String eventId, String places, Classifier classifier);
 

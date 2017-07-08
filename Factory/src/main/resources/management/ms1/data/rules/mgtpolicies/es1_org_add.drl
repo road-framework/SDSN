@@ -9,6 +9,7 @@ rule "es1_org_stage1"
   $mpsOrg : ManagementPolicyState(id =="es1_org", state=="incipient")
    then
    disabledSet.disable("es1_org_stage1");
+   System.out.println("Organizational management policy es1_org_stage1 has been started.");
    $mpsOrg.setState("active");
    orgMgt.addRole("MM","Member");
    orgMgt.addTask("MM","RequestAssist",null,"SC-MM.assist.Req");
@@ -23,6 +24,7 @@ rule "es1_org_stage1"
    orgMgt.addTask("SC","Analyze","SC-MM.assist.Req","SC-MM.assist.Res");
    orgMgt.setTaskInMessage("SC","Analyze","analyze","String:memId,String:complainDetails","AnalyzeReturn");
    orgMgt.setTaskOutMessage("SC","Analyze","analyze","String:memId,String:complainDetails","AnalyzeReturn");
+   orgMgt.setServiceBinding("SC","http://localhost:8082/axis2/services/CaseOfficerService");
 
    orgMgt.addContract("SC-MM","SC","MM");
    orgMgt.addTerm("SC-MM","assist","BtoA");
@@ -43,19 +45,20 @@ end
 
 rule "es1_org_stage2"
   when
-   ( $mpsOrg : ManagementPolicyState(id =="es1_org", state=="stage1done") ) and  (( $mpsOpr :
-   ManagementPolicyState (id =="es1_opr", state=="stage1done") ) or ( $mpsOpr :
+   ( $mpsOrg : ManagementPolicyState(id =="es1_org", state=="stage1done") ) and  ( $mpsOpr :
                                                                                ManagementPolicyState (id
-                                                                               =="es1_opr", state=="quiescence") ))
+                                                                               =="es1_opr", state=="quiescence"))
   then
-    disabledSet.disable("es1_org_stage2");
-    System.out.println("Organizational management policy es1_org_stage2 has been started.");
-    orgMgt.updateRole("MM","state","active");
-    orgMgt.updateRole("SC","state","active");
-    orgMgt.updateContract("SC-MM","state","active");
-    orgMgt.updateBehaviorUnit("CaseHandling","state","active");
-    orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "active");
-    orgMgt.updateVSN("HappyTours","state", "active");
-    System.out.println("Organizational management policy es1_org_stage2 has been completed successfully.");
-    $mpsOrg.setState("quiescence");
+//    if(!disabledSet.contains("es1_org_stage2")){
+        disabledSet.disable("es1_org_stage2");
+        System.out.println("Organizational management policy es1_org_stage2 has been started.");
+        orgMgt.updateRole("MM","state","active");
+        orgMgt.updateRole("SC","state","active");
+        orgMgt.updateContract("SC-MM","state","active");
+        orgMgt.updateBehaviorUnit("CaseHandling","state","active");
+        orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "active");
+        orgMgt.updateVSN("HappyTours","state", "active");
+        System.out.println("Organizational management policy es1_org_stage2 has been completed successfully.");
+        $mpsOrg.setState("quiescence");
+//    }
  end

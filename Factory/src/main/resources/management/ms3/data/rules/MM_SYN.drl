@@ -4,7 +4,7 @@ import au.edu.swin.ict.road.common.EventRecord;
 import au.edu.swin.ict.road.composite.message.MessageWrapper;
 rule "notify"
   when
-   ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed")) and ($e3 : EventRecord(eventId == "eTC2Paid"))
+   ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed"))
   then
    disabledSet.disable("notify");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Res"});
@@ -13,4 +13,3 @@ rule "notify"
    actions.ExecuteTask(exMsg);
    actions.TerminateVSNInstance($e1.getClassifier());
 end
-

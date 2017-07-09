@@ -1,0 +1,40 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es3_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es3_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es3_org", state=="stage1done") )
+  then
+    disabledSet.disable("es3_opr_stage1");
+    System.out.println("Operational management policy es3_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("TC2","TC2_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+    oprMgt.updateSynchronizationRule("MM","notify","replace", "MM_SYN_Diff.drl");
+
+    oprMgt.addRoutingRule("MM","MM_Routing_Diff.drl");
+    oprMgt.addRoutingRule("TC2","TC2_Routing.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing_Diff_Replace.drl");
+
+    oprMgt.addPassthroughRule("SC-TC2","SC-TC2.drl");
+    oprMgt.addPassthroughRule("MM-TC2","MM-TC2.drl");
+    oprMgt.updateGlobalRule("terminateV1","replace","roadside_global_diff.drl");
+
+    oprMgt.addRegulationUnit("TowingByTomTow");
+    oprMgt.addSynchronizationRulesToRegulationUnit("TowingByTomTow","tow:TC2,payTC2:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("TowingByTomTow","payTCResponseV2:SC, analyzeResponse:SC, requestAssistV3:MM, towResponse:TC2");
+    oprMgt.addPassthroughRulesToRegulationUnit("TowingByTomTow","orderTow:SC-TC2, payTow:SC-TC2, payTowResponse:SC-TC2, sendGCLocation:MM-TC2, sendGCLocationResponse:MM-TC2");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","TowingByTomTow");
+
+    oprMgt.updateRegulationUnit("TowingByTomTow","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","TowingByTomTow","state","active");
+
+    System.out.println("Operational management policy es3_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

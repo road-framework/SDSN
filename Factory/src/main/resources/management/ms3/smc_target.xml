@@ -1,13 +1,14 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/overhead/os2/data/" globalRegulation="roadside_global.drl">
+        name="roadside" dataDir="src/main/resources/management/ms3/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eReimbursed</tns1:CoT>
+            <tns1:CoT>eMMNotify * eReimbursed * eT2Paid</tns1:CoT>
             <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>Reimbursement</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>TowingByTomTow</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
@@ -69,7 +70,6 @@
                 </tns1:Synchronization>
                 <tns1:Routing>
                     <tns1:RuleRef id="requestAssistV1" place="MM"/>
-                    <tns1:RuleRef id="analyzeResponse" place="SC"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
@@ -89,6 +89,32 @@
                 <tns1:Routing>
                     <tns1:RuleRef id="requestAssistV2" place="MM"/>
                     <tns1:RuleRef id="reimburseResponse" place="FD"/>
+                </tns1:Routing>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="TowingByTomTow">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="TC2.Tow" preEP=" eTowReqd * eGCLocKnown "
+                              postEP=" ePayTowReqdByTC2 * eDeliveredVehicleToGCByTC2"/>
+                <tns1:TaskRef Id="SC.PayTC" preEP=" ePayTowReqdByTC2 " postEP=" eTC2Paid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="orderTow" place="SC-TC2"/>
+                    <tns1:RuleRef id="payTow" place="SC-TC2"/>
+                    <tns1:RuleRef id="payTowResponse" place="SC-TC2"/>
+                    <tns1:RuleRef id="sendGCLocation" place="MM-TC2"/>
+                    <tns1:RuleRef id="sendGCLocationResponse" place="MM-TC2"/>
+                </tns1:Passthrough>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="tow" place="TC2"/>
+                    <tns1:RuleRef id="payTC2" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Routing>
+                    <tns1:RuleRef id="payTCResponseV2" place="SC"/>
+                    <tns1:RuleRef id="analyzeResponse" place="SC"/>
+                    <tns1:RuleRef id="requestAssistV3" place="MM"/>
+                    <tns1:RuleRef id="towResponse" place="TC2"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
@@ -119,6 +145,7 @@
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
                         <tns1:ResultMsg contractId="MM-FD" termId="reimburse" isResponse="false"/>
+                        <tns1:ResultMsg contractId="MM-TC2" termId="sendGCLocation" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
                 <tns1:Task id="Notify" mep="notification">
@@ -181,6 +208,37 @@
                         <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="PayTC">
+                    <tns1:Out>
+                        <tns1:Operation name="payTC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="payTC">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="true"/>
                         <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
@@ -216,6 +274,50 @@
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="MM-FD" termId="reimburse" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TC2" name="TomTow" synchronization="TC2_SYN.drl" routing="TC2_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Tow">
+                    <tns1:Out>
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="tow">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickupLocation</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>garageLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>TowReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
+                        <tns1:SrcMsg contractId="MM-TC2" termId="sendGCLocation" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>
+                        <tns1:ResultMsg contractId="MM-TC2" termId="sendGCLocation" isResponse="true"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
@@ -262,6 +364,54 @@
             <RoleAID>MM</RoleAID>
             <RoleBID>FD</RoleBID>
         </Contract>
+        <Contract id="SC-TC2" passthrough="SC-TC2.drl">
+            <Terms>
+                <Term id="payTow">
+                    <Operation name="payTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="orderTow">
+                    <Operation name="orderTow">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>TC2</RoleAID>
+            <RoleBID>SC</RoleBID>
+        </Contract>
+        <Contract id="MM-TC2" passthrough="MM-TC2.drl">
+            <Terms>
+                <Term id="sendGCLocation">
+                    <Operation name="sendGCLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>TC2</RoleBID>
+        </Contract>
     </Contracts>
     <ServiceBindings>
         <ServiceBinding id="SC_SB">
@@ -274,6 +424,12 @@
             <Endpoint>http://localhost:8082/axis2/services/FinanceDepService</Endpoint>
             <Roles>
                 <RoleID>FD</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TC2_SB">
+            <Endpoint>http://localhost:8082/axis2/services/TowServiceSeq</Endpoint>
+            <Roles>
+                <RoleID>TC2</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="OrgBinding">

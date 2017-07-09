@@ -1,7 +1,7 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/management/ms1/data/" globalRegulation="roadside_global.drl">
+        name="roadside" dataDir="src/main/resources/management/ms2/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>

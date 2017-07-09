@@ -4,14 +4,14 @@ import au.edu.swin.ict.road.common.EventRecord;
 import au.edu.swin.ict.road.composite.message.MessageWrapper;
 rule "activateV1"
 when
-    $e1 : EventRecord(eventId == "eAssistReqd")
+     ($e1 : EventRecord(eventId == "eAssistReqd")) and ($e2 : EventRecord(eventId == "eReimburseReqd"))
 then
     disabledSet.disable("activateV1");
     actions.ChangeVSNInstanceState($e1.getClassifier(),"active");
 end
 rule "terminateV1"
 when
-    ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed"))
+     ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed")) and ($e3 : EventRecord(eventId == "eTC2Paid"))
 then
     disabledSet.disable("terminateV1");
 //    actions.TerminateVSNInstance($e1.getClassifier());

@@ -29,6 +29,7 @@ rule "es2_org_stage1"
    orgMgt.addTaskToBehaviorUnit("Reimbursement","FD.Reimburse","eReimburseReqd","eReimbursed");
 
    orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoS","eAssistReqd * eReimburseReq");
    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","Reimbursement");
    System.out.println("Organizational management policy es2_org_stage1 has been completed successfully.");
    $mpsOrg.setState("stage1done");

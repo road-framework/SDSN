@@ -21,7 +21,7 @@ rule "es2_opr_stage1"
     oprMgt.addRoutingRule("FD","FD_Routing.drl");
 
     oprMgt.addPassthroughRule("MM-FD","MM-FD.drl");
-    oprMgt.updateGlobalRule("terminateV1","replace","roadside_global_Diff_Replace.drl");
+    oprMgt.updateGlobalRule("terminateV1,activateV1","replace","roadside_global_Diff_Replace.drl");
 
     oprMgt.addRegulationUnit("Reimbursement");
     oprMgt.addSynchronizationRulesToRegulationUnit("Reimbursement","reimburse:FD");

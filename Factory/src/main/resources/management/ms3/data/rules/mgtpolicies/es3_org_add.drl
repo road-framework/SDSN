@@ -1,0 +1,64 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es3_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es3_org", state=="incipient")
+   then
+   disabledSet.disable("es3_org_stage1");
+   System.out.println("Organizational management policy es3_org_stage1 has been started.");
+   orgMgt.addRole("TC2","TomTow");
+   orgMgt.addTask("TC2","Tow","SC-TC2.orderTow.Req, MM-TC2.sendGCLocation.Req","SC-TC2.payTow.Req, MM-TC2.sendGCLocation.Res");
+   orgMgt.setTaskInMessage("TC2","Tow","tow","String:pickupLocation;String:garageLocation","String");
+   orgMgt.setTaskOutMessage("TC2","Tow","tow","String:pickupLocation;String:garageLocation","String");
+   orgMgt.setServiceBinding("TC2","http://localhost:8082/axis2/services/TowServiceSeq");
+
+   orgMgt.addTask("SC","PayTC","SC-TC2.payTow.Req","SC-MM.assist.Res, SC-TC2.payTow.Req");
+   orgMgt.setTaskInMessage("SC","PayTC","payTC","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayTC","payTC","String:content","String");
+
+   orgMgt.updateTask("SC","Analyze","add","outputs","SC-TC2.orderTow.Req");
+   orgMgt.updateTask("SC","Analyze","remove","outputs","SC-MM.assist.Res");
+   orgMgt.updateTask("MM","RequestAssist","add","inputs","MM-TC2.sendGCLocation.Req");
+
+   orgMgt.addContract("SC-TC2","TC2","SC");
+   orgMgt.addTerm("SC-TC2","orderTow","BtoA");
+   orgMgt.setTermOperation("SC-TC2","orderTow","orderTow","String:content","String");
+   orgMgt.addTerm("SC-TC2","payTow","AtoB");
+   orgMgt.setTermOperation("SC-TC2","payTow","payTow","String:content","String");
+
+   orgMgt.addContract("MM-TC2","MM","TC2");
+   orgMgt.addTerm("MM-TC2","sendGCLocation","AtoB");
+   orgMgt.setTermOperation("MM-TC2","sendGCLocation","sendGCLocation","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd * eReimburseReqd * eTowReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify * eReimbursed * eTC2Paid");
+   orgMgt.addBehaviorUnit("TowingByTomTow");
+   orgMgt.addTaskToBehaviorUnit("TowingByTomTow","TC2.Tow","eTowReqd * eGCLocKnown","ePayTowReqdByTC2 * eDeliveredVehicleToGCByTC2");
+   orgMgt.addTaskToBehaviorUnit("TowingByTomTow","SC.PayTC","ePayTowReqdByTC2","eTC2Paid");
+
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoS","eAssistReqd * eReimburseReq * eTowReqd");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed * eTC2Paid");
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","TowingByTomTow");
+   System.out.println("Organizational management policy es3_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es3_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es3_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es3_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es3_org_stage2");
+   System.out.println("Organizational management policy es3_org_stage2 has been started.");
+   orgMgt.updateRole("TC2","state","active");
+   orgMgt.updateContract("SC-TC2","state","active");
+   orgMgt.updateContract("SC-TC2","state","active");
+   orgMgt.updateBehaviorUnit("TowingByTomTow","state","active");
+   System.out.println("Organizational management policy es3_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

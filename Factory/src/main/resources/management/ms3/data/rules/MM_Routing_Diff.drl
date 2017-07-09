@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+rule "requestAssistV3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="forwardable")
+  then
+  actions.Forward("MM-TC2.sendGCLocation.Req","SendGC2LocationReq.xsl",$msg);
+end

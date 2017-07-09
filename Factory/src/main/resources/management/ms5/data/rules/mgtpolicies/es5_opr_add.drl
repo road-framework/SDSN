@@ -1,0 +1,42 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es5_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es5_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es5_org", state=="stage1done") )
+  then
+    disabledSet.disable("es5_opr_stage1");
+    System.out.println("Operational management policy es5_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("PS","PS_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+    oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff.drl");
+    oprMgt.updateSynchronizationRule("GC1","doRepair","replace","GC1_SYN_Diff_Replace.drl");
+
+    oprMgt.addRoutingRule("PS","PS_Routing.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+    oprMgt.addRoutingRule("GC1","GC1_Routing_Diff.drl");
+
+    oprMgt.addPassthroughRule("PS-SC","PS-SC.drl");
+    oprMgt.addPassthroughRule("GC1-PS","GC1-PS.drl");
+
+    oprMgt.addRegulationUnit("PartsSupplyByJack");
+    oprMgt.addSynchronizationRulesToRegulationUnit("PartsSupplyByJack","orderParts:PS, payPS:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("PartsSupplyByJack","payPSResponse:SC, orderPartsResponse:PS");
+    oprMgt.addPassthroughRulesToRegulationUnit("PartsSupplyByJack","orderParts:GC1-PS, orderPartsResponse:GC1-PS, payParts:PS-SC, payPartsResponse:PS-SC");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","PartsSupplyByJack");
+
+    oprMgt.addSynchronizationRulesToRegulationUnit("RepairingByMacRepair","assessRepair:GC1");
+    oprMgt.addRoutingRulesToRegulationUnit("RepairingByMacRepair","assessRepairResponse:GC1");
+
+    oprMgt.updateRegulationUnit("PartsSupplyByJack","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","PartsSupplyByJack","state","active");
+
+    System.out.println("Operational management policy es5_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

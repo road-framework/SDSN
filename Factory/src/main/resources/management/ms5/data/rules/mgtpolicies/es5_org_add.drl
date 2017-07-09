@@ -1,0 +1,64 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es5_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es5_org", state=="incipient")
+   then
+   disabledSet.disable("es5_org_stage1");
+   System.out.println("Organizational management policy es5_org_stage1 has been started.");
+   orgMgt.addRole("PS","JackParts");
+   orgMgt.addTask("PS","OrderParts","GC1-PS.orderParts.Req","GC1-PS.orderParts.Res,PS-SC.payParts.Req");
+   orgMgt.setTaskInMessage("PS","OrderParts","orderParts","String:content","String");
+   orgMgt.setTaskOutMessage("PS","OrderParts","orderParts","String:content","String");
+   orgMgt.setServiceBinding("PS","http://localhost:8082/axis2/services/PartSupplierService");
+
+   orgMgt.addTask("GC1","AssessRepair","GC1-TC2.sendGCLocation.Res","GC1-PS.orderParts.Req");
+   orgMgt.setTaskInMessage("GC1","AssessRepair","assessRepair","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","AssessRepair","assessRepair","String:content","String");
+
+   orgMgt.addTask("SC","PayPS","PS-SC.payParts.Req","PS-SC.payParts.Res");
+   orgMgt.setTaskInMessage("SC","PayPS","payPS","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayPS","payPS","String:content","String");
+
+   orgMgt.updateTask("GC1","DoRepair","add","inputs","GC1-PS.orderParts.Res");
+   orgMgt.updateTask("GC1","DoRepair","remove","inputs","GC1-TC2.sendGCLocation.Res");
+
+   orgMgt.addContract("PS-SC","PS","SC");
+   orgMgt.addTerm("PS-SC","payParts","AtoB");
+   orgMgt.setTermOperation("PS-SC","payParts","payParts","String:content","String");
+
+   orgMgt.addContract("GC1-PS","GC1","PS");
+   orgMgt.addTerm("GC1-PS","orderParts","AtoB");
+   orgMgt.setTermOperation("GC1-PS","orderParts","orderParts","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.DoRepair","preEP"," eReceivedParts");
+   orgMgt.addTaskToBehaviorUnit("RepairingByMacRepair","GC1.AssessRepair"," eDeliveredVehicleToGC1ByTC2 "," eOrderPartsReq ");
+
+   orgMgt.addBehaviorUnit("PartsSupplyByJack");
+   orgMgt.addTaskToBehaviorUnit("PartsSupplyByJack","PS.OrderParts","eOrderPartsReq","eReceivedParts * ePayPartsReq");
+   orgMgt.addTaskToBehaviorUnit("PartsSupplyByJack","SC.PayPS", "ePayPartsReq","ePSPaid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","PartsSupplyByJack");
+   System.out.println("Organizational management policy es5_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es5_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es5_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es5_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es5_org_stage2");
+   System.out.println("Organizational management policy es5_org_stage2 has been started.");
+   orgMgt.updateRole("PS","state","active");
+   orgMgt.updateContract("PS-SC","state","active");
+   orgMgt.updateContract("GC1-PS","state","active");
+   orgMgt.updateBehaviorUnit("PartsSupplyByJack","state","active");
+   System.out.println("Organizational management policy es5_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

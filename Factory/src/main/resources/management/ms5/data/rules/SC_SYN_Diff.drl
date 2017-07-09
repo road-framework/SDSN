@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "payPS"
+  when
+   $e1 : EventRecord(eventId == "ePayPartsReq")
+  then
+   disabledSet.disable("payPS");
+   MessageWrapper [] msgs = actions.Pull(new String []{"PS-SC.payParts.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayPS.xsl","PayPS");
+   actions.ExecuteTask(exMsg);
+end

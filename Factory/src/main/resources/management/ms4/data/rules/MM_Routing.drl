@@ -1,0 +1,46 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+rule "classify"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="received")
+  then
+   actions.Classify($msg);
+end
+rule "admissionCheckV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","800,200",$msg);
+   update($msg);
+end
+rule "drop"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="droppable")
+  then
+   actions.Drop($msg);
+   update($msg);
+end
+rule "createVsnInstance"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="instantiable")
+  then
+   actions.CreateVSNInstance($msg);
+end
+rule "requestAssistV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="forwardable")
+  then
+  actions.Forward("SC-MM.assist.Req","ComplainReq.xsl",$msg);
+end
+rule "requestAssistV2"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="forwardable")
+  then
+  actions.Forward("MM-FD.reimburse.Req","ReimburseReq.xsl",$msg);
+end
+rule "requestAssistV3"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="forwardable")
+  then
+  actions.Forward("MM-TC2.sendGCLocation.Req","SendGC2LocationReq.xsl",$msg);
+end

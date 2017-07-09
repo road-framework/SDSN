@@ -96,11 +96,16 @@ public abstract class BaseRegTable {
     }
 
     public RegulationRuleSet getRegulationRuleSet(String name) {
-        return regUnit_RuleSet.get(name);
+            return regUnit_RuleSet.get(name);
     }
 
     public RegulationRuleSet removeRegulationRuleSet(String name) {
         return regUnit_RuleSet.remove(name);
+    }
+
+    public void removeRuleFromRegulationRuleSet(String name, String ruleId) {
+        RegulationRuleSet regulationRuleSet = regUnit_RuleSet.get(name);
+        regulationRuleSet.getAllRules().remove(name);
     }
 
     public void setName(String name) {

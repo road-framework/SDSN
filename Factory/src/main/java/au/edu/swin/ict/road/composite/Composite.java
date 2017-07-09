@@ -1008,7 +1008,10 @@ public class Composite implements Runnable {
             RegulationRuleRef passThroughRef = ruType.getPassthrough();
             if (passThroughRef != null) {
                 for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
-                    getContract(ruleIdType.getPlace()).getPassthroughRegTable().removeVSNTableEntry(vsnId + "_" + processId, ruId);
+                    Contract contract = getContract(ruleIdType.getPlace());
+                    if (contract != null) {
+                        contract.getPassthroughRegTable().removeVSNTableEntry(vsnId + "_" + processId, ruId);
+                    }
                 }
             }
             RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
@@ -1642,8 +1645,10 @@ public class Composite implements Runnable {
         for (RegulationRuleIdType ruleIdType : ruleIdTypes) {
             String contractId = ruleIdType.getPlace();
             Contract contract = getContract(contractId);
-            PassthroughRegTable passthroughRegTable = contract.getPassthroughRegTable();
-            passthroughRegTable.removeRegulationRuleSet(ruId);
+            if (contract != null) {
+                PassthroughRegTable passthroughRegTable = contract.getPassthroughRegTable();
+                passthroughRegTable.removeRuleFromRegulationRuleSet(ruId, ruleIdType.getId());
+            }
         }
     }
 
@@ -1668,7 +1673,7 @@ public class Composite implements Runnable {
             String roleID = ruleIdType.getPlace();
             Role role = getRole(roleID);
             SynchronizationRegTable regTable = role.getSynchronizationRegTable();
-            regTable.removeRegulationRuleSet(ruId);
+            regTable.removeRuleFromRegulationRuleSet(ruId, ruleIdType.getId());
         }
     }
 
@@ -1692,7 +1697,7 @@ public class Composite implements Runnable {
             String roleID = ruleIdType.getPlace();
             Role role = getRole(roleID);
             RoutingRegTable regTable = role.getRoutingRegTable();
-            regTable.removeRegulationRuleSet(ruId);
+            regTable.removeRuleFromRegulationRuleSet(ruId, ruleIdType.getId());
         }
     }
 
@@ -1710,7 +1715,7 @@ public class Composite implements Runnable {
     }
 
     public void undeployGlobalRulesOfRegulationUnit(String ruId, List<RegulationRuleIdType> ruleIdTypes) {
-        globalRegTable.removeRegulationRuleSet(ruId);
+       globalRegTable.removeRegulationRuleSet(ruId);
     }
 
     private void deployProcessDefinition(ProcessPath route, String sliceID) {

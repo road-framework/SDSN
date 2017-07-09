@@ -101,6 +101,10 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addRegulationUnitsToProcessRegulationPolicy(String vsnId, String processId, String ruIds);
 
+    public OperationalMgtOpResult addRoutingRegulationUnitToProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
+    public OperationalMgtOpResult removeRoutingRegulationUnitFromProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
     public OperationalMgtOpResult removeRegulationUnitsFromProcessRegulationPolicy(String vsnId, String processId, String ruIds);
 
     public OperationalMgtOpResult updateRegulationUnitOfProcessRegulationPolicy(String vsnId, String processId, String ruId, String property, String value);

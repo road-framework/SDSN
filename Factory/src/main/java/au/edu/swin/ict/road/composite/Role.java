@@ -363,25 +363,35 @@ public class Role implements IRole, EventEngineSubscriber {
         List<RegulationUnitKey> vsnRegTableEntry = routingRegTable.getVSNTableEntry(key);
         if (vsnRegTableEntry != null) {
             List<RegulationRuleSet> ruleSets = new ArrayList<RegulationRuleSet>();
+
             for (RegulationUnitKey regUnitId : vsnRegTableEntry) {
+                RegulationRuleSet regulationRuleSet = routingRegTable.getRegulationRuleSet(regUnitId.getUnitId());
+                if (regulationRuleSet == null) {
+                    log.error("No regulation rule set for : " + regUnitId.getUnitId() + " at : " + getId());
+                    continue;
+                }
                 if (vsnInstanceId != null) {
                     if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_ACTIVE)
                             && !regUnitId.isExcluded(vsnInstanceId)) {
-                        ruleSets.add(routingRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
+                        ruleSets.add(regulationRuleSet);
                     } else if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_PASSIVE)
                             && regUnitId.isIncluded(vsnInstanceId)) {
-                        ruleSets.add(routingRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
+                        ruleSets.add(regulationRuleSet);
                     }
                 } else {
-                    ruleSets.add(routingRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
+                    ruleSets.add(regulationRuleSet);
                 }
             }
-            try {
-                event.setAgendaFilter(new NameBasedAgendaFilter(ruleSets));
-                routingRules.insertEvent(event);
-            } catch (RulesException ex) {
-                ex.printStackTrace();
-                log.error(ex.getMessage());
+            if (!ruleSets.isEmpty()) {
+                try {
+                    event.setAgendaFilter(new NameBasedAgendaFilter(ruleSets));
+                    routingRules.insertEvent(event);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    log.error(ex.getMessage());
+                }
+            } else {
+                log.error("No regulation rule set at role : " + getId() + " for key" + key);
             }
         }
     }

@@ -1,0 +1,23 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "orderRepair"
+  when
+  $e1 : EventRecord(eventId == "eRepairReqdFromGC1BySC")
+  then
+   disabledSet.disable("orderRepairV2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-GC1.orderRepair.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"OrderRepairGC1V2.xsl","OrderRepair");
+   actions.ExecuteTask(exMsg);
+end
+rule "doRepair"
+  when
+   $e1 : EventRecord(eventId == "eDeliveredVehicleToGC1ByTC2")
+  then
+   disabledSet.disable("doRepair");
+   MessageWrapper [] msgs = actions.Pull(new String []{"GC1-TC2.sendGCLocation.Res"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"DoRepairGC1.xsl","DoRepair");
+   actions.ExecuteTask(exMsg);
+end

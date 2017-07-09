@@ -1,0 +1,73 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es4_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es4_org", state=="incipient")
+   then
+   disabledSet.disable("es4_org_stage1");
+   System.out.println("Organizational management policy es4_org_stage1 has been started.");
+   orgMgt.addRole("GC1","MacRepair");
+
+   orgMgt.addTask("GC1","OrderRepair","SC-GC1.orderRepair.Req","GC1-TC2.sendGCLocation.Req");
+   orgMgt.setTaskInMessage("GC1","OrderRepair","orderRepair","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","OrderRepair","orderRepair","String:content","String");
+
+   orgMgt.addTask("GC1","DoRepair","GC1-TC2.sendGCLocation.Res","SC-GC2.payRepair.Req");
+   orgMgt.setTaskInMessage("GC1","DoRepair","doRepair","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","DoRepair","doRepair","String:content","String");
+   orgMgt.setServiceBinding("GC1","http://localhost:8082/axis2/services/InGarageService");
+
+   orgMgt.addTask("SC","PayGC","SC-GC1.payRepair.Req","SC-GC1.payRepair.Res, SC-MM.assist.Res");
+   orgMgt.setTaskInMessage("SC","PayGC","payGC","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayGC","payGC","String:content","String");
+
+   orgMgt.updateTask("TC2","Tow","remove","inputs","MM-TC2.sendGCLocation.Req");
+   orgMgt.updateTask("TC2","Tow","remove","outputs","MM-TC2.sendGCLocation.Res");
+   orgMgt.updateTask("SC","PayTC","remove","outputs","SC-MM.assist.Res");
+   orgMgt.updateTask("TC2","Tow","add","inputs","GC1-TC2.sendGCLocation.Req");
+   orgMgt.updateTask("TC2","Tow","add","outputs","GC1-TC2.sendGCLocation.Res");
+
+   orgMgt.addContract("GC1-TC2","GC1","TC2");
+   orgMgt.addTerm("GC1-TC2","sendGCLocation","AtoB");
+   orgMgt.setTermOperation("GC1-TC2","sendGCLocation","sendGCLocation","String:content","String");
+
+   orgMgt.addContract("SC-GC1","SC","GC1");
+   orgMgt.addTerm("SC-GC1","orderRepair","AtoB");
+   orgMgt.setTermOperation("SC-GC1","orderRepair","orderRepair","String:content","String");
+   orgMgt.addTerm("SC-GC1","payRepair","BtoA");
+   orgMgt.setTermOperation("SC-GC1","payRepair","payRepair","String:content","String");
+
+   orgMgt.removeContract("MM-TC2");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd * eReimburseReqd * eTowReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify * eReimbursed * eTC2Paid");
+
+   orgMgt.addBehaviorUnit("RepairingByMacRepair");
+   orgMgt.addTaskToBehaviorUnit("RepairingByMacRepair","GC1.OrderRepair","eRepairReqFromGC1BySC","eRepairAcceptByGC1  * eSentGC1LocToTC2");
+   orgMgt.addTaskToBehaviorUnit("RepairingByMacRepair","GC1.DoRepair", "eDeliveredVehicleGC1ByTC2","ePayRepairReqdByGC1");
+   orgMgt.addTaskToBehaviorUnit("RepairingByMacRepair","SC.PayGC", "ePayRepairReqdByGC1","eGC1Paid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","RepairingByMacRepair");
+   System.out.println("Organizational management policy es4_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es4_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es4_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es4_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es4_org_stage2");
+   System.out.println("Organizational management policy es4_org_stage2 has been started.");
+   orgMgt.updateRole("GC1","state","active");
+   orgMgt.updateContract("GC1-TC2","state","active");
+   orgMgt.updateContract("SC-GC1","state","active");
+   orgMgt.updateBehaviorUnit("RepairingByMacRepair","state","active");
+   System.out.println("Organizational management policy es4_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

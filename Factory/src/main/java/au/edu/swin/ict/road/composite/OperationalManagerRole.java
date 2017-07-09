@@ -943,6 +943,26 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
+    public OperationalMgtOpResult addRoutingRegulationUnitToProcessRegulationPolicyAt(String vsnId1,
+                                                                               String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : addRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getRole(place1.trim()).getRoutingRegTable().addVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(),
+                new RegulationUnitKey(
+                        new RegulationUnitKeyManagementState(ruId1.trim(),
+                                ManagementState.STATE_ACTIVE, vsnId1.trim(), processId1.trim()), ruId1.trim()));
+        return new OperationalMgtOpResult(true, "addRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
+    public OperationalMgtOpResult removeRoutingRegulationUnitFromProcessRegulationPolicyAt(String vsnId1, String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : removeRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getRole(place1.trim()).getRoutingRegTable().removeVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(), ruId1.trim());
+        return new OperationalMgtOpResult(true, "removeRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
     public OperationalMgtOpResult removeRegulationUnitsFromProcessRegulationPolicy(String vsnId1, String processId1, String ruIds1) {
         log.info("Operational Manager : remove regulation units " + ruIds1 + " from the process : " + processId1);
         String vsnId = vsnId1.trim();
@@ -960,9 +980,14 @@ public class OperationalManagerRole implements IOperationalManagerRole {
                 interColList.add(s);
             }
         }
-        new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).removeAll(interColList);
-        composite.undeployProcessRegulationPolicy(vsnId, processId, interColList);
-        composite.undeployProcessCollaborationUnitMappings(vsnId, processId, colList);
+
+        if (!interColList.isEmpty()) {
+            composite.undeployProcessRegulationPolicy(vsnId, processId, interColList);
+            smcDataExtractor.getInterCollaborationRegulationUnitsOfProcess(vsnId, processId).removeAll(interColList);
+        }
+        if (!colList.isEmpty()) {
+            composite.undeployProcessCollaborationUnitMappings(vsnId, processId, colList);
+        }
         return new OperationalMgtOpResult(true, "The regulation units from the process " + processId + "have been removed.");
     }
 

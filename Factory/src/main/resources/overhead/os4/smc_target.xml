@@ -111,7 +111,7 @@
                     <tns1:RuleRef id="payTC2" place="SC"/>
                 </tns1:Synchronization>
                 <tns1:Routing>
-                    <tns1:RuleRef id="payTCResponse" place="SC"/>
+                    <tns1:RuleRef id="payTCResponseV2" place="SC"/>
                     <tns1:RuleRef id="towResponse" place="TC2"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>

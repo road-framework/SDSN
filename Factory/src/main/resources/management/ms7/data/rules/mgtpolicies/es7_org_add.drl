@@ -1,0 +1,66 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es7_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es7_org", state=="incipient")
+   then
+   disabledSet.disable("es7_org_stage1");
+   System.out.println("Organizational management policy es7_org_stage1 has been started.");
+   orgMgt.addRole("LF","AuLaw");
+   orgMgt.addTask("LF","InspectAccident","SC-LF.inspectAccident.Req","SC-LF.payLegalAid.Req, LF-TC2.authorizeTow.Req");
+   orgMgt.setTaskInMessage("LF","InspectAccident","inspectAccident","String:content","String");
+   orgMgt.setTaskOutMessage("LF","InspectAccident","inspectAccident","String:content","String");
+   orgMgt.setServiceBinding("LF","http://localhost:8082/axis2/services/AusLawService");
+
+   orgMgt.addTask("GC1","ReceiveExternalAssessment","GC1-AS.orderRepairAssessment.Res","GC1-PS.orderParts.Req");
+   orgMgt.setTaskInMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+
+   orgMgt.addTask("SC","PayLF","SC-LF.payLegalAid.Req","SC-LF.payLegalAid.Res");
+   orgMgt.setTaskInMessage("SC","PayLF","payLF","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayLF","payLF","String:content","String");
+
+   orgMgt.updateTask("TC2","Tow","add","inputs","LF-TC2.authorizeTow.Req");
+   orgMgt.updateTask("SC","Analyze","add","outputs","GC1-PS.orderParts.Req");
+
+   orgMgt.addContract("LF-TC2","LF","TC2");
+   orgMgt.addTerm("LF-TC2","authorizeTow","AtoB");
+   orgMgt.setTermOperation("LF-TC2","authorizeTow","authorizeTow","String:content","String");
+
+   orgMgt.addContract("SC-LF","SC","LF");
+   orgMgt.addTerm("SC-LF","inspectAccident","AtoB");
+   orgMgt.setTermOperation("SC-LF","inspectAccident","inspectAccident","String:content","String");
+   orgMgt.addTerm("SC-LF","payLegalAid","BtoA");
+   orgMgt.setTermOperation("SC-LF","payLegalAid","payLegalAid","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("TowingByTomTow","TC2.Tow","preEP"," eTowReqd * eGCLocKnown * eTowAuthorized");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.AssessRepair"," postEP "," eRepairAssessmentReq");
+
+   orgMgt.addBehaviorUnit("LegalAssistance");
+   orgMgt.addTaskToBehaviorUnit("LegalAssistance","LF.InspectAccident","eInspectAccidentReqd","ePayLegalAidReqd * eTowAuthorized");
+   orgMgt.addTaskToBehaviorUnit("LegalAssistance","SC.PayLF", "ePayLegalAidReqd","eLFPaid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","LegalAssistance");
+   System.out.println("Organizational management policy es7_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es7_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es7_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es7_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es7_org_stage2");
+   System.out.println("Organizational management policy es7_org_stage2 has been started.");
+   orgMgt.updateRole("LF","state","active");
+   orgMgt.updateContract("LF-TC2","state","active");
+   orgMgt.updateContract("SC-LF","state","active");
+   orgMgt.updateBehaviorUnit("LegalAssistance","state","active");
+   System.out.println("Organizational management policy es7_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

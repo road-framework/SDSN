@@ -1,0 +1,34 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "analyzeResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC2.orderTow.Req","OrderTC2TowReq.xsl",$msg);
+   actions.Forward("SC-GC1.orderRepair.Req","OrderRepairReqGC1.xsl",$msg);
+end
+rule "payTCResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "payTCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC2.payTow.Res","PayTC2Res.xsl",$msg);
+end
+rule "payGCResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payGCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC1.payRepair.Res","PayGC1Res.xsl",$msg);
+   actions.Forward("SC-MM.assist.Res","ComplainRes.xsl",$msg);
+end
+rule "payPSResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payPSResponse", state=="forwardable")
+  then
+   actions.Forward("PS-SC.payParts.Res","PayPartsRes.xsl",$msg);
+end
+rule "payASResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payASResponse", state=="forwardable")
+  then
+   actions.Forward("AS-SC.payRepairAssessment.Res","PayRepairAssessmentRes.xsl",$msg);
+end

@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es7_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es7_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es7_org", state=="stage1done") )
+  then
+    disabledSet.disable("es7_opr_stage1");
+    System.out.println("Operational management policy es7_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("LF","LF_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+    oprMgt.updateSynchronizationRule("TC2","tow","replace","TC2_SYN_Diff_Replace.drl");
+
+    oprMgt.addRoutingRule("LF","LF_Routing.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing_Diff_Replace.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+
+    oprMgt.addPassthroughRule("LF-TC2","LF-TC2.drl");
+    oprMgt.addPassthroughRule("SC-LF","SC-LF.drl");
+
+    oprMgt.addRegulationUnit("LegalAssistance");
+    oprMgt.addSynchronizationRulesToRegulationUnit("LegalAssistance","payLF:SC, inspectAccident:LF");
+    oprMgt.addRoutingRulesToRegulationUnit("LegalAssistance","payLFResponse:SC, inspectAccidentResponse:LF");
+    oprMgt.addPassthroughRulesToRegulationUnit("LegalAssistance","inspectAccident:SC-LF, payLegalAid:SC-LF, payLegalAidResponse:SC-LF, authorizeTow:LF-TC2");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","LegalAssistance");
+
+    oprMgt.updateRegulationUnit("LegalAssistance","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","LegalAssistance","state","active");
+
+    System.out.println("Operational management policy es7_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "payHC"
+  when
+   $e1 : EventRecord(eventId == "ePayHCReqd")
+  then
+   disabledSet.disable("payHC");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-HC.payRoomRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayHC.xsl","PayHC");
+   actions.ExecuteTask(exMsg);
+end

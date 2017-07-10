@@ -1,11 +1,11 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/overhead/os8/data/" globalRegulation="roadside_global.drl">
+        name="roadside" dataDir="src/main/resources/management/ms8/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eReimbursed * eHCPaid</tns1:CoT>
+            <tns1:CoT>eMMNotify * eReimbursed * eTerminated</tns1:CoT>
             <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>Reimbursement</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>TowingByTomTow</tns1:CollaborationUnitRef>
@@ -402,6 +402,7 @@
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-GC1" termId="payRepair" isResponse="true"/>
                         <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-HC" termId="endRoomRent" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
                 <tns1:Task id="PayPS">

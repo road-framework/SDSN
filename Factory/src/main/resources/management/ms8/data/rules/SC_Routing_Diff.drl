@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "payHCResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payHCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-HC.payRoomRent.Res","PayRoomRentRes.xsl",$msg);
+end

@@ -1,0 +1,69 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es8_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es8_org", state=="incipient")
+   then
+   disabledSet.disable("es8_org_stage1");
+   System.out.println("Organizational management policy es8_org_stage1 has been started.");
+   orgMgt.addRole("HC","AmayHotel");
+   orgMgt.addTask("HC","RentRoom","SC-HC.rentRoom.Req","SC-HC.rentRoom.Res");
+   orgMgt.setTaskInMessage("HC","RentRoom","rentRoom","String:content","String");
+   orgMgt.setTaskOutMessage("HC","RentRoom","rentRoom","String:content","String");
+   orgMgt.addTask("HC","EndRoomRent","SC-HC.endRoomRent.Req","SC-HC.endRoomRent.Res,SC-HC.payRoomRent.Req");
+   orgMgt.setTaskInMessage("HC","EndRoomRent","endRoomRent","String:content","String");
+   orgMgt.setTaskOutMessage("HC","EndRoomRent","endRoomRent","String:content","String");
+   orgMgt.setServiceBinding("HC","http://localhost:8082/axis2/services/HotelService");
+
+   orgMgt.addTask("GC1","ReceiveExternalAssessment","GC1-AS.orderRepairAssessment.Res","GC1-PS.orderParts.Req");
+   orgMgt.setTaskInMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+
+   orgMgt.addTask("SC","PayHC","SC-HC.payRoomRent.Req","SC-HC.payRoomRent.Res");
+   orgMgt.setTaskInMessage("SC","PayHC","payHC","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayHC","payHC","String:content","String");
+
+   orgMgt.updateTask("SC","PayGC","add","outputs","SC-HC.rentRoom.Req");
+   orgMgt.updateTask("SC","Analyze","add","outputs","SC-HC.rentRoom.Req");
+
+   orgMgt.addContract("SC-HC","SC","HC");
+   orgMgt.addTerm("SC-HC","rentRoom","AtoB");
+   orgMgt.setTermOperation("SC-HC","rentRoom","rentRoom","String:content","String");
+   orgMgt.addTerm("SC-HC","endRoomRent","AtoB");
+   orgMgt.setTermOperation("SC-HC","endRoomRent","endRoomRent","String:content","String");
+   orgMgt.addTerm("SC-HC","payRoomRent","BtoA");
+   orgMgt.setTermOperation("SC-HC","payRoomRent","payRoomRent","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentRoomReqd");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","SC.PayGC"," postEP "," eGC1Paid * eHCPaid");
+
+   orgMgt.addBehaviorUnit("RentingRoom");
+   orgMgt.addTaskToBehaviorUnit("RentingRoom","HC.RentRoom","eRentRoomReqd","eRentedRoom");
+   orgMgt.addTaskToBehaviorUnit("RentingRoom","HC.EndRoomRent", "eEndRoomRentReqd","eEndedRoomRent");
+   orgMgt.addTaskToBehaviorUnit("RentingRoom","SC.PayHC", "ePayHCReqd","eHCPaid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","RentingRoom");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed * eTerminated");
+   System.out.println("Organizational management policy es8_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es8_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es8_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es8_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es8_org_stage2");
+   System.out.println("Organizational management policy es8_org_stage2 has been started.");
+   orgMgt.updateRole("LF","state","active");
+   orgMgt.updateContract("LF-TC2","state","active");
+   orgMgt.updateContract("SC-LF","state","active");
+   orgMgt.updateBehaviorUnit("RentingRoom","state","active");
+   System.out.println("Organizational management policy es8_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

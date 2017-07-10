@@ -1,7 +1,7 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/overhead/os7/data/" globalRegulation="roadside_global.drl">
+        name="roadside" dataDir="src/main/resources/management/ms8/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
@@ -661,6 +661,7 @@
                     <tns1:SrcMsgs>
                         <tns1:SrcMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
                         <tns1:SrcMsg contractId="GC1-TC2" termId="sendGCLocation" isResponse="false"/>
+                        <tns1:SrcMsg contractId="LF-TC2" termId="authorizeTow" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-TC2" termId="payTow" isResponse="false"/>

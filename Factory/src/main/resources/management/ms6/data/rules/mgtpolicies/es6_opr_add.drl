@@ -1,0 +1,39 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es6_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es6_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es6_org", state=="stage1done") )
+  then
+    disabledSet.disable("es6_opr_stage1");
+    System.out.println("Operational management policy es6_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("AS","AS_SYN.drl");
+    oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+
+    oprMgt.addRoutingRule("AS","AS_Routing.drl");
+    oprMgt.addRoutingRule("GC1","GC1_Routing_Diff.drl");
+    oprMgt.updateRoutingRule("GC1","assessRepairResponse","replace","GC1_Routing_Diff_Replace.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+
+    oprMgt.addPassthroughRule("AS-SC","AS-SC.drl");
+    oprMgt.addPassthroughRule("GC1-AS","GC1-AS.drl");
+
+    oprMgt.addRegulationUnit("VehicleAssessment");
+    oprMgt.addSynchronizationRulesToRegulationUnit("VehicleAssessment","assessRepair:AS, payAS:SC, receiveExternalAssessment:GC1");
+    oprMgt.addRoutingRulesToRegulationUnit("VehicleAssessment","payASResponse:SC, assessRepairResponse:AS, receiveExternalAssessmentResponse:GC1");
+    oprMgt.addPassthroughRulesToRegulationUnit("VehicleAssessment","orderRepairAssessment:GC1-AS, orderRepairAssessmentResponse:GC1-AS, payRepairAssessment:AS-SC, payRepairAssessmentsResponse:AS-SC");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","VehicleAssessment");
+
+    oprMgt.updateRegulationUnit("VehicleAssessment","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","VehicleAssessment","state","active");
+
+    System.out.println("Operational management policy es6_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

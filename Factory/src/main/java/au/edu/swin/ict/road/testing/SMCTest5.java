@@ -24,7 +24,7 @@ public class SMCTest5 {
                     ConfigurationContextFactory.createConfigurationContextFromFileSystem("sample\\confs\\axis2.xml"),
                     "AXIS2PushListener", false);
             CompositeDemarshaller dm = new CompositeDemarshaller();
-            Composite composite = dm.demarshalSMC("src\\main\\resources\\management\\ms5\\smc_source.xml");
+            Composite composite = dm.demarshalSMC("src\\main\\resources\\management\\ms6\\smc_source.xml");
             for (Role role : composite.getRoleMap().values()) {
                 role.registerNewPushListener(messagePusher);
             }
@@ -32,9 +32,9 @@ public class SMCTest5 {
             Thread compo = new Thread(composite);
             compo.start();
             Thread.sleep(1000);
-            Thread pe2 = new Thread(new PolicyExecutor(composite, "es5_org", "es5_org_add.drl", true));
+            Thread pe2 = new Thread(new PolicyExecutor(composite, "es6_org", "es6_org_add.drl", true));
             pe2.start();
-            Thread pe3 = new Thread(new PolicyExecutor(composite, "es5_opr", "es5_opr_add.drl", false));
+            Thread pe3 = new Thread(new PolicyExecutor(composite, "es6_opr", "es6_opr_add.drl", false));
             pe3.start();
             Thread.sleep(5000);
             System.out.println("Management policy applied nanoseconds");

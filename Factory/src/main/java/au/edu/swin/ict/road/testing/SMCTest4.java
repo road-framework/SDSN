@@ -23,7 +23,7 @@ public class SMCTest4 {
                     ConfigurationContextFactory.createConfigurationContextFromFileSystem("sample\\confs\\axis2.xml"),
                     "AXIS2PushListener", false);
             CompositeDemarshaller dm = new CompositeDemarshaller();
-            Composite composite = dm.demarshalSMC("src\\main\\resources\\overhead\\os4\\smc_target.xml");
+            Composite composite = dm.demarshalSMC("src\\main\\resources\\overhead\\os6\\smc_target.xml");
             for (Role role : composite.getRoleMap().values()) {
                 role.registerNewPushListener(messagePusher);
             }

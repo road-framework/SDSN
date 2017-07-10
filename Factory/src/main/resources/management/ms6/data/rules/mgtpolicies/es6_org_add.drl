@@ -1,0 +1,65 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es6_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es6_org", state=="incipient")
+   then
+   disabledSet.disable("es6_org_stage1");
+   System.out.println("Organizational management policy es6_org_stage1 has been started.");
+   orgMgt.addRole("AS","LanAS");
+   orgMgt.addTask("AS","AssessRepair","GC1-AS.orderRepairAssessment.Req","GC1-AS.orderRepairAssessment.Res, AS-SC.payRepairAssessment.Req");
+   orgMgt.setTaskInMessage("AS","AssessRepair","assessRepair","String:content","String");
+   orgMgt.setTaskOutMessage("AS","AssessRepair","assessRepair","String:content","String");
+   orgMgt.setServiceBinding("AS","http://localhost:8082/axis2/services/VehicleRepairAssessmentService");
+
+   orgMgt.addTask("GC1","ReceiveExternalAssessment","GC1-AS.orderRepairAssessment.Res","GC1-PS.orderParts.Req");
+   orgMgt.setTaskInMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+   orgMgt.setTaskOutMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
+
+   orgMgt.addTask("SC","PayAS","AS-SC.payRepairAssessment.Req","AS-SC.payRepairAssessment.Res");
+   orgMgt.setTaskInMessage("SC","PayAS","payAS","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayAS","payAS","String:content","String");
+
+   orgMgt.updateTask("GC1","AssessRepair","add","outputs","GC1-AS.orderRepairAssessment.Req");
+   orgMgt.updateTask("GC1","AssessRepair","remove","outputs","GC1-PS.orderParts.Req");
+
+   orgMgt.addContract("AS-SC","AS","SC");
+   orgMgt.addTerm("AS-SC","payRepairAssessment","AtoB");
+   orgMgt.setTermOperation("AS-SC","payRepairAssessment","payRepairAssessment","String:content","String");
+
+   orgMgt.addContract("GC1-AS","GC1","AS");
+   orgMgt.addTerm("GC1-AS","orderRepairAssessment","AtoB");
+   orgMgt.setTermOperation("GC1-AS","orderRepairAssessment","orderRepairAssessment","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.DoRepair","preEP"," eReceivedParts");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.AssessRepair"," postEP "," eRepairAssessmentReq");
+
+   orgMgt.addBehaviorUnit("VehicleAssessment");
+   orgMgt.addTaskToBehaviorUnit("VehicleAssessment","AS.AssessRepair","eRepairAssessmentReq","eReceivedAssessmentReport * ePayAssessmentReq");
+   orgMgt.addTaskToBehaviorUnit("VehicleAssessment","GC1.ReceiveExternalAssessment", " eReceivedAssessmentReport","eOrderPartsReq");
+   orgMgt.addTaskToBehaviorUnit("VehicleAssessment","SC.PayAS", "ePayAssessmentReq","eASPaid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","VehicleAssessment");
+   System.out.println("Organizational management policy es6_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es6_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es6_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es6_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es6_org_stage2");
+   System.out.println("Organizational management policy es6_org_stage2 has been started.");
+   orgMgt.updateRole("AS","state","active");
+   orgMgt.updateContract("GC1-AS","state","active");
+   orgMgt.updateContract("AS-SC","state","active");
+   orgMgt.updateBehaviorUnit("VehicleAssessment","state","active");
+   System.out.println("Organizational management policy es6_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

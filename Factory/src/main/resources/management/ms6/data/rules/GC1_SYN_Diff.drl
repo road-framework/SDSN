@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "receiveExternalAssessment"
+  when
+   $e1 : EventRecord(eventId == "eReceivedAssessmentReport")
+  then
+   disabledSet.disable("receiveExternalAssessment");
+   MessageWrapper [] msgs = actions.Pull(new String []{"GC1-AS.orderRepairAssessment.Res"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"ReceiveExternalAssessment.xsl","ReceiveExternalAssessment");
+   actions.ExecuteTask(exMsg);
+end

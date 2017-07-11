@@ -34,7 +34,7 @@ public class OrganizerTest {
                     composite.getSmcBinding()).getProcessDefinitionGroup("Tenant3"));
 
             serendipOrganizer.addProcessDefinitionToGroup("Tenant3",
-                                                          OMUtils.createOMElement("test\\resources\\process.xml"));
+                    OMUtils.createOMElement("test\\resources\\process.xml"));
 
             Assert.assertNotNull(composite.getSerendipEngine().
                     getProcessDefinitionGroup("Tenant3").getProcessDefinition("PDBronzeT3"));

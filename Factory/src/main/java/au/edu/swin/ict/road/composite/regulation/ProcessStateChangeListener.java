@@ -36,7 +36,7 @@ public class ProcessStateChangeListener extends BaseManagementStateChangeListene
 
     public void notify(ManagementState managementState) {
         System.out.println("ProcessStateChangeListener : resuming the processing of the messages for the process : " +
-                           managementState.getState());
+                managementState.getState());
         List<RoleServiceMessage> messages = messageQueue.dequeueAll();
         for (RoleServiceMessage message : messages) {
             if (managementState.getState().equals(ManagementState.STATE_ACTIVE)) {
@@ -69,7 +69,7 @@ public class ProcessStateChangeListener extends BaseManagementStateChangeListene
                 //TODO verify COS condition
             } catch (SerendipException e) {
                 log.error("Error creating a process instance for the message " +
-                          message.getMessageId() + "," + e.getMessage(), e);
+                        message.getMessageId() + "," + e.getMessage(), e);
             }
         }
     }

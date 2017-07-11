@@ -25,25 +25,11 @@ import java.util.regex.Pattern;
  * @author Malinda
  */
 public class Task extends SerendipEventListener {
+    public static String OPTYPE_SOLI_RES = "solicit-response";
+    public static String OPTYPE_ONEWAY = "one-way";
+    public static String OPTYPE_REQ_RES = "request-response";
+    public static String OPTYPE_NOTIFICATION = "notification";
     private static Logger log = Logger.getLogger(SerendipEngine.class);
-
-    public String getMessagingPattern() {
-        return messagingPattern;
-    }
-
-    public void setMessagingPattern(String messagingPattern) {
-        this.messagingPattern = messagingPattern;
-    }
-
-    //We specifically use lower case letters for enums to support the scripting. Change with care.
-    public enum status {
-        init, active, completed
-    }
-
-    public enum propertyAttribute {
-        preep, postep, pp, role, descr
-    }
-
     private String taskDetailedId = null;// This is the function id of the epc
     private String taskId = null;
     // private TaskRefType taskType = null;
@@ -58,22 +44,12 @@ public class Task extends SerendipEventListener {
     private BehaviorTerm behaviorTerm = null;
     private boolean override = false;
     private Classifier classifier;
-
-    public void setPi(ProcessInstance pi) {    //TODO INDIKA
-        this.pi = pi;
-    }
-
     private ProcessInstance pi = null;
     private PerformanceProperty property = null;
     private String postEventPattern = null;
     private ConfigurableEPC epc = null;
     private String taskType = null;
-    public static String OPTYPE_SOLI_RES = "solicit-response";
-    public static String OPTYPE_ONEWAY = "one-way";
-    public static String OPTYPE_REQ_RES = "request-response";
-    public static String OPTYPE_NOTIFICATION = "notification";
     private String messagingPattern = OPTYPE_SOLI_RES;
-
     /**
      * A task description
      *
@@ -90,7 +66,6 @@ public class Task extends SerendipEventListener {
         this.postEventPattern = postEP.trim();
 
     }
-
     /**
      * New constructor
      */
@@ -116,6 +91,41 @@ public class Task extends SerendipEventListener {
 
     }
 
+    // "\\[[^]]*]"
+    public static ArrayList<String> getAllEventsAsAnArray(String eventPattern) {
+        ArrayList<String> eventList = new ArrayList<String>();
+        /*
+           * \\ -- one backslash, meaning "match next character" [ -- the quoted
+           * character: a [ without special meaning [ -- start of a character
+           * class ^] -- ... containing all characters except ] ] -- end of the
+           * character class -- match zero or more non-] characters ] -- match a
+           * single ] character
+           */
+        String regex = "\\[[^]]*]";// Find anything that match [somestring]
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(eventPattern);
+        // Find all the matches.
+        while (matcher.find()) {
+            String s = matcher.group();
+            String eventId = s.substring(1, s.indexOf("]"));
+            eventList.add(eventId);
+        }
+
+        return eventList;
+    }
+
+    public String getMessagingPattern() {
+        return messagingPattern;
+    }
+
+    public void setMessagingPattern(String messagingPattern) {
+        this.messagingPattern = messagingPattern;
+    }
+
+    public void setPi(ProcessInstance pi) {    //TODO INDIKA
+        this.pi = pi;
+    }
+
     //We need to explicitly subscribe a task to an event cloud
     public void subscribeTo(EventCloud ec) {
         if (null != ec) {
@@ -130,8 +140,8 @@ public class Task extends SerendipEventListener {
                 log.debug("Converting Task" + this.toString());
             }
             epc = PatternToEPC.convertToEPC(this.getEventPatterns().get(0),
-                                            this.obligatedRoleId + "." + this.taskId,
-                                            this.postEventPattern);
+                    this.obligatedRoleId + "." + this.taskId,
+                    this.postEventPattern);
         } catch (SerendipException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -178,8 +188,8 @@ public class Task extends SerendipEventListener {
         // Notify the obligated Role
         if (log.isDebugEnabled()) {
             log.debug("EP= " + epPre + " matched. Role " + obligatedRoleId
-                      + " can do Task " + this.taskId + " in behavior "
-                      + this.behaviorTerm.getId());
+                    + " can do Task " + this.taskId + " in behavior "
+                    + this.behaviorTerm.getId());
         }
 
         //NOTE: SHORTCUT for TESTING. TO ENABLE, Set the TEST_FILE property in the serendip.Properties file
@@ -206,7 +216,7 @@ public class Task extends SerendipEventListener {
                 }
                 if (log.isInfoEnabled()) {
                     log.info(sub.getId() + " is supposed to perform " + this.taskId +
-                             " in the instance : " + pi.getId());
+                            " in the instance : " + pi.getId());
                 }
                 //For visualization purposes
                 this.pi.addToCurrentTasks(this);
@@ -221,7 +231,7 @@ public class Task extends SerendipEventListener {
         }
         if (this.engine.isInForLogEnable()) {
             this.engine.writeLogMessage("TASK", taskId + " executed by " + this.obligatedRoleId +
-                                                " in the instance : " + pi.getId());
+                    " in the instance : " + pi.getId());
         }
         this.setCurrentStatus(status.completed);
 //        this.setAlive(false);
@@ -383,29 +393,6 @@ public class Task extends SerendipEventListener {
         this.taskDetailedId = taskDetailedId;
     }
 
-    // "\\[[^]]*]"
-    public static ArrayList<String> getAllEventsAsAnArray(String eventPattern) {
-        ArrayList<String> eventList = new ArrayList<String>();
-        /*
-           * \\ -- one backslash, meaning "match next character" [ -- the quoted
-           * character: a [ without special meaning [ -- start of a character
-           * class ^] -- ... containing all characters except ] ] -- end of the
-           * character class -- match zero or more non-] characters ] -- match a
-           * single ] character
-           */
-        String regex = "\\[[^]]*]";// Find anything that match [somestring]
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(eventPattern);
-        // Find all the matches.
-        while (matcher.find()) {
-            String s = matcher.group();
-            String eventId = s.substring(1, s.indexOf("]"));
-            eventList.add(eventId);
-        }
-
-        return eventList;
-    }
-
     public String toText() {
         StringBuilder buf = new StringBuilder();
         buf.append("Task ").append(this.taskId).append("{\n");
@@ -420,7 +407,16 @@ public class Task extends SerendipEventListener {
 
     public String toString() {
         return this.getEventPatterns().get(0) + "->" + this.obligatedRoleId + "."
-               + this.taskId + "->" + this.postEventPattern;
+                + this.taskId + "->" + this.postEventPattern;
+    }
+
+    //We specifically use lower case letters for enums to support the scripting. Change with care.
+    public enum status {
+        init, active, completed
+    }
+
+    public enum propertyAttribute {
+        preep, postep, pp, role, descr
     }
 
 }

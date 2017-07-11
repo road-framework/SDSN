@@ -7,7 +7,6 @@ import au.edu.swin.ict.road.composite.regulation.VSNInstanceStateChangeListener;
 import au.edu.swin.ict.road.composite.regulation.sglobal.GlobalKnowledgebase;
 import au.edu.swin.ict.road.composite.regulation.sglobal.GlobalRegTable;
 import au.edu.swin.ict.road.composite.regulation.synchronization.SynEvents;
-import au.edu.swin.ict.road.composite.regulation.synchronization.SyncRuleExecutionResult;
 import au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationKnowledgebase;
 import au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationRegTable;
 import au.edu.swin.ict.road.composite.utills.ProcessEventListener;
@@ -33,16 +32,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Malinda
  */
 public class EventCloud {
+    public static final int DEFAULT_MEX_TIMEOUT = 2 * 60 * 1000;
     private static Logger log = Logger.getLogger(EventCloud.class);
     private final ConcurrentHashMap<String, ProcessEventRecord> eventRecords = new ConcurrentHashMap<String, ProcessEventRecord>();
-    //    private final LinkedBlockingQueue<EventRecord> newEventsQ = new LinkedBlockingQueue<EventRecord>();
-    private SerendipEngine engine = null;
     private final ConcurrentHashMap<String, ProcessEventListener> eventListeners =
             new ConcurrentHashMap<String, ProcessEventListener>();
+    //    private final LinkedBlockingQueue<EventRecord> newEventsQ = new LinkedBlockingQueue<EventRecord>();
+    private SerendipEngine engine = null;
     //    private boolean sleep = true;
 //    private boolean terminated = false;
     private ROADThreadPool eventCloudPool;
-    public static final int DEFAULT_MEX_TIMEOUT = 2 * 60 * 1000;
     private RoadCleaner roadCleaner;
     private Composite composite;
 
@@ -52,7 +51,7 @@ public class EventCloud {
         this.eventCloudPool = eventCloudPool;
         this.composite = composite;
         timer.scheduleAtFixedRate(roadCleaner, 0,
-                                  Integer.parseInt(ROADProperties.getInstance().getProperty("cleaner.interval", "60000")));
+                Integer.parseInt(ROADProperties.getInstance().getProperty("cleaner.interval", "60000")));
     }
 
     public Collection<ProcessEventRecord> getEventRecords() {
@@ -133,10 +132,10 @@ public class EventCloud {
                     for (RegulationUnitKey regUnitId : vsnRegTableEntry) {
                         if (vsnInstanceId != null) {
                             if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_ACTIVE)
-                                && !regUnitId.isExcluded(vsnInstanceId)) {
+                                    && !regUnitId.isExcluded(vsnInstanceId)) {
                                 ruleSets.add(synRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
                             } else if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_PASSIVE)
-                                       && regUnitId.isIncluded(vsnInstanceId)) {
+                                    && regUnitId.isIncluded(vsnInstanceId)) {
                                 ruleSets.add(synRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
                             }
                         } else {
@@ -179,7 +178,7 @@ public class EventCloud {
                             ruleSets.add(globalRegTable.getRegulationRuleSet(unitKey.getUnitId()));
                         } else {
                             System.out.println("VSN instance " + vsnInstanceId + " is excluded from the new VSN as " +
-                                               "it is from the old VSN");
+                                    "it is from the old VSN");
                         }
                     } else if (unitKey.getMgtState().getState().equals(ManagementState.STATE_PASSIVE)) {
                         //passive VSN but there is a VSN instance => old VSN instance - need to progress using the
@@ -190,12 +189,12 @@ public class EventCloud {
                             ruleSets.add(globalRegTable.getRegulationRuleSet(unitKey.getUnitId()));
                         } else {
                             System.out.println("VSN instance " + vsnInstanceId + " is not included " +
-                                               " as " +
-                                               "it is from the new VSN");
+                                    " as " +
+                                    "it is from the new VSN");
                         }
                     } else {
                         System.out.println(" Unknown state of " + unitKey.getMgtState().getState() + " for  " +
-                                           "" + vsnInstanceId);
+                                "" + vsnInstanceId);
                     }
                 }
                 try {

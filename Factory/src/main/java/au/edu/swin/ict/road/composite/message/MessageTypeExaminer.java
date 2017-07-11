@@ -122,13 +122,13 @@ public class MessageTypeExaminer implements IMessageExaminer {
     }
 
     @Override
-    public void setContentType(String contentType) {
-        // Leave it empty by default
-    }
-
-    @Override
     public String getContentType() {
         // Leave it empty by default
         return null;
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        // Leave it empty by default
     }
 }

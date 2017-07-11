@@ -43,22 +43,53 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class XSLTAnalyzer implements MessageAnalyzer {
 
-    // get the logger
-    private static Logger log = Logger.getLogger(XSLTAnalyzer.class
-                                                         .getName());
     public final static String MSG_ID_SEPERATOR = ".";
     public final static String MSG_ID_REQUEST = "Req";
     public final static String MSG_ID_RESPONSE = "Res";
+    private static final Lock lock = new ReentrantLock();
+    // get the logger
+    private static Logger log = Logger.getLogger(XSLTAnalyzer.class
+            .getName());
     private static TransformerFactory transFact = TransformerFactory.newInstance();
     private static Map<String, Templates> cachedTemplatesMap = new ConcurrentHashMap<String, Templates>();
-    private static final Lock lock = new ReentrantLock();
     private static XSLTAnalyzer instance = new XSLTAnalyzer();
+
+    private XSLTAnalyzer() {
+    }
 
     public static XSLTAnalyzer getInstance() {
         return instance;
     }
 
-    private XSLTAnalyzer() {
+    public static InputStream getStreamSource(Object o) {
+
+        if (o == null) {
+            throw new RuntimeException("Cannot convert null to a StreamSource");
+
+        } else if (o instanceof OMElement) {
+            OMElement omElement = (OMElement) o;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                omElement.serialize(baos);
+                return new ByteArrayInputStream(baos.toByteArray());
+            } catch (XMLStreamException e) {
+                throw new RuntimeException("Error converting to a StreamSource", e);
+            }
+
+        } else if (o instanceof OMText) {
+            DataHandler dataHandler = (DataHandler) ((OMText) o).getDataHandler();
+            if (dataHandler != null) {
+                try {
+                    return dataHandler.getInputStream();
+                } catch (IOException e) {
+                    throw new RuntimeException("Error in reading content as a stream ");
+                }
+            }
+        } else {
+
+            throw new RuntimeException("Cannot convert object to a StreamSource");
+        }
+        return null;
     }
 
     /**
@@ -121,7 +152,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
             SOAPEnvelopeImpl env = (SOAPEnvelopeImpl) message.getMessage();
 
             Document document = ((Element) ElementHelper.importOMElement(env,
-                                                                         OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
+                    OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
 //
             transformer.setParameter(xsltParamName, document);           //TODO use OMSOurce(evn) with XPath working
         }
@@ -134,7 +165,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
             transformer.transform(new StreamSource(), omResult);
         } catch (Exception e1) {
             String msg = "Error transforming a message with xslt file : " +
-                         tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e1.getMessage();
+                    tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e1.getMessage();
             log.error(msg);
             throw new RuntimeException(msg, e1);
         }
@@ -163,7 +194,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
         conjunctMessagewrapper.setTaskId(taskId);
         conjunctMessagewrapper.setOperationName(tLogic.getOperationName());
         conjunctMessagewrapper.setDestinationPlayerBinding(tLogic.getRole()
-                                                                 .getPlayerBinding());
+                .getPlayerBinding());
         conjunctMessagewrapper.setMessageType(tLogic.getDeliveryType());
         conjunctMessagewrapper.setMessageId(taskId + ".OutMsg");
         conjunctMessagewrapper.setResponse(tLogic.isResponse());
@@ -199,7 +230,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
 //        try {
 //        OMSource omSource = new OMSource(env);   //TODO   XPath does not work
         Document document = ((Element) ElementHelper.importOMElement(env,
-                                                                     OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
+                OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
         for (ResultMsgType resultMsg : resultMsgTypes) {
             String xsltPathOri = resultMsg.getTransformation();
             if (xsltPathOri == null || "".equals(xsltPathOri)) {
@@ -244,7 +275,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
                         .transform(new StreamSource(), omResult);
             } catch (Exception e) {
                 String msg = "Error transforming a message with xslt file : " +
-                             tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e.getMessage();
+                        tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e.getMessage();
                 log.error(msg);
                 throw new RuntimeException(msg, e);
             }
@@ -288,7 +319,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
             // create the message id and set it to the result message
             // wrapper
             String msgId = contractId + MSG_ID_SEPERATOR
-                           + interactiveTermId + MSG_ID_SEPERATOR;
+                    + interactiveTermId + MSG_ID_SEPERATOR;
             msgId += isResponse ? MSG_ID_RESPONSE : MSG_ID_REQUEST;
             aMessageWrapper.setMessageId(msgId);
 
@@ -320,7 +351,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
         // get the list of tasks in this role
         SOAPEnvelopeImpl env = (SOAPEnvelopeImpl) oldMessage.getMessage();
         Document document = ((Element) ElementHelper.importOMElement(env,
-                                                                     OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
+                OMAbstractFactory.getMetaFactory(OMAbstractFactory.FEATURE_DOM).getOMFactory())).getOwnerDocument();
         String xsltPathOri = tLogic.getXsltFile();
         if (xsltPathOri == null || "".equals(xsltPathOri)) {
             return newMW;
@@ -359,7 +390,7 @@ public class XSLTAnalyzer implements MessageAnalyzer {
                     .transform(new StreamSource(), omResult);
         } catch (Exception e) {
             String msg = "Error transforming a message with xslt file : " +
-                         tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e.getMessage();
+                    tLogic.getTask().getSrcMsgs().getTransformation() + " :: " + e.getMessage();
             log.error(msg);
             throw new RuntimeException(msg, e);
         }
@@ -379,36 +410,5 @@ public class XSLTAnalyzer implements MessageAnalyzer {
         SOAPEnvelope disjunctSoapEnv = OMXMLBuilderFactory.createStAXSOAPModelBuilder(reader).getSOAPEnvelope();
         newMW.setMessage(disjunctSoapEnv);
         return newMW;
-    }
-
-    public static InputStream getStreamSource(Object o) {
-
-        if (o == null) {
-            throw new RuntimeException("Cannot convert null to a StreamSource");
-
-        } else if (o instanceof OMElement) {
-            OMElement omElement = (OMElement) o;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-                omElement.serialize(baos);
-                return new ByteArrayInputStream(baos.toByteArray());
-            } catch (XMLStreamException e) {
-                throw new RuntimeException("Error converting to a StreamSource", e);
-            }
-
-        } else if (o instanceof OMText) {
-            DataHandler dataHandler = (DataHandler) ((OMText) o).getDataHandler();
-            if (dataHandler != null) {
-                try {
-                    return dataHandler.getInputStream();
-                } catch (IOException e) {
-                    throw new RuntimeException("Error in reading content as a stream ");
-                }
-            }
-        } else {
-
-            throw new RuntimeException("Cannot convert object to a StreamSource");
-        }
-        return null;
     }
 }

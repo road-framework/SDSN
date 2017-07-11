@@ -12,17 +12,17 @@ public class StateRecords {
 
     private List<StateRecord> stateRecords = new ArrayList<StateRecord>();
 
-    public void setStateRecords(StateRecord[] stateRecordArray) {
-        for (StateRecord stateRecord : stateRecordArray) {
-            addStateRecord(stateRecord);
-        }
-    }
-
     public void addStateRecord(StateRecord stateRecord) {
         stateRecords.add(stateRecord);
     }
 
     public StateRecord[] getStateRecords() {
         return stateRecords.toArray(new StateRecord[stateRecords.size()]);
+    }
+
+    public void setStateRecords(StateRecord[] stateRecordArray) {
+        for (StateRecord stateRecord : stateRecordArray) {
+            addStateRecord(stateRecord);
+        }
     }
 }

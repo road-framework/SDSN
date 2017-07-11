@@ -36,6 +36,7 @@ import java.util.List;
  */
 public class Contract {
     private static Logger log = Logger.getLogger(Contract.class.getName());
+    private final ContractManagementState mgtState;
     private String id;
     private String name;
     private String type;
@@ -46,43 +47,13 @@ public class Contract {
     // be routed via this contract
     private List<Term> termList = new ArrayList<Term>();
     private ContractType contractBinding;
-
     private String rulesDir;
     private ContractMonitor contractMonitor;
     private PassthroughRegTable passthroughRegTable;
-
-    public ICompositeRules getCompositeRules() {
-        return compositeRules;
-    }
-
-    public PassthroughKnowledgebase getContractRules() {
-        return contractRules;
-    }
-
-    public ContractMonitor getContractMonitor() {
-        return contractMonitor;
-    }
-
-    public String getRulesDir() {
-        return rulesDir;
-    }
-
-    public String getRuleFile() {
-        return ruleFile;
-    }
-
-    public List<FactSynchroniser> getRegulatorList() {
-        return regulatorList;
-    }
-
     private PassthroughKnowledgebase contractRules;
     private ICompositeRules compositeRules;
     private Composite composite;
-    private final ContractManagementState mgtState;
-//	private StatefulKnowledgeSession session;
-
     private String ruleFile;
-
     private List<FactSynchroniser> regulatorList = new ArrayList<FactSynchroniser>();
 
     /**
@@ -107,7 +78,6 @@ public class Contract {
         this.mgtState = new ContractManagementState(id);
         this.mgtState.setState(contractBinding.getState());
     }
-
     public Contract(String id, String rulesDir) throws CompositeInstantiationException {
         this.id = id;
         this.rulesDir = rulesDir;
@@ -115,7 +85,6 @@ public class Contract {
         this.contractRules = new PassthroughKnowledgebase(rulesDir, this);
         this.mgtState = new ContractManagementState(id);
     }
-
     /**
      * Populates a Contract without the need for a JAXB binding class.
      *
@@ -145,6 +114,49 @@ public class Contract {
         this.contractRules = new PassthroughKnowledgebase(rulesDir, this);
         this.passthroughRegTable = new PassthroughRegTable(id);
         loadContractRules(ruleFile);
+    }
+
+    public ICompositeRules getCompositeRules() {
+        return compositeRules;
+    }
+//	private StatefulKnowledgeSession session;
+
+    public void setCompositeRules(ICompositeRules compositeRules) {
+        this.compositeRules = compositeRules;
+    }
+
+    public PassthroughKnowledgebase getContractRules() {
+        return contractRules;
+    }
+
+    public ContractMonitor getContractMonitor() {
+        return contractMonitor;
+    }
+
+    public void setContractMonitor(MonitorType monitorType) {
+        if (monitorType != null) {
+            String monitorId = monitorType.getId();
+            if (monitorId == null || monitorId.isEmpty()) {
+                monitorId = id + "." + "monitor";
+                monitorType.setId(monitorId);
+            }
+            AnalysisType analysisType = monitorType.getAnalysis();
+            String monitorFileName = analysisType.getScript();
+            IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(monitorFileName.toLowerCase(), composite.getRulesDir(), composite.getFTS());
+            contractMonitor = new ContractMonitor(monitorId, iMonitoringRules);
+        }
+    }
+
+    public String getRulesDir() {
+        return rulesDir;
+    }
+
+    public String getRuleFile() {
+        return ruleFile;
+    }
+
+    public List<FactSynchroniser> getRegulatorList() {
+        return regulatorList;
     }
 
     /**
@@ -191,10 +203,10 @@ public class Contract {
         for (RegulationUnitKey regUnitId : vsnRegTableEntry) {
             if (vsnInstanceId != null) {
                 if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_ACTIVE)
-                    && !regUnitId.isExcluded(vsnInstanceId)) {
+                        && !regUnitId.isExcluded(vsnInstanceId)) {
                     ruleSets.add(passthroughRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
                 } else if (regUnitId.getMgtState().getState().equals(ManagementState.STATE_PASSIVE)
-                           && regUnitId.isIncluded(vsnInstanceId)) {
+                        && regUnitId.isIncluded(vsnInstanceId)) {
                     ruleSets.add(passthroughRegTable.getRegulationRuleSet(regUnitId.getUnitId()));
                 }
             } else {
@@ -289,7 +301,7 @@ public class Contract {
                 // if the return type is not void it will be in the response
                 // table of role b
                 if (!operation.getReturnType()
-                              .equalsIgnoreCase("void")) {
+                        .equalsIgnoreCase("void")) {
                     roleB.getRoutingTable().putResponseSignature(
                             operation.getName(), this);
                 }
@@ -299,7 +311,7 @@ public class Contract {
                 // if the return type is not void it will be in the response
                 // table of role A (because it is BtoA
                 if (!operation.getReturnType()
-                              .equalsIgnoreCase("void")) {
+                        .equalsIgnoreCase("void")) {
                     roleA.getRoutingTable().putResponseSignature(
                             operation.getName(), this);
                 }
@@ -409,6 +421,13 @@ public class Contract {
     }
 
     /**
+     * Gets this contracts current state, which reflects how well the contract
+     * between the two parties (<code>Roles</code>) is being fulfilled.
+     *
+     * @return this contracts current state.
+     */
+
+    /**
      * Gets this contracts name.
      *
      * @return this contracts name.
@@ -425,13 +444,6 @@ public class Contract {
     public void setName(String name) {
         this.name = name;
     }
-
-    /**
-     * Gets this contracts current state, which reflects how well the contract
-     * between the two parties (<code>Roles</code>) is being fulfilled.
-     *
-     * @return this contracts current state.
-     */
 
     /**
      * Gets the <code>Role</code> playing party A in this <code>Contract</code>.
@@ -603,11 +615,7 @@ public class Contract {
 
     public String toString() {
         return "Contract: '" + this.name + "' (" + this.id + ") - RoleA: '"
-               + roleA.getId() + "'; RoleB: '" + roleB.getId() + "'";
-    }
-
-    public void setCompositeRules(ICompositeRules compositeRules) {
-        this.compositeRules = compositeRules;
+                + roleA.getId() + "'; RoleB: '" + roleB.getId() + "'";
     }
 
     private void loadContractRules(String ruleFile) {
@@ -667,7 +675,7 @@ public class Contract {
             AnalysisType analysisType = monitorType.getAnalysis();
             String monitorFileName = analysisType.getScript();
             IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(monitorFileName.toLowerCase(),
-                                                                          composite.getRulesDir(), composite.getFTS());
+                    composite.getRulesDir(), composite.getFTS());
             contractMonitor = new ContractMonitor(monitorId, iMonitoringRules);
         }
         //session = contractRules.getSession();
@@ -693,7 +701,7 @@ public class Contract {
                 // get the list of facts in the composite FTS and iterate over
                 // it
                 for (FactTupleSpaceRow factRow : this.roleA.getComposite()
-                                                           .getFTS().getFTSMemory()) {
+                        .getFTS().getFTSMemory()) {
                     // if this fact type exists in the FTS
                     if (factRow.getFactType().equalsIgnoreCase(
                             factType.getName())) {
@@ -905,20 +913,6 @@ public class Contract {
         this.contractRules.cleanUp();
     }
 
-    public void setContractMonitor(MonitorType monitorType) {
-        if (monitorType != null) {
-            String monitorId = monitorType.getId();
-            if (monitorId == null || monitorId.isEmpty()) {
-                monitorId = id + "." + "monitor";
-                monitorType.setId(monitorId);
-            }
-            AnalysisType analysisType = monitorType.getAnalysis();
-            String monitorFileName = analysisType.getScript();
-            IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(monitorFileName.toLowerCase(), composite.getRulesDir(), composite.getFTS());
-            contractMonitor = new ContractMonitor(monitorId, iMonitoringRules);
-        }
-    }
-
     public void removeContractMonitor() {
         contractBinding.setMonitor(null);
         contractMonitor = null;
@@ -927,7 +921,7 @@ public class Contract {
     public void setMonitorRules(String monitorFileName) {
         contractBinding.getMonitor().getAnalysis().setScript(monitorFileName);
         contractMonitor.setMonitoringRules(new DroolsMonitoringRules(monitorFileName.toLowerCase(),
-                                                                     composite.getRulesDir(), composite.getFTS()));
+                composite.getRulesDir(), composite.getFTS()));
     }
 
     public PassthroughRegTable getPassthroughRegTable() {

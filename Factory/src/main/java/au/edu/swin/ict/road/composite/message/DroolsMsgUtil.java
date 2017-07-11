@@ -147,7 +147,7 @@ public class DroolsMsgUtil {
             }
             if (!userInvFactExists) {
                 FactObject newFact = new FactObject("UserInvocationStat",
-                                                    "UserId", userId);
+                        "UserId", userId);
                 newFact.setFactSource(FactObject.EXTERNAL_SOURCE);
                 newFact.setAttribute("Count", 1);
                 fts.updateFact(newFact);
@@ -187,7 +187,7 @@ public class DroolsMsgUtil {
             }
             if (!serviceInvFactExists) {
                 FactObject newFact = new FactObject("ServiceInvocationStat",
-                                                    "ServiceId", serviceId);
+                        "ServiceId", serviceId);
                 newFact.setFactSource(FactObject.EXTERNAL_SOURCE);
                 newFact.setAttribute("Count", 1);
                 fts.updateFact(newFact);
@@ -225,7 +225,7 @@ public class DroolsMsgUtil {
                         log.info("attributeValue in isBlocked " + attributeValue);
                     }
                     if (attributeValue != null
-                        && attributeValue.equalsIgnoreCase("false"))
+                            && attributeValue.equalsIgnoreCase("false"))
                         blocked = false;
 
                     break;

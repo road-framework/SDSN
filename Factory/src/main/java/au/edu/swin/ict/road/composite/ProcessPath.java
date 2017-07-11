@@ -23,12 +23,12 @@ public class ProcessPath {
     private Map<String, ResultMsgType> resultMsgs = new HashMap<String, ResultMsgType>();
     private String id;
 
-    public String getId() {
-        return id;
-    }
-
     public ProcessPath(String id) {
         this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void addNode(Node node) {
@@ -37,10 +37,10 @@ public class ProcessPath {
             // TODO assume here the all messages must be there in a src message - no selection
             for (ResultMsgType resultMsg : node.getTaskType().getResultMsgs().getResultMsg()) {
                 String edgeId = resultMsg.getContractId() + MSG_ID_SEPERATOR
-                                + resultMsg.getTermId() + MSG_ID_SEPERATOR;
+                        + resultMsg.getTermId() + MSG_ID_SEPERATOR;
 
                 edgeId += (resultMsg.isIsResponse()) ? MSG_ID_RESPONSE
-                                                     : MSG_ID_REQUEST;
+                        : MSG_ID_REQUEST;
 
                 resultSourceNodeMap.put(edgeId, node);
                 resultMsgs.put(edgeId, resultMsg);
@@ -56,10 +56,10 @@ public class ProcessPath {
             }
             for (SrcMsgType srcMsg : node.getTaskType().getSrcMsgs().getSrcMsg()) {
                 String edgeId = srcMsg.getContractId() + MSG_ID_SEPERATOR
-                                + srcMsg.getTermId() + MSG_ID_SEPERATOR;
+                        + srcMsg.getTermId() + MSG_ID_SEPERATOR;
 
                 edgeId += (srcMsg.isIsResponse()) ? MSG_ID_RESPONSE
-                                                  : MSG_ID_REQUEST;
+                        : MSG_ID_REQUEST;
 
                 Node sourceNode = resultSourceNodeMap.get(edgeId);
                 Edge edge = new Edge(edgeId, resultMsgs.get(edgeId), srcMsg, sourceNode);

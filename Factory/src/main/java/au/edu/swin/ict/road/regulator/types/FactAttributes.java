@@ -11,11 +11,11 @@ package au.edu.swin.ict.road.regulator.types;
 public class FactAttributes {
     private FactAttribute[] attribute;
 
-    public void setAttribute(FactAttribute[] attribute) {
-        this.attribute = attribute;
-    }
-
     public FactAttribute[] getAttribute() {
         return attribute;
+    }
+
+    public void setAttribute(FactAttribute[] attribute) {
+        this.attribute = attribute;
     }
 }

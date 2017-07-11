@@ -128,8 +128,8 @@ public class Message implements Comparable<Message> {
     @Override
     public String toString() {
         return this.getOperationName() + ","
-               + this.getMessageContent() + "," + this.getOriginRoleId()
-               + "," + this.getMessageType() + "," + this.getTimeStamp();
+                + this.getMessageContent() + "," + this.getOriginRoleId()
+                + "," + this.getMessageType() + "," + this.getTimeStamp();
     }
 
     public int compareTo(Message m) {

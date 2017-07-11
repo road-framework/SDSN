@@ -43,7 +43,7 @@ public class EPCViewSelectionPanel extends JPanel implements ActionListener {
         String text = "-";
         if (this.isProcess) {
             strList = CompositionUtil.getAllProcessDefinitionIds(this.engine
-                                                                         .getComposition());
+                    .getComposition());
             text = "Select a process definition Id";
         } else {
             strList = CompositionUtil.getAllSRIds(this.engine.getComposition());
@@ -63,7 +63,7 @@ public class EPCViewSelectionPanel extends JPanel implements ActionListener {
 
         this.constraintViewPanel = new JPanel();
         constraintViewPanel.setBorder(BorderFactory
-                                              .createTitledBorder("Constraints"));
+                .createTitledBorder("Constraints"));
         this.constraintViewPanel.add(this.constraintArea);
 
         this.add(constraintViewPanel, BorderLayout.SOUTH);
@@ -74,11 +74,11 @@ public class EPCViewSelectionPanel extends JPanel implements ActionListener {
         ConstraintType[] constraints = null;
         if (this.isProcess) {
             constraints = CompositionUtil.getAllConstriantsForPD(id, true,
-                                                                 this.engine.getComposition());
+                    this.engine.getComposition());
 
         } else {
             constraints = CompositionUtil.getAllConstriantsForSR(id,
-                                                                 this.engine.getComposition());
+                    this.engine.getComposition());
         }
 
         for (int i = 0; i < constraints.length; i++) {
@@ -105,7 +105,7 @@ public class EPCViewSelectionPanel extends JPanel implements ActionListener {
                 if (this.isProcess) {
 
                     sv = engine.getModelFactory().getProcessView(selection,
-                                                                 null);
+                            null);
                     //Add data dependencies
                     if (isDataChckBox.isSelected()) {
                         Map<String, String> map = CompositionUtil.getTaskRuleMapping(this.engine.getComposition().getComposite());
@@ -121,9 +121,9 @@ public class EPCViewSelectionPanel extends JPanel implements ActionListener {
             } catch (SerendipException e1) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this,
-                                              "Error while generating the view for " + selection,
-                                              "View generation error",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Error while generating the view for " + selection,
+                        "View generation error",
+                        JOptionPane.ERROR_MESSAGE);
 
                 e1.printStackTrace();
             }

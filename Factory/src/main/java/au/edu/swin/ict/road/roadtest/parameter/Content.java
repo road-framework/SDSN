@@ -22,15 +22,6 @@ public class Content implements Cloneable {
     }
 
     /**
-     * Set primitive type of this content
-     *
-     * @param primitive the primitive to set
-     */
-    public void setPrimitive(boolean primitive) {
-        this.primitive = primitive;
-    }
-
-    /**
      * Is this content primitive
      *
      * @return the primitive
@@ -40,10 +31,12 @@ public class Content implements Cloneable {
     }
 
     /**
-     * @param array the array to set
+     * Set primitive type of this content
+     *
+     * @param primitive the primitive to set
      */
-    public void setArray(boolean array) {
-        this.array = array;
+    public void setPrimitive(boolean primitive) {
+        this.primitive = primitive;
     }
 
     /**
@@ -54,10 +47,10 @@ public class Content implements Cloneable {
     }
 
     /**
-     * @param value the value to set
+     * @param array the array to set
      */
-    public void setValue(String value) {
-        this.value = value;
+    public void setArray(boolean array) {
+        this.array = array;
     }
 
     /**
@@ -68,10 +61,10 @@ public class Content implements Cloneable {
     }
 
     /**
-     * @param type the type to set
+     * @param value the value to set
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**
@@ -82,10 +75,10 @@ public class Content implements Cloneable {
     }
 
     /**
-     * @param mapValues the mapValues to set
+     * @param type the type to set
      */
-    public void setMapValues(Map<String, List<Content>> mapValues) {
-        this.mapValues = mapValues;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
@@ -96,10 +89,10 @@ public class Content implements Cloneable {
     }
 
     /**
-     * @param value the name to set
+     * @param mapValues the mapValues to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setMapValues(Map<String, List<Content>> mapValues) {
+        this.mapValues = mapValues;
     }
 
     /**
@@ -107,6 +100,13 @@ public class Content implements Cloneable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * @param value the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String toString() {

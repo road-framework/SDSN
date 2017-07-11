@@ -35,7 +35,7 @@ public class TestRegEx {
         int index = file.getAbsoluteFile().getName().lastIndexOf('.');
         if (index > 0 && index <= file.getName().length() - 2) {
             log.debug("Filename without Extension: "
-                      + file.getName().substring(0, index));
+                    + file.getName().substring(0, index));
         }
     }
 
@@ -61,10 +61,10 @@ public class TestRegEx {
 
         role = taskSplit[0];
         prop = taskSplit[1].substring(taskSplit[1].indexOf("(") + 1,
-                                      taskSplit[1].indexOf(")"));
+                taskSplit[1].indexOf(")"));
 
         taskName = taskSplit[1].substring(taskSplit[1].indexOf(".") + 1,
-                                          taskSplit[1].indexOf("("));
+                taskSplit[1].indexOf("("));
 
         log.debug("Task Name : " + taskName);
         log.debug("role : " + role);

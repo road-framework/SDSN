@@ -40,7 +40,7 @@ public class TCTLWriter {
         logger.debug("Writing expression " + tctlExpr + " to file " + fileName);
         if (null == tctlExpr) {
             throw new SerendipException("Cannot parse the constrinat "
-                                        + constraint);
+                    + constraint);
         }
 
         bw.write(tctlExpr);

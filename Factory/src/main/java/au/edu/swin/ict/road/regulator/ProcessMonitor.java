@@ -12,6 +12,9 @@ import au.edu.swin.ict.serendip.event.SerendipEventListener;
  */
 public class ProcessMonitor extends SerendipEventListener {
 
+    private String id;
+    private IMonitoringRules iMonitoringRules;
+
     public ProcessMonitor(String id, IMonitoringRules iMonitoringRules) {
         this.id = id;
         this.iMonitoringRules = iMonitoringRules;
@@ -21,9 +24,9 @@ public class ProcessMonitor extends SerendipEventListener {
         return iMonitoringRules;
     }
 
-    private String id;
-
-    private IMonitoringRules iMonitoringRules;
+    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
+        this.iMonitoringRules = iMonitoringRules;
+    }
 
     public void eventPatternMatched(String ep, Classifier classifier) throws SerendipException {
         PatternMatchedEvent event = new PatternMatchedEvent(ep, classifier);
@@ -36,9 +39,5 @@ public class ProcessMonitor extends SerendipEventListener {
 
     public String getId() {
         return id;
-    }
-
-    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
-        this.iMonitoringRules = iMonitoringRules;
     }
 }

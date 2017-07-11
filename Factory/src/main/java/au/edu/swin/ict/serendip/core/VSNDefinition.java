@@ -11,6 +11,20 @@ import java.util.*;
  */
 public class VSNDefinition {
 
+    private Map<String, ProcessDefinition> processes = new HashMap<String, ProcessDefinition>();
+    private ProcessDefinitionsType type;
+    private Map<String, List<FlowPolicyInfo>> flowPolicyInfos = new HashMap<String, List<FlowPolicyInfo>>();
+    private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
+    private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
+    private VSN mgtState;
+    private SerendipEngine serendipEngine;
+
+    public VSNDefinition(ProcessDefinitionsType type, SerendipEngine serendipEngine) {
+        this.type = type;
+        this.serendipEngine = serendipEngine;
+        this.mgtState = new VSN(type.getId());
+    }
+
     public long getInterval() {
         return interval;
     }
@@ -27,21 +41,6 @@ public class VSNDefinition {
         this.threshold = threshold;
     }
 
-    private Map<String, ProcessDefinition> processes = new HashMap<String, ProcessDefinition>();
-
-    private ProcessDefinitionsType type;
-    private Map<String, List<FlowPolicyInfo>> flowPolicyInfos = new HashMap<String, List<FlowPolicyInfo>>();
-
-    private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
-    private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
-    private VSN mgtState;
-
-    public VSNDefinition(ProcessDefinitionsType type, SerendipEngine serendipEngine) {
-        this.type = type;
-        this.serendipEngine = serendipEngine;
-        this.mgtState = new VSN(type.getId());
-    }
-
     public ProcessDefinitionsType getType() {
         return type;
     }
@@ -49,8 +48,6 @@ public class VSNDefinition {
     public SerendipEngine getSerendipEngine() {
         return serendipEngine;
     }
-
-    private SerendipEngine serendipEngine;
 
     public void addProcessDefinition(ProcessDefinition processDefinition) {
         processDefinition.setParent(this);

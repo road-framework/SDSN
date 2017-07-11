@@ -15,16 +15,6 @@ public class IntervalMessage extends Message {
     private UUID uid;
 
     /**
-     * Gets the interval in which a message is going to be sent
-     *
-     * @return The value of the interval in which a the messages are going to be
-     * sent
-     */
-    public long getIntervalUnit() {
-        return this.intervalUnit;
-    }
-
-    /**
      * Constructor
      *
      * @param msgContent
@@ -37,6 +27,16 @@ public class IntervalMessage extends Message {
         super(msgContent, operationName, originRoleId, false);
         this.intervalUnit = interval;
         this.timeStamps = new ArrayList<Date>();
+    }
+
+    /**
+     * Gets the interval in which a message is going to be sent
+     *
+     * @return The value of the interval in which a the messages are going to be
+     * sent
+     */
+    public long getIntervalUnit() {
+        return this.intervalUnit;
     }
 
     /**
@@ -68,17 +68,17 @@ public class IntervalMessage extends Message {
     }
 
     /**
-     * @param uid the uid to set
-     */
-    public void setUid(UUID uid) {
-        this.uid = uid;
-    }
-
-    /**
      * @return the uid
      */
     public UUID getUid() {
         return uid;
+    }
+
+    /**
+     * @param uid the uid to set
+     */
+    public void setUid(UUID uid) {
+        this.uid = uid;
     }
 
 }

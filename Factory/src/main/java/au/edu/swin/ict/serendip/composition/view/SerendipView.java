@@ -22,9 +22,8 @@ import java.util.Map;
 public abstract class SerendipView {
     private static Logger log = Logger.getLogger(SerendipView.class.getName());
     protected List<BehaviorTerm> btVec = new ArrayList<BehaviorTerm>();
-    private ConfigurableEPC epc = null;
     protected String id = null;
-
+    private ConfigurableEPC epc = null;
     private boolean showData = false;
 
     public SerendipView() {
@@ -36,55 +35,6 @@ public abstract class SerendipView {
         this.btVec = btVec;
         this.constructView();
     }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void needToShowData(boolean needToShowData) {
-        this.showData = needToShowData;
-    }
-
-
-    public ConfigurableEPC getViewAsEPC() {
-
-        if (null != this.epc) {
-            this.epc.setIdentifier(this.id);
-        }
-        return this.epc;
-    }
-
-    protected void constructView() {
-        if (this.btVec.size() == 0) {
-            this.epc = null;
-        } else if (this.btVec.size() == 1) {// For behavior terms
-            this.epc = btVec.get(0).getEpc();
-        } else {// For processes or multiple merged behavior
-            btVec.toArray();
-            BehaviorTerm[] btArr = (BehaviorTerm[]) this.btVec
-                    .toArray(new BehaviorTerm[this.btVec.size()]);
-            MergeBehavior merge = new MergeBehavior(btArr);
-            this.epc = merge.getMergedBehaviorAsEPC();
-
-        }
-    }
-
-
-    public void toFile(String fileName) throws IOException {
-
-        EPMLWriter epmlWriter = new EPMLWriter(this.epc, true);
-        epmlWriter.writeToFile(fileName);
-    }
-
-    @Override
-    public String toString() {
-        return this.getId();
-    }
-
-    public List<BehaviorTerm> getBtVec() {
-        return btVec;
-    }
-
 
     public static ConfigurableEPC markDataDependencies(ConfigurableEPC epc, Map<String, String> map) {
 
@@ -143,5 +93,51 @@ public abstract class SerendipView {
 
         }
         return epc;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void needToShowData(boolean needToShowData) {
+        this.showData = needToShowData;
+    }
+
+    public ConfigurableEPC getViewAsEPC() {
+
+        if (null != this.epc) {
+            this.epc.setIdentifier(this.id);
+        }
+        return this.epc;
+    }
+
+    protected void constructView() {
+        if (this.btVec.size() == 0) {
+            this.epc = null;
+        } else if (this.btVec.size() == 1) {// For behavior terms
+            this.epc = btVec.get(0).getEpc();
+        } else {// For processes or multiple merged behavior
+            btVec.toArray();
+            BehaviorTerm[] btArr = (BehaviorTerm[]) this.btVec
+                    .toArray(new BehaviorTerm[this.btVec.size()]);
+            MergeBehavior merge = new MergeBehavior(btArr);
+            this.epc = merge.getMergedBehaviorAsEPC();
+
+        }
+    }
+
+    public void toFile(String fileName) throws IOException {
+
+        EPMLWriter epmlWriter = new EPMLWriter(this.epc, true);
+        epmlWriter.writeToFile(fileName);
+    }
+
+    @Override
+    public String toString() {
+        return this.getId();
+    }
+
+    public List<BehaviorTerm> getBtVec() {
+        return btVec;
     }
 }

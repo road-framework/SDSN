@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 public class OrganiserMgtOpResult {
 
+    private static Logger log = Logger.getLogger(OrganiserMgtOpResult.class.getName());
     private boolean result;
     private StringBuffer message = new StringBuffer();
-    private static Logger log = Logger.getLogger(OrganiserMgtOpResult.class.getName());
 
     public OrganiserMgtOpResult(boolean result, String message) {
         this.result = result;

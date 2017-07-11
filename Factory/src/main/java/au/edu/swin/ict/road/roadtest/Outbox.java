@@ -15,12 +15,20 @@ import java.util.List;
  * @author Ufuk Altin (altin.ufuk@gmail.com)
  */
 public class Outbox {
-    private List<Message> messageHistory = null;
-
     /**
      *
      */
     protected EventListenerList listenerList = new EventListenerList();
+    private List<Message> messageHistory = null;
+
+    /**
+     * Constructor which initiates variables
+     */
+    public Outbox() {
+        this.messageHistory = new ArrayList<Message>();
+        ROADTest.logROADTest.log(Level.INFO,
+                "ROADTest Outbox created for player ");
+    }
 
     /**
      * Method allows to register for event
@@ -39,15 +47,6 @@ public class Outbox {
     public void removeIntervalMessageSentEventListener(
             MessageSentEventListener listener) {
         listenerList.remove(MessageSentEventListener.class, listener);
-    }
-
-    /**
-     * Constructor which initiates variables
-     */
-    public Outbox() {
-        this.messageHistory = new ArrayList<Message>();
-        ROADTest.logROADTest.log(Level.INFO,
-                                 "ROADTest Outbox created for player ");
     }
 
     /**

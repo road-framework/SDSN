@@ -66,14 +66,14 @@ public class ButtonImpl extends DefaultCellEditor {
             button.setEnabled(false);
         } else if (label.equals("Stop")) {
             uid = (UUID) table.getModel().getValueAt(row,
-                                                     table.getColumn("Message ID").getModelIndex());
+                    table.getColumn("Message ID").getModelIndex());
             btnCmd = 1;
             button.setEnabled(true);
             isPushed = true;
 
         } else if (label.equals("Abort")) {
             uid = (UUID) table.getModel().getValueAt(row,
-                                                     table.getColumn("Message ID").getModelIndex());
+                    table.getColumn("Message ID").getModelIndex());
             btnCmd = 2;
             button.setEnabled(true);
             isPushed = true;
@@ -98,16 +98,16 @@ public class ButtonImpl extends DefaultCellEditor {
             if (btnCmd == 1)// if stop
             {
                 msg = "Are you sure you want to stop the message with Message ID "
-                      + uid + "?";
+                        + uid + "?";
                 displayAlert(msg);
             } else if (btnCmd == 2)// i.e. abort
             {
                 msg = "Are you sure you want to abort the auto response with Message ID "
-                      + uid + "?";
+                        + uid + "?";
                 displayAlert(msg);
             } else if (btnCmd == 3)// i.e. view
                 JOptionPane.showMessageDialog(null, msgContent,
-                                              "Message Content", JOptionPane.PLAIN_MESSAGE);// (null,
+                        "Message Content", JOptionPane.PLAIN_MESSAGE);// (null,
             // msgContent);
         }
         isPushed = false;
@@ -122,7 +122,7 @@ public class ButtonImpl extends DefaultCellEditor {
     private void displayAlert(String msg) {
 
         int response = JOptionPane.showConfirmDialog(null, msg, "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION && btnCmd == 1) {
             player.terminateIntervalMessageById(this.uid);
             btnCmd = 0;

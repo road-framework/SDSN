@@ -9,6 +9,15 @@ public class MessageReceivedAtOutPortEvent implements IEvent {
 
     private String operationName;
     private MessageWrapper messageWrapper;
+    private Role role;
+    private boolean blocked;
+    private OutRouterPort outPort;
+    public MessageReceivedAtOutPortEvent(Role role, OutRouterPort outPort, MessageWrapper mw) {
+        this.role = role;
+        this.outPort = outPort;
+        this.messageWrapper = mw;
+        this.operationName = mw.getOperationName();
+    }
 
     public Role getRole() {
         return role;
@@ -16,17 +25,6 @@ public class MessageReceivedAtOutPortEvent implements IEvent {
 
     public OutRouterPort getOutPort() {
         return outPort;
-    }
-
-    private Role role;
-    private boolean blocked;
-    private OutRouterPort outPort;
-
-    public MessageReceivedAtOutPortEvent(Role role, OutRouterPort outPort, MessageWrapper mw) {
-        this.role = role;
-        this.outPort = outPort;
-        this.messageWrapper = mw;
-        this.operationName = mw.getOperationName();
     }
 
     public String getOperationName() {

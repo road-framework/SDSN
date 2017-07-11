@@ -12,8 +12,8 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.log4j.Logger;
 
 public class Client {
-    private static Logger log = Logger.getLogger(Client.class.getName());
     static String eprStr = "http://localhost:8080/axis2/services/RoSAS_CL/";
+    private static Logger log = Logger.getLogger(Client.class.getName());
 
     public static void main(String[] args1) {
 

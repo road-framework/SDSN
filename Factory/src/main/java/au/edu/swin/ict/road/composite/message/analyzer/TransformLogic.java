@@ -24,6 +24,16 @@ public class TransformLogic {
     private String contractId;
     private String interactionId;
     private String targetMsgId;
+    private boolean isResponse;
+    private SyncType syncType;
+    private ResultMsgType resultMsgType;
+    public TransformLogic() {
+        role = null;
+        deliveryType = null;
+
+        task = null;
+
+    }
 
     public ResultMsgType getResultMsgType() {
         return resultMsgType;
@@ -31,18 +41,6 @@ public class TransformLogic {
 
     public void setResultMsgType(ResultMsgType resultMsgType) {
         this.resultMsgType = resultMsgType;
-    }
-
-    private boolean isResponse;
-    private SyncType syncType;
-    private ResultMsgType resultMsgType;
-
-    public TransformLogic() {
-        role = null;
-        deliveryType = null;
-
-        task = null;
-
     }
 
     public Role getRole() {
@@ -69,12 +67,12 @@ public class TransformLogic {
         this.task = task;
     }
 
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
-
     public String getOperationName() {
         return operationName;
+    }
+
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
     }
 
     public boolean isResponse() {
@@ -85,12 +83,12 @@ public class TransformLogic {
         this.isResponse = isResponse;
     }
 
-    public void setSyncType(SyncType syncType) {
-        this.syncType = syncType;
-    }
-
     public SyncType getSyncType() {
         return syncType;
+    }
+
+    public void setSyncType(SyncType syncType) {
+        this.syncType = syncType;
     }
 
     public String getXsltFile() {

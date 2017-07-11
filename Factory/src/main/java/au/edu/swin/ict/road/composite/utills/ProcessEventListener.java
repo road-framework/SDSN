@@ -9,8 +9,8 @@ import java.util.concurrent.locks.Lock;
 
 public class ProcessEventListener {
 
-    private Map<String, List<SerendipEventListener>> eventListeners = new HashMap<String, List<SerendipEventListener>>();
     private static Logger log = Logger.getLogger(ProcessEventListener.class);
+    private Map<String, List<SerendipEventListener>> eventListeners = new HashMap<String, List<SerendipEventListener>>();
     //    private SerendipEventListener processInstance;
     private String id;
 
@@ -82,7 +82,7 @@ public class ProcessEventListener {
                 } else {
                     if (log.isDebugEnabled()) {
                         log.debug("Pattern did not match " + eventPattern + " for process InsId : " +
-                                  sel.getClassifier().getProcessInsId());
+                                sel.getClassifier().getProcessInsId());
                     }
                 }
             } finally {

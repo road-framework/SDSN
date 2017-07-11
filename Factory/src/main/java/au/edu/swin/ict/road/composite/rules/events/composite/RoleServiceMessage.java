@@ -13,11 +13,6 @@ import java.util.List;
 
 public class RoleServiceMessage implements IEvent {
 
-    private String operationName;
-    private MessageWrapper messageWrapper;
-    private String roleId;
-    private boolean blocked;
-    private List<OutRouterPort> outPorts = new ArrayList<OutRouterPort>();
     public final static String STATE_RECEIVED = "received";
     public final static String STATE_CLASSIFIED = "classified";
     public final static String STATE_ADMITTABLE = "admittable";
@@ -29,6 +24,11 @@ public class RoleServiceMessage implements IEvent {
     public final static String STATE_ROUTED = "routed";
     public final static String STATE_FORWADED = "forwarded";
     public final static String STATE_DELAYED = "delayed";
+    private String operationName;
+    private MessageWrapper messageWrapper;
+    private String roleId;
+    private boolean blocked;
+    private List<OutRouterPort> outPorts = new ArrayList<OutRouterPort>();
     private String state = STATE_RECEIVED;
     private AgendaFilter agendaFilter;
     private String errorMessage;

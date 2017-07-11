@@ -18,9 +18,9 @@ import java.util.List;
  * @depreciated
  */
 public class RoleView extends JPanel implements ActionListener {
-    private Role role = null;
     static int index = 0;
     JPanel northPanel, chkBoxPanel = null;
+    private Role role = null;
     private JTable taskTable = null;
     private DefaultTableModel roleDtModel = null;
     private JButton doButton = new JButton("Complete Task");
@@ -98,7 +98,7 @@ public class RoleView extends JPanel implements ActionListener {
     public void addTaskToTable(Task task) {
         this.curActiveTasks.add(task);
         this.roleDtModel.addRow(new Object[]{task.getId(),
-                                             task.getTaskDescr(), task.getId()});
+                task.getTaskDescr(), task.getId()});
 
     }
 

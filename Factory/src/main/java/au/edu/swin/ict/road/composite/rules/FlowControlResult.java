@@ -9,6 +9,17 @@ public class FlowControlResult extends RuleExecutionResult {
 
     public static int ALLOWED = 0;
     public static int DENIED = 1;
+    public static int SENDTOCONTROLLER = 2;
+    private String message;
+    private int state;
+
+    public FlowControlResult(int state, String message) {
+        this.message = message;
+        this.state = state;
+    }
+    public FlowControlResult(int state) {
+        this.state = state;
+    }
 
     public String getMessage() {
         return message;
@@ -18,18 +29,6 @@ public class FlowControlResult extends RuleExecutionResult {
         this.message = message;
     }
 
-    public FlowControlResult(int state, String message) {
-        this.message = message;
-        this.state = state;
-    }
-
-    public static int SENDTOCONTROLLER = 2;
-    private String message;
-
-    public FlowControlResult(int state) {
-        this.state = state;
-    }
-
     public int getState() {
         return state;
     }
@@ -37,6 +36,4 @@ public class FlowControlResult extends RuleExecutionResult {
     public void setState(int state) {
         this.state = state;
     }
-
-    private int state;
 }

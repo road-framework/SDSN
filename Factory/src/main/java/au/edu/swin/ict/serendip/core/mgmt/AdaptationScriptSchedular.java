@@ -32,7 +32,7 @@ public class AdaptationScriptSchedular extends SerendipEventListener {
 
     @Override
     public void eventPatternMatched(String ep, Classifier classifier)
-    throws SerendipException {
+            throws SerendipException {
         // TODO Execute the script
         OrganiserMgtOpResult result = this.org.executeScript(this.script);
         if (false == result.getResult()) {

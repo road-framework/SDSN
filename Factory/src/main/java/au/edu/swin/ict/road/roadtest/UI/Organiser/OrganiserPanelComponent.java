@@ -83,7 +83,7 @@ public class OrganiserPanelComponent extends JPanel implements OrganiserListener
         jButtonClearInbox = new JButton();
         jButtonClearInbox.setToolTipText("Clear Inbox");
         jButtonClearInbox.setIcon(new ImageIcon(CompositionUI.class
-                                                        .getResource("images/" + "clearicon.gif")));
+                .getResource("images/" + "clearicon.gif")));
         generateInbox();
 
         addComponent(this, jButtonClearInbox, 765, 510, 30, 25);
@@ -345,15 +345,67 @@ public class OrganiserPanelComponent extends JPanel implements OrganiserListener
             Calendar cal = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:SSS");
             Object[] row = new Object[]{message.getClass().getSimpleName(),
-                                        dateFormat.format(cal.getTime())};
+                    dateFormat.format(cal.getTime())};
             modelInbox.insertRow(0, row);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception:" + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    @Override
+    public void addContractEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        clearExistingPanels();
+        initializeComponent();
+    }
+
+    @Override
+    public void addOperationEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        clearExistingPanels();
+        initializeComponent();
+
+    }
+
+    @Override
+    public void addRoleEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        clearExistingPanels();
+        initializeComponent();
+    }
+
+    @Override
+    public void addTermEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        clearExistingPanels();
+        initializeComponent();
+    }
+
+    @Override
+    public void removeContractEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        initializeComponent();
+    }
+
+    @Override
+    public void removeOperationEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        initializeComponent();
+    }
+
+    @Override
+    public void removeRoleEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        initializeComponent();
+    }
+
+    @Override
+    public void removeTermEvent(OrganiserEvent e) {
+        jTreeComposition.getParent().getParent().getParent().removeAll();
+        initializeComponent();
+    }
 
     /**
      * This class represents the tree instance generated inside the container
@@ -461,59 +513,6 @@ public class OrganiserPanelComponent extends JPanel implements OrganiserListener
         }
 
 
-    }
-
-    @Override
-    public void addContractEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        clearExistingPanels();
-        initializeComponent();
-    }
-
-    @Override
-    public void addOperationEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        clearExistingPanels();
-        initializeComponent();
-
-    }
-
-    @Override
-    public void addRoleEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        clearExistingPanels();
-        initializeComponent();
-    }
-
-    @Override
-    public void addTermEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        clearExistingPanels();
-        initializeComponent();
-    }
-
-    @Override
-    public void removeContractEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        initializeComponent();
-    }
-
-    @Override
-    public void removeOperationEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        initializeComponent();
-    }
-
-    @Override
-    public void removeRoleEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        initializeComponent();
-    }
-
-    @Override
-    public void removeTermEvent(OrganiserEvent e) {
-        jTreeComposition.getParent().getParent().getParent().removeAll();
-        initializeComponent();
     }
 
 

@@ -10,6 +10,9 @@ import java.io.Reader;
 import java.util.Hashtable;
 
 public class SerLexer extends antlr.CharScanner implements SerLexerTokenTypes, TokenStream {
+    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
+    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
+
     public SerLexer(InputStream in) {
         this(new ByteBuffer(in));
     }
@@ -27,6 +30,16 @@ public class SerLexer extends antlr.CharScanner implements SerLexerTokenTypes, T
         caseSensitiveLiterals = true;
         setCaseSensitive(true);
         literals = new Hashtable();
+    }
+
+    private static final long[] mk_tokenSet_0() {
+        long[] data = {-17179869185L, -1L, 0L, 0L};
+        return data;
+    }
+
+    private static final long[] mk_tokenSet_1() {
+        long[] data = {-9217L, -1L, 0L, 0L};
+        return data;
     }
 
     public Token nextToken() throws TokenStreamException {
@@ -517,20 +530,5 @@ public class SerLexer extends antlr.CharScanner implements SerLexerTokenTypes, T
         }
         _returnToken = _token;
     }
-
-
-    private static final long[] mk_tokenSet_0() {
-        long[] data = {-17179869185L, -1L, 0L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
-
-    private static final long[] mk_tokenSet_1() {
-        long[] data = {-9217L, -1L, 0L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
 
 }

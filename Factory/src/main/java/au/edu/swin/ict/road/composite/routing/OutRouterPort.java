@@ -7,7 +7,9 @@ import au.edu.swin.ict.road.xml.bindings.ResultMsgType;
  */
 
 public class OutRouterPort {
+    public ResultMsgType outInterface;
     private String interaction;
+    private String desContract;
 
     public OutRouterPort(String desContract) {
         this.desContract = desContract;
@@ -23,13 +25,9 @@ public class OutRouterPort {
         return desContract;
     }
 
-    private String desContract;
-
     public ResultMsgType getOutInterface() {
         return outInterface;
     }
-
-    public ResultMsgType outInterface;
 
     public String getInteraction() {
         return interaction;

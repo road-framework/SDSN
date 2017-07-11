@@ -93,7 +93,7 @@ public class SerendipEngine {
     }
 
     public ProcessInstance startProcessInstanceV2(Classifier classifier, String defId)
-    throws SerendipException {
+            throws SerendipException {
 
         ProcessInstance pi = this.modelFactory.getNewProcessInstanceV2(classifier, defId);
         VSNDefinition group = processes.get(classifier.getVsnId());
@@ -108,7 +108,7 @@ public class SerendipEngine {
             return pi;
         } else {
             System.out.println("Unable to state a new process instance for the process " +
-                               defId + " as it is " + processDefinition.getMgtState().getState());
+                    defId + " as it is " + processDefinition.getMgtState().getState());
             return null;
         }
     }

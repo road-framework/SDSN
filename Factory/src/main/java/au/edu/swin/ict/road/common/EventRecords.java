@@ -11,17 +11,17 @@ import java.util.List;
 public class EventRecords {
     private List<EventRecord> stateRecords = new ArrayList<EventRecord>();
 
-    public void setEventRecords(EventRecord[] records) {
-        for (EventRecord eventRecord : records) {
-            addEventRecord(eventRecord);
-        }
-    }
-
     public void addEventRecord(EventRecord eventRecord) {
         stateRecords.add(eventRecord);
     }
 
     public EventRecord[] getEventRecords() {
         return stateRecords.toArray(new EventRecord[stateRecords.size()]);
+    }
+
+    public void setEventRecords(EventRecord[] records) {
+        for (EventRecord eventRecord : records) {
+            addEventRecord(eventRecord);
+        }
     }
 }

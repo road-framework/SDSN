@@ -10,8 +10,8 @@ import java.util.List;
  * @author Malinda
  */
 public class DefAdaptationEngine {
-    private SerendipEngine engine = null;
     private static Logger log = Logger.getLogger(DefAdaptationEngine.class.getName());
+    private SerendipEngine engine = null;
 
 
     public DefAdaptationEngine(SerendipEngine engine) {

@@ -70,12 +70,12 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         );
 
         JSplitPane epcTextSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                                                 epcViewScrol, textViewScrol);
+                epcViewScrol, textViewScrol);
         epcTextSplit.setDividerLocation(300);
         refreshBtn.addActionListener(this);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                              treeViewScrol, epcTextSplit);
+                treeViewScrol, epcTextSplit);
         splitPane.setDividerLocation(200);
         this.setLayout(new BorderLayout());
         this.createPopupMenu();// Popup menu to modify, remove etc.
@@ -91,15 +91,15 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
 
     private String getInitLableText() {
         return "<html>How to use this view? " +
-               "<P>" +
-               "Please follow the instructions below" +
-               "<UL>" +
+                "<P>" +
+                "Please follow the instructions below" +
+                "<UL>" +
 
-               "  <LI>Press <b>Refresh</b> button to retireve the latest process instances" +
-               "  <LI>Once retrieved, select a process-instance/behavior or a task from the <b>tree</b> to visualize." +
-               "  <LI>Fill above check-box and press refresh button to view the completed process instances. " +
+                "  <LI>Press <b>Refresh</b> button to retireve the latest process instances" +
+                "  <LI>Once retrieved, select a process-instance/behavior or a task from the <b>tree</b> to visualize." +
+                "  <LI>Fill above check-box and press refresh button to view the completed process instances. " +
 
-               "</UL>";
+                "</UL>";
     }
 
     private void createPINodes() {
@@ -112,7 +112,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         }
         // Create the nodes.
         this.rootNode = new DefaultMutableTreeNode(this.engineInstance
-                                                           .getCompositionName());
+                .getCompositionName());
 
         Map<String, ProcessInstance> processInstances = null;
 
@@ -135,7 +135,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
             for (int j = 0; j < btVec.size(); j++) {
                 BehaviorTerm bt = btVec.get(j);
                 DefaultMutableTreeNode btNode = new DefaultMutableTreeNode(bt
-                                                                                   .getId());
+                        .getId());
                 piNode.add(btNode);
 
                 List<Task> taskVec = bt.getTasksVec();
@@ -228,7 +228,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         }
 
         ProcessInstance pi = this.engineInstance.getProcessInstanceByInsId(nodes[1]
-                                                                                   .toString());
+                .toString());
         if (null != pi) {
             String btId = nodes[2].toString();
             BehaviorTerm bt = pi.getBehaviorTerm(btId);
@@ -240,10 +240,10 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
                     Task task = bt.getTask(nodes[3].toString());
 
                     text = "Task\t\t: " + task.getId() + "\nPre-EP\t\t: "
-                           //+ task.getEventPattern() + "\nInput Msgs\t\t:"
-                           //+ task.getInputMsgs() + "\nObligatedBy\t\t:"
-                           + task.getObligatedRoleId() + "\nDescription\t\t:"
-                           + task.getTaskDescr() + "\npost-EP\t\t: "
+                            //+ task.getEventPattern() + "\nInput Msgs\t\t:"
+                            //+ task.getInputMsgs() + "\nObligatedBy\t\t:"
+                            + task.getObligatedRoleId() + "\nDescription\t\t:"
+                            + task.getTaskDescr() + "\npost-EP\t\t: "
                     //+ task.getPostEventPattern() + "\nOutput Msg\t\t:"
                     //+ task.getOutMessageId()
                     ;
@@ -265,7 +265,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
                     // this.textArea.setText(bt.getId());
 
                     String btText = TextualWriter.btToText(pi
-                                                                   .getBehaviorTerm(bt.getId()));
+                            .getBehaviorTerm(bt.getId()));
                     this.textArea.setText(btText);
 
                     // Some extra work to give a graphical representation
@@ -308,7 +308,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         if (null == nodes[1]) {
             JOptionPane
                     .showMessageDialog(this,
-                                       "Invalid process instance");
+                            "Invalid process instance");
             return;
         }
         String pId = nodes[1].toString();
@@ -316,7 +316,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         ProcessInstance pi = this.engineInstance.getProcessInstanceByInsId(pId);
 
         ProcessInstanceViewFrame piFrame = new ProcessInstanceViewFrame(pi,
-                                                                        true);
+                true);
         piFrame.setVisible(true);
 
     }
@@ -328,7 +328,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
         if (null == node) {
             JOptionPane
                     .showMessageDialog(this,
-                                       "Please select a process instance from the tree. \nRight click to modify it");
+                            "Please select a process instance from the tree. \nRight click to modify it");
         }
         TreeNode[] nodes = node.getPath();
 
@@ -336,7 +336,7 @@ public class ProcessTreeView extends JPanel implements TreeSelectionListener,
 
         ProcessInstance pi = this.engineInstance.getProcessInstanceByInsId(pId);
         ProcessInstanceViewFrame piFrame = new ProcessInstanceViewFrame(pi,
-                                                                        false);
+                false);
         piFrame.setVisible(true);
     }
 

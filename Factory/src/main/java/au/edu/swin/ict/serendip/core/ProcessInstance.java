@@ -21,16 +21,40 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ProcessInstance extends SerendipEventListener implements Cloneable {
+    private static Logger logger = Logger.getLogger(ProcessInstance.class);
+    public status currentStatus = status.active;
     private Map<String, DisabledRuleSet> disabledRuleSetMap = new HashMap<String, DisabledRuleSet>();
     private VSNInstance mgtState;
     private Lock processInstanceLock = new ReentrantLock();
     private Condition disableSetCreation = processInstanceLock.newCondition();
+    private String processVersion;
+    private SerendipEngine engine = null;
+    private List<BehaviorTerm> btVec = new ArrayList<BehaviorTerm>();
+    private List<ConstraintType> constraintsVec = new ArrayList<ConstraintType>();
+    private Hashtable<String, Task> currentTasks = new Hashtable<String, Task>();
+    private Hashtable<String, Task> completedTasks = new Hashtable<String, Task>();
+    private ProcessDefinition parent;
+    // private ProcessDefinitionType pDef = null;
+    private String defId = null;
+    private String pId;
+
+    /**
+     * A process instance that maintains the state of a running business process
+     *
+     * @param engine
+     * @param defId
+     */
+    public ProcessInstance(SerendipEngine engine, String defId, Classifier classifier) {
+        this.engine = engine;
+        this.defId = defId;
+        this.pId = defId + engine.getUniqueId();//we increment the process ids
+        setClassifier(classifier);
+        this.mgtState = new VSNInstance(classifier);
+    }
 
     public VSNInstance getMgtState() {
         return mgtState;
     }
-
-    private String processVersion;
 
     public Condition getDisableSetCreation() {
         return disableSetCreation;
@@ -43,20 +67,6 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
     public String getProcessVersion() {
         return processVersion;
     }
-
-    //We specifically use lower case letters for enums to support the scripting. Change with care.
-    public enum status {
-        active, completed, abort, paused
-    }
-
-    public enum propertyAttribute {
-        cot, cos
-    }
-
-    private static Logger logger = Logger.getLogger(ProcessInstance.class);
-
-    private SerendipEngine engine = null;
-    // private ProcessDefinitionType pDef = null;
 
     public ProcessDefinition getParent() {
         return parent;
@@ -82,33 +92,8 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
         return disabledRuleSet;
     }
 
-    private List<BehaviorTerm> btVec = new ArrayList<BehaviorTerm>();
-    private List<ConstraintType> constraintsVec = new ArrayList<ConstraintType>();
-    public status currentStatus = status.active;
-    private Hashtable<String, Task> currentTasks = new Hashtable<String, Task>();
-    private Hashtable<String, Task> completedTasks = new Hashtable<String, Task>();
-    private ProcessDefinition parent;
-
-    private String defId = null;
-
     public void setpId(String pId) {
         this.pId = pId;
-    }
-
-    private String pId;
-
-    /**
-     * A process instance that maintains the state of a running business process
-     *
-     * @param engine
-     * @param defId
-     */
-    public ProcessInstance(SerendipEngine engine, String defId, Classifier classifier) {
-        this.engine = engine;
-        this.defId = defId;
-        this.pId = defId + engine.getUniqueId();//we increment the process ids
-        setClassifier(classifier);
-        this.mgtState = new VSNInstance(classifier);
     }
 
     public Object clone() {// Not complete.
@@ -181,9 +166,11 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
         System.out.println("Cvvvvvvv");
         this.engine.expireProcessInstanceOnBackground(pId);
     }
-    public void terminateOnBackground(){
+
+    public void terminateOnBackground() {
         this.engine.expireProcessInstanceOnBackground(pId);
     }
+
     public boolean canTerminate() {
 //        return terminateFlag || currentTasks.isEmpty();
         return mgtState.getState().equals(ManagementState.STATE_QUIESCENCE);
@@ -230,7 +217,6 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
     public List<BehaviorTerm> getBtVec() {
         return btVec;
     }
-
 
     public BehaviorTerm getBehaviorTerm(String behaviorTermId) {
         for (int i = 0; i < this.btVec.size(); i++) {
@@ -403,5 +389,14 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
             }
         }
         return null;
+    }
+
+    //We specifically use lower case letters for enums to support the scripting. Change with care.
+    public enum status {
+        active, completed, abort, paused
+    }
+
+    public enum propertyAttribute {
+        cot, cos
     }
 }

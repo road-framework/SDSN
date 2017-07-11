@@ -46,7 +46,7 @@ public class CompositeDemarshaller {
      */
     public ServiceNetwork demarshalSMCBinding(String smcFile)
             throws CompositeDemarshallingException,
-                   ConsistencyViolationException, CompositeInstantiationException {
+            ConsistencyViolationException, CompositeInstantiationException {
 
         if (log.isInfoEnabled()) {
             log.info("Starting instantiation of " + smcFile);
@@ -77,8 +77,8 @@ public class CompositeDemarshaller {
     }
 
     public Composite demarshalSMC(String smcFile)
-    throws CompositeDemarshallingException,
-    ConsistencyViolationException, CompositeInstantiationException {
+            throws CompositeDemarshallingException,
+            ConsistencyViolationException, CompositeInstantiationException {
 
         ServiceNetwork smcBinding = demarshalSMCBinding(smcFile);
 
@@ -93,7 +93,7 @@ public class CompositeDemarshaller {
 
         // /Serendip
         if (ModelProviderFactory
-                    .getProperty(Constants.SERENDIP_SHOW_ADMIN_VIEW) != null) {
+                .getProperty(Constants.SERENDIP_SHOW_ADMIN_VIEW) != null) {
             if (ModelProviderFactory.getProperty(
                     Constants.SERENDIP_SHOW_ADMIN_VIEW).equalsIgnoreCase(
                     "TRUE")) {
@@ -103,19 +103,19 @@ public class CompositeDemarshaller {
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("Serendip adminview disabled. "
-                             + "If you need to monitor processes set "
-                             + Constants.SERENDIP_SHOW_ADMIN_VIEW + "=TRUE"
-                             + "in serendip.properties file");
+                            + "If you need to monitor processes set "
+                            + Constants.SERENDIP_SHOW_ADMIN_VIEW + "=TRUE"
+                            + "in serendip.properties file");
                 }
             }
         } else {
             if (log.isInfoEnabled()) {
                 log.info("Serendip adminview disabled. "
-                         + Constants.SERENDIP_SHOW_ADMIN_VIEW
-                         + "Property not found."
-                         + "If you need to monitor processes set "
-                         + Constants.SERENDIP_SHOW_ADMIN_VIEW + "=TRUE"
-                         + "in serendip.properties file");
+                        + Constants.SERENDIP_SHOW_ADMIN_VIEW
+                        + "Property not found."
+                        + "If you need to monitor processes set "
+                        + Constants.SERENDIP_SHOW_ADMIN_VIEW + "=TRUE"
+                        + "in serendip.properties file");
             }
         }
         // /EofSerendip
@@ -163,7 +163,7 @@ public class CompositeDemarshaller {
 
             String location = getLocationDescription(event);
             String message = severity + " parsing " + location + " due to "
-                             + event.getMessage();
+                    + event.getMessage();
             messages.add(message);
 
             return continueParsing;

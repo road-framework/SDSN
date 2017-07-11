@@ -8,11 +8,10 @@ import java.util.List;
  * TODO
  */
 public class EventCollection implements IEvent {
+    private final List<IEvent> iEvents = new ArrayList<IEvent>();
     private IOrganiserRole iOrganiserRole;
     private IOperationalManagerRole iOperationalManagerRole;
     private DisabledRuleSet disabledRuleSet;
-
-    private final List<IEvent> iEvents = new ArrayList<IEvent>();
 
     public void addIEvent(IEvent iEvent) {
         iEvents.add(iEvent);

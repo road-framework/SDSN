@@ -16,8 +16,8 @@ import java.lang.reflect.Method;
  */
 public class PassthroughActions extends BasedActions {
     private static Logger log = Logger.getLogger(SynchronizationActions.class.getName());
-    private Contract contract;
     private final PassthroughRegTable passthroughRegTable;
+    private Contract contract;
 
     public PassthroughActions(Contract contract) {
         super(contract.getComposite());

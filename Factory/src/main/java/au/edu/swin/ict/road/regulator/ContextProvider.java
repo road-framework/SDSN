@@ -52,7 +52,7 @@ public class ContextProvider implements IContextProvider {
 
         try {
             URL url = new URL("http://127.0.0.1:8080/" + this.fSync.getId()
-                              + "?parameter=getFacts");
+                    + "?parameter=getFacts");
             // make connection
             URLConnection urlc = url.openConnection();
 
@@ -68,7 +68,7 @@ public class ContextProvider implements IContextProvider {
 
             // get result
             BufferedReader br = new BufferedReader(new InputStreamReader(urlc
-                                                                                 .getInputStream()));
+                    .getInputStream()));
             String l = null;
             while ((l = br.readLine()) != null) {
                 facts = l;

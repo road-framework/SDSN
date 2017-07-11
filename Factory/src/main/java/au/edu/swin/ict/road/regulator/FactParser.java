@@ -33,7 +33,7 @@ public class FactParser {
         if (xmlString.length() != 0) {
             // Creating the input source for reading the XML string
             InputSource source = new InputSource(new StringReader(xmlString
-                                                                          .toString()));
+                    .toString()));
 
             // Everytime the XML String is parsed, a new instance of FactSaxHandler
             // is used so that it does not conflict with the earlier ones

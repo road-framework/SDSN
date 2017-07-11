@@ -58,8 +58,8 @@ public class ProcessAssemblyPanelGroup extends JPanel implements ActionListener 
      * @throws SerendipException
      */
     private void createUI() throws ClassNotFoundException,
-                                   InstantiationException, IllegalAccessException,
-                                   UnsupportedLookAndFeelException, SerendipException {
+            InstantiationException, IllegalAccessException,
+            UnsupportedLookAndFeelException, SerendipException {
 
         this.setLayout(new BorderLayout());
         this.add(this.tabbedPane, BorderLayout.CENTER);

@@ -21,10 +21,6 @@ public class RoutingPolicy {
 
     private IRoutingRules iRoutingRules;
 
-    public void setRoutingRules(IRoutingRules iRoutingRules) {
-        this.iRoutingRules = iRoutingRules;
-    }
-
     public RoutingPolicy(IRoutingRules iRoutingRules, String processGroupId, String role) {
         this.iRoutingRules = iRoutingRules;
         this.processGroupId = processGroupId;
@@ -79,5 +75,9 @@ public class RoutingPolicy {
 
     public IRoutingRules getRoutingRules() {
         return iRoutingRules;
+    }
+
+    public void setRoutingRules(IRoutingRules iRoutingRules) {
+        this.iRoutingRules = iRoutingRules;
     }
 }

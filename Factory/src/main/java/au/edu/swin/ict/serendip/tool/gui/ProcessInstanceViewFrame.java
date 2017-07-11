@@ -21,11 +21,11 @@ import java.util.Date;
 
 public class ProcessInstanceViewFrame extends SerendipJFrame implements
         ActionListener {
+    private static final long serialVersionUID = 1L;
     /**
      *
      */
     private static Logger log = Logger.getLogger(ProcessInstanceViewFrame.class.getName());
-    private static final long serialVersionUID = 1L;
     private ProcessInstance pi = null;
     private SerendipEngine engine = null;
     private JScrollPane cmdScrol = new JScrollPane();
@@ -43,19 +43,19 @@ public class ProcessInstanceViewFrame extends SerendipJFrame implements
     private String defaultText = null;
 
     public ProcessInstanceViewFrame(ProcessInstance pi, boolean withModif)
-    throws HeadlessException {
+            throws HeadlessException {
         super("Process Instance id=" + pi.getId() + ", Process Def id="
-              + pi.getDefinitionId());
+                + pi.getDefinitionId());
         // TODO Auto-generated constructor stub
         this.pi = pi;
         this.engine = pi.getEngine();
         //this.defaultText = "SetTaskProperty " + pi.getId() + " SendGRLocation    eppre  RepairReqd";
         this.defaultText = "PI:" + pi.getId() + "{"
-                           //	+"pause ;"
-                           + "\n\t updatePropertyOfTask tid=\"PayTC\" property=\"postep\" value=\"TCPaid * TCPaymentSent\";"
-                           + "\n\t updatePropertyOfTask tid=\"Notify\" property=\"preep\" value=\"MMNotif * TCPaymentSent\";"
-                           //	+"resume ; "
-                           + "\n}";
+                //	+"pause ;"
+                + "\n\t updatePropertyOfTask tid=\"PayTC\" property=\"postep\" value=\"TCPaid * TCPaymentSent\";"
+                + "\n\t updatePropertyOfTask tid=\"Notify\" property=\"preep\" value=\"MMNotif * TCPaymentSent\";"
+                //	+"resume ; "
+                + "\n}";
 
         // this.defaultText = "set_pp "+pi.getId()+" SendTowReq 12";
         try {
@@ -96,7 +96,7 @@ public class ProcessInstanceViewFrame extends SerendipJFrame implements
             cmdPanel.add(this.cmdScrol, BorderLayout.CENTER);
             cmdPanel
                     .setBorder(BorderFactory
-                                       .createTitledBorder("Enter script to customzie the instance"));
+                            .createTitledBorder("Enter script to customzie the instance"));
 
             JPanel btnPanel = new JPanel(new FlowLayout());
             btnPanel.add(this.loadBtn);
@@ -111,7 +111,7 @@ public class ProcessInstanceViewFrame extends SerendipJFrame implements
             JPanel consolePanel = new JPanel(new BorderLayout());
             consolePanel.add(this.consoleScrol);
             consolePanel.setBorder(BorderFactory
-                                           .createTitledBorder("Console"));
+                    .createTitledBorder("Console"));
             JPanel rightPanel = new JPanel(new GridLayout(2, 1));
             rightPanel.add(cmdPanel);
 
@@ -169,7 +169,7 @@ public class ProcessInstanceViewFrame extends SerendipJFrame implements
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.exeBtn)
-            | e.getSource().equals(this.cmdArea)) {
+                | e.getSource().equals(this.cmdArea)) {
             boolean res = false;
             String script = cmdArea.getText();
             try {

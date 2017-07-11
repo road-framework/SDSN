@@ -10,6 +10,8 @@ import java.io.Reader;
 import java.util.Hashtable;
 
 public class EventPatternLexer extends antlr.CharScanner implements EventPatternParserTokenTypes, TokenStream {
+    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
+
     public EventPatternLexer(InputStream in) {
         this(new ByteBuffer(in));
     }
@@ -27,6 +29,11 @@ public class EventPatternLexer extends antlr.CharScanner implements EventPattern
         caseSensitiveLiterals = true;
         setCaseSensitive(true);
         literals = new Hashtable();
+    }
+
+    private static final long[] mk_tokenSet_0() {
+        long[] data = {288019269919178752L, 576460744518795262L, 0L, 0L};
+        return data;
     }
 
     public Token nextToken() throws TokenStreamException {
@@ -378,13 +385,5 @@ public class EventPatternLexer extends antlr.CharScanner implements EventPattern
         }
         _returnToken = _token;
     }
-
-
-    private static final long[] mk_tokenSet_0() {
-        long[] data = {288019269919178752L, 576460744518795262L, 0L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
 
 }

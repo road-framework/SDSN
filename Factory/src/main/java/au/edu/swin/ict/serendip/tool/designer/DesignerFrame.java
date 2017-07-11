@@ -34,16 +34,15 @@ public class DesignerFrame extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private static final Log log = LogFactory.getLog(DesignerFrame.class);
-    private File file = null;
+    private final JFileChooser fc = new JFileChooser(
+            ModelProviderFactory.getProperty("DEFAULT_LOC"));
     ;
+    private File file = null;
     private Composite composite = null;
     private JTabbedPane tabbedPane = null;
     private JMenuBar menuBar;
     private JMenu fileMenu, toolMenu, helpMenu;
     private JMenuItem openItem, newItem, reloadItem, validateProcessManuItem, exitItem;
-    private final JFileChooser fc = new JFileChooser(
-            ModelProviderFactory.getProperty("DEFAULT_LOC"));
-
     private JMenuItem helpManuItem, aboutManuItem;
 
     public DesignerFrame() {
@@ -58,6 +57,10 @@ public class DesignerFrame extends JFrame implements ActionListener {
         // Add tabbed pane
         this.tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         this.setContentPane(this.tabbedPane);
+    }
+
+    public static void main(String[] args) {
+        new DesignerFrame();
     }
 
     private void createMenus() {
@@ -109,16 +112,16 @@ public class DesignerFrame extends JFrame implements ActionListener {
         //if(true){return;}//To avoid delay in composite loading for UI testing
         if ((file == null) || (!file.exists())) {
             JOptionPane.showMessageDialog(this,
-                                          "Invalid file",
-                                          "File Selection Error",
-                                          JOptionPane.ERROR_MESSAGE);
+                    "Invalid file",
+                    "File Selection Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
         CompositeDemarshaller demarsheller = new CompositeDemarshaller();
 
         this.composite = demarsheller.demarshalSMC(file.getAbsolutePath());
         if (null == composite) {
             log.error("Cannot instantiate the composite from file "
-                      + file.getAbsoluteFile());
+                    + file.getAbsoluteFile());
         }
 
         log.debug(this.composite.getName());
@@ -228,9 +231,5 @@ public class DesignerFrame extends JFrame implements ActionListener {
             e.printStackTrace();
         }
 
-    }
-
-    public static void main(String[] args) {
-        new DesignerFrame();
     }
 }

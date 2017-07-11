@@ -14,7 +14,7 @@ import java.io.StringReader;
 public class EventPatternRecognizer implements EventPatternParserTokenTypes {
 
     public static AST patternToAST(String pattern) throws RecognitionException,
-    TokenStreamException {
+            TokenStreamException {
         String expr = pattern;
         EventPatternLexer lexer = new EventPatternLexer(new StringReader(expr));
         EventPatternParser parser = new EventPatternParser(lexer);

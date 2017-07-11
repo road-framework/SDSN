@@ -10,8 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * TODO documentation
  */
 public class VSNState {
-    private String vsnId;
     private final Lock lock = new ReentrantLock();
+    private String vsnId;
     private ConcurrentHashMap<String, StateRecord> cache = new ConcurrentHashMap<String, StateRecord>();
     private ConcurrentHashMap<String, ProcessState> routeStates = new ConcurrentHashMap<String, ProcessState>();
     private MBeanRegistrar registrar = MBeanRegistrar.getInstance();

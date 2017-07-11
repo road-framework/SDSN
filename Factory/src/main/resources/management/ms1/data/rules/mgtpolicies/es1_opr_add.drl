@@ -47,7 +47,6 @@ rule "es1_opr_stage1"
 
     oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruTerminateV1,ruActivateV1,CaseHandling");
     oprMgt.addRegulationUnitsToVSNRegulationPolicy("HappyTours","ruAdmissionV1,ruCreateVsnInstance,ruDrop");
-    oprMgt.addRegulationUnitsToServiceNetworkRegulationPolicy("roadside_intervsn");
 
     oprMgt.updateRegulationUnit("CaseHandling","state","active");
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruActivateV1","state","active");

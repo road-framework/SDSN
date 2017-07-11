@@ -35,24 +35,20 @@ import java.util.*;
  * @author Ufuk Altin (altin.ufuk@gmail.com)
  */
 public class ROADTest {
+    /**
+     * This is the log for the ROADTest which gives information of ROADTest
+     */
+    public static Logger logROADTest = Logger.getLogger(ROADTest.class
+            .getName());
     private static Logger log = Logger.getLogger(ROADTest.class.getName());
     private Composite composite;
     private List<IRole> roleList;
     // private Map<String, Contract> contractList;
     private Map<String, Player> playerMap;
-    private int newPort;
     // private FileHandler fHandler;
-
+    private int newPort;
     private OrganiserRole organiserRole;
-
-
     private Set<OrganiserListener> listeners;
-
-    /**
-     * This is the log for the ROADTest which gives information of ROADTest
-     */
-    public static Logger logROADTest = Logger.getLogger(ROADTest.class
-                                                                .getName());
 
     /**
      * This will create and incite all players! Will not start the composite. It
@@ -64,7 +60,7 @@ public class ROADTest {
      * @throws CompositeInstantiationException
      */
     public ROADTest(String smcFile) throws CompositeDemarshallingException,
-                                           ConsistencyViolationException, CompositeInstantiationException {
+            ConsistencyViolationException, CompositeInstantiationException {
         logROADTest.setLevel(Level.ALL);
 
         // String logFileName = "ROADTestLog-"
@@ -91,7 +87,7 @@ public class ROADTest {
         // }
 
         logROADTest.log(Level.INFO,
-                        "ROADTest started with the following composite:" + smcFile);
+                "ROADTest started with the following composite:" + smcFile);
         playerMap = new HashMap<String, Player>();
 
 
@@ -105,31 +101,31 @@ public class ROADTest {
         } catch (CompositeDemarshallingException e) {
             logROADTest
                     .log(Level.FATAL,
-                         "ROADTest: Following exception occured: "
-                         + e.getClass().getName()
-                         + "; with the following Message: "
-                         + e.getMessage());
+                            "ROADTest: Following exception occured: "
+                                    + e.getClass().getName()
+                                    + "; with the following Message: "
+                                    + e.getMessage());
             throw e;
         } catch (ConsistencyViolationException e) {
             logROADTest
                     .log(Level.FATAL,
-                         "ROADTest: Following exception occured: "
-                         + e.getClass().getName()
-                         + "; with the following Message: "
-                         + e.getMessage());
+                            "ROADTest: Following exception occured: "
+                                    + e.getClass().getName()
+                                    + "; with the following Message: "
+                                    + e.getMessage());
             throw e;
         } catch (CompositeInstantiationException e) {
             logROADTest
                     .log(Level.FATAL,
-                         "ROADTest: Following exception occured: "
-                         + e.getClass().getName()
-                         + "; with the following Message: "
-                         + e.getMessage());
+                            "ROADTest: Following exception occured: "
+                                    + e.getClass().getName()
+                                    + "; with the following Message: "
+                                    + e.getMessage());
             throw e;
         }
 
         logROADTest.log(Level.INFO, "ROADTest composite " + composite.getName()
-                                    + " created (not started)");
+                + " created (not started)");
 
         this.roleList = composite.getCompositeRoles();
         String roles = "";
@@ -152,7 +148,7 @@ public class ROADTest {
 
         logROADTest.log(Level.INFO, "ROADTest created organiser role");
         logROADTest.log(Level.INFO,
-                        "ROADTest player created for following roles: " + roles);
+                "ROADTest player created for following roles: " + roles);
 
     }
 
@@ -198,7 +194,7 @@ public class ROADTest {
         Player p = this.playerMap.get(id);
         if (p == null) {
             throw new PlayerNotFoundException("The Player with the id " + id
-                                              + " is not available");
+                    + " is not available");
         }
         return p;
     }
@@ -225,14 +221,14 @@ public class ROADTest {
     public void sendMessage(String playerId, String msgSignature,
                             String msgContent, boolean response) throws PlayerNotFoundException {
         logROADTest.log(Level.INFO,
-                        "ROADTest: Message sent from ROADTest for player: " + playerId
+                "ROADTest: Message sent from ROADTest for player: " + playerId
                         + " with the signature: " + msgSignature);
         Player p = playerMap.get(playerId);
         if (p == null) {
             logROADTest.log(Level.FATAL, "ROADTest: The player with the id: "
-                                         + playerId + " can not be found. Message not sent!");
+                    + playerId + " can not be found. Message not sent!");
             throw new PlayerNotFoundException("The player with the id: "
-                                              + playerId + " can not be found");
+                    + playerId + " can not be found");
         }
         p.sendMessage(msgSignature, msgContent, response);
     }
@@ -251,24 +247,24 @@ public class ROADTest {
         } catch (RemoteException e) {
             logROADTest
                     .log(Level.FATAL,
-                         "ROADTest: Following exception occured while trying to start server: "
-                         + e.getClass().getName()
-                         + "; with the following Message: "
-                         + e.getMessage());
+                            "ROADTest: Following exception occured while trying to start server: "
+                                    + e.getClass().getName()
+                                    + "; with the following Message: "
+                                    + e.getMessage());
             throw e;
         } catch (MalformedURLException e) {
             logROADTest
                     .log(Level.FATAL,
-                         "ROADTest: Following exception occured while trying to register the composite:"
-                         + this.composite.getName()
-                         + " on the server: "
-                         + e.getClass().getName()
-                         + "; with the following Message: "
-                         + e.getMessage());
+                            "ROADTest: Following exception occured while trying to register the composite:"
+                                    + this.composite.getName()
+                                    + " on the server: "
+                                    + e.getClass().getName()
+                                    + "; with the following Message: "
+                                    + e.getMessage());
             throw e;
         }
         logROADTest.log(Level.INFO, "ROADTest this ROADTest "
-                                    + this.composite.getName() + " has been started as a server");
+                + this.composite.getName() + " has been started as a server");
     }
 
     /**

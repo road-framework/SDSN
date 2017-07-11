@@ -13,12 +13,24 @@ public class Command {
         this.name = command;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static String quoteString(String value) {
+        if (value != null) {
+            for (int i = 0; i < value.length(); i++) {
+                char c = value.charAt(i);
+                if (!Character.isLetterOrDigit(c) && c != '_') {
+                    return "\"" + value + "\"";
+                }
+            }
+        }
+        return value;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addProperty(String key, String value) {
@@ -62,17 +74,5 @@ public class Command {
 
         buffer.append(";");
         return buffer.toString();
-    }
-
-    public static String quoteString(String value) {
-        if (value != null) {
-            for (int i = 0; i < value.length(); i++) {
-                char c = value.charAt(i);
-                if (!Character.isLetterOrDigit(c) && c != '_') {
-                    return "\"" + value + "\"";
-                }
-            }
-        }
-        return value;
     }
 }

@@ -36,7 +36,7 @@ public abstract class BasedActions {
     }
 
     public void publishEvent(String eventId, MessageReceivedEvent msg, String target) {
-        msg.triggerEvent(eventId,target);
+        msg.triggerEvent(eventId, target);
     }
 
     public void publishSNState(StateRecord stateRecord, String scope, RoleServiceMessage msg) {
@@ -101,7 +101,7 @@ public abstract class BasedActions {
         if ("instance".equals(scope)) {
             composite.getServiceNetworkState().
                     getVsnState(classifier.getVsnId()).getProcessState(classifier.getProcessId()).
-                             getProcessInstanceState(classifier.getProcessInsId()).putInCache(stateId, stateRecord);
+                    getProcessInstanceState(classifier.getProcessInsId()).putInCache(stateId, stateRecord);
         } else if ("process".equals(scope)) {
             composite.getServiceNetworkState().getVsnState(classifier.getVsnId()).
                     getProcessState(classifier.getProcessId()).putInCache(stateId, stateRecord);
@@ -117,7 +117,7 @@ public abstract class BasedActions {
         if ("instance".equals(scope)) {
             return composite.getServiceNetworkState().
                     getVsnState(classifier.getVsnId()).getProcessState(classifier.getProcessId()).
-                                    getProcessInstanceState(classifier.getProcessInsId()).retrieveFromCache(stateId);
+                    getProcessInstanceState(classifier.getProcessInsId()).retrieveFromCache(stateId);
         } else if ("process".equals(scope)) {
             return composite.getServiceNetworkState().getVsnState(classifier.getVsnId()).
                     getProcessState(classifier.getProcessId()).retrieveFromCache(stateId);

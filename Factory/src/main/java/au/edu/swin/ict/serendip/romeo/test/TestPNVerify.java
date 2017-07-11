@@ -5,9 +5,8 @@ import au.edu.swin.ict.serendip.verficiation.VerificationResult;
 import org.apache.log4j.Logger;
 
 public class TestPNVerify {
-    static Logger logger = Logger.getLogger(TestPNVerify.class);
-
     public static String DIR = "C://romeo/examples/verify/";
+    static Logger logger = Logger.getLogger(TestPNVerify.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -17,7 +16,7 @@ public class TestPNVerify {
         VerificationResult result = null;
         try {
             result = pnv.verifyAll(DIR, "src", new String[]{"src-prop",
-                                                            "src-prop_false"});
+                    "src-prop_false"});
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

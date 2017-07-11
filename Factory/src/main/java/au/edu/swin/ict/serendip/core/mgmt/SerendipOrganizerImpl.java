@@ -858,7 +858,7 @@ public class SerendipOrganizerImpl implements SerendipOrganizer, Constants {
             return new OrganiserMgtOpResult(false, "Must give a non-empty process definition");
         }
         this.engine.getComposition().getComposite().getSmcBinding().getVirtualServiceNetwork().get(0)
-                   .getProcess().add(processDefinitionType);
+                .getProcess().add(processDefinitionType);
         return new OrganiserMgtOpResult(true, "A process definition was added  with id : " + processDefinitionType.getId());
     }
 

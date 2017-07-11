@@ -14,11 +14,16 @@ public class MBeanRegistrar {
     private static final MBeanRegistrar ourInstance = new MBeanRegistrar();
     private static final Log log = LogFactory.getLog(MBeanRegistrar.class);
 
+    private MBeanRegistrar() {
+    }
+
     public static MBeanRegistrar getInstance() {
         return ourInstance;
     }
 
-    private MBeanRegistrar() {
+    private static void handleException(String msg) {
+        log.error(msg);
+        throw new RuntimeException(msg);
     }
 
     public boolean registerMBean(Object mBeanInstance, String suffix, String category, String id) {
@@ -38,7 +43,7 @@ public class MBeanRegistrar {
             return true;
         } catch (Exception e) {
             log.warn("Error registering a MBean with name ' " + id +
-                     " ' and category name ' " + category + "' for JMX management", e);
+                    " ' and category name ' " + category + "' for JMX management", e);
             return false;
         }
     }
@@ -53,7 +58,7 @@ public class MBeanRegistrar {
             }
         } catch (Exception e) {
             log.warn("Error un-registering a  MBean with name ' " + id +
-                     " ' and category name ' " + category + "' for JMX management", e);
+                    " ' and category name ' " + category + "' for JMX management", e);
         }
         return false;
     }
@@ -77,11 +82,6 @@ public class MBeanRegistrar {
         if (object == null) {
             handleException(msg);
         }
-    }
-
-    private static void handleException(String msg) {
-        log.error(msg);
-        throw new RuntimeException(msg);
     }
 
 }

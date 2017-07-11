@@ -9,8 +9,8 @@ import java.io.IOException;
 public class BenchUtil {
     public static boolean BENCH_ON = false;
     private static Logger log = Logger.getLogger(BenchUtil.class.getName());
-    private FileWriter writer = null;
     private static String path = null;// System.getenv("AXIS2_HOME")+System.getProperty("file.separator")+"test.csv";
+    private FileWriter writer = null;
     private long begintime = System.currentTimeMillis();
 
     public BenchUtil(String name) {

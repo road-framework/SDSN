@@ -44,41 +44,41 @@ public class TestGUI {
         // BT_Complain
         List<Task> btComplainTasks = new ArrayList<Task>();
         btComplainTasks.add(new Task("[ANY]", "MM", "Complain",
-                                     "[ComplaintRcvd]"));
+                "[ComplaintRcvd]"));
         btComplainTasks.add(new Task("[ComplaintRcvd]", "CO", "SendAck",
-                                     "[ComplaintAcked]"));
+                "[ComplaintAcked]"));
         btComplainTasks.add(new Task("[ComplaintRcvd]", "CO", "Analyze",
-                                     "[TowReqd] OR [RepairReqd]"));
+                "[TowReqd] OR [RepairReqd]"));
         behaviorTerms.add(new BehaviorTerm("Complain", btComplainTasks, null,
-                                           false));
+                false));
         // BT_Towing
         List<Task> btTowingTasks = new ArrayList<Task>();
         btTowingTasks.add(new Task("[TowReqd]", "CO", "SendTowReq",
-                                   "[TowReqSent] AND [PickupLocKnown]"));
+                "[TowReqSent] AND [PickupLocKnown]"));
         btTowingTasks.add(new Task("[TowReqSent]", "GR", "SendGRLocation",
-                                   "[DestinationKnown]"));
+                "[DestinationKnown]"));
         btTowingTasks.add(new Task("[PickupLocKnown] AND [DestinationKnown]",
-                                   "TC", "Tow", "[CarTowSuccess] OR [CarTowFailed]"));
+                "TC", "Tow", "[CarTowSuccess] OR [CarTowFailed]"));
         btTowingTasks.add(new Task("[CarTowSuccess]", "GR", "TowingAck",
-                                   "[TowingAckedByGR]"));
+                "[TowingAckedByGR]"));
         btTowingTasks.add(new Task("[CarTowSuccess] AND [TowingAckedByGR]",
-                                   "CO", "PayTow", "[TCPaid]"));
+                "CO", "PayTow", "[TCPaid]"));
         btTowingTasks.add(new Task("[CarTowSuccess]", "GR", "PayIncentive",
-                                   "[IncentivePaid]"));
+                "[IncentivePaid]"));
         behaviorTerms
                 .add(new BehaviorTerm("Towing", btTowingTasks, null, false));
         // BT_Repair
         List<Task> btRepairTasks = new ArrayList<Task>();
         btRepairTasks.add(new Task("[RepairReqd]", "CO", "SendGRReq",
-                                   "[GRReqSent]"));
+                "[GRReqSent]"));
         btRepairTasks.add(new Task("[GRReqSent] AND [CarTowSuccess]", "GR",
-                                   "ReqAdvPay", "[AdvPayReqSent]"));
+                "ReqAdvPay", "[AdvPayReqSent]"));
         btRepairTasks.add(new Task("[CarTowSuccess] AND [AdvPayReqSent]", "CO",
-                                   "PayAdvToGR", "[AdvToGRPaid]"));
+                "PayAdvToGR", "[AdvToGRPaid]"));
         btRepairTasks.add(new Task("[CarTowSuccess] AND [AdvToGRPaid]", "GR",
-                                   "Repair", "[CarRepairSuccess] AND [CarRepairFailed]"));
+                "Repair", "[CarRepairSuccess] AND [CarRepairFailed]"));
         btRepairTasks.add(new Task("[CarRepairSuccess]", "MM", "Inspect",
-                                   "[CarRepairOKConfirmed] OR [CarRepairFailureNoified]"));
+                "[CarRepairOKConfirmed] OR [CarRepairFailureNoified]"));
         btRepairTasks.add(new Task(
                 "[CarRepairSuccess] AND [CarRepairOKConfirmed] ", "CO",
                 "PayGR", "[GRPaid]"));
@@ -87,53 +87,53 @@ public class TestGUI {
         // BT_ProvideTaxi
         List<Task> btProvideTaxiTasks = new ArrayList<Task>();
         btProvideTaxiTasks.add(new Task("[ANY]", "MM", "CallTaxi",
-                                        "[TaxiCallRcvd]"));
+                "[TaxiCallRcvd]"));
         btProvideTaxiTasks.add(new Task("[ComplaintRcvd] AND [TaxiCallRcvd]",
-                                        "CO", "SendTaxiReq", "[TaxiRequested]"));
+                "CO", "SendTaxiReq", "[TaxiRequested]"));
         btProvideTaxiTasks.add(new Task("[TaxiRequested]", "TX",
-                                        "AckTaxiReqRcvd", "[TaxiReqAcked]"));
+                "AckTaxiReqRcvd", "[TaxiReqAcked]"));
         btProvideTaxiTasks.add(new Task("[TaxiReqAcked]", "TX",
-                                        "ProvideTaxiService", "[TaxiSvcProvided]"));
+                "ProvideTaxiService", "[TaxiSvcProvided]"));
         btProvideTaxiTasks.add(new Task("[TaxiSvcProvided]", "TX",
-                                        "ProvideTaxiService", "[PayTaxi]"));
+                "ProvideTaxiService", "[PayTaxi]"));
         behaviorTerms.add(new BehaviorTerm("ProvidTaxi", btProvideTaxiTasks,
-                                           null, false));
+                null, false));
         // BT_ProvideHotel
         List<Task> btProvideHotelTasks = new ArrayList<Task>();
         btProvideHotelTasks.add(new Task("[ANY]", "MM", "RequestAccommodation",
-                                         "[HotelReqd]"));
+                "[HotelReqd]"));
         btProvideHotelTasks.add(new Task("[ComplaintRcvd] AND [HotelReqd]",
-                                         "CO", "BookHotel", "[HotelReqSent]"));
+                "CO", "BookHotel", "[HotelReqSent]"));
         btProvideHotelTasks.add(new Task("[HotelReqSent]", "HT",
-                                         "SendBookingConfirmation", "[HotelBooked]"));
+                "SendBookingConfirmation", "[HotelBooked]"));
         btProvideHotelTasks.add(new Task("[HotelBooked]", "CO",
-                                         "NotifyMemberOfHotel", "[MemberNotifiedAboutHotel]"));
+                "NotifyMemberOfHotel", "[MemberNotifiedAboutHotel]"));
         behaviorTerms.add(new BehaviorTerm("ProvideHotel", btProvideHotelTasks,
-                                           null, false));
+                null, false));
 
         // Add sample but empty behavior terms too
         behaviorTerms.add(new BehaviorTerm("Towing2", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("Towing3", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("Repairing2", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("Repairing3", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("HotelBooking", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("HotelBooking2",
-                                           btProvideHotelTasks, null, false));
+                btProvideHotelTasks, null, false));
         behaviorTerms.add(new BehaviorTerm("HotelBooking3",
-                                           btProvideHotelTasks, null, false));
+                btProvideHotelTasks, null, false));
         behaviorTerms.add(new BehaviorTerm("TaxiOrdering", btProvideHotelTasks,
-                                           null, false));
+                null, false));
         behaviorTerms.add(new BehaviorTerm("TaxiOrdering2",
-                                           btProvideHotelTasks, null, false));
+                btProvideHotelTasks, null, false));
         behaviorTerms.add(new BehaviorTerm("CreditBasedPayment",
-                                           btProvideHotelTasks, null, false));
+                btProvideHotelTasks, null, false));
         behaviorTerms.add(new BehaviorTerm("MoneyTransfer",
-                                           btProvideHotelTasks, null, false));
+                btProvideHotelTasks, null, false));
 
         return behaviorTerms;
 

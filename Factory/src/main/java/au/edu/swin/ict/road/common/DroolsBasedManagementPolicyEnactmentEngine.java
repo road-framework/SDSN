@@ -15,11 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DroolsBasedManagementPolicyEnactmentEngine extends BaseManagementStateChangeListener {
 
+    private final ConcurrentHashMap<String, ManagementPolicy> managementPolicyMap = new ConcurrentHashMap<String,
+            ManagementPolicy>();
     private IOperationalManagerRole iOperationalManagerRole;
     private IOrganiserRole iOrganiserRole;
     private String rulesDir;
-    private final ConcurrentHashMap<String, ManagementPolicy> managementPolicyMap = new ConcurrentHashMap<String,
-            ManagementPolicy>();
     private Map<String, DisabledRuleSet> disabledRuleSetMap = new HashMap<String, DisabledRuleSet>();
     private ROADThreadPool roadThreadPool = ROADThreadPoolFactory.createROADThreadPool("ManamentPolicyExecutor");
 
@@ -63,7 +63,7 @@ public class DroolsBasedManagementPolicyEnactmentEngine extends BaseManagementSt
         if (new File(ruleFile).exists()) {
             return new DroolsManagementRules(ruleFile, rulesDir);
         } else {
-            String mgtPolicyDir = "mgtpolicies" +"/";
+            String mgtPolicyDir = "mgtpolicies" + "/";
             return new DroolsManagementRules(ruleFile, rulesDir + mgtPolicyDir);
         }
     }

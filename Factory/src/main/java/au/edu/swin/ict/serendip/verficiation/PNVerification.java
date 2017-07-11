@@ -33,7 +33,7 @@ public class PNVerification implements SerendipVerification {
 
         try {
             pnv = new RomeoPNVerify(ModelProviderFactory
-                                            .getProperty(Constants.SERENDIP_ROMEO_EXE_PROP));
+                    .getProperty(Constants.SERENDIP_ROMEO_EXE_PROP));
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -45,7 +45,7 @@ public class PNVerification implements SerendipVerification {
     @Override
     // DONE
     public VerificationResult verify(ModelProviderFactory modelProviderFactory)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
 
         Composition comp = modelProviderFactory.getEngine().getComposition();
 
@@ -69,7 +69,7 @@ public class PNVerification implements SerendipVerification {
     @Override
     public VerificationResult verifyProcessDef(
             ModelProviderFactory modelProviderFactory, String definitionId)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         ConfigurableEPC epc = null;
         VerificationResult result = null;
         ProcessView pv = null;
@@ -84,7 +84,7 @@ public class PNVerification implements SerendipVerification {
             e1.printStackTrace();
             throw new SerendipVerificationException(
                     "Cannot get the views for process " + definitionId + " >"
-                    + e1.getMessage());
+                            + e1.getMessage());
         }
 
         epc = pv.getViewAsEPC();
@@ -95,7 +95,7 @@ public class PNVerification implements SerendipVerification {
 
         // Now we verifythe process as an EPC
         result = this.verifyEPC(definitionId, modelProviderFactory, epc,
-                                constraints);
+                constraints);
 
         return result;
     }
@@ -103,7 +103,7 @@ public class PNVerification implements SerendipVerification {
     @Override
     public VerificationResult verifyBehavior(
             ModelProviderFactory modelProviderFactory, String behaviorId)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         ConfigurableEPC epc = null;
         VerificationResult result = null;
 
@@ -126,7 +126,7 @@ public class PNVerification implements SerendipVerification {
 
         // Now we verify the process as an EPC
         result = this.verifyEPC(behaviorId, modelProviderFactory, epc,
-                                constraints);
+                constraints);
 
         return result;
 
@@ -135,7 +135,7 @@ public class PNVerification implements SerendipVerification {
     @Override
     public VerificationResult verifyProcessInstance(ProcessInstance pi,
                                                     ModelProviderFactory modelProviderFactory)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         ConfigurableEPC epc;
         try {
             epc = pi.getCurrentProcessView().getViewAsEPC();
@@ -145,7 +145,7 @@ public class PNVerification implements SerendipVerification {
         }
         ConstraintType[] constraints = pi.getAllConstants();
         VerificationResult result = this.verifyEPC(pi.getId(),
-                                                   modelProviderFactory, epc, constraints);
+                modelProviderFactory, epc, constraints);
         return result;
     }
 
@@ -162,13 +162,13 @@ public class PNVerification implements SerendipVerification {
             e1.printStackTrace();
             throw new SerendipVerificationException(
                     "Cannot build petrinet for process " + id + " >"
-                    + e1.getMessage());
+                            + e1.getMessage());
         }
 
         // Now we have a petri net. Write it to a file that is being accepted by
         // the Romeo
         String fileNamePN = modelProviderFactory.getTempFileDirectory() + "/"
-                            + id + Constants.SERENDIP_PETRINET_FILE_EXT;// Should be the
+                + id + Constants.SERENDIP_PETRINET_FILE_EXT;// Should be the
         // name of the
         // process e.g.
         // [composite_name]/
@@ -180,7 +180,7 @@ public class PNVerification implements SerendipVerification {
             // TODO Auto-generated catch block
             throw new SerendipVerificationException(
                     "Cannot write petrinet to for process " + id + " > "
-                    + e.getMessage());
+                            + e.getMessage());
         }
         // Having the petri net written, now its time to write the constraint
         // (TCTL) files
@@ -191,14 +191,14 @@ public class PNVerification implements SerendipVerification {
             String lang = null; // TODO get @langauge
             // Consider only the well-defined and enabled=true constraints
             if ((null == constraintExpr)
-                || (false == constraints[j].isEnabled())) {
+                    || (false == constraints[j].isEnabled())) {
                 // If the constraint does not contain an expression continue
                 continue;
             }
             try {
                 String fileNameTCTL = modelProviderFactory
-                                              .getTempFileDirectory()
-                                      + "/" + constraintId + Constants.SERENDIP_TCTL_FILE_EXT;
+                        .getTempFileDirectory()
+                        + "/" + constraintId + Constants.SERENDIP_TCTL_FILE_EXT;
                 // Why pass petrinet too?
                 // Note that in here we need to get the node identifiers of the
                 // petrinet. So we have to pass the petrinet as well.
@@ -227,7 +227,7 @@ public class PNVerification implements SerendipVerification {
             String tempFileLocation = modelProviderFactory
                     .getTempFileDirectory();
             VerificationResult result = this.pnv.verifyAll(tempFileLocation,
-                                                           id, constrintsIdVec.toArray(constraintsArr));
+                    id, constrintsIdVec.toArray(constraintsArr));
             return result;
         } catch (Exception e) {
             // TODO Auto-generated catch block

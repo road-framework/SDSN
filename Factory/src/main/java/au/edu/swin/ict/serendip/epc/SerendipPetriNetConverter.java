@@ -79,7 +79,7 @@ public class SerendipPetriNetConverter {
             Place p2 = petrinet.addPlace("p" + counter);
             counter++;
             Transition t = petrinet.addTransition(new Transition(f
-                                                                         .getLogEvent(), petrinet));
+                    .getLogEvent(), petrinet));
             if (t.getLogEvent() == null) {
 
                 t.setIdentifier(f.getIdentifier());
@@ -156,7 +156,7 @@ public class SerendipPetriNetConverter {
 
                     counter++;
                     Transition t = petrinet.addTransition(new Transition("t"
-                                                                         + counter, petrinet));
+                            + counter, petrinet));
                     t.object = c;
                     counter++;
                     transitions.add(t);
@@ -182,7 +182,7 @@ public class SerendipPetriNetConverter {
                     // connectorMapping.put(c, outPlace); //HV 08-01-22
 
                     Transition t = petrinet.addTransition(new Transition("t"
-                                                                         + counter, petrinet));
+                            + counter, petrinet));
                     counter++;
                     transitions.add(t);
                     t.object = c;

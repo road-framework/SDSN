@@ -267,7 +267,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         if (tobeRemoved != null) {
             tobeRemoved.setRegulationDesign(null);
             composite.removeRegulationUnitState(ruId);
-            composite.undeployRegulationDesignOfCollaboration(ruId, tobeRemoved.getRegulationDesign()); // update reg tables
+//            composite.undeployRegulationDesignOfCollaboration(ruId, tobeRemoved.getRegulationDesign()); // update reg tables
         }
         return new OperationalMgtOpResult(true, "The regulation unit " + ruId1 + "has been removed.");
     }
@@ -304,6 +304,16 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         return new OperationalMgtOpResult(true, "The InterProcessRegulationUnit " + ruId1 + "has been added.");
     }
 
+    @Override
+    public OperationalMgtOpResult removeInterProcessRegulationUnit(String ruId1) {
+        log.info("Operational Manager : removeInterProcessRegulationUnit( : " + ruId1);
+        String ruId = ruId1.trim();
+        InterProcessRegulationUnitType unitType =
+                new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        smcBinding.getInterProcessRegulationUnits().getInterProcessRegulationUnit().remove(unitType);
+        return new OperationalMgtOpResult(true, "The InterProcessRegulationUnit " + ruId1 + "has been removed.");
+    }
+
     public OperationalMgtOpResult addInterCollaborationRegulationUnit(String ruId1) {
         log.info("Operational Manager : addInterCollaborationRegulationUnit : " + ruId1);
         String ruId = ruId1.trim();
@@ -319,6 +329,19 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been added.");
     }
 
+    @Override
+    public OperationalMgtOpResult removeInterCollaborationRegulationUnit(String ruId1) {
+        log.info("Operational Manager : removeInterCollaborationRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        InterCollaborationRegulationUnitType tobeRemoved =
+                new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        if (tobeRemoved != null) {
+            composite.removeRegulationUnitState(ruId);
+            composite.getSmcBinding().getInterCollaborationRegulationUnits().getInterCollaborationRegulationUnit().remove(tobeRemoved);
+        }
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been removed.");
+    }
+
     public OperationalMgtOpResult setInterVSNRegulation() {
         log.info("Operational Manager : setInterVSNRegulation");
         String ruId = "network";
@@ -327,6 +350,16 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         smcCur.setInterVSNRegulation(unitType);
         composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
         return new OperationalMgtOpResult(true, "InterVSNRegulation has been added.");
+    }
+
+    public OperationalMgtOpResult removeInterVSNRegulation() {
+        log.info("Operational Manager : removeInterVSNRegulation");
+        String ruId = "network";
+        ServiceNetwork smcCur = composite.getSmcBinding();
+        composite.removeRegulationUnitState(ruId);
+        composite.undeployNetworkLevelPolicies();
+        smcCur.setInterVSNRegulation(null);
+        return new OperationalMgtOpResult(true, "InterVSNRegulation has been removed.");
     }
 
     @Override
@@ -860,9 +893,97 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
-    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruId1, String ruleIds1) {
-        log.info("Operational Manager : add global rules to the VSNRegulationUnit : " + ruId1);
+    public OperationalMgtOpResult removeGlobalRulesFromInterCollaborationRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : removeGlobalRulesFromInterCollaborationRegulationUnit : " + ruId1);
         String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterCollaborationRegulationUnitType unitType =
+                new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        String[] ruleIdList = ruleIds.split(",");
+        List<String> ruleIdKeys = new ArrayList<String>();
+        for (String rule : ruleIdList) {
+            ruleIdKeys.add(rule.trim());
+        }
+        if (unitType != null) {
+            List<RegulationRuleIdType> removed = new ArrayList<RegulationRuleIdType>();
+            RegulationRuleRef ruleRef = unitType.getGlobal();
+            if (ruleRef != null) {
+                for (RegulationRuleIdType ruleIdType : ruleRef.getRuleRef()) {
+                    if (ruleIdKeys.contains(ruleIdType.getId() + "." + ruleIdType.getPlace())) {
+                        removed.add(ruleIdType);
+                    }
+                }
+                unitType.getGlobal().getRuleRef().removeAll(removed);
+                composite.undeployGlobalRulesOfRegulationUnit(ruId, removed);
+            }
+        }
+        return new OperationalMgtOpResult(true,
+                "The global rules from InterCollaborationRegulationUnit " + ruId + "have removed.");
+    }
+
+    @Override
+    public OperationalMgtOpResult removeRoutingRulesFromInterProcessRegulationUnit(String ruId1, String ruleIds1) {
+        log.info("Operational Manager : removeRoutingRulesFromInterProcessRegulationUnit : " + ruId1);
+        String ruId = ruId1.trim();
+        String ruleIds = ruleIds1.trim();
+        InterProcessRegulationUnitType unitType =
+                new SMCDataExtractor(smcBinding).getInterProcessRegulationUnitTypeById(ruId);
+        String[] ruleIdList = ruleIds.split(",");
+        List<String> ruleIdKeys = new ArrayList<String>();
+        for (String rule : ruleIdList) {
+            String[] pars = rule.trim().split(":");
+            ruleIdKeys.add(pars[0] + "." + pars[1]);
+        }
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getRouting();
+            if (ruleRef != null) {
+                List<RegulationRuleIdType> removed = new ArrayList<RegulationRuleIdType>();
+                for (RegulationRuleIdType ruleIdType : ruleRef.getRuleRef()) {
+                    if (ruleIdKeys.contains(ruleIdType.getId() + "." + ruleIdType.getPlace())) {
+                        removed.add(ruleIdType);
+                    }
+                }
+                unitType.getRouting().getRuleRef().removeAll(removed);
+                composite.undeployRoutingRulesOfRegulationUnit(ruId, removed);
+            }
+        }
+        return new OperationalMgtOpResult(true,
+                "The routing rules from InterProcessRegulationUnit " + ruId + "have removed.");
+    }
+
+    @Override
+    public OperationalMgtOpResult removeRoutingRulesFromInterVSNRegulationUnit(String ruleIds1) {
+        log.info("Operational Manager : removeRoutingRulesFromInterVSNRegulationUnit : " + ruleIds1);
+        String ruId = "network";
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType unitType = smcBinding.getInterVSNRegulation();
+        String[] ruleIdList = ruleIds.split(",");
+        List<String> ruleIdKeys = new ArrayList<String>();
+        for (String rule : ruleIdList) {
+            String[] pars = rule.trim().split(":");
+            ruleIdKeys.add(pars[0] + "." + pars[1]);
+        }
+        if (unitType != null) {
+            RegulationRuleRef ruleRef = unitType.getRouting();
+            if (ruleRef != null) {
+                List<RegulationRuleIdType> removed = new ArrayList<RegulationRuleIdType>();
+                for (RegulationRuleIdType ruleIdType : ruleRef.getRuleRef()) {
+                    if (ruleIdKeys.contains(ruleIdType.getId() + "." + ruleIdType.getPlace())) {
+                        removed.add(ruleIdType);
+                    }
+                }
+                unitType.getRouting().getRuleRef().removeAll(removed);
+                composite.undeployRoutingRulesOfRegulationUnit(ruId, removed);
+            }
+        }
+        return new OperationalMgtOpResult(true,
+                "The routing rules from InterVSNRegulationUnit " + ruId + "have removed.");
+    }
+
+    @Override
+    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruleIds1) {
+        log.info("Operational Manager : add global rules to the VSNRegulationUnit : " + ruleIds1);
+        String ruId = "network";
         String ruleIds = ruleIds1.trim();
         InterVSNRegulationType designType =
                 smcBinding.getInterVSNRegulation();
@@ -885,6 +1006,34 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         }
         composite.deployGlobalRuleOfRegulationUnit(ruId, added);
         return new OperationalMgtOpResult(true, "The global rules to the VSNRegulationUnit " + ruId + "have been added.");
+    }
+
+    @Override
+    public OperationalMgtOpResult removeGlobalRulesFromInterVSNRegulationUnit(String ruleIds1) {
+        log.info("Operational Manager : removeGlobalRulesFromInterVSNRegulationUnit : " + ruleIds1);
+        String ruId = "network";
+        String ruleIds = ruleIds1.trim();
+        InterVSNRegulationType unitType = smcBinding.getInterVSNRegulation();
+        String[] ruleIdList = ruleIds.split(",");
+        List<String> ruleIdKeys = new ArrayList<String>();
+        for (String rule : ruleIdList) {
+            String[] pars = rule.trim().split(":");
+            ruleIdKeys.add(pars[0] + "." + pars[1]);
+        }
+        if (unitType != null) {
+            List<RegulationRuleIdType> removed = new ArrayList<RegulationRuleIdType>();
+            RegulationRuleRef ruleRef = unitType.getGlobal();
+            if (ruleRef != null) {
+                for (RegulationRuleIdType ruleIdType : ruleRef.getRuleRef()) {
+                    if (ruleIdKeys.contains(ruleIdType.getId() + "." + ruleIdType.getPlace())) {
+                        removed.add(ruleIdType);
+                    }
+                }
+            }
+            unitType.getGlobal().getRuleRef().removeAll(removed);
+            composite.undeployGlobalRulesOfRegulationUnit(ruId, removed);
+        }
+        return new OperationalMgtOpResult(true, "removeGlobalRulesFromInterVSNRegulationUnit" + ruId + "done.");
     }
 
     @Override
@@ -944,7 +1093,7 @@ public class OperationalManagerRole implements IOperationalManagerRole {
 
     @Override
     public OperationalMgtOpResult addRoutingRegulationUnitToProcessRegulationPolicyAt(String vsnId1,
-                                                                               String processId1, String ruId1, String place1) {
+                                                                                      String processId1, String ruId1, String place1) {
         log.info("Operational Manager : addRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
         composite.getRole(place1.trim()).getRoutingRegTable().addVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(),
                 new RegulationUnitKey(
@@ -1168,38 +1317,6 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         return new OperationalMgtOpResult(true, "The regulation unit of the vsn " +
                 value1 + "have been updated. property : " + property1 + " value : " + value1);
 
-    }
-
-    @Override
-    public OperationalMgtOpResult addRegulationUnitsToServiceNetworkRegulationPolicy(String ruIds1) {
-        log.info("Operational Manager : add regulation units " + ruIds1 + " to the service network ");
-//        String ruIds = ruIds1.trim();
-        InterVSNRegulationType regPolicy = smcBinding.getInterVSNRegulation();
-        if (regPolicy == null) {
-            regPolicy = new InterVSNRegulationType();
-            smcBinding.setInterVSNRegulation(regPolicy);
-        }
-//        String[] ruIdArray = ruIds.split(",");
-//        List<String> stringList = new ArrayList<String>(ruIdArray.length);
-//        for (String s : ruIdArray) {
-//            stringList.add(s.trim());
-//        }
-        composite.deployNetworkLevelPolicies(regPolicy, ManagementState.STATE_PASSIVE);
-        return new OperationalMgtOpResult(true, "The regulation units " + ruIds1 + "have been added.");
-    }
-
-    @Override
-    public OperationalMgtOpResult removeRegulationUnitsFromServiceNetworkRegulationPolicy(String ruIds1) {
-        log.info("Operational Manager : remove regulation units " + ruIds1 + " from the service network");
-        String ruIds = ruIds1.trim();
-        smcBinding.setInterVSNRegulation(null);
-        String[] ruIdArray = ruIds.split(",");
-        List<String> stringList = new ArrayList<String>(ruIdArray.length);
-        for (String s : ruIdArray) {
-            stringList.add(s.trim());
-        }
-        composite.undeployNetworkLevelPolicies(stringList);
-        return new OperationalMgtOpResult(true, "The regulation units " + ruIds1 + "have been removed.");
     }
 
     @Override

@@ -9,5 +9,5 @@ public interface ConstraintParser {
     public static final String UNITS = "units";
 
     public abstract String parse(String expression, PetriNet basePetriNet)
-    throws SerendipException;
+            throws SerendipException;
 }

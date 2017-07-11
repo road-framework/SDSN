@@ -23,7 +23,7 @@ public class SimplePetriNetConstraintParser implements ConstraintParser {
         if (null == expression) {
             throw new SerendipException(
                     "Cannot parse to TCTL. Expression is empty or not in correct format :"
-                    + expression);
+                            + expression);
         }
         logger.debug("Parsing expression :" + expression);
         String eventId1 = null, eventId2 = null;

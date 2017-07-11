@@ -16,7 +16,7 @@ public abstract class MessageInterpreter {
     }
 
     public abstract EventRecord[] interpretMessage(Message msg)
-    throws SerendipException;
+            throws SerendipException;
 
     protected boolean isAmbiguous(String eventPattern) {
         // Ambiguous

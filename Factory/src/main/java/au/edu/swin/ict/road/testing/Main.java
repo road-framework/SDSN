@@ -33,7 +33,7 @@ public class Main {
             composite = demarsheller.demarshalSMC(file.getAbsolutePath());
             if (null == composite) {
                 log.error("Cannot instantiate the composite from file "
-                          + file.getAbsoluteFile());
+                        + file.getAbsoluteFile());
             }
 
         } catch (CompositeDemarshallingException e) {

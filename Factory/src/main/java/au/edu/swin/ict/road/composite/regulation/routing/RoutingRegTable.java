@@ -11,10 +11,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class RoutingRegTable extends BaseRegTable {
 
-    private Map<String, FlowControlFunction> flowControlFunctionMap = new HashMap<String, FlowControlFunction>();
-    private Map<String, RoutingFunction> routingFunctionMap = new HashMap<String, RoutingFunction>();
     private final Lock lockForFlowControl = new ReentrantLock();
     private final Lock lockForRouting = new ReentrantLock();
+    private Map<String, FlowControlFunction> flowControlFunctionMap = new HashMap<String, FlowControlFunction>();
+    private Map<String, RoutingFunction> routingFunctionMap = new HashMap<String, RoutingFunction>();
 
     public RoutingRegTable(String name) {
         super(name);

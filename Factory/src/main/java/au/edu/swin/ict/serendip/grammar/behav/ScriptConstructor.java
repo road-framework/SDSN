@@ -170,7 +170,7 @@ public class ScriptConstructor {
 
 
     private static String readFileAsString(String filePath)
-    throws java.io.IOException {
+            throws java.io.IOException {
         StringBuffer fileData = new StringBuffer(1000);
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         char[] buf = new char[1024];

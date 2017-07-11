@@ -12,7 +12,7 @@ public class DeadLockVerification implements SerendipCustomVerification {
 
     @Override
     public boolean verify(ModelProviderFactory modelProviderFactory)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         // TODO Auto-generated method stub
         return true;
     }

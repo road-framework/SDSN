@@ -82,7 +82,7 @@ public class Player {
         this.remoteRoles = null;
 
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId() + " created.");
+                + this.getPlayerId() + " created.");
     }
 
 
@@ -177,13 +177,13 @@ public class Player {
                             boolean response) {
 
         MessageWrapper mw = new MessageWrapper(msgContent, msgSignature,
-                                               response);
+                response);
         Message message = new Message(msgContent, msgSignature, this.role
                 .getId(), mw.isResponse());
         this.outbox.addOutboxMessage(message);
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " sends message with following signature: " + msgSignature);
+                + this.getPlayerId()
+                + " sends message with following signature: " + msgSignature);
 
         role.putMessage(mw);
         /*boolean found = false;
@@ -205,19 +205,19 @@ public class Player {
      */
     public void sendMessage(Message message) {
         MessageWrapper mw = new MessageWrapper(message.getMessageContent(),
-                                               message.getOperationName(), message.isResponse());
+                message.getOperationName(), message.isResponse());
         if (message instanceof IntervalMessage) {
             ((IntervalMessage) message).addTimeStamp();
         } else if (message instanceof AutoResponseMessage) {
             ((AutoResponseMessage) message).addTimeStamp();
             mw = new MessageWrapper(message.getMessageContent(),
-                                    ((AutoResponseMessage) message).getOutMsgSignature(), true);
+                    ((AutoResponseMessage) message).getOutMsgSignature(), true);
         } else {
             message.setNewTimeStamp();
             ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                                 + this.getPlayerId()
-                                                 + " sends message with following signature: "
-                                                 + message.getOperationName());
+                    + this.getPlayerId()
+                    + " sends message with following signature: "
+                    + message.getOperationName());
         }
         this.outbox.addOutboxMessage(message);
         role.putMessage(mw);
@@ -245,14 +245,14 @@ public class Player {
     public UUID setUpIntervalMessage(String msgSignature, String msgContent,
                                      long interval) {
         IntervalMessage im = new IntervalMessage(msgContent, msgSignature,
-                                                 playerId, interval);
+                playerId, interval);
         IntervalMessageSender ims = new IntervalMessageSender(im, this);
         this.mapIntervalMessageSender.put(ims.getUid(), ims);
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " sets up following interval message (UUID:" + ims.getUid()
-                                             + "): MsgSig:" + msgSignature + "; Interval in millisec:"
-                                             + interval);
+                + this.getPlayerId()
+                + " sets up following interval message (UUID:" + ims.getUid()
+                + "): MsgSig:" + msgSignature + "; Interval in millisec:"
+                + interval);
         return ims.getUid();
     }
 
@@ -270,14 +270,14 @@ public class Player {
                                    String outMsgSignature, String msgContent, long delay) {
         log.debug(inMsgSignature + ":::" + outMsgSignature);
         AutoResponseMessage arm = new AutoResponseMessage(inMsgSignature,
-                                                          outMsgSignature, msgContent, delay);
+                outMsgSignature, msgContent, delay);
         AutoResponder ar = new AutoResponder(this, arm);
         this.mapAutoResponder.put(ar.getUid(), ar);
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " sets up following auto responder (UUID:" + ar.getUid()
-                                             + "): inMsgSig:" + inMsgSignature + "; outMsgSig: "
-                                             + outMsgSignature + "; delay in millisec:" + delay);
+                + this.getPlayerId()
+                + " sets up following auto responder (UUID:" + ar.getUid()
+                + "): inMsgSig:" + inMsgSignature + "; outMsgSig: "
+                + outMsgSignature + "; delay in millisec:" + delay);
         return ar.getUid();
     }
 
@@ -297,8 +297,8 @@ public class Player {
                 .log(
                         Level.INFO,
                         "Player with id:"
-                        + this.getPlayerId()
-                        + " starts all Interval Messages (which haven't been stoped before)");
+                                + this.getPlayerId()
+                                + " starts all Interval Messages (which haven't been stoped before)");
     }
 
     /**
@@ -317,8 +317,8 @@ public class Player {
                 .log(
                         Level.INFO,
                         "Player with id:"
-                        + this.getPlayerId()
-                        + " starts all Auto Respones (which haven't been stoped before)");
+                                + this.getPlayerId()
+                                + " starts all Auto Respones (which haven't been stoped before)");
     }
 
     /**
@@ -332,8 +332,8 @@ public class Player {
         IntervalMessageSender ims = mapIntervalMessageSender.get(uid);
         ims.start();
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " started following interval message (UUID:" + uid + ")");
+                + this.getPlayerId()
+                + " started following interval message (UUID:" + uid + ")");
     }
 
     /**
@@ -347,8 +347,8 @@ public class Player {
         ar.start();
         ROADTest.logROADTest
                 .log(Level.INFO, "Player with id:" + this.getPlayerId()
-                                 + " started following auto response message (UUID:"
-                                 + uid + ")");
+                        + " started following auto response message (UUID:"
+                        + uid + ")");
     }
 
     /**
@@ -365,7 +365,7 @@ public class Player {
             }
         }
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId() + " stops all Interval Messages");
+                + this.getPlayerId() + " stops all Interval Messages");
     }
 
     /**
@@ -381,7 +381,7 @@ public class Player {
             }
         }
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId() + " stops all Auto Respones");
+                + this.getPlayerId() + " stops all Auto Respones");
     }
 
     /**
@@ -395,8 +395,8 @@ public class Player {
             throws NullPointerException {
         mapIntervalMessageSender.get(uid).setTerminate(true);
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " stops following interval message (UUID:" + uid + ")");
+                + this.getPlayerId()
+                + " stops following interval message (UUID:" + uid + ")");
     }
 
     /**
@@ -409,8 +409,8 @@ public class Player {
     public void terminateAutoResponseById(UUID uid) throws NullPointerException {
         this.mapAutoResponder.get(uid).stop();
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " stops following auto response message (UUID:" + uid + ")");
+                + this.getPlayerId()
+                + " stops following auto response message (UUID:" + uid + ")");
     }
 
     /**
@@ -427,17 +427,17 @@ public class Player {
             this.registry = LocateRegistry.getRegistry(cs.getServer());
         } catch (RemoteException e) {
             ROADTest.logROADTest.log(Level.FATAL, "Player with id:"
-                                                  + this.getPlayerId()
-                                                  + " tryed to set up connection with server: "
-                                                  + cs.getServer() + ". Following exception occured: "
-                                                  + e.getClass().getName() + "; with the message: "
-                                                  + e.getMessage());
+                    + this.getPlayerId()
+                    + " tryed to set up connection with server: "
+                    + cs.getServer() + ". Following exception occured: "
+                    + e.getClass().getName() + "; with the message: "
+                    + e.getMessage());
             throw e;
         }
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.getPlayerId()
-                                             + " sets up connection with following server: "
-                                             + cs.getServer());
+                + this.getPlayerId()
+                + " sets up connection with following server: "
+                + cs.getServer());
         return this.registry.list();
     }
 
@@ -482,7 +482,7 @@ public class Player {
      * @throws CompositeNotFoundException Is thrown if the composite not found
      */
     public Map<String, String> useCompositeOnServer() throws RemoteException,
-                                                             CompositeNotFoundException {
+            CompositeNotFoundException {
         // if (this.remoteServer == null) {
         // return null;
         // }
@@ -501,23 +501,23 @@ public class Player {
                     .log(
                             Level.FATAL,
                             "Player with id:"
-                            + this.getPlayerId()
-                            + " exception: CompositeNotFoundException "
-                            + "occured the required composite dose not exist on the server"
-                            + cs.getServer());
+                                    + this.getPlayerId()
+                                    + " exception: CompositeNotFoundException "
+                                    + "occured the required composite dose not exist on the server"
+                                    + cs.getServer());
             throw new CompositeNotFoundException("The composite "
-                                                 + cs.getCompositeName()
-                                                 + " is not available on the server: " + cs.getServer());
+                    + cs.getCompositeName()
+                    + " is not available on the server: " + cs.getServer());
         }
         log.debug("Getting the remote roles");
         try {
             remoteRoles = this.remoteServer.getRoles();
         } catch (RemoteException e) {
             ROADTest.logROADTest.log(Level.FATAL, "Player with id:"
-                                                  + this.getPlayerId() + " tryed to get roles on server "
-                                                  + cs.getServer() + " and following exception occured "
-                                                  + e.getClass().getName() + " with the following message: "
-                                                  + e.getMessage());
+                    + this.getPlayerId() + " tryed to get roles on server "
+                    + cs.getServer() + " and following exception occured "
+                    + e.getClass().getName() + " with the following message: "
+                    + e.getMessage());
             throw e;
         }
         log.debug("got the remote roles");
@@ -542,40 +542,40 @@ public class Player {
 
                                 remoteServer
                                         .sendMessage(cs.getRoleId(),
-                                                     msgArrivedEvent.getMessage()
-                                                                    .getOperationName(),
-                                                     msgArrivedEvent.getMessage()
-                                                                    .getMessageContent()
-                                                                    .toString(),
-                                                     msgArrivedEvent.getMessage()
-                                                                    .isResponse());
+                                                msgArrivedEvent.getMessage()
+                                                        .getOperationName(),
+                                                msgArrivedEvent.getMessage()
+                                                        .getMessageContent()
+                                                        .toString(),
+                                                msgArrivedEvent.getMessage()
+                                                        .isResponse());
                             } catch (RemoteException e) {
                                 ROADTest.logROADTest
                                         .log(
                                                 Level.FATAL,
                                                 "Player with id:"
-                                                + getPlayerId()
-                                                + " tryed to send a message according to the connection "
-                                                + "settings but server might not be available");
+                                                        + getPlayerId()
+                                                        + " tryed to send a message according to the connection "
+                                                        + "settings but server might not be available");
                             } catch (PlayerNotFoundException e) {
                                 ROADTest.logROADTest
                                         .log(
                                                 Level.FATAL,
                                                 "Player with id:"
-                                                + getPlayerId()
-                                                + " tryed to send a message according to the connection "
-                                                + "settings but server dose not have such a role at his"
-                                                + "composite");
+                                                        + getPlayerId()
+                                                        + " tryed to send a message according to the connection "
+                                                        + "settings but server dose not have such a role at his"
+                                                        + "composite");
                             }
                         }
                     });
         } else {
             ROADTest.logROADTest.log(Level.FATAL, "Player with id:"
-                                                  + this.getPlayerId() + " tryes to bind to: "
-                                                  + cs.getRoleId() + " on server " + cs.getServer()
-                                                  + " and failed with "
-                                                  + "RoleNotFoundException and following message: "
-                                                  + "This role id is not available");
+                    + this.getPlayerId() + " tryes to bind to: "
+                    + cs.getRoleId() + " on server " + cs.getServer()
+                    + " and failed with "
+                    + "RoleNotFoundException and following message: "
+                    + "This role id is not available");
             throw new RoleNotFoundException("This role id is not available");
         }
     }

@@ -16,7 +16,7 @@ public class MessageDeliverer implements QueueListener {
 
     // get the logger
     private static Logger log = Logger.getLogger(MessageDeliverer.class
-                                                         .getName());
+            .getName());
 
     private Role role;
     private ICompositeRules compositeRules;

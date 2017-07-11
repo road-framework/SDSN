@@ -21,10 +21,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class WeightedRoundRobin implements RoutingFunction {
 
     private static Logger log = Logger.getLogger(WeightedRoundRobin.class);
+    private final Lock lock = new ReentrantLock();
     private List<Route> routes = new ArrayList<Route>();
     private List<String> ids = new ArrayList<String>();
     private AtomicInteger count = new AtomicInteger(0);
-    private final Lock lock = new ReentrantLock();
 
     public WeightedRoundRobin(String conf) {
         initFromConf(conf);
@@ -58,7 +58,7 @@ public class WeightedRoundRobin implements RoutingFunction {
                 Route route = routes.get(index);
                 if (log.isInfoEnabled()) {
                     log.info("The process alternative : " + route.getProcessId() +
-                             " has been selected for the instantiation request : " + ((SOAPEnvelope) mw.getMessage()).getBody());
+                            " has been selected for the instantiation request : " + ((SOAPEnvelope) mw.getMessage()).getBody());
                 }
                 mw.getClassifier().setProcessId(route.getProcessId());
             } finally {

@@ -101,8 +101,8 @@ public class FactTupleSpace {
 
         for (FactTupleSpaceRow fact : FTSMemory) {
             FTSString += "\n" + fact.getFactType() + "\t" + fact.getFactList()
-                         + "\t" + fact.getTime() + "\t" + fact.getSources() + "\t"
-                         + fact.getSubscribers();
+                    + "\t" + fact.getTime() + "\t" + fact.getSources() + "\t"
+                    + fact.getSubscribers();
         }
 
         return FTSString;
@@ -129,8 +129,8 @@ public class FactTupleSpace {
                                 .factsChanged(factRow.getFactList());
                         if (log.isDebugEnabled()) {
                             log.debug("FACT SYNCHRONISED WITH "
-                                      + subscriberRole.getName() + " and STATUS IS: "
-                                      + synchronizationStatus);
+                                    + subscriberRole.getName() + " and STATUS IS: "
+                                    + synchronizationStatus);
                         }
                     }
                 }

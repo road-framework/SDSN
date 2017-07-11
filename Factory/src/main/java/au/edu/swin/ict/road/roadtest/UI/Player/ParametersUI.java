@@ -177,9 +177,9 @@ public class ParametersUI extends JDialog implements ActionListener {
             } else {// if file exists
                 int response = JOptionPane
                         .showConfirmDialog(null,
-                                           "Do you want to overwrite the file?",
-                                           "Confirm", JOptionPane.YES_NO_OPTION,
-                                           JOptionPane.QUESTION_MESSAGE);
+                                "Do you want to overwrite the file?",
+                                "Confirm", JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     Object[] arr = {s};
                     writeToFile(arr);
@@ -199,7 +199,7 @@ public class ParametersUI extends JDialog implements ActionListener {
             this.setVisible(false);
         } else
             JOptionPane.showMessageDialog(this,
-                                          "Error occurred while writing to File");
+                    "Error occurred while writing to File");
     }
 
     /**

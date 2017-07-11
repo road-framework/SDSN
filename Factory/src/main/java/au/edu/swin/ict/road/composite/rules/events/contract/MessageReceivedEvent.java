@@ -11,23 +11,15 @@ import java.util.Date;
 
 public class MessageReceivedEvent implements IEvent {
 
-    public String operationName;
-    private MessageWrapper messageWrapper;
-    private boolean blocked = false;
-    public boolean response;
-    private String correlationId;
     //This list keeps event records, triggered by the rule as an interpretation of a message
     private final ArrayList<EventRecord> triggeredEvents = new ArrayList<EventRecord>();
+    public String operationName;
+    public boolean response;
+    private MessageWrapper messageWrapper;
+    private boolean blocked = false;
+    private String correlationId;
     private IMessageExaminer examiner;
     private AgendaFilter agendaFilter;
-
-    public IMessageExaminer getExaminer() {
-        return examiner;
-    }
-
-    public void setExaminer(IMessageExaminer examiner) {
-        this.examiner = examiner;
-    }
 
     public MessageReceivedEvent(MessageWrapper mw) {
         operationName = mw.getOperationName();
@@ -35,6 +27,14 @@ public class MessageReceivedEvent implements IEvent {
         correlationId = mw.getCorrelationId();
         messageWrapper = mw;
         response = mw.isResponse();
+    }
+
+    public IMessageExaminer getExaminer() {
+        return examiner;
+    }
+
+    public void setExaminer(IMessageExaminer examiner) {
+        this.examiner = examiner;
     }
 
     public String getOperationName() {
@@ -57,16 +57,16 @@ public class MessageReceivedEvent implements IEvent {
         return blocked;
     }
 
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
     public String getCorrelationId() {
         return correlationId;
     }
 
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
-    }
-
-    public void setBlocked(boolean blocked) {
-        this.blocked = blocked;
     }
 
     /**

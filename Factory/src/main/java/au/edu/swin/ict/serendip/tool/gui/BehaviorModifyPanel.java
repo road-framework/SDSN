@@ -57,9 +57,9 @@ public class BehaviorModifyPanel extends JPanel implements ActionListener {
             } catch (Exception e) {
                 // TODO show message
                 JOptionPane.showMessageDialog(this,
-                                              "Cannot parse the behavior term. " + e.getMessage(),
-                                              "Parse error",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Cannot parse the behavior term. " + e.getMessage(),
+                        "Parse error",
+                        JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
         }

@@ -35,81 +35,17 @@ public class MessageWrapper {
     private Map<String, Object> propertiesMap;
     private boolean isResponse;
     private String msgId = null;
-
-    public boolean isUserResponse() {
-        return userResponse;
-    }
-
-    public void setUserResponse(boolean userResponse) {
-        this.userResponse = userResponse;
-    }
-
     private SyncType syncType = null;
     private boolean interpretedByRule = false;
     private boolean isFault;
     private String targetVSN;
     private boolean userResponse;
-
-    public boolean isOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(boolean origin) {
-        this.origin = origin;
-    }
-
     private boolean origin = false;
-
-    public String getClientID() {
-        return clientID;
-    }
-
-    public void setClientID(String clientID) {
-        this.clientID = clientID;
-    }
-
-    public boolean isError() {
-        return isError;
-    }
-
-    public void setError(boolean error) {
-        isError = error;
-    }
-
     private boolean isError = false;
     private String clientID;
-
-    public Classifier getClassifier() {
-        return classifier;
-    }
-
-    public void setClassifier(Classifier classifier) {
-        this.classifier = classifier;
-    }
-
     private String errorMessage = null;
     private EventObserver eventObserver = null;
     private Classifier classifier;
-
-    public boolean isFault() {
-        return isFault;
-    }
-
-    public void setFault(boolean fault) {
-        isFault = fault;
-    }
-
-    public String getTargetVSN() {
-        return targetVSN;
-    }
-
-    public void setTargetVSN(String targetVSN) {
-        this.targetVSN = targetVSN;
-    }
-
-    public enum SyncType {
-        OUT, OUTIN
-    }
 
     public MessageWrapper() {
         message = null;
@@ -140,6 +76,62 @@ public class MessageWrapper {
         this.isResponse = isResponse;
     }
 
+    public boolean isUserResponse() {
+        return userResponse;
+    }
+
+    public void setUserResponse(boolean userResponse) {
+        this.userResponse = userResponse;
+    }
+
+    public boolean isOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(boolean origin) {
+        this.origin = origin;
+    }
+
+    public String getClientID() {
+        return clientID;
+    }
+
+    public void setClientID(String clientID) {
+        this.clientID = clientID;
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean error) {
+        isError = error;
+    }
+
+    public Classifier getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier(Classifier classifier) {
+        this.classifier = classifier;
+    }
+
+    public boolean isFault() {
+        return isFault;
+    }
+
+    public void setFault(boolean fault) {
+        isFault = fault;
+    }
+
+    public String getTargetVSN() {
+        return targetVSN;
+    }
+
+    public void setTargetVSN(String targetVSN) {
+        this.targetVSN = targetVSN;
+    }
+
     public void setProperty(String key, Object value) {
         propertiesMap.put(key, value);
     }
@@ -151,7 +143,6 @@ public class MessageWrapper {
     public Map<String, Object> getPropertiesMap() {
         return propertiesMap;
     }
-
 
     public boolean isResponse() {
         return isResponse;
@@ -229,16 +220,6 @@ public class MessageWrapper {
     }
 
     /**
-     * Returns the unique id of the <code>IRole</code> that this <code>MessageWrapper</code>
-     * has originated from (the sending players <code>Role</code>).
-     *
-     * @return the unique id of the originating <code>IRole</code>.
-     */
-    public String getOriginRoleId() {
-        return originRole.getId();
-    }
-
-    /**
      * Sets the origin IRole this MessageWrapper is being sent from which will
      * allow the destination to determine the sender.
      *
@@ -246,6 +227,16 @@ public class MessageWrapper {
      */
     public void setOriginRole(IRole originRole) {
         this.originRole = originRole;
+    }
+
+    /**
+     * Returns the unique id of the <code>IRole</code> that this <code>MessageWrapper</code>
+     * has originated from (the sending players <code>Role</code>).
+     *
+     * @return the unique id of the originating <code>IRole</code>.
+     */
+    public String getOriginRoleId() {
+        return originRole.getId();
     }
 
     /**
@@ -261,7 +252,6 @@ public class MessageWrapper {
     public void setDestinationContract(Contract destinationContract) {
         this.destinationContract = destinationContract;
     }
-
 
     /**
      * Returns the operation name associated with the instance of a MessageWrapper.
@@ -335,21 +325,21 @@ public class MessageWrapper {
     }
 
     /**
-     * Sets the syncType of the MessageWrapper
-     *
-     * @param syncType
-     */
-    public void setSyncType(SyncType syncType) {
-        this.syncType = syncType;
-    }
-
-    /**
      * Returns the syncType of the MessageWrapper
      *
      * @return
      */
     public SyncType getSyncType() {
         return syncType;
+    }
+
+    /**
+     * Sets the syncType of the MessageWrapper
+     *
+     * @param syncType
+     */
+    public void setSyncType(SyncType syncType) {
+        this.syncType = syncType;
     }
 
     //TODO INDIKA
@@ -419,7 +409,7 @@ public class MessageWrapper {
         // create the message id and set it to the result message
         // wrapper
         String msgId = contractId + MSG_ID_SEPERATOR
-                       + interactiveTermId + MSG_ID_SEPERATOR;
+                + interactiveTermId + MSG_ID_SEPERATOR;
         msgId += isResponse ? MSG_ID_RESPONSE : MSG_ID_REQUEST;
         aMessageWrapper.setMessageId(msgId);
 
@@ -453,7 +443,7 @@ public class MessageWrapper {
         // create the message id and set it to the result message
         // wrapper
         String msgId = contractId + MSG_ID_SEPERATOR
-                       + interactiveTermId + MSG_ID_SEPERATOR;
+                + interactiveTermId + MSG_ID_SEPERATOR;
         msgId += isResponse ? MSG_ID_RESPONSE : MSG_ID_REQUEST;
         aMessageWrapper.setMessageId(msgId);
 
@@ -463,5 +453,9 @@ public class MessageWrapper {
         aMessageWrapper.setClassifier(getClassifier());
         aMessageWrapper.setClientID(getClientID());
         return aMessageWrapper;
+    }
+
+    public enum SyncType {
+        OUT, OUTIN
     }
 }

@@ -61,9 +61,9 @@ public class ScriptParser {
     public static void main(String[] args) {
         System.out.println("Begin");
         String str = " job1 { " +
-                     "updatePropertyOfTask pid=p001 taskeId=t1 property=preEP value=\"[E1] AND [E2]\";" +
-                     "" +
-                     " }";
+                "updatePropertyOfTask pid=p001 taskeId=t1 property=preEP value=\"[E1] AND [E2]\";" +
+                "" +
+                " }";
         try {
             Script script = parseScript(str);
             printScript(script);

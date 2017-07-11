@@ -21,15 +21,14 @@ import java.util.List;
 
 public class DroolsContractRules extends DroolsRules implements IContractRules {
     private static Logger log = Logger.getLogger(DroolsContractRules.class
-                                                         .getName());
-
+            .getName());
+    private static int firerThreadCount = 0;
     protected DroolsRulesFirer firer;
     protected Contract contract;
     protected Thread firerThread;
-    private static int firerThreadCount = 0;
 
     public DroolsContractRules(String ruleFile, String ruleDir, Contract contract)
-    throws RulesException {
+            throws RulesException {
         super(ruleFile, ruleDir);
         this.contract = contract;
     }
@@ -83,7 +82,7 @@ public class DroolsContractRules extends DroolsRules implements IContractRules {
 //        final Condition condition = lock.newCondition();
 //        mre.setCondition(condition);
         IMessageExaminer typeCheck = new MessageTypeExaminer(mre.getMessageWrapper(),
-                                                             null);
+                null);
         //Retrieve the specific type of message checker
         IMessageExaminer check = typeCheck.getMessageExaminer();
         List<Command> cmds = new ArrayList<Command>();
@@ -161,7 +160,7 @@ public class DroolsContractRules extends DroolsRules implements IContractRules {
         if (log.isInfoEnabled()) {
             if (contract != null) {
                 log.info("Disposing contractual rules session aka Knowledge Base for Contract "
-                         + this.contract.getId());
+                        + this.contract.getId());
             }
         }
 //        if (session != null) {

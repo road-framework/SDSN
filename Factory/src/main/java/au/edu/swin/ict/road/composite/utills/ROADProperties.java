@@ -15,11 +15,11 @@ public class ROADProperties {
     private static Logger log = Logger.getLogger(ROADProperties.class.getName());
     private static final Properties properties = loadProperties("road.properties");
 
-    public static ROADProperties getInstance() {
-        return ourInstance;
+    private ROADProperties() {
     }
 
-    private ROADProperties() {
+    public static ROADProperties getInstance() {
+        return ourInstance;
     }
 
     private static Properties loadProperties(String filePath) {
@@ -38,7 +38,7 @@ public class ROADProperties {
             }
 
             filePath = "conf" +
-                       File.separatorChar + filePath;
+                    File.separatorChar + filePath;
             if (log.isDebugEnabled()) {
                 log.debug("Loading a file '" + filePath + "' from classpath");
             }
@@ -75,7 +75,7 @@ public class ROADProperties {
         if ((result == null || result.length() == 0) && defaultValue != null) {
             if (log.isDebugEnabled()) {
                 log.debug("The name with '" + name + "' cannot be found. " +
-                          "Using default value : " + defaultValue);
+                        "Using default value : " + defaultValue);
             }
             result = defaultValue;
         }

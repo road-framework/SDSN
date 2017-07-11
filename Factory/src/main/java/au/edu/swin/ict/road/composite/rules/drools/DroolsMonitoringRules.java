@@ -47,7 +47,7 @@ public class DroolsMonitoringRules extends DroolsRules implements IMonitoringRul
         // TODO Auto-generated method stub
         if (log.isInfoEnabled()) {
             log.info("Disposing rules session for monitor : "
-                     + getRuleFile());
+                    + getRuleFile());
         }
         if (session != null) {
             session.dispose();

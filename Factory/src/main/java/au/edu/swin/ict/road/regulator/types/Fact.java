@@ -30,20 +30,20 @@ public class Fact {
         this.source = source;
     }
 
-    public void setIdentifier(FactIdentifier identifier) {
-        this.identifier = identifier;
-    }
-
     public FactIdentifier getIdentifier() {
         return identifier;
     }
 
-    public void setAttributes(FactAttributes attributes) {
-        this.attributes = attributes;
+    public void setIdentifier(FactIdentifier identifier) {
+        this.identifier = identifier;
     }
 
     public FactAttributes getAttributes() {
         return attributes;
+    }
+
+    public void setAttributes(FactAttributes attributes) {
+        this.attributes = attributes;
     }
 
 }

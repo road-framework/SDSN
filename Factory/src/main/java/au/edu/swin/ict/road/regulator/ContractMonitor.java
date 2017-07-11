@@ -17,13 +17,13 @@ public class ContractMonitor {
         this.iMonitoringRules = iMonitoringRules;
     }
 
-    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
-        this.iMonitoringRules = iMonitoringRules;
-    }
-
     public IMonitoringRules getMonitoringRules() {
         return iMonitoringRules;
 
+    }
+
+    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
+        this.iMonitoringRules = iMonitoringRules;
     }
 
     public String getId() {

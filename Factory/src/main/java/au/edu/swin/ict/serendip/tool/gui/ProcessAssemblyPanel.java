@@ -177,9 +177,9 @@ public class ProcessAssemblyPanel extends JPanel implements ActionListener {
             boolean isAChildOf = BehaviorTerm.isChildOf(this.composite.getSerendipEngine().getComposition(), sel, s);
             if (isAChildOf) {
                 JOptionPane.showMessageDialog(this,
-                                              "Invalid selection. Already a parent is  selected, PARENT ID=" + s,
-                                              "Selection error",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Invalid selection. Already a parent is  selected, PARENT ID=" + s,
+                        "Selection error",
+                        JOptionPane.ERROR_MESSAGE);
                 return false;
             }
 
@@ -187,9 +187,9 @@ public class ProcessAssemblyPanel extends JPanel implements ActionListener {
             boolean isParentOf = BehaviorTerm.isChildOf(this.composite.getSerendipEngine().getComposition(), s, sel);
             if (isParentOf) {
                 JOptionPane.showMessageDialog(this,
-                                              "Invalid selection. Already a child is selected, CHILD ID=" + s,
-                                              "Selection error",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Invalid selection. Already a child is selected, CHILD ID=" + s,
+                        "Selection error",
+                        JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
@@ -245,9 +245,9 @@ public class ProcessAssemblyPanel extends JPanel implements ActionListener {
             } catch (SerendipException e) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this,
-                                              "Cannot generate the EPC view",
-                                              "EPC error",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Cannot generate the EPC view",
+                        "EPC error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
         } else if (event.getSource().equals(this.viewBtn)) {

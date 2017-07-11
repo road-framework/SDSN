@@ -36,7 +36,7 @@ public class RuleChangeTracker {
 
         // Store the name of the rule
         StringTokenizer nameTokenizer = new StringTokenizer(ruleInformation,
-                                                            "\"");
+                "\"");
 
         // For inserting a rule the format of ruleInformation is - Rule
         // "<Rule Name>" <when condition> <then condition>

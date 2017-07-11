@@ -132,7 +132,7 @@ public class CompositionUtil {
                                                Composition comp) {
 
         List<ContractType> contractList = comp.getComposite().getSmcBinding()
-                                              .getContracts().getContract();
+                .getContracts().getContract();
         for (ContractType ct : contractList) {
             if (ct.getId().equals(contractId)) {
                 return ct;
@@ -217,7 +217,7 @@ public class CompositionUtil {
                 if (pdt.getId().equals(pdId)) {// Matching PD found
                     if (null != pdt.getConstraints()) {
                         List<ConstraintType> constraintTypeList = pdt.getConstraints()
-                                                                     .getConstraint();
+                                .getConstraint();
                         constriantsVec.addAll(constraintTypeList);// Add to the List
                     }
                 }

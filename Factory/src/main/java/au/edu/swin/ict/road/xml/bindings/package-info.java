@@ -5,4 +5,5 @@
 // Generated on: 2016.03.04 at 06:11:50 PM AEDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ict.swin.edu.au/serendip/types", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED) package au.edu.swin.ict.road.xml.bindings;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ict.swin.edu.au/serendip/types", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package au.edu.swin.ict.road.xml.bindings;

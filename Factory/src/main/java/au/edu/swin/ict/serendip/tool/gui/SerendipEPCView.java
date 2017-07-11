@@ -101,8 +101,8 @@ public class SerendipEPCView extends JPanel implements ActionListener {
 //						+ "/" + this.id + Constants.SERENDIP_PETRINET_FILE_EXT;
                 PetriNetBuilder.writeToFile(pn, fileName, null);
                 JOptionPane.showMessageDialog(this,
-                                              "File successfully saved to " + fileName, "Export",
-                                              JOptionPane.INFORMATION_MESSAGE);
+                        "File successfully saved to " + fileName, "Export",
+                        JOptionPane.INFORMATION_MESSAGE);
             } catch (SerendipException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

@@ -32,7 +32,7 @@ public class TestEPMLRead {
         ArrayList<EPCFunction> funcs = epc.getFunctions();
         for (int i = 0; i < funcs.size(); i++) {
             log.debug(funcs.get(i).getIdentifier() + " "
-                      + funcs.get(i).getId());
+                    + funcs.get(i).getId());
         }
     }
 }

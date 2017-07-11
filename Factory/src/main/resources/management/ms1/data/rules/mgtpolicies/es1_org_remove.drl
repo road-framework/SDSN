@@ -1,0 +1,36 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es1_org_remove_stage1"
+  when
+  ($mpsOrg : ManagementPolicyState(id =="es1_org_remove", state=="incipient")) and
+  ($mpsOpr : ManagementPolicyState (id=="es1_opr_remove", state=="quiescence"))
+   then
+   disabledSet.disable("es1_org_remove_stage1");
+   System.out.println("Organizational management policy es1_org_remove_stage1 has been started.");
+   orgMgt.updateBehaviorUnit("CaseHandling","state","passive");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "passive");
+   orgMgt.updateVSN("HappyTours","state", "passive");
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","CaseHandling");
+   orgMgt.removeProcessFromVSN("HappyTours","HappyToursP1");
+   orgMgt.removeVSN("HappyTours");
+
+   orgMgt.removeTaskFromBehaviorUnit("CaseHandling","MM.RequestAssist");
+   orgMgt.removeTaskFromBehaviorUnit("CaseHandling","SC.Analyze");
+   orgMgt.removeTaskFromBehaviorUnit("CaseHandling","MM.Notify");
+   orgMgt.removeBehaviorUnit("CaseHandling");
+   orgMgt.removeTerm("SC-MM","assist");
+   orgMgt.removeContract("SC-MM");
+
+   orgMgt.removeTask("MM","RequestAssist");
+   orgMgt.removeTask("MM","Notify");
+   orgMgt.removeRole("MM");
+
+   orgMgt.removeTask("SC","Analyze");
+   orgMgt.removeRole("SC");
+   System.out.println("Organizational management policy es1_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+end

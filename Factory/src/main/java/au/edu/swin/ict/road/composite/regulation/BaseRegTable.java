@@ -23,6 +23,10 @@ public abstract class BaseRegTable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addVSNTableEntry(String key, RegulationUnitKey unitKey) {
         List<RegulationUnitKey> regUnits = vsn_process_2_regUnits.get(key);
         if (regUnits == null) {
@@ -71,10 +75,6 @@ public abstract class BaseRegTable {
         return null;
     }
 
-    public List<RegulationUnitKey> getVSNTableEntry(String key) {
-        return vsn_process_2_regUnits.get(key);
-    }
-
 //    public void addRegulationUnitTavbleEntry(String regUnit, String ruleId) {
 //        List<String> signatureList = regUnits_Rules.get(regUnit);
 //        if( signatureList  == null){
@@ -88,6 +88,10 @@ public abstract class BaseRegTable {
 //        return regUnits_Rules.get(key);
 //    }
 
+    public List<RegulationUnitKey> getVSNTableEntry(String key) {
+        return vsn_process_2_regUnits.get(key);
+    }
+
     public void addRuleSet(String regRuleUnitId, RegulationRuleSet ruleKey) {
         regRuleUnitId = regRuleUnitId.trim();
         if (!regUnit_RuleSet.containsKey(regRuleUnitId)) {
@@ -96,7 +100,7 @@ public abstract class BaseRegTable {
     }
 
     public RegulationRuleSet getRegulationRuleSet(String name) {
-            return regUnit_RuleSet.get(name);
+        return regUnit_RuleSet.get(name);
     }
 
     public RegulationRuleSet removeRegulationRuleSet(String name) {
@@ -107,11 +111,6 @@ public abstract class BaseRegTable {
         RegulationRuleSet regulationRuleSet = regUnit_RuleSet.get(name);
         regulationRuleSet.getAllRules().remove(name);
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
     public Object getCustomFunction(String id) {
         return customMap.get(id);

@@ -19,24 +19,28 @@ import java.util.concurrent.ExecutorService;
  * @author Malinda
  */
 public class MessageBuffer {
+    public static final int DEFAULT_MEX_TIMEOUT = 2 * 60 * 1000;
     private static Logger log = Logger.getLogger(MessageBuffer.class.getName());
-    private ExecutorService executor;
     //private Hashtable<String, MessageWrapper> ht = new Hashtable<String, MessageWrapper>();
     private final ConcurrentHashMap<String, ProcessMessages> collection =
             new ConcurrentHashMap<String, ProcessMessages>();
+    private ExecutorService executor;
     private BufferType type = BufferType.NONE;
     private Role role = null;
-
-    public ConcurrentHashMap<String, ProcessMessages> getCollection() {
-        return collection;
-    }
-
-    public static final int DEFAULT_MEX_TIMEOUT = 2 * 60 * 1000;
-//    private long pendingMsgBufTimeout;
 
     public MessageBuffer() {
 //        pendingMsgBufTimeout =
 //                Long.parseLong(ROADProperties.getInstance().getProperty("pendingMsgBufTimeout", String.valueOf(DEFAULT_MEX_TIMEOUT)));
+    }
+//    private long pendingMsgBufTimeout;
+
+    public MessageBuffer(Role role, BufferType bufferType) {
+        this.role = role;
+        this.type = bufferType;
+    }
+
+    public ConcurrentHashMap<String, ProcessMessages> getCollection() {
+        return collection;
     }
 
     public ExecutorService getExecutor() {
@@ -45,16 +49,6 @@ public class MessageBuffer {
 
     public void setExecutor(ExecutorService executor) {
         this.executor = executor;
-    }
-
-    public enum BufferType {
-        NONE, ROUTER, PENDINGOUT
-    }
-
-
-    public MessageBuffer(Role role, BufferType bufferType) {
-        this.role = role;
-        this.type = bufferType;
     }
 
     /**
@@ -95,7 +89,7 @@ public class MessageBuffer {
     public void dropMessage(MessageWrapper mw) throws MessageException {
         if (log.isInfoEnabled()) {
             log.info("Message " + mw.getMessageId() + "," + mw.getCorrelationId() + " dropped to " +
-                     this.role.getId() + "." + this.getType());
+                    this.role.getId() + "." + this.getType());
         }
         String correlationId = mw.getCorrelationId();
         if (correlationId == null) {
@@ -127,7 +121,7 @@ public class MessageBuffer {
     public void removeMessage(MessageWrapper mw) throws MessageException {
         if (log.isInfoEnabled()) {
             log.info("Message " + mw.getMessageId() + "," + mw.getCorrelationId() + " removed from " +
-                     this.role.getId() + "." + this.getType());
+                    this.role.getId() + "." + this.getType());
         }
         String correlationId = mw.getCorrelationId();
         if (correlationId == null) {
@@ -170,5 +164,9 @@ public class MessageBuffer {
         } else {
             tobeRemoved.setTobeRemoved(true);
         }
+    }
+
+    public enum BufferType {
+        NONE, ROUTER, PENDINGOUT
     }
 }

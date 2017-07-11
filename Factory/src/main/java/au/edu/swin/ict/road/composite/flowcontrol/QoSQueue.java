@@ -15,6 +15,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class QoSQueue {
 
+    private static Logger log = Logger.getLogger(SimpleRRScheduler.class.getName());
+    private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
+    private long endTime;
+    private AtomicInteger count = new AtomicInteger(0);
+    private String roleId;
+    private String id;
+    private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
+    private int minRate = FlowControlConstraints.DEFAULT_MINRATE;
+    private int fairRate = FlowControlConstraints.DEFAULT_MINRATE;
+    private LinkedBlockingQueue<MessageReceivedAtOutPortEvent> queue =
+            new LinkedBlockingQueue<MessageReceivedAtOutPortEvent>();
+
+    public QoSQueue(String roleId, String id) {
+        this.roleId = roleId;
+        this.id = id;
+    }
+
     public long getInterval() {
         return interval;
     }
@@ -22,17 +39,6 @@ public class QoSQueue {
     public void setInterval(long interval) {
         this.endTime = System.nanoTime() + interval;
         this.interval = interval;
-    }
-
-    private static Logger log = Logger.getLogger(SimpleRRScheduler.class.getName());
-    private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
-    private long endTime;
-    private AtomicInteger count = new AtomicInteger(0);
-    private String roleId;
-
-    public QoSQueue(String roleId, String id) {
-        this.roleId = roleId;
-        this.id = id;
     }
 
     public String getId() {
@@ -67,13 +73,6 @@ public class QoSQueue {
         this.fairRate = fairRate;
     }
 
-    private String id;
-    private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
-    private int minRate = FlowControlConstraints.DEFAULT_MINRATE;
-    private int fairRate = FlowControlConstraints.DEFAULT_MINRATE;
-    private LinkedBlockingQueue<MessageReceivedAtOutPortEvent> queue =
-            new LinkedBlockingQueue<MessageReceivedAtOutPortEvent>();
-
     public boolean canRead() {
         return count.get() < minRate || reset();
     }
@@ -89,11 +88,11 @@ public class QoSQueue {
             queue.offer(msg, 60 * 1000, TimeUnit.MILLISECONDS);
             if (log.isInfoEnabled()) {
                 log.info("Queue the message : " +
-                         msg.getMessageWrapper().getMessageId() + " at " + roleId + " in the queue : " + id);
+                        msg.getMessageWrapper().getMessageId() + " at " + roleId + " in the queue : " + id);
             }
         } catch (InterruptedException ignored) {
             log.error("Error queuing the message : " + msg.getMessageWrapper().getMessageId()
-                      + " , " + ignored.getMessage(), ignored);
+                    + " , " + ignored.getMessage(), ignored);
         }
         return new FlowControlResult(FlowControlResult.ALLOWED, "Enqueued the message successfully");
     }

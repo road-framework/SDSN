@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 import java.io.*;
 
 public class RomeoPNVerify {
-    static Logger log = Logger.getLogger(RomeoPNVerify.class);
     private static final String modelExtension = Constants.SERENDIP_PETRINET_FILE_EXT;
     private static final String propertyExtension = Constants.SERENDIP_TCTL_FILE_EXT;
+    static Logger log = Logger.getLogger(RomeoPNVerify.class);
     String mercutioTctl = null;
 
     // String propertyDir = null;
@@ -31,6 +31,30 @@ public class RomeoPNVerify {
         this.mercutioTctl = exeName;
     }
 
+    public static void main(String[] args) {
+
+        try {
+            RomeoPNVerify pnV = new RomeoPNVerify(
+                    "C:/romeo/gui/bin/mercutio-tctl.exe");
+            boolean res = pnV
+                    .verifyTCTL(
+                            new File(
+                                    "E://ROAD/svn/serendip/trunk/sample/composites/RoSAS3/temp/p12.xml"),
+                            new File(
+                                    "E://ROAD/svn/serendip/trunk/sample/composites/RoSAS3/temp/CO-GR_B1_C1.tctl"));
+            // boolean res = pnV.verifyTCTL(new
+            // File("C:/romeo/examples/toCharlott/model.xml"), new
+            // File("C:/romeo/examples/toCharlott/occurence.tctl"));
+            if (log.isDebugEnabled()) {
+                log.debug(res);
+            }
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+    }
+
     /**
      * @param id            the name of the behavior/process that need to be verified
      * @param propertyNames the name of the properties.
@@ -46,7 +70,7 @@ public class RomeoPNVerify {
             // [C:/models/]R1-R2_B1[.xml]
             File tptnFile = new File(fileLocation + id + modelExtension);
             File tctlFile = new File(fileLocation + propertyNames[i]
-                                     + propertyExtension);
+                    + propertyExtension);
             // ///////////////////////////////////
             // VERIFICATION///////////////////
             answer = this.verifyTCTL(tptnFile, tctlFile);
@@ -81,16 +105,16 @@ public class RomeoPNVerify {
          */
         if (log.isInfoEnabled()) {
             log.info("Executing " + mercutioTctl + ", with "
-                     + tctlFile.getAbsolutePath() + " against "
-                     + fileXml.getAbsolutePath());
+                    + tctlFile.getAbsolutePath() + " against "
+                    + fileXml.getAbsolutePath());
         }
         if (!fileXml.exists()) {
             throw new Exception("Model(XML) file not found "
-                                + fileXml.getAbsolutePath());
+                    + fileXml.getAbsolutePath());
         }
         if (!tctlFile.exists()) {
             throw new Exception("Constraint(TCTL) file not found "
-                                + tctlFile.getAbsolutePath());
+                    + tctlFile.getAbsolutePath());
         }
 
         /**
@@ -100,7 +124,7 @@ public class RomeoPNVerify {
          * E:\ROAD\svn\serendip\trunk\sample\composites\RoSAS3\temp\p12.xml
          */
         String[] cmd = {mercutioTctl, "-t", "-f", tctlFile.getAbsolutePath(),
-                        fileXml.getAbsolutePath()};
+                fileXml.getAbsolutePath()};
         boolean answer = false;
 
         Runtime r = Runtime.getRuntime();
@@ -126,7 +150,7 @@ public class RomeoPNVerify {
                 // fileXml.getAbsolutePath()+".ans";//e.g. src.xml.ans
 
                 String mercutioAnsFile = System.getProperty("user.home")
-                                         + "/Preferences/.romeo/temp/mercutio.ans";
+                        + "/Preferences/.romeo/temp/mercutio.ans";
                 if (log.isInfoEnabled()) {
                     log.info("ANS file :" + mercutioAnsFile);
                 }
@@ -137,16 +161,16 @@ public class RomeoPNVerify {
                         answer = true;
                         if (log.isInfoEnabled()) {
                             log.info("Yey... Verified: "
-                                     + tctlFile.getAbsolutePath() + " against "
-                                     + fileXml.getAbsolutePath());
+                                    + tctlFile.getAbsolutePath() + " against "
+                                    + fileXml.getAbsolutePath());
                         }
                     } else {
                         // Whatever else is given by the program is the
                         // counter-example, we should save it
                         if (log.isInfoEnabled()) {
                             log.info("Opps ... verification failed for : "
-                                     + tctlFile.getAbsolutePath() + " against "
-                                     + fileXml.getAbsolutePath());
+                                    + tctlFile.getAbsolutePath() + " against "
+                                    + fileXml.getAbsolutePath());
                         }
                         printWriterResult.println(s);
                     }
@@ -163,29 +187,5 @@ public class RomeoPNVerify {
             e.printStackTrace();
         }
         return answer;
-    }
-
-    public static void main(String[] args) {
-
-        try {
-            RomeoPNVerify pnV = new RomeoPNVerify(
-                    "C:/romeo/gui/bin/mercutio-tctl.exe");
-            boolean res = pnV
-                    .verifyTCTL(
-                            new File(
-                                    "E://ROAD/svn/serendip/trunk/sample/composites/RoSAS3/temp/p12.xml"),
-                            new File(
-                                    "E://ROAD/svn/serendip/trunk/sample/composites/RoSAS3/temp/CO-GR_B1_C1.tctl"));
-            // boolean res = pnV.verifyTCTL(new
-            // File("C:/romeo/examples/toCharlott/model.xml"), new
-            // File("C:/romeo/examples/toCharlott/occurence.tctl"));
-            if (log.isDebugEnabled()) {
-                log.debug(res);
-            }
-        } catch (Exception e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
     }
 }

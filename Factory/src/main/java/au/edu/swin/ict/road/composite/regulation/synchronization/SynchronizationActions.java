@@ -54,8 +54,8 @@ public class SynchronizationActions extends BasedActions {
                 if (log.isInfoEnabled()) {
                     log.info(
                             "Message retrieval failed (" + msgId + "," + classifier.getProcessInsId() +
-                            ") from PendingOutBuf of " + role.getId()
-                            );
+                                    ") from PendingOutBuf of " + role.getId()
+                    );
                 }
             }
         }
@@ -113,7 +113,7 @@ public class SynchronizationActions extends BasedActions {
         boolean isGateway = false;
         if (classifier != null) {
             isGateway = role.getPlayerBinding() == null &&
-                        !role.getId().equals(classifier.getProcessRole());
+                    !role.getId().equals(classifier.getProcessRole());
         }
         // based on the delivery type of the conjunct message,
         // place it in the appropriate out queue

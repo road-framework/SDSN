@@ -102,9 +102,9 @@ public class EventObserver {
                     msgStr += mw.getMessageId() + ",";
                 }
                 throw new SerendipException("Triggering of post event pattern  " + this.postEventPattern + "  " +
-                                            "of task  <" + pid + "," + taskId + "> is problematic. " +
-                                            "None of the following messages triggerd the event pattern. " +
-                                            "The responsible messages are " + msgStr);
+                        "of task  <" + pid + "," + taskId + "> is problematic. " +
+                        "None of the following messages triggerd the event pattern. " +
+                        "The responsible messages are " + msgStr);
             }
         } else {
             //Ignore. we have few more message left. Lets see what they'll do.

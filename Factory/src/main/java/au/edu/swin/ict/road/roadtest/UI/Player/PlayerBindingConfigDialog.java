@@ -156,7 +156,7 @@ public class PlayerBindingConfigDialog extends JDialog {
             } catch (RemoteException e1) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this, e1.getMessage(),
-                                              "Remote Exception", JOptionPane.ERROR_MESSAGE);
+                        "Remote Exception", JOptionPane.ERROR_MESSAGE);
                 // e1.printStackTrace();
             }
         }
@@ -184,13 +184,13 @@ public class PlayerBindingConfigDialog extends JDialog {
             } catch (RemoteException e1) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this, e1.getMessage(),
-                                              "Remote Exception", JOptionPane.ERROR_MESSAGE);
+                        "Remote Exception", JOptionPane.ERROR_MESSAGE);
                 // e1.printStackTrace();
             } catch (CompositeNotFoundException e2) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this, e2.getMessage(),
-                                              "Composite Not Found Exception",
-                                              JOptionPane.ERROR_MESSAGE);
+                        "Composite Not Found Exception",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -207,14 +207,14 @@ public class PlayerBindingConfigDialog extends JDialog {
             try {
                 player.bindRoleToPlay(role);
                 String msg = "Player " + player.getRole().getName()
-                             + " successfully binded with " + role;
+                        + " successfully binded with " + role;
                 JOptionPane.showMessageDialog(this, msg, "Binding Successful",
-                                              JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
 
             } catch (RoleNotFoundException e2) {
                 // TODO Auto-generated catch block
                 JOptionPane.showMessageDialog(this, e2.getMessage(),
-                                              "Role Not Found Exception", JOptionPane.ERROR_MESSAGE);
+                        "Role Not Found Exception", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

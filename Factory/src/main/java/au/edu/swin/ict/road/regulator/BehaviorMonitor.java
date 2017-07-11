@@ -12,6 +12,9 @@ import au.edu.swin.ict.serendip.event.SerendipEventListener;
  */
 public class BehaviorMonitor extends SerendipEventListener {
 
+    private String id;
+    private IMonitoringRules iMonitoringRules;
+
     public BehaviorMonitor(String id, IMonitoringRules iMonitoringRules) {
         this.id = id;
         this.iMonitoringRules = iMonitoringRules;
@@ -21,13 +24,9 @@ public class BehaviorMonitor extends SerendipEventListener {
         return iMonitoringRules;
     }
 
-    private String id;
-
     public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
         this.iMonitoringRules = iMonitoringRules;
     }
-
-    private IMonitoringRules iMonitoringRules;
 
     public void eventPatternMatched(String ep, Classifier classifier) throws SerendipException {
         PatternMatchedEvent event = new PatternMatchedEvent(ep, classifier);

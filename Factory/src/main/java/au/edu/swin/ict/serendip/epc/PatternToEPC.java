@@ -186,7 +186,7 @@ public class PatternToEPC {
         try {
 
             ConfigurableEPC epc = PatternToEPC.convertToEPC("eTowRequested * ePickupLocKnown ", "TT.tTow",
-                                                            "eCarTowed ^ eTowFailed");
+                    "eCarTowed ^ eTowFailed");
             ;
 
             SerendipEPCView epcView = new SerendipEPCView("test", epc);

@@ -27,12 +27,11 @@ import java.util.*;
 public abstract class DroolsRules implements IRules {
 
     private static Logger log = Logger.getLogger(DroolsRules.class
-                                                         .getName());
-    private String ruleFile1;
-
+            .getName());
     protected KieContainer kieContainer;
-    private Map<String, RegulationRule> regulationRuleMap = new HashMap<String, RegulationRule>();
     protected String ruleDir;
+    private String ruleFile1;
+    private Map<String, RegulationRule> regulationRuleMap = new HashMap<String, RegulationRule>();
 
     protected DroolsRules(String ruleFile, String ruleDir) {
         this();
@@ -96,7 +95,7 @@ public abstract class DroolsRules implements IRules {
         // Check for errors
         if (kbuilder.getResults().hasMessages(Message.Level.ERROR)) {
             System.out.println("Error found in rule file: " + ruleFile
-                               + " Errors found: " + kbuilder.getResults().getMessages());
+                    + " Errors found: " + kbuilder.getResults().getMessages());
             return false;
         }
 //        System.out.println(kbuilder.getKieModule().getReleaseId());
@@ -134,7 +133,7 @@ public abstract class DroolsRules implements IRules {
         // Check for errors
         if (kbuilder.getResults().hasMessages(Message.Level.ERROR)) {
             log.error("Error found in rule file: " + ruleFile
-                      + " Errors found: " + kbuilder.getResults().getMessages());
+                    + " Errors found: " + kbuilder.getResults().getMessages());
             return new ArrayList<RegulationRule>();
         }
         // Get the Release ID (mvn style: groupId, artifactId,version)

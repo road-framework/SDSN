@@ -13,6 +13,7 @@ public class AsyncResponse<MessageWrapper> implements Future<MessageWrapper> {
     private MessageWrapper responseContext;
 
     private CountDownLatch latch;
+    private String clientID;
 
     public AsyncResponse(String clientID) {
         this.clientID = clientID;
@@ -22,8 +23,6 @@ public class AsyncResponse<MessageWrapper> implements Future<MessageWrapper> {
     public String getClientID() {
         return clientID;
     }
-
-    private String clientID;
 
     public void onComplete(MessageWrapper mc) {
         if (log.isDebugEnabled()) {
@@ -73,7 +72,7 @@ public class AsyncResponse<MessageWrapper> implements Future<MessageWrapper> {
     }
 
     public MessageWrapper get(long timeout, TimeUnit unit)
-    throws InterruptedException, ExecutionException, TimeoutException {
+            throws InterruptedException, ExecutionException, TimeoutException {
         if (cancelled) {
             throw new CancellationException("Asyn response is already cancelled");
         }

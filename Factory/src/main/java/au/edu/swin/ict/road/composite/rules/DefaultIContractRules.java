@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 public class DefaultIContractRules implements IContractRules {
 
     private static Logger log = Logger.getLogger(DefaultIContractRules.class
-                                                         .getName());
+            .getName());
 
     protected Contract contract;
 

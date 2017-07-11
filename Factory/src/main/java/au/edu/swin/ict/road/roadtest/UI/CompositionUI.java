@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 public class CompositionUI extends JFrame {
 
     private static Logger logFactory = Logger.getLogger(Composite.class
-                                                                .getName());
+            .getName());
     private static Logger logROADWorker = Logger.getLogger(MessageDeliverer.class
-                                                                   .getName());
+            .getName());
     private static Logger logROADTest = Logger.getLogger(ROADTest.class
-                                                                 .getName());
+            .getName());
 
     // Variables declaration
     private JTabbedPane jTabbedPane2;
@@ -211,13 +211,13 @@ public class CompositionUI extends JFrame {
     private void jButtonBrowse_actionPerformed(ActionEvent e) {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("xml",
-                                                                     "xml");
+                "xml");
         chooser.setFileFilter(filter);
 
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             jTextFieldFileLoc.setText(chooser.getSelectedFile()
-                                             .getAbsolutePath());
+                    .getAbsolutePath());
         }
     }
 

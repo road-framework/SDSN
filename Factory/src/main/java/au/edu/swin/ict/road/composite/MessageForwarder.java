@@ -13,7 +13,7 @@ import java.util.List;
 public class MessageForwarder {
     // get the logger
     private static Logger log = Logger.getLogger(MessageDeliverer.class
-                                                         .getName());
+            .getName());
 
     // @Override
     public static void forward(Role role, MessageWrapper message) {
@@ -159,8 +159,8 @@ public class MessageForwarder {
 //                    .addBenchRecord("DROOLS BEGIN", message.getMessageId());
         if (log.isInfoEnabled()) {
             log.info("MessageDeliverer for " + role.getId()
-                     + " has recieved a message of type "
-                     + message.getOperationName());
+                    + " has recieved a message of type "
+                    + message.getOperationName());
         }
 
 //            compositeRules.insertMessageReceivedAtSourceEvent(message,
@@ -177,8 +177,8 @@ public class MessageForwarder {
         ContractEvaluationResult mpr = destContract.processMessage(message);
         if (log.isInfoEnabled()) {
             log.info("Message " + message.getMessageId()
-                     + " got interpreted via contract  "
-                     + destContract.getId() + " " + message.getClientID());
+                    + " got interpreted via contract  "
+                    + destContract.getId() + " " + message.getClientID());
         }
         // try {
         // Thread.sleep(3000);
@@ -197,17 +197,17 @@ public class MessageForwarder {
         if (isBlocked) {
             if (log.isInfoEnabled()) {
                 log.info("MessageDeliverer for " + role.getId()
-                         + " is routing the message"
-                         + message.getMessageId() + " back to its "
-                         + "source=" + message.getOriginRoleId()
-                         + ", due to it being blocked by the contract "
-                         + message.getDestinationContract());
+                        + " is routing the message"
+                        + message.getMessageId() + " back to its "
+                        + "source=" + message.getOriginRoleId()
+                        + ", due to it being blocked by the contract "
+                        + message.getDestinationContract());
             }
             message.setError(true);
             message.setErrorMessage("Message blocked by contract "
-                                    + message.getDestinationContract().getId()
-                                    + " and routed back to origin role "
-                                    + message.getOriginRoleId());
+                    + message.getDestinationContract().getId()
+                    + " and routed back to origin role "
+                    + message.getOriginRoleId());
             role.delivererPutOutgoingSyncMessage(message);
         } else {
 
@@ -265,10 +265,10 @@ public class MessageForwarder {
             Role destRole = destContract.getOppositeRole(role);
             if (log.isInfoEnabled()) {
                 log.info("MessageDeliverer for " + role.getId()
-                         + " is routing the message "
-                         + message.getMessageId() + " to "
-                         + destRole.getId() + " via the contract"
-                         + destContract.getId());
+                        + " is routing the message "
+                        + message.getMessageId() + " to "
+                        + destRole.getId() + " via the contract"
+                        + destContract.getId());
             }
 
 //                    if (compositeRules != null)
@@ -291,7 +291,7 @@ public class MessageForwarder {
             destRole.putPendingOutBufMessage(message);
             if (log.isInfoEnabled()) {
                 log.info("MsgDeliverer placed the message in the pendingout of destination role "
-                         + destRole.getId());
+                        + destRole.getId());
             }
 //                    this.role
 //                            .getComposite()
@@ -308,7 +308,7 @@ public class MessageForwarder {
             // the Event triggering need to be done after all the
             // messages are safely placed in the destRole buffer
             for (EventRecord eventRecord : interpretedEvents) {
-                if(!eventRecord.isPlaceSet()) {
+                if (!eventRecord.isPlaceSet()) {
                     eventRecord.setPlace(destRole.getId());
                 }
             }
@@ -322,7 +322,7 @@ public class MessageForwarder {
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("Message " + message.getMessageId()
-                             + " does not interpret any events");
+                            + " does not interpret any events");
                 }
             }
         }

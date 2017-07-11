@@ -5,10 +5,10 @@ package au.edu.swin.ict.road.common;
  */
 public class ManagementPolicyState extends ManagementState implements IEvent {
 
-    private IOrganiserRole iOrganiserRole;
-    private IOperationalManagerRole iOperationalManagerRole;
     public static String STATE_INCIPIENT = "incipient";
     public static String STATE_COMPLETED = "enacted";
+    private IOrganiserRole iOrganiserRole;
+    private IOperationalManagerRole iOperationalManagerRole;
 
     public ManagementPolicyState(String id) {
         super(id);

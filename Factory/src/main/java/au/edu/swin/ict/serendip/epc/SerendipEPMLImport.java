@@ -27,101 +27,6 @@ import java.util.List;
 public class SerendipEPMLImport {
     static Logger logger = Logger.getLogger(SerendipEPMLImport.class);
 
-    public MiningResult importFile(InputStream input) throws IOException {
-        Document doc;
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-            dbf.setValidating(false);
-            dbf.setIgnoringComments(true);
-            dbf.setIgnoringElementContentWhitespace(true);
-
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource inpStream = new InputSource(input);
-            // inpStream.setSystemId("file:" + System.getProperty("user.dir",
-            // ""));
-            doc = db.parse(inpStream);
-
-            // check if root element is a <epml> tag
-            if (!(doc.getDocumentElement().getNodeName().equals("epml") || doc
-                                                                                   .getDocumentElement().getNodeName().indexOf(":epml") > -1)) {
-                logger.debug("epml tag not found");
-                throw new Exception("epml tag not found");
-            } else {
-                logger.debug("epml root element found");
-            }
-
-        } catch (Throwable x) {
-            throw new IOException(x.getMessage());
-        }
-        // Exception
-        EPCResult result = new EPCResult(null, (ConfigurableEPC) null);
-
-        HashMap function_epc = new HashMap();
-        HashMap epcId_net = new HashMap();
-        HashMap noncfId_Node = new HashMap();
-        List relation = new ArrayList();
-
-        traverseForNonControlFlow(doc.getDocumentElement(), noncfId_Node,
-                                  relation, "");
-        // Message.add("noncf traversed\n"+relation.toString()+noncfId_Node.toString());
-        HashMap Id_noncfNodes = getSourceAndNoncfNode(relation, noncfId_Node);
-        // Message.add("Source and Noncf got\n"+Id_noncfNodes.toString());
-        result = traverseEPML(result, doc.getDocumentElement(), null,
-                              function_epc, epcId_net, Id_noncfNodes);
-
-        Iterator hierarchicalFunctions = function_epc.keySet().iterator();
-        while (hierarchicalFunctions.hasNext()) {
-            EPCSubstFunction f = (EPCSubstFunction) hierarchicalFunctions
-                    .next();
-            f.setSubstitutedEPC((ConfigurableEPC) epcId_net.get(function_epc
-                                                                        .get(f)));
-            // Message.add(f.getSubstitutedEPC().getName());
-        }
-
-        return result;
-
-    }
-
-    public void printEPC(EPCResult result) {
-        String name = result.getEPC().getName();
-        logger.debug(name);
-    }
-
-    public HashMap getSourceAndNoncfNode(List relation, HashMap noncfId_Node) {
-        HashMap Id_noncfNodes = new HashMap();
-        if (!noncfId_Node.isEmpty()) {
-            Iterator relations = relation.iterator();
-            while (relations.hasNext()) {
-                String current = (String) relations.next();
-                int space = current.indexOf(" ");
-                String from = current.substring(0, space);
-                String to = current.substring(space + 1, current.length());
-                if (noncfId_Node.containsKey(from)) {
-                    if (Id_noncfNodes.containsKey(to)) {
-                        List list = (List) Id_noncfNodes.get(from);
-                        list.add(noncfId_Node.get(to));
-                    } else {
-                        List newlist = new ArrayList();
-                        newlist.add(noncfId_Node.get(from));
-                        Id_noncfNodes.put(to, newlist);
-                    }
-                }
-                if (noncfId_Node.containsKey(to)) {
-                    if (Id_noncfNodes.containsKey(from)) {
-                        List list = (List) Id_noncfNodes.get(to);
-                        list.add(noncfId_Node.get(from));
-                    } else {
-                        List newlist = new ArrayList();
-                        newlist.add(noncfId_Node.get(to));
-                        Id_noncfNodes.put(from, newlist);
-                    }
-                }
-            }
-        }
-        return Id_noncfNodes;
-    }
-
     public static void traverseForNonControlFlow(Node currentNode,
                                                  HashMap epcIdId_node, List relation, String epcId) {
         if (currentNode.hasChildNodes()) {
@@ -150,7 +55,7 @@ public class SerendipEPMLImport {
                 }
                 if (currentChild.getNodeName().equals("directory")) {
                     traverseForNonControlFlow(currentChild, epcIdId_node,
-                                              relation, epcId);
+                            relation, epcId);
                 }
                 if (currentChild.getNodeName().equals("epc")) {
                     if (currentChild.getAttributes().getNamedItem("epcId") == null) {
@@ -161,23 +66,23 @@ public class SerendipEPMLImport {
                                 "epcId").getNodeValue();
                     }
                     traverseForNonControlFlow(currentChild, epcIdId_node,
-                                              relation, epcId);
+                            relation, epcId);
                 }
                 if (currentChild.getNodeName().equals("participant")) {
                     String id = currentChild.getAttributes().getNamedItem("id")
-                                            .getNodeValue();
+                            .getNodeValue();
                     epcIdId_node.put(epcId + "_" + id, currentChild);
                     continue;
                 }
                 if (currentChild.getNodeName().equals("dataField")) {
                     String id = currentChild.getAttributes().getNamedItem("id")
-                                            .getNodeValue();
+                            .getNodeValue();
                     epcIdId_node.put(epcId + "_" + id, currentChild);
                     continue;
                 }
                 if (currentChild.getNodeName().equals("application")) {
                     String id = currentChild.getAttributes().getNamedItem("id")
-                                            .getNodeValue();
+                            .getNodeValue();
                     epcIdId_node.put(epcId + "_" + id, currentChild);
                     continue;
                 }
@@ -185,75 +90,12 @@ public class SerendipEPMLImport {
                     String from = currentChild.getAttributes().getNamedItem(
                             "from").getNodeValue();
                     String to = currentChild.getAttributes().getNamedItem("to")
-                                            .getNodeValue();
+                            .getNodeValue();
                     relation.add(epcId + "_" + from + " " + epcId + "_" + to);
                     continue;
                 }
             }
         }
-    }
-
-    public EPCResult traverseEPML(EPCResult partialResult, Node currentNode,
-                                  Object parent, HashMap function_epc, HashMap epcId_net,
-                                  HashMap Id_noncfNodes) {
-        if (currentNode.hasChildNodes()) {
-            for (int i = 0; i < currentNode.getChildNodes().getLength(); i++) {
-                Node currentChild = currentNode.getChildNodes().item(i);
-                if (currentChild.getNodeName().equals("directory")) {
-                    if (currentChild.getAttributes().getNamedItem("name") == null) {
-                        String name = currentChild.getAttributes()
-                                                  .getNamedItem("Name").getNodeValue();
-
-                        String domstring = "-" + currentChild.hashCode();
-                        ModelHierarchyDirectory dir = new ModelHierarchyDirectory(
-                                domstring, name);
-                        partialResult.addInHierarchy(dir, parent, name);
-                        partialResult = traverseEPML(partialResult,
-                                                     currentChild, dir, function_epc, epcId_net,
-                                                     Id_noncfNodes);
-                    } else {
-                        String name = currentChild.getAttributes()
-                                                  .getNamedItem("name").getNodeValue();
-
-                        String domstring = "-" + currentChild.hashCode();
-                        ModelHierarchyDirectory dir = new ModelHierarchyDirectory(
-                                domstring, name);
-                        partialResult.addInHierarchy(dir, parent, name);
-                        partialResult = traverseEPML(partialResult,
-                                                     currentChild, dir, function_epc, epcId_net,
-                                                     Id_noncfNodes);
-                    }
-                }
-                if (currentChild.getNodeName().equals("epc")) {
-                    try {
-                        ConfigurableEPC net = read(currentChild, function_epc,
-                                                   Id_noncfNodes);
-                        String name = null;
-                        if (currentChild.getAttributes().getNamedItem("name") == null) {
-                            name = currentChild.getAttributes().getNamedItem(
-                                    "Name").getNodeValue();
-                        } else {
-                            name = currentChild.getAttributes().getNamedItem(
-                                    "name").getNodeValue();
-                        }
-                        name = name.replaceAll("\n", " ");
-                        // Message.add("epc "+name);
-                        partialResult.addInHierarchy(net, parent, name);
-                        if (currentChild.getAttributes().getNamedItem("epcId") == null) {
-                            epcId_net.put(currentChild.getAttributes()
-                                                      .getNamedItem("EpcId").getNodeValue(), net);
-                        } else {
-                            epcId_net.put(currentChild.getAttributes()
-                                                      .getNamedItem("epcId").getNodeValue(), net);
-                        }
-                    } catch (Throwable x) {
-                        logger.error(x);
-                        // throw new IOException(x.getMessage());
-                    }
-                }
-            }
-        }
-        return partialResult;
     }
 
     public static String getLinkedEpcId(Node epcnode) {
@@ -265,7 +107,7 @@ public class SerendipEPMLImport {
                     continue;
                 }
                 linkedEpc = current.getAttributes().getNamedItem("linkToEpcId")
-                                   .getNodeValue();
+                        .getNodeValue();
                 break;
             }
         }
@@ -317,9 +159,9 @@ public class SerendipEPMLImport {
             Node n = nodes.item(i);
 
             if (!(n.getNodeName().equals("function")
-                  || n.getNodeName().equals("event")
-                  || n.getNodeName().equals("and")
-                  || n.getNodeName().equals("or") || n.getNodeName().equals(
+                    || n.getNodeName().equals("event")
+                    || n.getNodeName().equals("and")
+                    || n.getNodeName().equals("or") || n.getNodeName().equals(
                     "xor"))) {
                 continue;
             }
@@ -330,12 +172,12 @@ public class SerendipEPMLImport {
                 if (n.getChildNodes().item(j).getNodeName().equals("name")) {
                     try {
                         ownName = n.getChildNodes().item(j).getFirstChild()
-                                   .getNodeValue();
+                                .getNodeValue();
                     } catch (Exception e) {
                     }
                 } else if ((n.getChildNodes().item(j).getAttributes() != null)
-                           && (n.getChildNodes().item(j).getAttributes()
-                                .getNamedItem("defId") != null)) {
+                        && (n.getChildNodes().item(j).getAttributes()
+                        .getNamedItem("defId") != null)) {
                     try {
                     } catch (Exception e) {
                     }
@@ -352,7 +194,7 @@ public class SerendipEPMLImport {
                     f = (EPCSubstFunction) net
                             .addFunction(new EPCSubstFunction(new LogEvent(
                                     ownName, "unknown:normal"),
-                                                              isConfigurable(n), net, null));
+                                    isConfigurable(n), net, null));
 
                     f.setIdentifier(ownName);
                     mapping.put(id, f);
@@ -368,7 +210,7 @@ public class SerendipEPMLImport {
                 if (Id_noncfNodes != null) {
                     if (Id_noncfNodes.containsKey(epcId + "_" + id)) {
                         List noncfs = (List) Id_noncfNodes.get(epcId + "_"
-                                                               + id);
+                                + id);
                         // Message.add(noncfs.toString());
                         Iterator noncfList = noncfs.iterator();
                         while (noncfList.hasNext()) {
@@ -377,9 +219,9 @@ public class SerendipEPMLImport {
                                 String appname = "";
                                 if (current.hasChildNodes()) {
                                     for (int j = 0; j < current.getChildNodes()
-                                                               .getLength(); j++) {
+                                            .getLength(); j++) {
                                         if (current.getChildNodes().item(j)
-                                                   .getNodeName().equals("name")) {
+                                                .getNodeName().equals("name")) {
                                             try {
                                                 appname = current
                                                         .getChildNodes()
@@ -392,15 +234,15 @@ public class SerendipEPMLImport {
                                     }
                                 }
                                 f.addInfSysObject(new EPCInfSysObject(appname,
-                                                                      f));
+                                        f));
                             }
                             if (current.getNodeName().equals("participant")) {
                                 String orgname = "";
                                 if (current.hasChildNodes()) {
                                     for (int j = 0; j < current.getChildNodes()
-                                                               .getLength(); j++) {
+                                            .getLength(); j++) {
                                         if (current.getChildNodes().item(j)
-                                                   .getNodeName().equals("name")) {
+                                                .getNodeName().equals("name")) {
                                             try {
                                                 orgname = current
                                                         .getChildNodes()
@@ -419,9 +261,9 @@ public class SerendipEPMLImport {
                                 String dataname = "";
                                 if (current.hasChildNodes()) {
                                     for (int j = 0; j < current.getChildNodes()
-                                                               .getLength(); j++) {
+                                            .getLength(); j++) {
                                         if (current.getChildNodes().item(j)
-                                                   .getNodeName().equals("name")) {
+                                                .getNodeName().equals("name")) {
                                             try {
                                                 dataname = current
                                                         .getChildNodes()
@@ -477,27 +319,185 @@ public class SerendipEPMLImport {
             }
 
             String source = flow.getAttributes().getNamedItem("source")
-                                .getNodeValue();
+                    .getNodeValue();
             if (mapping.get(source) == null) {
                 continue;
             }
             String dest = flow.getAttributes().getNamedItem("target")
-                              .getNodeValue();
+                    .getNodeValue();
             if (mapping.get(dest) == null) {
                 continue;
             }
             if (net.addEdge((EPCObject) mapping.get(source),
-                            (EPCObject) mapping.get(dest)) == null) {
+                    (EPCObject) mapping.get(dest)) == null) {
                 throw (new Exception(
                         "<html>Structural properties of EPCs are violated in input file.<br>"
-                        + "The following edge could not be added:<br><br>"
-                        + mapping.get(source).toString() + " ==> "
-                        + mapping.get(dest).toString()
-                        + "<br><br>Import aborted.</html>"));
+                                + "The following edge could not be added:<br><br>"
+                                + mapping.get(source).toString() + " ==> "
+                                + mapping.get(dest).toString()
+                                + "<br><br>Import aborted.</html>"));
             }
             ;
         }
 
+    }
+
+    public MiningResult importFile(InputStream input) throws IOException {
+        Document doc;
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+            dbf.setValidating(false);
+            dbf.setIgnoringComments(true);
+            dbf.setIgnoringElementContentWhitespace(true);
+
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputSource inpStream = new InputSource(input);
+            // inpStream.setSystemId("file:" + System.getProperty("user.dir",
+            // ""));
+            doc = db.parse(inpStream);
+
+            // check if root element is a <epml> tag
+            if (!(doc.getDocumentElement().getNodeName().equals("epml") || doc
+                    .getDocumentElement().getNodeName().indexOf(":epml") > -1)) {
+                logger.debug("epml tag not found");
+                throw new Exception("epml tag not found");
+            } else {
+                logger.debug("epml root element found");
+            }
+
+        } catch (Throwable x) {
+            throw new IOException(x.getMessage());
+        }
+        // Exception
+        EPCResult result = new EPCResult(null, (ConfigurableEPC) null);
+
+        HashMap function_epc = new HashMap();
+        HashMap epcId_net = new HashMap();
+        HashMap noncfId_Node = new HashMap();
+        List relation = new ArrayList();
+
+        traverseForNonControlFlow(doc.getDocumentElement(), noncfId_Node,
+                relation, "");
+        // Message.add("noncf traversed\n"+relation.toString()+noncfId_Node.toString());
+        HashMap Id_noncfNodes = getSourceAndNoncfNode(relation, noncfId_Node);
+        // Message.add("Source and Noncf got\n"+Id_noncfNodes.toString());
+        result = traverseEPML(result, doc.getDocumentElement(), null,
+                function_epc, epcId_net, Id_noncfNodes);
+
+        Iterator hierarchicalFunctions = function_epc.keySet().iterator();
+        while (hierarchicalFunctions.hasNext()) {
+            EPCSubstFunction f = (EPCSubstFunction) hierarchicalFunctions
+                    .next();
+            f.setSubstitutedEPC((ConfigurableEPC) epcId_net.get(function_epc
+                    .get(f)));
+            // Message.add(f.getSubstitutedEPC().getName());
+        }
+
+        return result;
+
+    }
+
+    public void printEPC(EPCResult result) {
+        String name = result.getEPC().getName();
+        logger.debug(name);
+    }
+
+    public HashMap getSourceAndNoncfNode(List relation, HashMap noncfId_Node) {
+        HashMap Id_noncfNodes = new HashMap();
+        if (!noncfId_Node.isEmpty()) {
+            Iterator relations = relation.iterator();
+            while (relations.hasNext()) {
+                String current = (String) relations.next();
+                int space = current.indexOf(" ");
+                String from = current.substring(0, space);
+                String to = current.substring(space + 1, current.length());
+                if (noncfId_Node.containsKey(from)) {
+                    if (Id_noncfNodes.containsKey(to)) {
+                        List list = (List) Id_noncfNodes.get(from);
+                        list.add(noncfId_Node.get(to));
+                    } else {
+                        List newlist = new ArrayList();
+                        newlist.add(noncfId_Node.get(from));
+                        Id_noncfNodes.put(to, newlist);
+                    }
+                }
+                if (noncfId_Node.containsKey(to)) {
+                    if (Id_noncfNodes.containsKey(from)) {
+                        List list = (List) Id_noncfNodes.get(to);
+                        list.add(noncfId_Node.get(from));
+                    } else {
+                        List newlist = new ArrayList();
+                        newlist.add(noncfId_Node.get(to));
+                        Id_noncfNodes.put(from, newlist);
+                    }
+                }
+            }
+        }
+        return Id_noncfNodes;
+    }
+
+    public EPCResult traverseEPML(EPCResult partialResult, Node currentNode,
+                                  Object parent, HashMap function_epc, HashMap epcId_net,
+                                  HashMap Id_noncfNodes) {
+        if (currentNode.hasChildNodes()) {
+            for (int i = 0; i < currentNode.getChildNodes().getLength(); i++) {
+                Node currentChild = currentNode.getChildNodes().item(i);
+                if (currentChild.getNodeName().equals("directory")) {
+                    if (currentChild.getAttributes().getNamedItem("name") == null) {
+                        String name = currentChild.getAttributes()
+                                .getNamedItem("Name").getNodeValue();
+
+                        String domstring = "-" + currentChild.hashCode();
+                        ModelHierarchyDirectory dir = new ModelHierarchyDirectory(
+                                domstring, name);
+                        partialResult.addInHierarchy(dir, parent, name);
+                        partialResult = traverseEPML(partialResult,
+                                currentChild, dir, function_epc, epcId_net,
+                                Id_noncfNodes);
+                    } else {
+                        String name = currentChild.getAttributes()
+                                .getNamedItem("name").getNodeValue();
+
+                        String domstring = "-" + currentChild.hashCode();
+                        ModelHierarchyDirectory dir = new ModelHierarchyDirectory(
+                                domstring, name);
+                        partialResult.addInHierarchy(dir, parent, name);
+                        partialResult = traverseEPML(partialResult,
+                                currentChild, dir, function_epc, epcId_net,
+                                Id_noncfNodes);
+                    }
+                }
+                if (currentChild.getNodeName().equals("epc")) {
+                    try {
+                        ConfigurableEPC net = read(currentChild, function_epc,
+                                Id_noncfNodes);
+                        String name = null;
+                        if (currentChild.getAttributes().getNamedItem("name") == null) {
+                            name = currentChild.getAttributes().getNamedItem(
+                                    "Name").getNodeValue();
+                        } else {
+                            name = currentChild.getAttributes().getNamedItem(
+                                    "name").getNodeValue();
+                        }
+                        name = name.replaceAll("\n", " ");
+                        // Message.add("epc "+name);
+                        partialResult.addInHierarchy(net, parent, name);
+                        if (currentChild.getAttributes().getNamedItem("epcId") == null) {
+                            epcId_net.put(currentChild.getAttributes()
+                                    .getNamedItem("EpcId").getNodeValue(), net);
+                        } else {
+                            epcId_net.put(currentChild.getAttributes()
+                                    .getNamedItem("epcId").getNodeValue(), net);
+                        }
+                    } catch (Throwable x) {
+                        logger.error(x);
+                        // throw new IOException(x.getMessage());
+                    }
+                }
+            }
+        }
+        return partialResult;
     }
 
     public boolean shouldFindFuzzyMatch() {

@@ -36,14 +36,14 @@ import java.util.*;
 import java.util.List;
 
 public class CompositionView extends JPanel implements ActionListener {
-    private SerendipEngine engine = null;
     private final static String PD_PREFIX = "P:";
     private final static String BT_PREFIX = "B:";
     private final static String T_PREFIX = "T:";
-    private JMenuItem addBTToProcessMenu = null, addNewProcessMenu = null;
     Graph<VType, String> processGraph = new DirectedSparseMultigraph<VType, String>();
     HashMap<String, BTVType> btMap = new HashMap<String, BTVType>();
     HashMap<String, PDVType> pdMap = new HashMap<String, PDVType>();
+    private SerendipEngine engine = null;
+    private JMenuItem addBTToProcessMenu = null, addNewProcessMenu = null;
     private JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
     public CompositionView(SerendipEngine engine) {
@@ -74,7 +74,7 @@ public class CompositionView extends JPanel implements ActionListener {
         // First we will add BTs
         if (null != comp.getComposite().getSmcBinding().getCollaborationUnits()) {
             final List<CollaborationUnitType> CollaborationUnitTypeList = comp.getComposite()
-                                                                              .getSmcBinding().getCollaborationUnits().getCollaborationUnit();
+                    .getSmcBinding().getCollaborationUnits().getCollaborationUnit();
             for (int i = 0; i < CollaborationUnitTypeList.size(); i++) {
                 BTVType btt = new BTVType(CollaborationUnitTypeList.get(i));
                 btMap.put(btt.getId(), btt);
@@ -103,7 +103,7 @@ public class CompositionView extends JPanel implements ActionListener {
                         BTVType bttTemp = btMap.get(btId);
 
                         processGraph.addEdge(pdt.getId() + "-" + btId, bttTemp, pdt,
-                                             EdgeType.DIRECTED);
+                                EdgeType.DIRECTED);
                     }
                 }
         }
@@ -201,7 +201,7 @@ public class CompositionView extends JPanel implements ActionListener {
                         ProcessView pv = null;
                         try {
                             pv = engine.getModelFactory().getProcessView(id,
-                                                                         null);
+                                    null);
                         } catch (SerendipException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -234,7 +234,7 @@ public class CompositionView extends JPanel implements ActionListener {
                     } else {
                         frame
                                 .setTitle("Cannot generate the EPC view for "
-                                          + id);
+                                        + id);
                     }
                     frame.setVisible(true);
                 }
@@ -278,10 +278,10 @@ public class CompositionView extends JPanel implements ActionListener {
                 .get(0).getProcess();
         for (int i = 0; i < processDefinitionTypeList.size(); i++) {
             String pDefId = PD_PREFIX
-                            + processDefinitionTypeList.get(i).getId();
+                    + processDefinitionTypeList.get(i).getId();
             g.addVertex(pDefId);
             List<String> btRefList = processDefinitionTypeList.get(i)
-                                                              .getCollaborationUnitRef();
+                    .getCollaborationUnitRef();
             for (int j = 0; j < btRefList.size(); j++) {
 
                 String btId = btRefList.get(j);
@@ -290,7 +290,7 @@ public class CompositionView extends JPanel implements ActionListener {
                 // or display
                 String btIdTemp = i + BT_PREFIX + btId;
                 g.addEdge(pDefId + "-" + btId, pDefId, btIdTemp,
-                          EdgeType.DIRECTED);
+                        EdgeType.DIRECTED);
 
                 // //testing
                 // for(int k=0; k< 3; k++){
@@ -399,7 +399,7 @@ public class CompositionView extends JPanel implements ActionListener {
                                 ProcessView pv = null;
                                 try {
                                     pv = engine.getModelFactory()
-                                               .getProcessView(id, null);
+                                            .getProcessView(id, null);
                                 } catch (SerendipException e) {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
@@ -437,7 +437,7 @@ public class CompositionView extends JPanel implements ActionListener {
                     } else {
                         frame
                                 .setTitle("Cannot generate the EPC view for "
-                                          + id);
+                                        + id);
                     }
                     frame.setVisible(true);
                 }
@@ -527,7 +527,7 @@ public class CompositionView extends JPanel implements ActionListener {
         // Get all the ContractTypes
 
         Contracts contracts = comp.getComposite().getSmcBinding()
-                                  .getContracts();
+                .getContracts();
 
         if (null == contracts) {
             return scrol;
@@ -536,7 +536,7 @@ public class CompositionView extends JPanel implements ActionListener {
         // List<ContractType> contractTypeList = comp.getComposite()
         // .getSmcBinding().getContracts().getContract();
         Map<String, Contract> contractMap = comp.getComposite()
-                                                .getContractMap();
+                .getContractMap();
         for (ContractType ct : contractTypeList) {
             String roleA = ct.getRoleAID();
             String roleB = ct.getRoleBID();
@@ -550,7 +550,7 @@ public class CompositionView extends JPanel implements ActionListener {
 
         vv.getRenderContext().setEdgeDrawPaintTransformer(
                 new PickableEdgePaintTransformer<String>(vv
-                                                                 .getPickedEdgeState(), Color.red, Color.cyan));
+                        .getPickedEdgeState(), Color.red, Color.cyan));
 
         vv.getRenderContext().setEdgeLabelTransformer(
                 new Transformer<String, String>() {
@@ -562,7 +562,7 @@ public class CompositionView extends JPanel implements ActionListener {
 
                         }
                         return "<html>" + input + "<img src=\"" + url
-                               + "\" ></html>";// height=10 width=21
+                                + "\" ></html>";// height=10 width=21
                         // return
                         // "<html>"+input+"<img src=images\\bt.gif  height=10 width=21></html>";
                     }
@@ -585,7 +585,7 @@ public class CompositionView extends JPanel implements ActionListener {
 
     private void showError(String errorMsg) {
         JOptionPane.showMessageDialog(this, errorMsg, "Error",
-                                      JOptionPane.ERROR_MESSAGE);
+                JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -604,6 +604,37 @@ public class CompositionView extends JPanel implements ActionListener {
         MouseListener popupListener = new PopupListener(popup);
         component.addMouseListener(popupListener);
         return popup;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        // TODO Auto-generated method stub
+        if (event.getSource().equals(this.addNewProcessMenu)) {
+            String s = (String) JOptionPane.showInputDialog(this,
+                    "Enter name of the process", "New Process",
+                    JOptionPane.PLAIN_MESSAGE, null, null, "Untitled1");
+            // TODO POPUP
+            ProcessDefinitionType pdType = new ProcessDefinitionType();
+            pdType.setId(s);
+            //TODO
+            boolean res = this.engine.getComposition().getComposite()
+                    .getSmcBinding().getVirtualServiceNetwork().get(0).getProcess().add(pdType);
+            if (res) {
+                // TODO:Check if this is all we have to do
+                PDVType pdvt = new PDVType(pdType);
+                this.pdMap.put(pdvt.getId(), pdvt);
+                this.processGraph.addVertex(pdvt);
+            } else {
+                showError("Cannot add a new process definition");
+            }
+
+        } else if (event.getSource().equals(this.addBTToProcessMenu)) {
+            String[] btArr = CompositionUtil
+                    .getAllBTIDOfComposition(this.engine.getComposition());
+            String s = (String) JOptionPane.showInputDialog(this,
+                    "Select the behavior term to add", "Updating process",
+                    JOptionPane.PLAIN_MESSAGE, null, btArr, " ");
+        }
     }
 
     class PopupListener extends MouseAdapter {
@@ -625,37 +656,6 @@ public class CompositionView extends JPanel implements ActionListener {
             if (e.isPopupTrigger()) {
                 popup.show(e.getComponent(), e.getX(), e.getY());
             }
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        // TODO Auto-generated method stub
-        if (event.getSource().equals(this.addNewProcessMenu)) {
-            String s = (String) JOptionPane.showInputDialog(this,
-                                                            "Enter name of the process", "New Process",
-                                                            JOptionPane.PLAIN_MESSAGE, null, null, "Untitled1");
-            // TODO POPUP
-            ProcessDefinitionType pdType = new ProcessDefinitionType();
-            pdType.setId(s);
-            //TODO
-            boolean res = this.engine.getComposition().getComposite()
-                                     .getSmcBinding().getVirtualServiceNetwork().get(0).getProcess().add(pdType);
-            if (res) {
-                // TODO:Check if this is all we have to do
-                PDVType pdvt = new PDVType(pdType);
-                this.pdMap.put(pdvt.getId(), pdvt);
-                this.processGraph.addVertex(pdvt);
-            } else {
-                showError("Cannot add a new process definition");
-            }
-
-        } else if (event.getSource().equals(this.addBTToProcessMenu)) {
-            String[] btArr = CompositionUtil
-                    .getAllBTIDOfComposition(this.engine.getComposition());
-            String s = (String) JOptionPane.showInputDialog(this,
-                                                            "Select the behavior term to add", "Updating process",
-                                                            JOptionPane.PLAIN_MESSAGE, null, btArr, " ");
         }
     }
 

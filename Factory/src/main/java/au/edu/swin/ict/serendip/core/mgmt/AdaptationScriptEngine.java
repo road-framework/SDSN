@@ -155,10 +155,10 @@ public class AdaptationScriptEngine implements Constants {
         //Select which command
         if (commandName.equals(commands.updatePropertyOfTask.name())) {
             action = new InstanceTaskPropertyAdaptationAction(c.getProperty(KEY_TID),
-                                                              c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.updatePropertyOfProcessInstance.name())) {
             action = new InstanceProcessPropertyAdaptationAction(c.getProperty(KEY_PROPERTY),
-                                                                 c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.addNewTaskToInstance.name())) { //add a new task to a process instance
             action = new InstanceTaskAddAction(c.getProperty(KEY_BTID), c.getProperty(KEY_TID), c.getProperty(KEY_PREEP_VAL), c.getProperty(KEY_POSTEP_VAL), c.getProperty(KEY_OBLIGROLE_VAL), c.getProperty(KEY_PP_VAL));
             ///String btid, String taskId, String preep, String postep, String obligrole, String pp
@@ -192,8 +192,8 @@ public class AdaptationScriptEngine implements Constants {
             action = new DefApplyPatchAction(c.getProperty(KEY_PATCH_FILE));
         } else if (commandName.equals(commands.addRole.name())) {
             action = new DefRoleAddAction(c.getProperty(KEY_ROLE_ID),
-                                          c.getProperty(KEY_ROLE_NAME),
-                                          c.getProperty(KEY_ROLE_DESCR));
+                    c.getProperty(KEY_ROLE_NAME),
+                    c.getProperty(KEY_ROLE_DESCR));
         } else if (commandName.equals(commands.removeRole.name())) {
             action = new DefRoleRemoveAction(c.getProperty(KEY_ROLE_ID));
         } else if (commandName.equals(commands.addContract.name())) {
@@ -202,91 +202,91 @@ public class AdaptationScriptEngine implements Constants {
                 isAbstrat = (c.getProperty(KEY_CONTRACT_ISABSTRACT).equals(VAL_TRUE));
             }
             action = new DefContractAddAction(c.getProperty(KEY_CONTRACT_ID),
-                                              c.getProperty(KEY_CONTRACT_NAME),
-                                              c.getProperty(KEY_CONTRACT_DESCR),
-                                              c.getProperty(KEY_CONTRACT_STATE),
-                                              c.getProperty(KEY_CONTRACT_TYPE),
-                                              c.getProperty(KEY_CONTRACT_RULEFILE),
-                                              isAbstrat,
-                                              c.getProperty(KEY_CONTRACT_ROLEAID),
-                                              c.getProperty(KEY_CONTRACT_ROLEBID));
+                    c.getProperty(KEY_CONTRACT_NAME),
+                    c.getProperty(KEY_CONTRACT_DESCR),
+                    c.getProperty(KEY_CONTRACT_STATE),
+                    c.getProperty(KEY_CONTRACT_TYPE),
+                    c.getProperty(KEY_CONTRACT_RULEFILE),
+                    isAbstrat,
+                    c.getProperty(KEY_CONTRACT_ROLEAID),
+                    c.getProperty(KEY_CONTRACT_ROLEBID));
         } else if (commandName.equals(commands.removeContract.name())) {
             action = new DefContractRemoveAction(c.getProperty(KEY_CONTRACT_ID));
         } else if (commandName.equals(commands.addTaskDef.name())) {
             action = new DefTaskDefAddAction(c.getProperty(KEY_R_ID),
-                                             c.getProperty(KEY_TASK_ID),
-                                             c.getProperty(KEY_SRC_MGS), c.getProperty(KEY_RESULT_MGS), c.getProperty(KEY_TRANS_FILE));
+                    c.getProperty(KEY_TASK_ID),
+                    c.getProperty(KEY_SRC_MGS), c.getProperty(KEY_RESULT_MGS), c.getProperty(KEY_TRANS_FILE));
         } else if (commandName.equals(commands.updateTaskDef.name())) {
             action = new DefTaskDefUpdateAction(c.getProperty(KEY_R_ID),
-                                                c.getProperty(KEY_TASK_ID),
-                                                c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_TASK_ID),
+                    c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.removeTaskDef.name())) {
             action = new DefTaskDefRemoveAction(c.getProperty(KEY_R_ID),
-                                                c.getProperty(KEY_TASK_ID));
+                    c.getProperty(KEY_TASK_ID));
         } else if (commandName.equals(commands.addTerm.name())) {
             action = new DefAddTermAction(c.getProperty(KEY_TERM_ID), c.getProperty(KEY_TERM_CTID), c.getProperty(KEY_TERM_NAME), c.getProperty(KEY_TERM_MESSAGE_TYPE),
-                                          c.getProperty(KEY_TERM_DEONTIC_TYPE), c.getProperty(KEY_TERM_DESCR), c.getProperty(KEY_TERM_DIRECTION));
+                    c.getProperty(KEY_TERM_DEONTIC_TYPE), c.getProperty(KEY_TERM_DESCR), c.getProperty(KEY_TERM_DIRECTION));
         } else if (commandName.equals(commands.removeTerm.name())) {
             action = new DefRemoveTermAction(c.getProperty(KEY_TERM_ID), c.getProperty(KEY_TERM_CTID));
         } else if (commandName.equals(commands.updateTerm.name())) {
             action = new DefUpdateTermAction(c.getProperty(KEY_TERM_ID), c.getProperty(KEY_TERM_CTID),
-                                             c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_PROPERTY), c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.addOperationToTerm.name())) {
             action = new DefAddOperationToTermAction(c.getProperty(KEY_TERM_OP_NAME), c.getProperty(KEY_TERM_RETURN_TYPE),
-                                                     createParameters(c.getProperty(KEY_TERM_PARAMETERS)), c.getProperty(KEY_TERM_ID), c.getProperty(KEY_TERM_CTID));
+                    createParameters(c.getProperty(KEY_TERM_PARAMETERS)), c.getProperty(KEY_TERM_ID), c.getProperty(KEY_TERM_CTID));
         } else if (commandName.equals(commands.setOutMsgOnTask.name())) {
             action = new DefSetOutMsgOnTaskAction(c.getProperty(KEY_TASK_OP_NAME), c.getProperty(KEY_TASK_RETURN_TYPE), c.getProperty(KEY_TASK_DELIVERY_TYPE), false,
-                                                  createParameters(c.getProperty(KEY_TASK_PARAMETERS)), c.getProperty(KEY_TASK_ID), c.getProperty(KEY_ROLE_ID));
+                    createParameters(c.getProperty(KEY_TASK_PARAMETERS)), c.getProperty(KEY_TASK_ID), c.getProperty(KEY_ROLE_ID));
         } else if (commandName.equals(commands.setInMsgOnTask.name())) {
             action = new DefSetInMsgOnTaskAction(c.getProperty(KEY_TASK_OP_NAME), c.getProperty(KEY_TASK_RETURN_TYPE), true,
-                                                 createParameters(c.getProperty(KEY_TASK_PARAMETERS)), c.getProperty(KEY_TASK_ID), c.getProperty(KEY_ROLE_ID));
+                    createParameters(c.getProperty(KEY_TASK_PARAMETERS)), c.getProperty(KEY_TASK_ID), c.getProperty(KEY_ROLE_ID));
         } else if (commandName.equals(commands.addPlayerBinding.name())) {
             action = new DefAddPlayerBindingAction(c.getProperty(KEY_PB_ID),
-                                                   c.getProperty(KEY_PB_RID),
-                                                   c.getProperty(KEY_PB_ENDPOINT));
+                    c.getProperty(KEY_PB_RID),
+                    c.getProperty(KEY_PB_ENDPOINT));
         } else if (commandName.equals(commands.removePlayerBinding.name())) {
             action = new DefRemovePlayerBindingAction(c.getProperty(KEY_PB_ID));
         } else if (commandName.equals(commands.updatePlayerBinding.name())) {
             action = new DefUpdatePlayerBindingAction(c.getProperty(KEY_PB_ID),
-                                                      c.getProperty(KEY_PROPERTY),
-                                                      c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_PROPERTY),
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.addBehavior.name())) {
             action = new DefBehaviorAddAction(c.getProperty(KEY_BU_ID),
-                                              c.getProperty(KEY_BU_EXTENDSFROM));
+                    c.getProperty(KEY_BU_EXTENDSFROM));
         } else if (commandName.equals(commands.removeBehavior.name())) {
             action = new DefBehaviorRemoveAction(c.getProperty(KEY_BU_ID));
         } else if (commandName.equals(commands.updateBehavior.name())) {
             action = new DefBehaviorUpdateAction(c.getProperty(KEY_BU_ID),
-                                                 c.getProperty(KEY_PROPERTY),
-                                                 c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_PROPERTY),
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.addTaskRef.name())) {
             action = new DefTaskRefAddAction(c.getProperty(KEY_BU_ID),
-                                             c.getProperty(KEY_TASK_ID),
-                                             c.getProperty(KEY_BU_PREEP),
-                                             c.getProperty(KEY_BU_POSTEP),
-                                             c.getProperty(KEY_BU_PP));
+                    c.getProperty(KEY_TASK_ID),
+                    c.getProperty(KEY_BU_PREEP),
+                    c.getProperty(KEY_BU_POSTEP),
+                    c.getProperty(KEY_BU_PP));
         } else if (commandName.equals(commands.removeTaskRef.name())) {
             action = new DefTaskRefRemoveAction(c.getProperty(KEY_TASK_ID), c.getProperty(KEY_BU_ID));
         } else if (commandName.equals(commands.updateTaskRef.name())) {
             action = new DefTaskRefUpdateAction(c.getProperty(KEY_BU_ID), c.getProperty(KEY_TASK_ID),
-                                                c.getProperty(KEY_PROPERTY),
-                                                c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_PROPERTY),
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.addConstraintToBehavior.name())) {
             action = new DefAddConstraintToBehavior(c.getProperty(KEY_BU_ID),
-                                                    c.getProperty(KEY_BU_CID),
-                                                    c.getProperty(KEY_BU_CEXPR),
-                                                    true
+                    c.getProperty(KEY_BU_CID),
+                    c.getProperty(KEY_BU_CEXPR),
+                    true
             );
         } else if (commandName.equals(commands.removeConstraintToBehavior.name())) {
             action = new DefRemoveConstraintToBehavior(c.getProperty(KEY_BU_ID),
-                                                       c.getProperty(KEY_BU_CID));
+                    c.getProperty(KEY_BU_CID));
         } else if (commandName.equals(commands.updateConstraintToBehavior.name())) {
             action = new DefUpdateConstraintToBehavior(c.getProperty(KEY_BU_ID),
-                                                       c.getProperty(KEY_BU_CID), c.getProperty(KEY_PROPERTY),
-                                                       c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_BU_CID), c.getProperty(KEY_PROPERTY),
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.updateProcessDef.name())) {
             action = new DefUpdateProcessDef(c.getProperty(KEY_PDID), c.getProperty(KEY_PROPERTY),
-                                             c.getProperty(KEY_VALUE));
+                    c.getProperty(KEY_VALUE));
         } else if (commandName.equals(commands.removeBehaviorRefFromProcessDef.name())) {
             action = new DefRemoveBehaviorRefFromProcessDef(c.getProperty(KEY_PDID), c.getProperty(KEY_BU_ID));
         } else if (commandName.equals(commands.addBehaviorRefToProcessDef.name())) {

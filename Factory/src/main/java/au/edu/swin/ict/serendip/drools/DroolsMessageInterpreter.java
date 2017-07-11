@@ -54,7 +54,7 @@ public class DroolsMessageInterpreter extends MessageInterpreter {
 
         if (null == task) {
             throw new SerendipException("Cannot find the task for message "
-                                        + m.getId());
+                    + m.getId());
         }
         String postEP = task.getPostEventPattern();
 
@@ -99,7 +99,7 @@ public class DroolsMessageInterpreter extends MessageInterpreter {
     }
 
     private StatefulKnowledgeSession readRule(String ruleFile)
-    throws SerendipException {
+            throws SerendipException {
         try {
             KnowledgeBaseConfiguration kbConfig = KnowledgeBaseFactory
                     .newKnowledgeBaseConfiguration();

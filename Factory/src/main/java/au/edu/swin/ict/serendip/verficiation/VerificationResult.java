@@ -34,7 +34,7 @@ public class VerificationResult {
 
     public String getMessage() {
         return "Invalid behavior: " + this.behaviorName + " due to property "
-               + this.propertyName + "\n " + this.message;
+                + this.propertyName + "\n " + this.message;
     }
 
     public void setMessage(String message) {

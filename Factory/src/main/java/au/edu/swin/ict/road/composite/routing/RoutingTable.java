@@ -141,14 +141,14 @@ public class RoutingTable {
      */
     public Contract getDestinationContract(MessageWrapper wrapper,
                                            boolean executeRules) throws MessageRoutingException,
-                                                                        MessageRoutingUndeterminedException, NoRequestException {
+            MessageRoutingUndeterminedException, NoRequestException {
 
         Contract contract = null;
 
 //        try {
         // Retrieve the destination contract from the tables
         contract = this.getDestinationContract(wrapper.getOperationName(),
-                                               wrapper.getClassifier(), wrapper.isResponse());
+                wrapper.getClassifier(), wrapper.isResponse());
 
         // If no contract found and role still has contracts, admit the
         // routing rules to determine the contract
@@ -166,12 +166,12 @@ public class RoutingTable {
             // request
             throw new NoRequestException(
                     "Cannot find request message to respond from role "
-                    + role.getId());
+                            + role.getId());
         } else {
             throw new MessageRoutingUndeterminedException(wrapper,
-                                                          "Cannot find contract for operation "
-                                                          + wrapper.getOperationName() + " from role "
-                                                          + wrapper.getOriginRoleId());
+                    "Cannot find contract for operation "
+                            + wrapper.getOperationName() + " from role "
+                            + wrapper.getOriginRoleId());
         }
 //        } catch (RulesException e) {
 //            throw new MessageRoutingException(e.getMessage());

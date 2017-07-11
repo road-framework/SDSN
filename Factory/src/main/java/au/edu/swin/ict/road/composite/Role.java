@@ -68,19 +68,12 @@ import au.edu.swin.ict.road.xml.bindings.ParamsType.Parameter;
  */
 public class Role implements IRole, EventEngineSubscriber {
 
+    public static final int DEFAULT_MEX_TIMEOUT = 20 * 60 * 1000;
+    public static final String MEX_TIMEOUT = "maxTimeout";
     // get the logger
     private static Logger log = Logger.getLogger(Role.class.getName());
-    private String rId;
     private final RoleManagementState mgtState;
-
-    public String getrId() {
-        return rId;
-    }
-
-    public void setrId(String rId) {
-        this.rId = rId;
-    }
-
+    private String rId;
     private String id;
     private String name;
     private String description;
@@ -100,25 +93,17 @@ public class Role implements IRole, EventEngineSubscriber {
 //    private LinkedBlockingQueue<MessageWrapper> routerQueue;      //TODO this needs to be added
 
     private OrganiserRole organiserRole;
-
-    public MessageBuffer getPendingOutBuf() {
-        return pendingOutBuf;
-    }
-
     private Composite composite;
     private String playerBinding;
     private RoleType roleType;
     // new routing table
     private RoutingTable routingTable;
-
     // Fact Synchroniser
     private List<FactSynchroniser> factSynchronisers;
     //    private Map<String, AsyncResponse<MessageWrapper>> callbacks =
 //            new ConcurrentHashMap<String, AsyncResponse<MessageWrapper>>();
     private Map<String, ResponseCallback> callbacks =
             new ConcurrentHashMap<String, ResponseCallback>();
-    public static final int DEFAULT_MEX_TIMEOUT = 20 * 60 * 1000;
-    public static final String MEX_TIMEOUT = "maxTimeout";
     private ROADProperties roadProperties = ROADProperties.getInstance();
     private int maxTimeout = DEFAULT_MEX_TIMEOUT;
     private QueueListener scheduler;
@@ -130,7 +115,6 @@ public class Role implements IRole, EventEngineSubscriber {
     private String rulesDir;
     private SynchronizationKnowledgebase synRules;
     private RoutingKnowledgebase routingRules;
-
     /**
      * Default constructor which initialises all values to null.
      */
@@ -166,65 +150,6 @@ public class Role implements IRole, EventEngineSubscriber {
 //        MBeanRegistrar registrar = MBeanRegistrar.getInstance();
 //        registrar.registerMBean(new RoleView(this), name + "View", name + "View");
     }
-
-    public RoleMonitor getRoleMonitor() {
-        return roleMonitor;
-    }
-
-    public QueueListener getScheduler() {
-        return scheduler;
-    }
-
-    public FlowControlTable getIngressFlowControlTable() {
-        return ingressFlowControlTable;
-    }
-
-    @Override
-    public void setRoleMonitor(MonitorType monitorType) {
-        if (monitorType != null) {
-            String monitorId = monitorType.getId();
-            if (monitorId == null || monitorId.isEmpty()) {
-                monitorId = id + "." + "monitor";
-                monitorType.setId(monitorId);
-            }
-            AnalysisType analysisType = monitorType.getAnalysis();
-            String monitorFileName = analysisType.getScript();
-            IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(monitorFileName.toLowerCase(), composite.getRulesDir(), composite.getFTS());
-            roleMonitor = new RoleMonitor(monitorId, iMonitoringRules);
-        }
-    }
-
-    @Override
-    public void removeRoleMonitor() {
-        roleType.setMonitor(null);
-        roleMonitor = null;
-    }
-
-    @Override
-    public void setMonitorRules(String monitorFileName) {
-        roleType.getMonitor().getAnalysis().setScript(monitorFileName);
-        roleMonitor.setMonitoringRules(new DroolsMonitoringRules(monitorFileName.toLowerCase(),
-                composite.getRulesDir(), composite.getFTS()));
-    }
-
-    public void setScheduler(QueueListener scheduler) {
-        this.scheduler = scheduler;
-    }
-
-    public void printOutQ() {
-        if (log.isDebugEnabled()) {
-            log.debug("Start");
-        }
-        for (MessageWrapper m : this.outQueue) {
-            if (log.isDebugEnabled()) {
-                log.debug(">" + m.getOperationName());
-            }
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("End");
-        }
-    }
-
     /**
      * Initialises a <code>Role</code> using the supplied <code>RoleType</code>,
      * which is a JAXB binding class containing properties from an XML file.
@@ -264,6 +189,76 @@ public class Role implements IRole, EventEngineSubscriber {
         mgtState = new RoleManagementState(id);
 //        MBeanRegistrar registrar = MBeanRegistrar.getInstance();
 //        registrar.registerMBean(new RoleView(this), name + "View", name + "View");
+    }
+
+    public String getrId() {
+        return rId;
+    }
+
+    public void setrId(String rId) {
+        this.rId = rId;
+    }
+
+    public MessageBuffer getPendingOutBuf() {
+        return pendingOutBuf;
+    }
+
+    public RoleMonitor getRoleMonitor() {
+        return roleMonitor;
+    }
+
+    @Override
+    public void setRoleMonitor(MonitorType monitorType) {
+        if (monitorType != null) {
+            String monitorId = monitorType.getId();
+            if (monitorId == null || monitorId.isEmpty()) {
+                monitorId = id + "." + "monitor";
+                monitorType.setId(monitorId);
+            }
+            AnalysisType analysisType = monitorType.getAnalysis();
+            String monitorFileName = analysisType.getScript();
+            IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(monitorFileName.toLowerCase(), composite.getRulesDir(), composite.getFTS());
+            roleMonitor = new RoleMonitor(monitorId, iMonitoringRules);
+        }
+    }
+
+    public QueueListener getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(QueueListener scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public FlowControlTable getIngressFlowControlTable() {
+        return ingressFlowControlTable;
+    }
+
+    @Override
+    public void removeRoleMonitor() {
+        roleType.setMonitor(null);
+        roleMonitor = null;
+    }
+
+    @Override
+    public void setMonitorRules(String monitorFileName) {
+        roleType.getMonitor().getAnalysis().setScript(monitorFileName);
+        roleMonitor.setMonitoringRules(new DroolsMonitoringRules(monitorFileName.toLowerCase(),
+                composite.getRulesDir(), composite.getFTS()));
+    }
+
+    public void printOutQ() {
+        if (log.isDebugEnabled()) {
+            log.debug("Start");
+        }
+        for (MessageWrapper m : this.outQueue) {
+            if (log.isDebugEnabled()) {
+                log.debug(">" + m.getOperationName());
+            }
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("End");
+        }
     }
 
     public void registerNewPushListener(RolePushMessageListener listener) {
@@ -1395,6 +1390,16 @@ public class Role implements IRole, EventEngineSubscriber {
     }
 
     /**
+     * Gets the organiser role currently used by this functional role for
+     * sending management messages to the organiser player.
+     *
+     * @return the organiser role
+     */
+    public OrganiserRole getOrganiserRole() {
+        return this.organiserRole;
+    }
+
+    /**
      * Sets the organiser role to be used by this functional role for sending
      * management messages to the organiser.
      *
@@ -1403,16 +1408,6 @@ public class Role implements IRole, EventEngineSubscriber {
      */
     public void setOrganiserRole(OrganiserRole organiserRole) {
         this.organiserRole = organiserRole;
-    }
-
-    /**
-     * Gets the organiser role currently used by this functional role for
-     * sending management messages to the organiser player.
-     *
-     * @return the organiser role
-     */
-    public OrganiserRole getOrganiserRole() {
-        return this.organiserRole;
     }
 
     /**

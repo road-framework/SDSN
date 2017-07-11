@@ -7,9 +7,9 @@ import javax.swing.table.AbstractTableModel;
 public class ProcessViewTableModel extends AbstractTableModel {
 
     private String[] columnNames = {"Pid", "Status", "CurrentTask",
-                                    "ObligatedRole"};
+            "ObligatedRole"};
     private Object[][] data = {{"001", "Active", "Pay", "CO"},
-                               {"002", "Active", "Repair", "GR"}};
+            {"002", "Active", "Repair", "GR"}};
 
     public ProcessViewTableModel() {
         // TODO Auto-generated constructor stub

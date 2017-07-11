@@ -14,9 +14,9 @@ import au.edu.swin.ict.serendip.event.SerendipEventListener;
  * @see SerendipOrganizerImpl
  */
 public class OrganizerEventListener extends SerendipEventListener {
+    static int counter = 0;
     private String id = null;
     private IOrganiserRole orgRole = null;
-    static int counter = 0;
 
     public OrganizerEventListener(String ep, Classifier classifier, IOrganiserRole orgRole) {
         this.id = "orgListener" + counter++;
@@ -27,7 +27,7 @@ public class OrganizerEventListener extends SerendipEventListener {
 
     @Override
     public void eventPatternMatched(String ep, Classifier classifier1)
-    throws SerendipException {
+            throws SerendipException {
         MessageWrapper mw = new MessageWrapper();
         mw.setMessage("Event pattern " + ep + " matched for" + classifier1);
 //        ((OrganiserRole) this.orgRole).sendToOrganiser(mw);

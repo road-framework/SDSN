@@ -34,12 +34,12 @@ import java.util.*;
  */
 public class CompositeMarshalling {
 
+    private static Logger log = Logger.getLogger(CompositeDemarshaller.class
+            .getName());
     /* Instance variables for JAXB Binding classes */
     private List<RoleType> roleList = new ArrayList<RoleType>();
     private List<ContractType> contractList = new ArrayList<ContractType>();
     private List<PlayerBindingType> playerBindingList = new ArrayList<PlayerBindingType>();
-    private static Logger log = Logger.getLogger(CompositeDemarshaller.class
-                                                         .getName());
     private String dirPath;
     private String foldername;
 
@@ -216,7 +216,7 @@ public class CompositeMarshalling {
         try {
 
             compositeDataFile = new FileWriter(dirPath + "/" + c.getName()
-                                               + ".xml");
+                    + ".xml");
             context = JAXBContext.newInstance(ServiceNetwork.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -272,7 +272,7 @@ public class CompositeMarshalling {
             // foldername;
             try {
                 dirPath = new File(".").getCanonicalPath()
-                          + "/data/snapshots/" + foldername;
+                        + "/data/snapshots/" + foldername;
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -333,7 +333,7 @@ public class CompositeMarshalling {
                 // Creating the temporary folder to store the files for
                 // modification
                 tempFolder = new File(new File(".").getCanonicalFile()
-                                      + "/data/temp");
+                        + "/data/temp");
                 if (!tempFolder.exists()) {
                     tempFolder.mkdirs();
                 }
@@ -349,12 +349,12 @@ public class CompositeMarshalling {
                         .nextToken();
 
                 String originalDrlFilePath = new File(".").getCanonicalPath()
-                                                          .toString()
-                                             + "/" + droolFileName;
+                        .toString()
+                        + "/" + droolFileName;
 
                 // Copying the original file to the temporary folder
                 copyFile(originalDrlFilePath, tempFolder + "/"
-                                              + tempDestFilename);
+                        + tempDestFilename);
 
             } catch (IOException e1) {
                 isDRLMarshalled = false;
@@ -384,28 +384,28 @@ public class CompositeMarshalling {
                     // Locating the correct file from the temporary folder which
                     // has to be modified
                     folder = new File(new File(".").getCanonicalFile()
-                                      + "/data/temp");
+                            + "/data/temp");
                     File[] fileList = folder.listFiles();
                     for (int i = 0; i < fileList.length; i++) {
                         if (drlFile.contains(fileList[i].getName())) {
 
                             // Copying the temporary file to the SMC location
                             copyFile(new File(".").getCanonicalPath()
-                                                  .toString()
-                                     + "/data/temp/" + fileList[i].getName(),
-                                     dirPath + "/" + fileList[i].getName());
+                                            .toString()
+                                            + "/data/temp/" + fileList[i].getName(),
+                                    dirPath + "/" + fileList[i].getName());
 
                             // Reading the from the temporary file and writing
                             // to the file in the SMC location
                             FileReader droolsFileReader = new FileReader(
                                     new File(".").getCanonicalPath().toString()
-                                    + "/data/temp/"
-                                    + fileList[i].getName());
+                                            + "/data/temp/"
+                                            + fileList[i].getName());
                             BufferedReader droolsFile = new BufferedReader(
                                     droolsFileReader);
 
                             PrintWriter pw = new PrintWriter(dirPath + "/"
-                                                             + fileList[i].getName());
+                                    + fileList[i].getName());
                             String tempLine = "";
 
                             // Writing to the file in the Snapshot location but
@@ -424,7 +424,7 @@ public class CompositeMarshalling {
                                     }
 
                                 } else if (tempLine.contains("end")
-                                           && startWritingFlag == false) {
+                                        && startWritingFlag == false) {
                                     startWritingFlag = true;
                                     continue;
                                 }
@@ -446,9 +446,9 @@ public class CompositeMarshalling {
                             // rule removal change then the updated temporary
                             // file will be read from
                             copyFile(dirPath + "/" + fileList[i].getName(),
-                                     new File(".").getCanonicalPath().toString()
-                                     + "/data/temp/"
-                                     + fileList[i].getName());
+                                    new File(".").getCanonicalPath().toString()
+                                            + "/data/temp/"
+                                            + fileList[i].getName());
 
                             break;
                         }
@@ -469,7 +469,7 @@ public class CompositeMarshalling {
                     // Locating the correct file from the temporary folder which
                     // has to be modified
                     folder = new File(new File(".").getCanonicalFile()
-                                      + "/data/temp");
+                            + "/data/temp");
                     File[] fileList = folder.listFiles();
                     for (int i = 0; i < fileList.length; i++) {
                         if (drlFile.contains(fileList[i].getName())) {
@@ -477,8 +477,8 @@ public class CompositeMarshalling {
                             // Opening the temporary file for writing
                             PrintWriter pw = new PrintWriter(new FileWriter(
                                     new File(".").getCanonicalPath().toString()
-                                    + "/data/temp/"
-                                    + fileList[i].getName(), true));
+                                            + "/data/temp/"
+                                            + fileList[i].getName(), true));
 
                             // Appending the new rule to the temporary file
                             pw.println(ruleName);
@@ -489,9 +489,9 @@ public class CompositeMarshalling {
                             // Copying the modified temporary file to the SMC
                             // location
                             copyFile(new File(".").getCanonicalPath()
-                                                  .toString()
-                                     + "/data/temp/" + fileList[i].getName(),
-                                     dirPath + "/" + fileList[i].getName());
+                                            .toString()
+                                            + "/data/temp/" + fileList[i].getName(),
+                                    dirPath + "/" + fileList[i].getName());
                         }
                     }
 
@@ -513,7 +513,7 @@ public class CompositeMarshalling {
         // Deleting the temporary folders
         try {
             File tempDir = new File(new File(".").getCanonicalFile().toString()
-                                    + "/data/temp");
+                    + "/data/temp");
             deleteTempDir(tempDir);
         } catch (IOException e) {
             isDRLMarshalled = false;
@@ -587,18 +587,18 @@ public class CompositeMarshalling {
             try {
 
                 File folder = new File(new File(".").getCanonicalFile()
-                                                    .toString()
-                                       + "/data/temp");
+                        .toString()
+                        + "/data/temp");
                 File[] fileList = folder.listFiles();
                 for (int count = 0; count < fileList.length; count++) {
                     if (droolFileName.contains(fileList[count].getName())) {
                         File checkFile = new File(dirPath + "/"
-                                                  + fileList[count].getName());
+                                + fileList[count].getName());
                         if (!checkFile.exists()) {
                             copyFile(
                                     new File(".").getCanonicalFile().toString()
-                                    + "/data/temp/"
-                                    + fileList[count].getName(),
+                                            + "/data/temp/"
+                                            + fileList[count].getName(),
                                     dirPath + "/" + fileList[count].getName());
                         }
                     }
@@ -633,7 +633,7 @@ public class CompositeMarshalling {
 
                 if (log.isDebugEnabled()) {
                     log.debug("Temp Directory: " + tempDir.toString()
-                              + " Deleted");
+                            + " Deleted");
                 }
             }
 

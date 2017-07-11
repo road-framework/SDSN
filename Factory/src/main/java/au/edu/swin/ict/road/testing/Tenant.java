@@ -13,14 +13,13 @@ public class Tenant implements Runnable {
     private String complain;
     private String pickUpLocation;
     private String userRole = "MM";
+    private Composite composite;
 
     public Tenant(String tenantName, Composite composite, int round) {
         this.tenantName = tenantName;
         this.composite = composite;
         this.round = round;
     }
-
-    private Composite composite;
 
     public Tenant(String tenantName, Composite composite, int round, String userName, String complain, String pickUpLocation) {
         this.tenantName = tenantName;

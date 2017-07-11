@@ -1,11 +1,11 @@
 package au.edu.swin.ict.serendip.event;
 
 public class EventQuery {
+    public boolean matched = false;
     private String event1Id;
     private String event2Id;
     private String operator;
     private String pid;
-    public boolean matched = false;
 
     /**
      * @param event1Id the id attribute of event 1

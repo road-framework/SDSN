@@ -20,6 +20,7 @@ import java.util.UUID;
  */
 public class AutoResponseDialog extends JDialog {
 
+    public static final String DELAYFIELD_VALUE = "0";
     // Variables declaration
     private JLabel jLabelRequest;
     private JLabel jLabelResponse;
@@ -42,7 +43,6 @@ public class AutoResponseDialog extends JDialog {
     private Player player;
     private FileManager fileMgr;
     private boolean isSelected = false;
-    public static final String DELAYFIELD_VALUE = "0";
 
     // End of variables declaration
 
@@ -91,8 +91,8 @@ public class AutoResponseDialog extends JDialog {
 
         populateMessageSignatures();
         generateMessage(modelRequest.getSelectedItem().toString(),
-                        modelResponse.getSelectedItem().toString(),
-                        "Message Response Content");
+                modelResponse.getSelectedItem().toString(),
+                "Message Response Content");
         getMessages();
         // register action listeners
         jCheckBoxDelay.addItemListener(new ItemListener() {
@@ -186,23 +186,23 @@ public class AutoResponseDialog extends JDialog {
             String msgContent = jTextAreaContent.getText().trim();
             if (!msgContent.equals("")) {
                 long delay = Integer.parseInt(this.jTextFieldDelay.getText()
-                                                                  .trim());
+                        .trim());
                 UUID uidAutoResp = player.setUpAutoResponder(modelRequest
-                                                                     .getSelectedItem().toString(), modelResponse
-                                                                     .getSelectedItem().toString(), msgContent, delay);
+                        .getSelectedItem().toString(), modelResponse
+                        .getSelectedItem().toString(), msgContent, delay);
                 player.startAutoResponseById(uidAutoResp);
                 JOptionPane.showMessageDialog(this, "Autoresponse Saved for "
-                                                    + jComboBoxRequest.getSelectedItem().toString());
+                        + jComboBoxRequest.getSelectedItem().toString());
                 this.dispose();
             } else
                 this.jLabelError.setText("Message Content is empty");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                                          "Exception: Interval should be numeric " + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception: Interval should be numeric " + ex.toString(),
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception: " + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -230,9 +230,9 @@ public class AutoResponseDialog extends JDialog {
         // TODO Auto-generated method stub
         isSelected = true;
         generateMessage(modelRequest.getSelectedItem().toString(),
-                        modelResponse.getSelectedItem().toString(), this.fileMgr
-                                .getFileContent(this.jComboBoxMessages
-                                                        .getSelectedItem().toString()));
+                modelResponse.getSelectedItem().toString(), this.fileMgr
+                        .getFileContent(this.jComboBoxMessages
+                                .getSelectedItem().toString()));
 
     }
 
@@ -269,8 +269,8 @@ public class AutoResponseDialog extends JDialog {
      */
     private void jComboBoxRequest_actionPerformed(ActionEvent e) {
         generateMessage(modelRequest.getSelectedItem().toString(),
-                        modelResponse.getSelectedItem().toString(),
-                        "Message Response Content");
+                modelResponse.getSelectedItem().toString(),
+                "Message Response Content");
     }
 
     /**
@@ -280,8 +280,8 @@ public class AutoResponseDialog extends JDialog {
      */
     private void jComboBoxResponse_actionPerformed(ActionEvent e) {
         generateMessage(modelRequest.getSelectedItem().toString(),
-                        modelResponse.getSelectedItem().toString(),
-                        "Message Response Content");
+                modelResponse.getSelectedItem().toString(),
+                "Message Response Content");
     }
 
     /**
@@ -296,11 +296,11 @@ public class AutoResponseDialog extends JDialog {
                                  String Content) {
         if (isSelected) {
             this.jTextAreaContent.setText(this.fileMgr
-                                                  .getFileContent(this.jComboBoxMessages.getSelectedItem()
-                                                                                        .toString()));
+                    .getFileContent(this.jComboBoxMessages.getSelectedItem()
+                            .toString()));
         } else {
             this.jTextAreaContent.setText(msgOutput + " >> " + msgInput + " : "
-                                          + Content);
+                    + Content);
         }
         jTextAreaContent.setCaretPosition(0);
     }

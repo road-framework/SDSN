@@ -7,16 +7,14 @@ import au.edu.swin.ict.serendip.core.mgmt.AdaptationException;
 public class DefUpdateTermAction implements DefAdaptAction {
     private String ctId = null;
     private String tmId = null;
-
+    private String property;
+    private String value;
     public DefUpdateTermAction(String ctId, String tmId, String property, String value) {
         this.ctId = ctId;
         this.tmId = tmId;
         this.property = property;
         this.value = value;
     }
-
-    private String property;
-    private String value;
 
     @Override
     public boolean adapt(Composite comp) throws AdaptationException {

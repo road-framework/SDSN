@@ -9,6 +9,28 @@ import antlr.collections.AST;
 
 public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
 
+    public static final String[] _tokenNames = {
+            "<0>",
+            "EOF",
+            "<2>",
+            "NULL_TREE_LOOKAHEAD",
+            "STRING",
+            "WS",
+            "LINE_COMMENT",
+            "LBRACE",
+            "RBRACE",
+            "EQUALS",
+            "SEMI",
+            "SCRIPT",
+            "BLOCK",
+            "COMMAND",
+            "PROPERTY"
+    };
+
+    public SerWalker() {
+        tokenNames = _tokenNames;
+    }
+
     /**
      * Helper method to remove quotes from a quoted string.
      *
@@ -20,10 +42,6 @@ public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
             return value.substring(1, value.length() - 1);
         }
         return value;
-    }
-
-    public SerWalker() {
-        tokenNames = _tokenNames;
     }
 
     /**
@@ -76,7 +94,7 @@ public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
      */
     public final void block(AST _t,
                             Script script
-                           ) throws RecognitionException {
+    ) throws RecognitionException {
 
         AST block_AST_in = (_t == ASTNULL) ? null : (AST) _t;
         AST b = null;
@@ -130,7 +148,7 @@ public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
      */
     public final void command(AST _t,
                               Block block
-                             ) throws RecognitionException {
+    ) throws RecognitionException {
 
         AST command_AST_in = (_t == ASTNULL) ? null : (AST) _t;
         AST c = null;
@@ -184,7 +202,7 @@ public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
      */
     public final void property(AST _t,
                                Command command
-                              ) throws RecognitionException {
+    ) throws RecognitionException {
 
         AST property_AST_in = (_t == ASTNULL) ? null : (AST) _t;
         AST p1 = null;
@@ -234,25 +252,6 @@ public class SerWalker extends antlr.TreeParser implements SerLexerTokenTypes {
         }
         _retTree = _t;
     }
-
-
-    public static final String[] _tokenNames = {
-            "<0>",
-            "EOF",
-            "<2>",
-            "NULL_TREE_LOOKAHEAD",
-            "STRING",
-            "WS",
-            "LINE_COMMENT",
-            "LBRACE",
-            "RBRACE",
-            "EQUALS",
-            "SEMI",
-            "SCRIPT",
-            "BLOCK",
-            "COMMAND",
-            "PROPERTY"
-    };
 
 }
 

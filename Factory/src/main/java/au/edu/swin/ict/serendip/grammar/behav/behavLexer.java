@@ -38,27 +38,267 @@ public class behavLexer extends Lexer {
     public static final int WORD = 24;
     public static final int WS = 25;
     public static final int XOR = 26;
+    static final String DFA9_eotS =
+            "\1\uffff\1\16\5\15\1\43\1\44\1\45\1\46\1\47\1\15\7\uffff\10\16\4" +
+                    "\15\1\70\2\15\7\uffff\4\16\1\77\5\16\4\15\1\uffff\1\111\1\15\4\16" +
+                    "\1\uffff\1\117\4\16\1\15\1\125\1\15\1\127\1\uffff\1\130\3\16\1\134" +
+                    "\1\uffff\1\135\1\16\1\137\1\16\1\15\1\uffff\1\15\2\uffff\3\16\2" +
+                    "\uffff\1\16\1\uffff\1\16\2\15\1\16\1\153\1\16\1\155\1\16\1\15\1" +
+                    "\160\1\16\1\uffff\1\162\1\uffff\1\16\1\164\1\uffff\1\165\1\uffff" +
+                    "\1\166\3\uffff";
+    static final String DFA9_eofS =
+            "\167\uffff";
+    static final String DFA9_minS =
+            "\1\11\1\102\13\50\2\uffff\1\52\4\uffff\1\145\1\164\1\170\2\157\1" +
+                    "\143\2\141\7\50\7\uffff\1\150\1\116\1\164\1\163\1\50\1\145\1\154" +
+                    "\1\162\2\163\4\50\1\uffff\2\50\2\141\1\145\1\164\1\uffff\1\50\1" +
+                    "\145\1\151\2\153\4\50\1\uffff\1\50\1\166\1\155\1\156\1\50\1\uffff" +
+                    "\1\50\1\160\1\50\1\116\1\50\1\uffff\1\50\2\uffff\1\151\1\145\1\144" +
+                    "\2\uffff\1\164\1\uffff\1\141\2\50\1\157\1\50\1\163\1\50\1\155\2" +
+                    "\50\1\162\1\uffff\1\50\1\uffff\1\145\1\50\1\uffff\1\50\1\uffff\1" +
+                    "\50\3\uffff";
+    static final String DFA9_maxS =
+            "\1\175\1\164\13\174\2\uffff\1\57\4\uffff\1\145\1\164\1\170\1\162" +
+                    "\1\157\1\143\2\141\7\174\7\uffff\1\150\1\116\1\164\1\163\1\174\1" +
+                    "\145\1\154\1\162\2\163\4\174\1\uffff\2\174\2\141\1\145\1\164\1\uffff" +
+                    "\1\174\1\145\1\151\2\153\4\174\1\uffff\1\174\1\166\1\155\1\156\1" +
+                    "\174\1\uffff\1\174\1\160\1\174\1\116\1\174\1\uffff\1\174\2\uffff" +
+                    "\1\151\1\145\1\144\2\uffff\1\164\1\uffff\1\141\2\174\1\157\1\174" +
+                    "\1\163\1\174\1\155\2\174\1\162\1\uffff\1\174\1\uffff\1\145\1\174" +
+                    "\1\uffff\1\174\1\uffff\1\174\3\uffff";
+    static final String DFA9_acceptS =
+            "\15\uffff\1\27\1\30\1\uffff\1\33\1\34\1\35\1\36\17\uffff\1\22\1" +
+                    "\23\1\24\1\25\1\26\1\31\1\32\16\uffff\1\17\6\uffff\1\5\11\uffff" +
+                    "\1\20\5\uffff\1\6\5\uffff\1\14\1\uffff\1\16\1\21\3\uffff\1\4\1\7" +
+                    "\1\uffff\1\11\13\uffff\1\2\1\uffff\1\10\2\uffff\1\15\1\uffff\1\3" +
+                    "\1\uffff\1\13\1\1\1\12";
+    static final String DFA9_specialS =
+            "\167\uffff}>";
+    // $ANTLR end "BEHAVIOR"
+    static final String[] DFA9_transitionS = {
+            "\2\23\1\uffff\2\23\22\uffff\1\23\1\uffff\1\16\5\uffff\1\7\1" +
+                    "\10\1\11\3\uffff\1\15\1\17\12\14\1\uffff\1\22\5\uffff\1\14\1" +
+                    "\2\21\14\1\3\6\14\3\uffff\1\13\1\1\1\uffff\4\14\1\4\12\14\1" +
+                    "\5\1\14\1\6\10\14\1\20\1\12\1\21",
+            "\1\24\20\uffff\1\31\1\32\15\uffff\1\25\2\uffff\1\26\12\uffff" +
+                    "\1\27\1\uffff\1\30\1\uffff\1\33",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
+                    "\1\34\25\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\1\35" +
+                    "\31\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\27\14" +
+                    "\1\36\2\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
+                    "\1\37\1\40\1\14\1\41\10\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
+                    "\1\42\13\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\32\14" +
+                    "\1\uffff\1\16",
+            "",
+            "",
+            "\1\50\4\uffff\1\51",
+            "",
+            "",
+            "",
+            "",
+            "\1\52",
+            "\1\53",
+            "\1\54",
+            "\1\55\1\56\1\uffff\1\57",
+            "\1\60",
+            "\1\61",
+            "\1\62",
+            "\1\63",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\7\14" +
+                    "\1\64\22\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
+                    "\1\65\7\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\23\14" +
+                    "\1\66\6\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
+                    "\1\67\7\14\1\uffff\1\16",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
+                    "\1\71\25\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\13\14" +
+                    "\1\72\16\14\1\uffff\1\16",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\73",
+            "\1\74",
+            "\1\75",
+            "\1\76",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\100",
+            "\1\101",
+            "\1\102",
+            "\1\103",
+            "\1\104",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\1\105" +
+                    "\31\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\12\14" +
+                    "\1\106\17\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
+                    "\1\107\25\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\23\14" +
+                    "\1\110\6\14\1\uffff\1\16",
+            "",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
+                    "\1\112\25\14\1\uffff\1\16",
+            "\1\113",
+            "\1\114",
+            "\1\115",
+            "\1\116",
+            "",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\120",
+            "\1\121",
+            "\1\122",
+            "\1\123",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\25\14" +
+                    "\1\124\4\14\1\uffff\1\16",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\15\14" +
+                    "\1\126\14\14\1\uffff\1\16",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "\1\131",
+            "\1\132",
+            "\1\133",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\136",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\140",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\10\14" +
+                    "\1\141\21\14\1\uffff\1\16",
+            "",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\3\14" +
+                    "\1\142\26\14\1\uffff\1\16",
+            "",
+            "",
+            "\1\143",
+            "\1\144",
+            "\1\145",
+            "",
+            "",
+            "\1\146",
+            "",
+            "\1\147",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
+                    "\1\150\13\14\1\uffff\1\16",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
+                    "\1\151\7\14\1\uffff\1\16",
+            "\1\152",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\154",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "\1\156",
+            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\21\14" +
+                    "\1\157\10\14\1\uffff\1\16",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "\1\161",
+            "",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "",
+            "\1\163",
+            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
+                    "\1\uffff\32\14\1\uffff\1\16",
+            "",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "",
+            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
+                    "\1\uffff\1\16",
+            "",
+            "",
+            ""
+    };
+    // $ANTLR end "BTNAME"
+    static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
+    // $ANTLR end "EXTENDS"
+    static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
+    // $ANTLR end "POST"
+    static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
+    // $ANTLR end "PP"
+    static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
+    // $ANTLR end "PRE"
+    static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
+    // $ANTLR end "ROLE"
+    static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
+    // $ANTLR end "SCRIPT"
+    static final short[][] DFA9_transition;
+    // $ANTLR end "TASK"
+
+    static {
+        int numStates = DFA9_transitionS.length;
+        DFA9_transition = new short[numStates][];
+        for (int i = 0; i < numStates; i++) {
+            DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
+        }
+    }
+    // $ANTLR end "TASKNAME"
+
+    protected DFA9 dfa9 = new DFA9(this);
+    // $ANTLR end "T__27"
+
+    public behavLexer() {
+    }
+    // $ANTLR end "T__28"
+
+    public behavLexer(CharStream input) {
+        this(input, new RecognizerSharedState());
+    }
+    // $ANTLR end "T__29"
+
+    public behavLexer(CharStream input, RecognizerSharedState state) {
+        super(input, state);
+    }
+    // $ANTLR end "T__30"
 
     // delegates
     // delegators
     public Lexer[] getDelegates() {
         return new Lexer[]{};
     }
-
-    public behavLexer() {
-    }
-
-    public behavLexer(CharStream input) {
-        this(input, new RecognizerSharedState());
-    }
-
-    public behavLexer(CharStream input, RecognizerSharedState state) {
-        super(input, state);
-    }
+    // $ANTLR end "T__31"
 
     public String getGrammarFileName() {
         return "E:\\ROAD\\workspaceIndigo\\BehavScripting\\src\\behav\\behav.g";
     }
+    // $ANTLR end "T__32"
 
     // $ANTLR start "BEHAVIOR"
     public final void mBEHAVIOR() throws RecognitionException {
@@ -79,7 +319,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "BEHAVIOR"
+    // $ANTLR end "T__33"
 
     // $ANTLR start "BTNAME"
     public final void mBTNAME() throws RecognitionException {
@@ -100,7 +340,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "BTNAME"
+    // $ANTLR end "LPAREN"
 
     // $ANTLR start "EXTENDS"
     public final void mEXTENDS() throws RecognitionException {
@@ -121,7 +361,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "EXTENDS"
+    // $ANTLR end "RPAREN"
 
     // $ANTLR start "POST"
     public final void mPOST() throws RecognitionException {
@@ -142,7 +382,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "POST"
+    // $ANTLR end "AND"
 
     // $ANTLR start "PP"
     public final void mPP() throws RecognitionException {
@@ -163,7 +403,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "PP"
+    // $ANTLR end "OR"
 
     // $ANTLR start "PRE"
     public final void mPRE() throws RecognitionException {
@@ -184,7 +424,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "PRE"
+    // $ANTLR end "XOR"
 
     // $ANTLR start "ROLE"
     public final void mROLE() throws RecognitionException {
@@ -205,7 +445,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "ROLE"
+    // $ANTLR end "WORD"
 
     // $ANTLR start "SCRIPT"
     public final void mSCRIPT() throws RecognitionException {
@@ -226,7 +466,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "SCRIPT"
+    // $ANTLR end "STRING"
 
     // $ANTLR start "TASK"
     public final void mTASK() throws RecognitionException {
@@ -247,7 +487,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "TASK"
+    // $ANTLR end "COMMENT"
 
     // $ANTLR start "TASKNAME"
     public final void mTASKNAME() throws RecognitionException {
@@ -268,7 +508,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "TASKNAME"
+    // $ANTLR end "LINE_COMMENT"
 
     // $ANTLR start "T__27"
     public final void mT__27() throws RecognitionException {
@@ -289,7 +529,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__27"
+    // $ANTLR end "LBRACK"
 
     // $ANTLR start "T__28"
     public final void mT__28() throws RecognitionException {
@@ -310,7 +550,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__28"
+    // $ANTLR end "RBRACK"
 
     // $ANTLR start "T__29"
     public final void mT__29() throws RecognitionException {
@@ -331,7 +571,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__29"
+    // $ANTLR end "SEMI"
 
     // $ANTLR start "T__30"
     public final void mT__30() throws RecognitionException {
@@ -352,7 +592,7 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__30"
+    // $ANTLR end "WS"
 
     // $ANTLR start "T__31"
     public final void mT__31() throws RecognitionException {
@@ -373,7 +613,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__31"
 
     // $ANTLR start "T__32"
     public final void mT__32() throws RecognitionException {
@@ -394,7 +633,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__32"
 
     // $ANTLR start "T__33"
     public final void mT__33() throws RecognitionException {
@@ -415,7 +653,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "T__33"
 
     // $ANTLR start "LPAREN"
     public final void mLPAREN() throws RecognitionException {
@@ -435,7 +672,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "LPAREN"
 
     // $ANTLR start "RPAREN"
     public final void mRPAREN() throws RecognitionException {
@@ -455,7 +691,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "RPAREN"
 
     // $ANTLR start "AND"
     public final void mAND() throws RecognitionException {
@@ -475,7 +710,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "AND"
 
     // $ANTLR start "OR"
     public final void mOR() throws RecognitionException {
@@ -495,7 +729,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "OR"
 
     // $ANTLR start "XOR"
     public final void mXOR() throws RecognitionException {
@@ -515,7 +748,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "XOR"
 
     // $ANTLR start "WORD"
     public final void mWORD() throws RecognitionException {
@@ -571,7 +803,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "WORD"
 
     // $ANTLR start "STRING"
     public final void mSTRING() throws RecognitionException {
@@ -693,7 +924,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "STRING"
 
     // $ANTLR start "COMMENT"
     public final void mCOMMENT() throws RecognitionException {
@@ -755,7 +985,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "COMMENT"
 
     // $ANTLR start "LINE_COMMENT"
     public final void mLINE_COMMENT() throws RecognitionException {
@@ -832,7 +1061,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "LINE_COMMENT"
 
     // $ANTLR start "LBRACK"
     public final void mLBRACK() throws RecognitionException {
@@ -852,7 +1080,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "LBRACK"
 
     // $ANTLR start "RBRACK"
     public final void mRBRACK() throws RecognitionException {
@@ -872,7 +1099,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "RBRACK"
 
     // $ANTLR start "SEMI"
     public final void mSEMI() throws RecognitionException {
@@ -892,7 +1118,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "SEMI"
 
     // $ANTLR start "WS"
     public final void mWS() throws RecognitionException {
@@ -950,7 +1175,6 @@ public class behavLexer extends Lexer {
             // do for sure before leaving
         }
     }
-    // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
         // E:\\ROAD\\workspaceIndigo\\BehavScripting\\src\\behav\\behav.g:1:8: ( BEHAVIOR | BTNAME | EXTENDS | POST | PP | PRE | ROLE | SCRIPT | TASK | TASKNAME | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | LPAREN | RPAREN | AND | OR | XOR | WORD | STRING | COMMENT | LINE_COMMENT | LBRACK | RBRACK | SEMI | WS )
@@ -1200,232 +1424,6 @@ public class behavLexer extends Lexer {
 
         }
 
-    }
-
-
-    protected DFA9 dfa9 = new DFA9(this);
-    static final String DFA9_eotS =
-            "\1\uffff\1\16\5\15\1\43\1\44\1\45\1\46\1\47\1\15\7\uffff\10\16\4" +
-            "\15\1\70\2\15\7\uffff\4\16\1\77\5\16\4\15\1\uffff\1\111\1\15\4\16" +
-            "\1\uffff\1\117\4\16\1\15\1\125\1\15\1\127\1\uffff\1\130\3\16\1\134" +
-            "\1\uffff\1\135\1\16\1\137\1\16\1\15\1\uffff\1\15\2\uffff\3\16\2" +
-            "\uffff\1\16\1\uffff\1\16\2\15\1\16\1\153\1\16\1\155\1\16\1\15\1" +
-            "\160\1\16\1\uffff\1\162\1\uffff\1\16\1\164\1\uffff\1\165\1\uffff" +
-            "\1\166\3\uffff";
-    static final String DFA9_eofS =
-            "\167\uffff";
-    static final String DFA9_minS =
-            "\1\11\1\102\13\50\2\uffff\1\52\4\uffff\1\145\1\164\1\170\2\157\1" +
-            "\143\2\141\7\50\7\uffff\1\150\1\116\1\164\1\163\1\50\1\145\1\154" +
-            "\1\162\2\163\4\50\1\uffff\2\50\2\141\1\145\1\164\1\uffff\1\50\1" +
-            "\145\1\151\2\153\4\50\1\uffff\1\50\1\166\1\155\1\156\1\50\1\uffff" +
-            "\1\50\1\160\1\50\1\116\1\50\1\uffff\1\50\2\uffff\1\151\1\145\1\144" +
-            "\2\uffff\1\164\1\uffff\1\141\2\50\1\157\1\50\1\163\1\50\1\155\2" +
-            "\50\1\162\1\uffff\1\50\1\uffff\1\145\1\50\1\uffff\1\50\1\uffff\1" +
-            "\50\3\uffff";
-    static final String DFA9_maxS =
-            "\1\175\1\164\13\174\2\uffff\1\57\4\uffff\1\145\1\164\1\170\1\162" +
-            "\1\157\1\143\2\141\7\174\7\uffff\1\150\1\116\1\164\1\163\1\174\1" +
-            "\145\1\154\1\162\2\163\4\174\1\uffff\2\174\2\141\1\145\1\164\1\uffff" +
-            "\1\174\1\145\1\151\2\153\4\174\1\uffff\1\174\1\166\1\155\1\156\1" +
-            "\174\1\uffff\1\174\1\160\1\174\1\116\1\174\1\uffff\1\174\2\uffff" +
-            "\1\151\1\145\1\144\2\uffff\1\164\1\uffff\1\141\2\174\1\157\1\174" +
-            "\1\163\1\174\1\155\2\174\1\162\1\uffff\1\174\1\uffff\1\145\1\174" +
-            "\1\uffff\1\174\1\uffff\1\174\3\uffff";
-    static final String DFA9_acceptS =
-            "\15\uffff\1\27\1\30\1\uffff\1\33\1\34\1\35\1\36\17\uffff\1\22\1" +
-            "\23\1\24\1\25\1\26\1\31\1\32\16\uffff\1\17\6\uffff\1\5\11\uffff" +
-            "\1\20\5\uffff\1\6\5\uffff\1\14\1\uffff\1\16\1\21\3\uffff\1\4\1\7" +
-            "\1\uffff\1\11\13\uffff\1\2\1\uffff\1\10\2\uffff\1\15\1\uffff\1\3" +
-            "\1\uffff\1\13\1\1\1\12";
-    static final String DFA9_specialS =
-            "\167\uffff}>";
-    static final String[] DFA9_transitionS = {
-            "\2\23\1\uffff\2\23\22\uffff\1\23\1\uffff\1\16\5\uffff\1\7\1" +
-            "\10\1\11\3\uffff\1\15\1\17\12\14\1\uffff\1\22\5\uffff\1\14\1" +
-            "\2\21\14\1\3\6\14\3\uffff\1\13\1\1\1\uffff\4\14\1\4\12\14\1" +
-            "\5\1\14\1\6\10\14\1\20\1\12\1\21",
-            "\1\24\20\uffff\1\31\1\32\15\uffff\1\25\2\uffff\1\26\12\uffff" +
-            "\1\27\1\uffff\1\30\1\uffff\1\33",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
-            "\1\34\25\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\1\35" +
-            "\31\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\27\14" +
-            "\1\36\2\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
-            "\1\37\1\40\1\14\1\41\10\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
-            "\1\42\13\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\32\14" +
-            "\1\uffff\1\16",
-            "",
-            "",
-            "\1\50\4\uffff\1\51",
-            "",
-            "",
-            "",
-            "",
-            "\1\52",
-            "\1\53",
-            "\1\54",
-            "\1\55\1\56\1\uffff\1\57",
-            "\1\60",
-            "\1\61",
-            "\1\62",
-            "\1\63",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\7\14" +
-            "\1\64\22\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
-            "\1\65\7\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\23\14" +
-            "\1\66\6\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
-            "\1\67\7\14\1\uffff\1\16",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
-            "\1\71\25\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\13\14" +
-            "\1\72\16\14\1\uffff\1\16",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\73",
-            "\1\74",
-            "\1\75",
-            "\1\76",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\100",
-            "\1\101",
-            "\1\102",
-            "\1\103",
-            "\1\104",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\1\105" +
-            "\31\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\12\14" +
-            "\1\106\17\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
-            "\1\107\25\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\23\14" +
-            "\1\110\6\14\1\uffff\1\16",
-            "",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\4\14" +
-            "\1\112\25\14\1\uffff\1\16",
-            "\1\113",
-            "\1\114",
-            "\1\115",
-            "\1\116",
-            "",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\120",
-            "\1\121",
-            "\1\122",
-            "\1\123",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\25\14" +
-            "\1\124\4\14\1\uffff\1\16",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\15\14" +
-            "\1\126\14\14\1\uffff\1\16",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "\1\131",
-            "\1\132",
-            "\1\133",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\136",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\140",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\10\14" +
-            "\1\141\21\14\1\uffff\1\16",
-            "",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\3\14" +
-            "\1\142\26\14\1\uffff\1\16",
-            "",
-            "",
-            "\1\143",
-            "\1\144",
-            "\1\145",
-            "",
-            "",
-            "\1\146",
-            "",
-            "\1\147",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\16\14" +
-            "\1\150\13\14\1\uffff\1\16",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\22\14" +
-            "\1\151\7\14\1\uffff\1\16",
-            "\1\152",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\154",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "\1\156",
-            "\3\16\5\uffff\12\14\7\uffff\32\14\3\uffff\2\16\1\uffff\21\14" +
-            "\1\157\10\14\1\uffff\1\16",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "\1\161",
-            "",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "",
-            "\1\163",
-            "\3\16\3\uffff\1\15\1\uffff\12\14\7\uffff\32\14\3\uffff\2\16" +
-            "\1\uffff\32\14\1\uffff\1\16",
-            "",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "",
-            "\3\16\5\uffff\12\16\7\uffff\32\16\3\uffff\2\16\1\uffff\32\16" +
-            "\1\uffff\1\16",
-            "",
-            "",
-            ""
-    };
-
-    static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
-    static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
-    static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
-    static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
-    static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
-    static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
-    static final short[][] DFA9_transition;
-
-    static {
-        int numStates = DFA9_transitionS.length;
-        DFA9_transition = new short[numStates][];
-        for (int i = 0; i < numStates; i++) {
-            DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
-        }
     }
 
     class DFA9 extends DFA {

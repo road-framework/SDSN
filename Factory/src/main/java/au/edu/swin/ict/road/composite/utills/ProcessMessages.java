@@ -7,6 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ProcessMessages {
 
+    private ConcurrentHashMap<String, MessageWrapper> collection =
+            new ConcurrentHashMap<String, MessageWrapper>();
+    private boolean canRemove;
+
     public boolean canRemove() {
         return canRemove;
     }
@@ -14,10 +18,6 @@ public class ProcessMessages {
     public void setTobeRemoved(boolean canRemove) {
         this.canRemove = canRemove;
     }
-
-    private ConcurrentHashMap<String, MessageWrapper> collection =
-            new ConcurrentHashMap<String, MessageWrapper>();
-    private boolean canRemove;
 
     public void putMessage(String messageID, MessageWrapper messageWrapper) {
         collection.put(messageID, messageWrapper);

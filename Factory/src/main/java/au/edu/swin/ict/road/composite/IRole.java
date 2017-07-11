@@ -149,10 +149,10 @@ public interface IRole {
     public List<Operation> getRequiredOperationsList();
 
     public Object getRequiredOperationObject()
-    throws RoleDescriptionGenerationException;
+            throws RoleDescriptionGenerationException;
 
     public Object getProvidedOperationObject()
-    throws RoleDescriptionGenerationException;
+            throws RoleDescriptionGenerationException;
 
     /**
      * @param playerBinding
@@ -177,13 +177,13 @@ public interface IRole {
 
     public FlowControlTable getIngressFlowControlTable();
 
-    public void setRoleMonitor(MonitorType monitorType);
-
     public void removeRoleMonitor();
 
     public void setMonitorRules(String rulesFile);
 
     public RoleMonitor getRoleMonitor();
+
+    public void setRoleMonitor(MonitorType monitorType);
 
     public RoleType getRoleType();
 

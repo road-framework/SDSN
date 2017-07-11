@@ -12,9 +12,9 @@ import java.util.*;
  * @author Ufuk Altin (altin.ufuk@gmail.com)
  */
 public class ObjectParameterHelper {
-    private static Logger log = Logger.getLogger(ObjectParameterHelper.class.getName());
     private static final HashSet<Class<?>> WRAPPER_TYPES = getWrapperTypes();
     private static final HashSet<String> PRIMITIVE_TYPES = getPrimitiveTypes();
+    private static Logger log = Logger.getLogger(ObjectParameterHelper.class.getName());
 
     /**
      * Cecks if a given class c is of primitive type. String in this case is a primitive type as well

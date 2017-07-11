@@ -26,12 +26,11 @@ import java.util.List;
  */
 public class OutTransform implements QueueListener {
 
-    private static Logger log = Logger.getLogger(OutTransform.class.getName());
-    private Role role;
-
     public final static String MSG_ID_SEPERATOR = ".";
     public final static String MSG_ID_REQUEST = "Req";
     public final static String MSG_ID_RESPONSE = "Res";
+    private static Logger log = Logger.getLogger(OutTransform.class.getName());
+    private Role role;
 
     public OutTransform(Role role) {
         this.role = role;
@@ -88,10 +87,10 @@ public class OutTransform implements QueueListener {
                 // from the pending out buffer and add it to the messages list
                 for (SrcMsgType srcMsg : srcMsgs) {
                     String msgId = srcMsg.getContractId() + MSG_ID_SEPERATOR
-                                   + srcMsg.getTermId() + MSG_ID_SEPERATOR;
+                            + srcMsg.getTermId() + MSG_ID_SEPERATOR;
 
                     msgId += (srcMsg.isIsResponse()) ? MSG_ID_RESPONSE
-                                                     : MSG_ID_REQUEST;
+                            : MSG_ID_REQUEST;
                     // get the message from the pending out buffer using the
                     // message
                     // id and correlation id
@@ -102,7 +101,7 @@ public class OutTransform implements QueueListener {
                     } else {
                         if (log.isInfoEnabled()) {
                             log.info("Message retrieval failed (" + msgId + "," + correlationId +
-                                     ") from PendingOutBuf of " + role.getId());
+                                    ") from PendingOutBuf of " + role.getId());
                         }
                     }
                 }
@@ -172,13 +171,13 @@ public class OutTransform implements QueueListener {
                 conjunctMessage.setClientID(messages.get(0).getClientID());       //TODO INDIKA
                 if (log.isInfoEnabled()) {
                     log.info("Transformed to OutMessage " + conjunctMessage.getMessageId() + " " +
-                             conjunctMessage.getClientID());
+                            conjunctMessage.getClientID());
                 }
                 Classifier classifier = conjunctMessage.getClassifier();
                 boolean isGateway = false;
                 if (classifier != null) {
                     isGateway = role.getPlayerBinding() == null &&
-                                !role.getId().equals(classifier.getProcessRole());
+                            !role.getId().equals(classifier.getProcessRole());
                 }
                 // based on the delivery type of the conjunct message,
                 // place it in the appropriate out queue
@@ -291,7 +290,7 @@ public class OutTransform implements QueueListener {
                             }
 
                             MessageWrapper mw = role.peekPendingOutBufMessage(msgId,
-                                                                              message.getCorrelationId());
+                                    message.getCorrelationId());
                             if (mw == null) {
                                 doConjunct = false;
                                 if (log.isInfoEnabled()) {
@@ -339,11 +338,11 @@ public class OutTransform implements QueueListener {
 
                             MessageWrapper conjunctMessage = null;
                             String xsltFilePath = messageTask.getSrcMsgs()
-                                                             .getTransformation();
+                                    .getTransformation();
                             if (xsltFilePath == null && messages.size() == 1) {
                                 conjunctMessage = messages.get(0);
                                 conjunctMessage.setDestinationPlayerBinding(role
-                                                                                    .getPlayerBinding());
+                                        .getPlayerBinding());
                                 conjunctMessage.setTaskId(messageTask.getId());
                                 conjunctMessage.setResponse(outMsgType.isIsResponse());
                             } else {
@@ -366,7 +365,7 @@ public class OutTransform implements QueueListener {
                                 tLogic.setTask(messageTask);
                                 tLogic.setDeliveryType(outMsgType.getDeliveryType());
                                 tLogic.setOperationName(outMsgType.getOperation()
-                                                                  .getName());
+                                        .getName());
                                 tLogic.setResponse(isResponse);
                                 tLogic.setRole(role);
                                 // invoke conjunct methods on the MessageAnalyzer

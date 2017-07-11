@@ -9,6 +9,28 @@ import antlr.collections.impl.BitSet;
 
 public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
 
+    public static final String[] _tokenNames = {
+            "<0>",
+            "EOF",
+            "<2>",
+            "NULL_TREE_LOOKAHEAD",
+            "STRING",
+            "WS",
+            "LINE_COMMENT",
+            "LBRACE",
+            "RBRACE",
+            "EQUALS",
+            "SEMI",
+            "SCRIPT",
+            "BLOCK",
+            "COMMAND",
+            "PROPERTY"
+    };
+    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
+    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
+    public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
+    public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
+
     protected SerParser(TokenBuffer tokenBuf, int k) {
         super(tokenBuf, k);
         tokenNames = _tokenNames;
@@ -31,11 +53,34 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
         this(lexer, 2);
     }
 
+
     public SerParser(ParserSharedInputState state) {
         super(state, 2);
         tokenNames = _tokenNames;
         buildTokenTypeASTClassMap();
         astFactory = new ASTFactory(getTokenTypeToASTClassMap());
+    }
+
+    private static final long[] mk_tokenSet_0() {
+        long[] data = {2L, 0L};
+        return data;
+    }
+
+    ;
+
+    private static final long[] mk_tokenSet_1() {
+        long[] data = {18L, 0L};
+        return data;
+    }
+
+    private static final long[] mk_tokenSet_2() {
+        long[] data = {272L, 0L};
+        return data;
+    }
+
+    private static final long[] mk_tokenSet_3() {
+        long[] data = {1040L, 0L};
+        return data;
     }
 
     /**
@@ -65,7 +110,7 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
             script_AST = (AST) astFactory.make((new ASTArray(2)).add(astFactory.create(SCRIPT, "SCRIPT")).add(script_AST));
             currentAST.root = script_AST;
             currentAST.child = script_AST != null && script_AST.getFirstChild() != null ?
-                               script_AST.getFirstChild() : script_AST;
+                    script_AST.getFirstChild() : script_AST;
             currentAST.advanceChildToEnd();
             script_AST = (AST) currentAST.root;
         } catch (RecognitionException ex) {
@@ -111,7 +156,7 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
             block_AST = (AST) astFactory.make((new ASTArray(2)).add(astFactory.create(BLOCK, "BLOCK")).add(block_AST));
             currentAST.root = block_AST;
             currentAST.child = block_AST != null && block_AST.getFirstChild() != null ?
-                               block_AST.getFirstChild() : block_AST;
+                    block_AST.getFirstChild() : block_AST;
             currentAST.advanceChildToEnd();
             block_AST = (AST) currentAST.root;
         } catch (RecognitionException ex) {
@@ -155,7 +200,7 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
             command_AST = (AST) astFactory.make((new ASTArray(2)).add(astFactory.create(COMMAND, "COMMAND")).add(command_AST));
             currentAST.root = command_AST;
             currentAST.child = command_AST != null && command_AST.getFirstChild() != null ?
-                               command_AST.getFirstChild() : command_AST;
+                    command_AST.getFirstChild() : command_AST;
             currentAST.advanceChildToEnd();
             command_AST = (AST) currentAST.root;
         } catch (RecognitionException ex) {
@@ -201,7 +246,7 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
             property_AST = (AST) astFactory.make((new ASTArray(2)).add(astFactory.create(PROPERTY, "PROPERTY")).add(property_AST));
             currentAST.root = property_AST;
             currentAST.child = property_AST != null && property_AST.getFirstChild() != null ?
-                               property_AST.getFirstChild() : property_AST;
+                    property_AST.getFirstChild() : property_AST;
             currentAST.advanceChildToEnd();
             property_AST = (AST) currentAST.root;
         } catch (RecognitionException ex) {
@@ -211,57 +256,8 @@ public class SerParser extends antlr.LLkParser implements SerLexerTokenTypes {
         returnAST = property_AST;
     }
 
-
-    public static final String[] _tokenNames = {
-            "<0>",
-            "EOF",
-            "<2>",
-            "NULL_TREE_LOOKAHEAD",
-            "STRING",
-            "WS",
-            "LINE_COMMENT",
-            "LBRACE",
-            "RBRACE",
-            "EQUALS",
-            "SEMI",
-            "SCRIPT",
-            "BLOCK",
-            "COMMAND",
-            "PROPERTY"
-    };
-
     protected void buildTokenTypeASTClassMap() {
         tokenTypeToASTClassMap = null;
     }
-
-    ;
-
-    private static final long[] mk_tokenSet_0() {
-        long[] data = {2L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
-
-    private static final long[] mk_tokenSet_1() {
-        long[] data = {18L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
-
-    private static final long[] mk_tokenSet_2() {
-        long[] data = {272L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
-
-    private static final long[] mk_tokenSet_3() {
-        long[] data = {1040L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
 
 }

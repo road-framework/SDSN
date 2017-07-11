@@ -11,12 +11,12 @@ import java.io.IOException;
 public class EPMLReader {
 
     public static ConfigurableEPC getEPCFromFile(File file)
-    throws FileNotFoundException, IOException {
+            throws FileNotFoundException, IOException {
         return readFile(file).getEPC();
     }
 
     public static EPCResult readFile(File file) throws FileNotFoundException,
-    IOException {
+            IOException {
         if (null == file) {
             return null;
         }

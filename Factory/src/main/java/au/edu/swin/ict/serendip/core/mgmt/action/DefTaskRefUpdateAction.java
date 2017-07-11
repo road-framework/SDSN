@@ -9,16 +9,14 @@ import au.edu.swin.ict.serendip.core.mgmt.AdaptationException;
 public class DefTaskRefUpdateAction implements DefAdaptAction {
     String bId;
     String tId;
-
+    String property;
+    String value;
     public DefTaskRefUpdateAction(String bId, String tId, String property, String value) {
         this.bId = bId;
         this.tId = tId;
         this.property = property;
         this.value = value;
     }
-
-    String property;
-    String value;
 
     @Override
     public boolean adapt(Composite comp) throws AdaptationException {

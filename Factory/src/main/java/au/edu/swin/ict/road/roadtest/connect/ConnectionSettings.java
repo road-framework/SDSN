@@ -32,15 +32,6 @@ public class ConnectionSettings {
     }
 
     /**
-     * Sets the name of the composite with which it needs to interact
-     *
-     * @param compositeName the compositeName to set which it needs to interact with
-     */
-    public void setCompositeName(String compositeName) {
-        this.compositeName = compositeName;
-    }
-
-    /**
      * Gets the composite name of the server which has been set, if none was set
      * null will be returned
      *
@@ -52,12 +43,12 @@ public class ConnectionSettings {
     }
 
     /**
-     * Sets the role id with which it needs to interact with
+     * Sets the name of the composite with which it needs to interact
      *
-     * @param roleId the roleId to set which it needs to interact with
+     * @param compositeName the compositeName to set which it needs to interact with
      */
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setCompositeName(String compositeName) {
+        this.compositeName = compositeName;
     }
 
     /**
@@ -69,5 +60,14 @@ public class ConnectionSettings {
      */
     public String getRoleId() {
         return roleId;
+    }
+
+    /**
+     * Sets the role id with which it needs to interact with
+     *
+     * @param roleId the roleId to set which it needs to interact with
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 }

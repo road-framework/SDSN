@@ -55,9 +55,15 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addInterCollaborationRegulationUnit(String ruId);
 
+    public OperationalMgtOpResult removeInterCollaborationRegulationUnit(String ruId);
+
     public OperationalMgtOpResult addInterProcessRegulationUnit(String ruId);
 
+    public OperationalMgtOpResult removeInterProcessRegulationUnit(String ruId);
+
     public OperationalMgtOpResult setInterVSNRegulation();
+
+    public OperationalMgtOpResult removeInterVSNRegulation();
 
     public OperationalMgtOpResult addSynchronizationRulesToRegulationUnit(String ruId, String ruleIds);
 
@@ -95,7 +101,15 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addGlobalRulesToInterCollaborationRegulationUnit(String ruId, String ruleIds);
 
-    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruId, String ruleIds);
+    public OperationalMgtOpResult removeGlobalRulesFromInterCollaborationRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult removeRoutingRulesFromInterProcessRegulationUnit(String ruId, String ruleIds);
+
+    public OperationalMgtOpResult removeRoutingRulesFromInterVSNRegulationUnit(String ruleIds);
+
+    public OperationalMgtOpResult addGlobalRulesToInterVSNRegulationUnit(String ruleIds);
+
+    public OperationalMgtOpResult removeGlobalRulesFromInterVSNRegulationUnit(String ruleIds);
 
     public OperationalMgtOpResult removeGlobalRulesFromRegulationUnit(String ruId, String ruleIds);
 
@@ -120,10 +134,6 @@ public interface IOperationalManagerRole {
     public OperationalMgtOpResult updateRegulationUnitOfVSNRegulationPolicy(String vsnId, String ruId, String property, String value);
 
     public OperationalMgtOpResult updateRegulationUnitsOfVSNRegulationPolicy(String vsnId, String ruId, String property, String value);
-
-    public OperationalMgtOpResult addRegulationUnitsToServiceNetworkRegulationPolicy(String ruIds);
-
-    public OperationalMgtOpResult removeRegulationUnitsFromServiceNetworkRegulationPolicy(String ruIds);
 
     public OperationalMgtOpResult updateServiceNetworkRegulationPolicy(String property, String value);
 

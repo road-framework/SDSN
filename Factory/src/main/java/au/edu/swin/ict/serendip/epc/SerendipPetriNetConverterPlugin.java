@@ -79,7 +79,7 @@ public class SerendipPetriNetConverterPlugin {
             return new PetriNetResult(reduced);
         } else {
             return new PetriNetResult((LogReader) original.getObjects()[i - 1],
-                                      reduced);
+                    reduced);
         }
     }
 
@@ -97,8 +97,8 @@ public class SerendipPetriNetConverterPlugin {
         // Check to use the weights if necessary
         // HV: Add both mappings. On completion, these will be filledd.
         PetriNet petrinet = EPCToPetriNetConverter.convert(baseEPC,
-                                                           new HashMap(), functionActivityMapping,
-                                                           xorconnectorChoiceMapping);
+                new HashMap(), functionActivityMapping,
+                xorconnectorChoiceMapping);
 
         HashSet visible = new HashSet();
 

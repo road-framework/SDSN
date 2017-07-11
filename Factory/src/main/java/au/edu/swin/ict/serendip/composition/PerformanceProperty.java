@@ -10,16 +10,16 @@ public class PerformanceProperty {
     public static final String MAXTIME = "MAXTIME";
     String value = null;
 
+    public PerformanceProperty(String string) {
+        super();
+        this.value = string;
+    }
+
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public PerformanceProperty(String string) {
-        super();
-        this.value = string;
     }
 }

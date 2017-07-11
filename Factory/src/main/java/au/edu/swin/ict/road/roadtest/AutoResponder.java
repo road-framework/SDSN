@@ -49,6 +49,16 @@ public class AutoResponder {
     }
 
     /**
+     * Is this auto responder stopped before
+     *
+     * @return the stopped true for autoresponder has been stoped before false
+     * if not
+     */
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    /**
      * Set the stopped to false if the auto response once has been stopped and
      * need to be started again
      *
@@ -57,16 +67,6 @@ public class AutoResponder {
      */
     public void setStopped(boolean stopped) {
         this.stopped = stopped;
-    }
-
-    /**
-     * Is this auto responder stopped before
-     *
-     * @return the stopped true for autoresponder has been stoped before false
-     * if not
-     */
-    public boolean isStopped() {
-        return stopped;
     }
 
     /**
@@ -85,13 +85,13 @@ public class AutoResponder {
     public void start() {
         if (!this.stopped) {
             ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                                 + this.player.getPlayerId()
-                                                 + " starts auto response for the signature: "
-                                                 + this.autoRespMessage.getOperationName()
-                                                 + " and respond with the signature: "
-                                                 + this.autoRespMessage.getOutMsgSignature()
-                                                 + " and the uid of this responder is: "
-                                                 + this.getUid());
+                    + this.player.getPlayerId()
+                    + " starts auto response for the signature: "
+                    + this.autoRespMessage.getOperationName()
+                    + " and respond with the signature: "
+                    + this.autoRespMessage.getOutMsgSignature()
+                    + " and the uid of this responder is: "
+                    + this.getUid());
             this.player.getInbox().addMessageArrivedEventListener(
                     this.msgArrivedEvtList);
             this.running = true;
@@ -106,14 +106,14 @@ public class AutoResponder {
         this.player.getInbox().removeMessageArrivedEventListener(
                 this.msgArrivedEvtList);
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.player.getPlayerId()
-                                             + " stops auto response for the signature: "
-                                             + this.autoRespMessage.getOperationName()
-                                             + " and response with the signature: "
-                                             + this.autoRespMessage.getOutMsgSignature()
-                                             + " and the uid of this responder is: "
-                                             + this.getUid()
-                                             + " " + this.autoRespMessage.getSentMessageCount() + " has been send");
+                + this.player.getPlayerId()
+                + " stops auto response for the signature: "
+                + this.autoRespMessage.getOperationName()
+                + " and response with the signature: "
+                + this.autoRespMessage.getOutMsgSignature()
+                + " and the uid of this responder is: "
+                + this.getUid()
+                + " " + this.autoRespMessage.getSentMessageCount() + " has been send");
         this.running = false;
         this.stopped = true;
     }

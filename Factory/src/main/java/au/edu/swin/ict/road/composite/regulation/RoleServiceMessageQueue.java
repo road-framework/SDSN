@@ -31,7 +31,7 @@ public class RoleServiceMessageQueue implements RoutingFunction {
             }
         } catch (InterruptedException ignored) {
             log.error("Error queuing the message : " + msg.getMessageWrapper().getMessageId()
-                      + " , " + ignored.getMessage(), ignored);
+                    + " , " + ignored.getMessage(), ignored);
         }
     }
 

@@ -66,11 +66,11 @@ public class EPCToSerendip {
         if ((functionId.indexOf("[") > 0) && (functionId.indexOf("]") > 0)) {
             // "[m1,m2]->{CO.doTask(24)}";
             msgsStr = functionId.substring(functionId.indexOf("[") + 1,
-                                           functionId.indexOf("]"));
+                    functionId.indexOf("]"));
             outMsgStr = functionId.substring(functionId.lastIndexOf("[") + 1,
-                                             functionId.lastIndexOf("]"));
+                    functionId.lastIndexOf("]"));
             taskStr = functionId.substring(functionId.indexOf("{") + 1,
-                                           functionId.indexOf("}"));
+                    functionId.indexOf("}"));
         } else {
             // or CO.doTask(24)
             taskStr = functionId;
@@ -83,16 +83,16 @@ public class EPCToSerendip {
         //If there are parenthesis we need to separate the process property from the task id
         if (taskSplit[1].contains("(")) {
             prop = taskSplit[1].substring(taskSplit[1].indexOf("(") + 1,
-                                          taskSplit[1].indexOf(")"));
+                    taskSplit[1].indexOf(")"));
             taskId = taskSplit[1].substring(taskSplit[1].indexOf(".") + 1,
-                                            taskSplit[1].indexOf("("));
+                    taskSplit[1].indexOf("("));
         }
 
 
         // Task t = new Task(engine, pi, taskId, null, null, msgsStr,
         // taskId+"_Msg", role, new PerformanceProperty(new Integer(prop)), bt);
         Task t = new Task(engine, pi, taskId, null, null, role, null, //TODO: Need to update
-                          new PerformanceProperty(prop), bt);
+                new PerformanceProperty(prop), bt);
         t.setTaskDetailedId(functionId);// This is to track back the epc
         // function if needed
         return t;

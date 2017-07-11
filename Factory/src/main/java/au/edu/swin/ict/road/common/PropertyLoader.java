@@ -34,7 +34,7 @@ public class PropertyLoader {
             }
 
             filePath = "conf" +
-                       File.separatorChar + filePath;
+                    File.separatorChar + filePath;
             if (log.isDebugEnabled()) {
                 log.debug("Loading a file '" + filePath + "' from classpath");
             }

@@ -23,36 +23,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class Inbox {
 
-    private List<Message> messageHistory = null;
-
-    // private boolean terminated;
-    private Role role = null;
-    private IOrganiserRole organiser = null;
-
     /**
      * The list of who is listing to message arrived events
      */
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
-
-    /**
-     * Method allows to register to for event
-     *
-     * @param listener Register a <code>listener</code> to the listener list
-     */
-    public void addMessageArrivedEventListener(
-            MessageArrivedEventListener listener) {
-        listenerList.add(MessageArrivedEventListener.class, listener);
-    }
-
-    /**
-     * Method allows to unregister for event
-     *
-     * @param listener Unregister a <code>listener</code> to the listener list
-     */
-    public void removeMessageArrivedEventListener(
-            MessageArrivedEventListener listener) {
-        listenerList.remove(MessageArrivedEventListener.class, listener);
-    }
+    private List<Message> messageHistory = null;
+    // private boolean terminated;
+    private Role role = null;
+    private IOrganiserRole organiser = null;
 
     /**
      * Construct the <code>Inbox</code> and provide the <code>Role</code> to
@@ -85,10 +63,29 @@ public class Inbox {
         });
         role.bind("ROADtest UI");
         ROADTest.logROADTest.log(Level.INFO,
-                                 "ROADTest Inbox created for player id: " + role.getId()
-                                 + " and listening to push notifications.");
+                "ROADTest Inbox created for player id: " + role.getId()
+                        + " and listening to push notifications.");
     }
 
+    /**
+     * Method allows to register to for event
+     *
+     * @param listener Register a <code>listener</code> to the listener list
+     */
+    public void addMessageArrivedEventListener(
+            MessageArrivedEventListener listener) {
+        listenerList.add(MessageArrivedEventListener.class, listener);
+    }
+
+    /**
+     * Method allows to unregister for event
+     *
+     * @param listener Unregister a <code>listener</code> to the listener list
+     */
+    public void removeMessageArrivedEventListener(
+            MessageArrivedEventListener listener) {
+        listenerList.remove(MessageArrivedEventListener.class, listener);
+    }
 
     /**
      * Returns a sorted List of Messages which has been received

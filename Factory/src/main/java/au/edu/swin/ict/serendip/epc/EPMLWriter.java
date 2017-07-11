@@ -63,7 +63,7 @@ public class EPMLWriter {
 
         Process dot = Runtime.getRuntime().exec(
                 "dot" + System.getProperty("file.separator") + "dot.exe -q5 \""
-                + dotFile.getAbsolutePath() + "\"");
+                        + dotFile.getAbsolutePath() + "\"");
 
         parser = new Parser(dot.getInputStream(), System.err);
         parser.parse();
@@ -100,7 +100,7 @@ public class EPMLWriter {
     public void writeToStream(OutputStream os) {
         try {
             epcexport.export(new ProvidedObject("EPC Hierarchy",
-                                                new Object[]{this.epc}), os);
+                    new Object[]{this.epc}), os);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

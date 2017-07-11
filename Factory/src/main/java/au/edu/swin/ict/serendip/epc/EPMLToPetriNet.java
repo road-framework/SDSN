@@ -32,7 +32,7 @@ public class EPMLToPetriNet {
         // alternative
 
         ProvidedObject epcObject = new ProvidedObject("EPC",
-                                                      new Object[]{epc});
+                new Object[]{epc});
         PetriNetResult pnr = (PetriNetResult) epc2pn.convert(epcObject);
 
         this.pn = pnr.getPetriNet();

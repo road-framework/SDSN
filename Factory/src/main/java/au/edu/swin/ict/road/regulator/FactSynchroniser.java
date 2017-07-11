@@ -71,30 +71,25 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Jovino Margathe (jmargathe@gmail.com)
  */
 public class FactSynchroniser {
+    public final static int REGULATOR_ACTIVE_MODE = 0;
+    public final static int REGULATOR_PASSIVE_MODE = 1;
+    public final static String synchroniserOperation = "set";
+    public final static String requestFactOperation = "get";
+    public final static String requestAllFactsOperation = "getAll";
     private Logger log = Logger.getLogger(FactSynchroniser.class.getName());
-
     // FactSynchroniser-related variables
     private String factType;
+    // START HERE
     private List<FactObject> externalFacts;
     private List<FactObject> internalFacts;
     private FactObject factStructure;
     private Role associatedRole;
     private FactRegime factRegime;
-    // START HERE
-
     private IContextProvider ctxProvider;
     private ContextProvider defaultCtxProvider = new ContextProvider(this);
-
     private int regulatorMode;
     private int factSource;
     private long syncInterval;
-
-    public final static int REGULATOR_ACTIVE_MODE = 0;
-    public final static int REGULATOR_PASSIVE_MODE = 1;
-
-    public final static String synchroniserOperation = "set";
-    public final static String requestFactOperation = "get";
-    public final static String requestAllFactsOperation = "getAll";
 
     public FactSynchroniser(String factType, Role associatedRole) {
         this.factType = factType;
@@ -121,7 +116,7 @@ public class FactSynchroniser {
         this.factStructure = null;
         this.associatedRole = associatedRole;
         this.factRegime = new FactRegime(isContextProvider, isMonitor,
-                                         acquisitionSyncInterval, provisionSyncInterval, onChange);
+                acquisitionSyncInterval, provisionSyncInterval, onChange);
     }
 
     /**
@@ -146,21 +141,21 @@ public class FactSynchroniser {
         try {
             if (this.regulatorMode == FactSynchroniser.REGULATOR_ACTIVE_MODE) {
                 this.ctxProvider = (IContextProvider) Class.forName(ctxClass)
-                                                           .newInstance();
+                        .newInstance();
                 this.ctxProvider = defaultCtxProvider;
             } else if (this.regulatorMode == FactSynchroniser.REGULATOR_PASSIVE_MODE)
                 this.ctxProvider = defaultCtxProvider;
         } catch (InstantiationException e) {
             log.fatal("Unable to instantiate context provider for regulator ["
-                      + this.getId() + "]");
+                    + this.getId() + "]");
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             log.fatal("Unable to access context provider for regulator ["
-                      + this.getId() + "]");
+                    + this.getId() + "]");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             log.fatal("Unable to find context provider class for regulator ["
-                      + this.getId() + "]");
+                    + this.getId() + "]");
             e.printStackTrace();
         }
     }
@@ -222,10 +217,10 @@ public class FactSynchroniser {
                         internalFacts.add(factObj.clone());
                     else if (log.isInfoEnabled()) {
                         log.warn("Fact ["
-                                 + factObj.getFactType()
-                                 + "] with unique id ["
-                                 + factObj.getUniqueId()
-                                 + "] not loaded since it does not follow the same structure");
+                                + factObj.getFactType()
+                                + "] with unique id ["
+                                + factObj.getUniqueId()
+                                + "] not loaded since it does not follow the same structure");
                     }
                 }
 
@@ -233,12 +228,12 @@ public class FactSynchroniser {
                 if (!internalFacts.isEmpty()) {
                     if (log.isInfoEnabled()) {
                         log.info("Facts loaded for regulator [" + this.getId()
-                                 + "]");
+                                + "]");
                     }
                 } else {
                     if (log.isInfoEnabled()) {
                         log.warn("Facts not equal in structure. No facts loaded for regulator ["
-                                 + this.getId() + "]");
+                                + this.getId() + "]");
                     }
                 }
             }
@@ -256,7 +251,7 @@ public class FactSynchroniser {
                         // internal
                         // facts
                         FactObject extFact = externalFacts.get(externalFacts
-                                                                       .indexOf(intFact));
+                                .indexOf(intFact));
 
                         // Check whether the fact is updated from the previous
                         // fact
@@ -344,6 +339,10 @@ public class FactSynchroniser {
         return this.internalFacts;
     }
 
+    public void setInternalFacts(List<FactObject> internalFacts) {
+        this.internalFacts = internalFacts;
+    }
+
     /**
      * Function to retrieve a list of external facts within this regulator.
      *
@@ -353,18 +352,8 @@ public class FactSynchroniser {
         return this.externalFacts;
     }
 
-    /**
-     * Procedure to set the fact source of the <code>FactSynchroniser</code>.
-     * This procedure is not meant to be used explicitly, but only as a
-     * convenience when checking the fact source of the facts inside the
-     * <code>FactSynchroniser</code>. The fact source of this
-     * <code>FactSynchroniser</code> is set automatically during the composite
-     * boot time.
-     *
-     * @param source the fact source.
-     */
-    public void setFactSource(int source) {
-        this.factSource = source;
+    public void setExternalFacts(List<FactObject> externalFacts) {
+        this.externalFacts = externalFacts;
     }
 
     /**
@@ -382,6 +371,34 @@ public class FactSynchroniser {
             return FactObject.EXTERNAL_SOURCE;
         else
             return FactObject.INTERNAL_SOURCE;
+    }
+
+    /**
+     * Procedure to set the fact source of the <code>FactSynchroniser</code>.
+     * This procedure is not meant to be used explicitly, but only as a
+     * convenience when checking the fact source of the facts inside the
+     * <code>FactSynchroniser</code>. The fact source of this
+     * <code>FactSynchroniser</code> is set automatically during the composite
+     * boot time.
+     *
+     * @param source the fact source.
+     */
+    public void setFactSource(int source) {
+        this.factSource = source;
+    }
+
+    /**
+     * Function to retrieve the regulator mode that is set to this
+     * <code>FactSynchroniser</code>.
+     *
+     * @return the regulator mode, 0 if <em>active</em> or 1 if <em>passive</em>
+     * .
+     */
+    public int getRegulatorMode() {
+        if (this.regulatorMode == FactSynchroniser.REGULATOR_PASSIVE_MODE)
+            return FactSynchroniser.REGULATOR_PASSIVE_MODE;
+        else
+            return FactSynchroniser.REGULATOR_ACTIVE_MODE;
     }
 
     /**
@@ -407,17 +424,17 @@ public class FactSynchroniser {
     }
 
     /**
-     * Function to retrieve the regulator mode that is set to this
+     * Function to retrieve the synchronisation interval of this
      * <code>FactSynchroniser</code>.
+     * <p/>
+     * Please note that although the sync interval can be stated in the
+     * composite XML, if the regulator is set to <em>passive</em> mode, then the
+     * sync interval will be ignored.
      *
-     * @return the regulator mode, 0 if <em>active</em> or 1 if <em>passive</em>
-     * .
+     * @return the synchronisation interval in milliseconds.
      */
-    public int getRegulatorMode() {
-        if (this.regulatorMode == FactSynchroniser.REGULATOR_PASSIVE_MODE)
-            return FactSynchroniser.REGULATOR_PASSIVE_MODE;
-        else
-            return FactSynchroniser.REGULATOR_ACTIVE_MODE;
+    public long getSyncInterval() {
+        return this.syncInterval;
     }
 
     /**
@@ -433,20 +450,6 @@ public class FactSynchroniser {
      */
     public void setSyncInterval(long time) {
         this.syncInterval = time;
-    }
-
-    /**
-     * Function to retrieve the synchronisation interval of this
-     * <code>FactSynchroniser</code>.
-     * <p/>
-     * Please note that although the sync interval can be stated in the
-     * composite XML, if the regulator is set to <em>passive</em> mode, then the
-     * sync interval will be ignored.
-     *
-     * @return the synchronisation interval in milliseconds.
-     */
-    public long getSyncInterval() {
-        return this.syncInterval;
     }
 
     public String getFactType() {
@@ -481,14 +484,6 @@ public class FactSynchroniser {
         this.factRegime = factRegime;
     }
 
-    public void setExternalFacts(List<FactObject> externalFacts) {
-        this.externalFacts = externalFacts;
-    }
-
-    public void setInternalFacts(List<FactObject> internalFacts) {
-        this.internalFacts = internalFacts;
-    }
-
     /**
      * Function to handle facts arriving from the player. If the facts sent by
      * the player are either new or changed (from existing), then they will be
@@ -521,10 +516,10 @@ public class FactSynchroniser {
                 } else {
                     if (log.isInfoEnabled()) {
                         log.warn("Fact ["
-                                 + factObj.getFactType()
-                                 + "] with unique id ["
-                                 + factObj.getUniqueId()
-                                 + "] not loaded since it does not follow the same structure");
+                                + factObj.getFactType()
+                                + "] with unique id ["
+                                + factObj.getUniqueId()
+                                + "] not loaded since it does not follow the same structure");
                     }
                 }
             }
@@ -544,7 +539,7 @@ public class FactSynchroniser {
                     // internal
                     // facts
                     FactObject extFact = externalFacts.get(externalFacts
-                                                                   .indexOf(intFact));
+                            .indexOf(intFact));
 
                     // Check whether the fact is updated from the previous
                     // fact
@@ -554,7 +549,7 @@ public class FactSynchroniser {
                         // and toggle the updated flag
                         if (intFact.isUpdated(extFact)) {
                             externalFacts.set(externalFacts.indexOf(intFact),
-                                              intFact.clone());
+                                    intFact.clone());
                             isExternalListChanged = true;
                         }
                     } else {
@@ -591,7 +586,7 @@ public class FactSynchroniser {
             while (iter1.hasNext()) {
                 FactObject extFact = iter1.next();
                 internalFacts.set(internalFacts.indexOf(extFact),
-                                  extFact.clone());
+                        extFact.clone());
             }
             Iterator<FactObject> iter2 = removeInternalFactsList.iterator();
             while (iter2.hasNext()) {
@@ -679,7 +674,7 @@ public class FactSynchroniser {
         SOAPEnvelope factSOAPEnvelope = createSOAPEnvelope(factOp, xmlFacts);
         // log.info("soap envelope in fact syn: " + factSOAPEnvelope);
         MessageWrapper factMessage = new MessageWrapper(factSOAPEnvelope, "set"
-                                                                          + this.getFactType() + "Facts", false);
+                + this.getFactType() + "Facts", false);
         factMessage.setResponse(false);
         factMessage.setSyncType(SyncType.OUT);
         if (analyseRegime()) {
@@ -731,9 +726,9 @@ public class FactSynchroniser {
             xmlFacts += "</return>";
         }
         SOAPEnvelope factSOAPEnvelope = createSOAPEnvelope(factOp + "Response",
-                                                           xmlFacts);
+                xmlFacts);
         MessageWrapper factMessage = new MessageWrapper(factSOAPEnvelope,
-                                                        factOp, true);
+                factOp, true);
 
         this.putMessage(factMessage);
 
@@ -751,9 +746,9 @@ public class FactSynchroniser {
         response += result;
         response += "</return>";
         SOAPEnvelope factSOAPEnvelope = createSOAPEnvelope(factOp + "Response",
-                                                           response);
+                response);
         MessageWrapper factMessage = new MessageWrapper(factSOAPEnvelope,
-                                                        factOp, true);
+                factOp, true);
 
         this.putMessage(factMessage);
     }

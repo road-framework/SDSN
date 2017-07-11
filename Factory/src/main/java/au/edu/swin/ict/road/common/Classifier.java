@@ -10,6 +10,8 @@ public class Classifier implements Serializable {
 
     private String vsnId;
     private String processId;
+    private String processRole;
+    private String processInsId;
 
     public Classifier(String vsnId, String processId, String processInsId) {
         this.processId = processId;
@@ -44,16 +46,13 @@ public class Classifier implements Serializable {
         this.processInsId = processInsId;
     }
 
-    private String processRole;
-    private String processInsId;
-
-    public void setProcessRole(String processRole) {
-        this.processRole = processRole;
-    }
-
     public String getProcessRole() {
 
         return processRole;
+    }
+
+    public void setProcessRole(String processRole) {
+        this.processRole = processRole;
     }
 
     public String getVsnId() {
@@ -77,10 +76,10 @@ public class Classifier implements Serializable {
     @Override
     public String toString() {
         return "Classifier{" +
-               "vsnId='" + vsnId + '\'' +
-               ", processId='" + processId + '\'' +
-               ", processRole='" + processRole + '\'' +
-               ", processInsId='" + processInsId + '\'' +
-               '}';
+                "vsnId='" + vsnId + '\'' +
+                ", processId='" + processId + '\'' +
+                ", processRole='" + processRole + '\'' +
+                ", processInsId='" + processInsId + '\'' +
+                '}';
     }
 }

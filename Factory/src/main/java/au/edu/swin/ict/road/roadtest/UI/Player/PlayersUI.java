@@ -28,13 +28,12 @@ import java.util.Map;
  */
 public class PlayersUI extends JDialog implements OrganiserListener {
 
-    // this Map holds the player tabs for the current composition
-    private Map<String, PlayerPanelComponent> playerTabs;
     private static final String MESSAGE_FOLDER = System.getProperty("user.dir")
-                                                 + File.separator + "messages";
-
+            + File.separator + "messages";
     private static final String startServerText = "Start Server", stopServerText = "Stop Server";
     private static final int organiserPanelPositionIndex = 0;
+    // this Map holds the player tabs for the current composition
+    private Map<String, PlayerPanelComponent> playerTabs;
     private JTabbedPane jTabbedPane1;
     private JPanel contentPane;
     private ROADTest myComposite;
@@ -123,7 +122,7 @@ public class PlayersUI extends JDialog implements OrganiserListener {
         jPanelOrganiser.setLayout(null);
         jPanelOrganiser.setOpaque(false);
         jTabbedPane1.insertTab("Organiser", null, jPanelOrganiser, "",
-                               organiserPanelPositionIndex);
+                organiserPanelPositionIndex);
     }
 
     /**
@@ -136,7 +135,7 @@ public class PlayersUI extends JDialog implements OrganiserListener {
             // if the tab already exists
             if (!playerTabs.containsKey(p.getRole().getId())) {
                 PlayerPanelComponent jPanelPlayer = new PlayerPanelComponent(p,
-                                                                             fileMgr);
+                        fileMgr);
                 jPanelPlayer.setLayout(null);
                 jPanelPlayer.setOpaque(false);
 
@@ -215,21 +214,21 @@ public class PlayersUI extends JDialog implements OrganiserListener {
                 myComposite.startAsServer();
                 server.setText(stopServerText);
                 JOptionPane.showMessageDialog(this, "The server is started.",
-                                              "Server Status", JOptionPane.PLAIN_MESSAGE);
+                        "Server Status", JOptionPane.PLAIN_MESSAGE);
             } else {
                 myComposite.stopAsServer();
                 server.setText(startServerText);
                 JOptionPane.showMessageDialog(this, "The server is stopped.",
-                                              "Server Status", JOptionPane.PLAIN_MESSAGE);
+                        "Server Status", JOptionPane.PLAIN_MESSAGE);
             }
 
         } catch (RemoteException e) {
             JOptionPane.showMessageDialog(this, "Exception: Remote Exception "
-                                                + e.toString(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    + e.toString(), "Exception", JOptionPane.ERROR_MESSAGE);
         } catch (MalformedURLException e) {
             JOptionPane.showMessageDialog(this,
-                                          "Exception: Malformed URL Exception " + e.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception: Malformed URL Exception " + e.toString(),
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 

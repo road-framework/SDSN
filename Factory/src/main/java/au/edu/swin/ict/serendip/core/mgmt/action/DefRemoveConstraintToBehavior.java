@@ -9,13 +9,12 @@ import au.edu.swin.ict.serendip.core.mgmt.AdaptationException;
  */
 public class DefRemoveConstraintToBehavior implements DefAdaptAction {
     private String bId;
+    private String cId;
 
     public DefRemoveConstraintToBehavior(String bId, String cId) {
         this.bId = bId;
         this.cId = cId;
     }
-
-    private String cId;
 
     @Override
     public boolean adapt(Composite comp) throws AdaptationException {

@@ -34,13 +34,13 @@ public class EPCModifier {
             EPCConnector connector = null;
             if (connectorStr.equals("AND")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.AND,
-                                                              epc));
+                        epc));
             } else if (connectorStr.equals("OR")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.OR,
-                                                              epc));
+                        epc));
             } else if (connectorStr.equals("XOR")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.XOR,
-                                                              epc));
+                        epc));
             } else {
                 return null;
             }
@@ -84,13 +84,13 @@ public class EPCModifier {
             EPCConnector connector = null;
             if (connectorStr.equals("AND")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.AND,
-                                                              epc));
+                        epc));
             } else if (connectorStr.equals("OR")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.OR,
-                                                              epc));
+                        epc));
             } else if (connectorStr.equals("XOR")) {
                 connector = epc.addConnector(new EPCConnector(EPCConnector.XOR,
-                                                              epc));
+                        epc));
             } else {
                 return null;
             }
@@ -120,7 +120,7 @@ public class EPCModifier {
         // Now change its identifier
         // Syntax for Task = [source, messages]->{RoleId.TaskId(prop)}
         String newFunctionId = functionId.replaceFirst("\\(.+\\)", "(" + val
-                                                                   + ")");
+                + ")");
         func.setIdentifier(newFunctionId);
         return epc;
     }

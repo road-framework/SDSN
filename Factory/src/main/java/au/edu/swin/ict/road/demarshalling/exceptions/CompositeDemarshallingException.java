@@ -16,7 +16,7 @@ public class CompositeDemarshallingException extends Exception {
      */
     public CompositeDemarshallingException() {
         super("The composite could not be demarshelled. It is likely one more" +
-              "elements in the composite xml data file was incorrect.");
+                "elements in the composite xml data file was incorrect.");
     }
 
     /**

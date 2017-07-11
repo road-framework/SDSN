@@ -11,11 +11,11 @@ package au.edu.swin.ict.road.regulator.types;
 public class Facts {
     private Fact[] fact;
 
-    public void setFact(Fact[] facts) {
-        this.fact = facts;
-    }
-
     public Fact[] getFact() {
         return fact;
+    }
+
+    public void setFact(Fact[] facts) {
+        this.fact = facts;
     }
 }

@@ -23,7 +23,7 @@ public class DefaultVerification implements SerendipVerification {
 
     @Override
     public VerificationResult verify(ModelProviderFactory modelProviderFactory)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         // TODO Auto-generated method stub
         VerificationResult result = new VerificationResult();
         Composition comp = modelProviderFactory.getEngine().getComposition();
@@ -47,16 +47,16 @@ public class DefaultVerification implements SerendipVerification {
     @Override
     public VerificationResult verifyBehavior(
             ModelProviderFactory modelProviderFactory, String behaviorId)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         // TODO Auto-generated method stub
         return new VerificationResult(true,
-                                      "Default verification completed on " + behaviorId, null, null);
+                "Default verification completed on " + behaviorId, null, null);
     }
 
     @Override
     public VerificationResult verifyProcessDef(
             ModelProviderFactory modelProviderFactory, String definitionId)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         // TODO Auto-generated method stub
         Composition comp = modelProviderFactory.getEngine().getComposition();
         List<ProcessDefinitionsType> processDefinitionsTypeList = comp
@@ -72,7 +72,7 @@ public class DefaultVerification implements SerendipVerification {
 
         // If no exceptions we are good!
         return new VerificationResult(false, "Cannot find " + definitionId
-                                             + " . Check the id ", null, null);
+                + " . Check the id ", null, null);
     }
 
     /**
@@ -132,11 +132,11 @@ public class DefaultVerification implements SerendipVerification {
         }
         if (!eventsStr.equals("")) {
             throw new SerendipVerificationException(" Events " + eventsStr
-                                                    + " may not get triggered for PD=" + pd.getId());
+                    + " may not get triggered for PD=" + pd.getId());
         }
 
         return new VerificationResult(true,
-                                      "Default verification completed on " + pd.getId(), null, null);
+                "Default verification completed on " + pd.getId(), null, null);
     }
 
     /**
@@ -148,7 +148,7 @@ public class DefaultVerification implements SerendipVerification {
     // DONE
     private boolean isInitEvent(Composition comp, String eventId) {
         List<EventType> eventTypeList = comp.getComposite().getSmcBinding()
-                                            .getEvents().getEvent();
+                .getEvents().getEvent();
         for (EventType et : eventTypeList) {
             // TODO : Check is init event
             if (et.getId().equals(eventId)) {
@@ -163,7 +163,7 @@ public class DefaultVerification implements SerendipVerification {
     @Override
     public VerificationResult verifyProcessInstance(ProcessInstance pi,
                                                     ModelProviderFactory modelProviderFactory)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         ConfigurableEPC epc = null;
         try {
             epc = pi.getCurrentProcessView().getViewAsEPC();
@@ -171,7 +171,7 @@ public class DefaultVerification implements SerendipVerification {
             // TODO Auto-generated catch block
             e.printStackTrace();
             throw new SerendipVerificationException("Failed to verify "
-                                                    + pi.getClassifier().getProcessInsId() + ". Reason:" + e.getMessage());
+                    + pi.getClassifier().getProcessInsId() + ". Reason:" + e.getMessage());
         }
         // ProcessDefinitionType pdType = pi.getPDef();
         ConstraintType[] constraints = pi.getAllConstants();
@@ -183,9 +183,9 @@ public class DefaultVerification implements SerendipVerification {
             boolean success = this.verifyConstriant(constraint, epc);
             if (!success) {
                 return new VerificationResult(false,
-                                              "Failed to verify constraint " + constraint.getId()
-                                              + " " + constraint.getExpression(), null,
-                                              constraint.getId());
+                        "Failed to verify constraint " + constraint.getId()
+                                + " " + constraint.getExpression(), null,
+                        constraint.getId());
             }
         }
 
@@ -209,10 +209,10 @@ public class DefaultVerification implements SerendipVerification {
         // [E1] before [E2] within T units
         // Identify the type of constraint.
         if (expression.contains(ConstraintParser.BEFORE)
-            && !expression.contains(ConstraintParser.WITHIN)) {
+                && !expression.contains(ConstraintParser.WITHIN)) {
 
         } else if (expression.contains(ConstraintParser.BEFORE)
-                   && expression.contains(ConstraintParser.WITHIN)) {
+                && expression.contains(ConstraintParser.WITHIN)) {
             // [E1] before [E2] within T units
             String event1Id = tokens[0]
                     .substring(1, tokens[0].lastIndexOf("]"));
@@ -225,7 +225,7 @@ public class DefaultVerification implements SerendipVerification {
             event2 = epc.getEvent(event2Id);
             if ((null == event1) || (null == event2)) {
                 throw new SerendipVerificationException("Cannot find event "
-                                                        + event1Id + " or " + event2Id);
+                        + event1Id + " or " + event2Id);
             }
 
             HashSet edgesSetBtwn = epc.getEdgesBetween(event1, event2);
@@ -234,7 +234,7 @@ public class DefaultVerification implements SerendipVerification {
                 ModelGraphEdge edge = (ModelGraphEdge) iter.next();
                 if (log.isDebugEnabled()) {
                     log.debug(edge.getHead().getName() + "->"
-                              + edge.getTail().getName());
+                            + edge.getTail().getName());
                 }
             }
             // Now we need to calculate what is the time taken from e1 to e2
@@ -262,7 +262,7 @@ public class DefaultVerification implements SerendipVerification {
         ConfigurableEPC epc = event1.getEPC();
 
         Iterator<EPCObject> succIter = epc.getSucceedingElements(event1)
-                                          .iterator();
+                .iterator();
         while (succIter.hasNext()) {
             EPCObject next = succIter.next();
             if (next instanceof EPCConnector) {

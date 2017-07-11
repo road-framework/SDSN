@@ -54,7 +54,7 @@ public class PetriNetWriter {
                 * the array
                 */
             if ((null != initPlaces)
-                && (isInArray(p.getIdentifier(), initPlaces))) {// check if
+                    && (isInArray(p.getIdentifier(), initPlaces))) {// check if
                 // the place
                 // need to
                 // be marked
@@ -64,14 +64,14 @@ public class PetriNetWriter {
             }
 
             bw.write("  <place id=\"" + p.getNumber() + "\" label=\""
-                     + p.getIdentifier() + "\"  initialMarking=\""
-                     + initialMarking + " \">\n"
-                     + "      <graphics  color=\"0\">\n"
-                     + "         <position   x=\"" + (x + X) + "\" y=\""
-                     + (y + Y) + "\" />\n"
-                     + "         <deltaLabel deltax=\"11\" deltay=\"10\"/>\n "
-                     + "      </graphics>\n" + "      <scheduling gamma=\"" + 0
-                     + "\" omega=\"" + 0 + "\"/> \n");
+                    + p.getIdentifier() + "\"  initialMarking=\""
+                    + initialMarking + " \">\n"
+                    + "      <graphics  color=\"0\">\n"
+                    + "         <position   x=\"" + (x + X) + "\" y=\""
+                    + (y + Y) + "\" />\n"
+                    + "         <deltaLabel deltax=\"11\" deltay=\"10\"/>\n "
+                    + "      </graphics>\n" + "      <scheduling gamma=\"" + 0
+                    + "\" omega=\"" + 0 + "\"/> \n");
 
             bw.write("  </place>");
             bw.newLine();
@@ -96,17 +96,17 @@ public class PetriNetWriter {
                 // values do not have the
                 // length>5
                 Task task = EPCToSerendip.parseTaskId(t.getIdentifier(), null,
-                                                      null, null);
+                        null, null);
                 eft = lft = Integer.parseInt(task.getProperty().getValue());
                 tLabel = task.getId();
             }
             bw.write("  <transition id=\"" + t.getNumber() + "\" label=\""
-                     + tLabel + "\" eft=\"" + eft + "\" lft=\"" + lft + "\">\n"
-                     + "     <graphics  color=\"0\">\n"
-                     + "        <position   x=\"" + (x + X) + "\" y=\""
-                     + (y + Y) + "\"/>\n"
-                     + "        <deltaLabel deltax=\"20\" deltay=\"20\"/>\n "
-                     + "     </graphics>\n");
+                    + tLabel + "\" eft=\"" + eft + "\" lft=\"" + lft + "\">\n"
+                    + "     <graphics  color=\"0\">\n"
+                    + "        <position   x=\"" + (x + X) + "\" y=\""
+                    + (y + Y) + "\"/>\n"
+                    + "        <deltaLabel deltax=\"20\" deltay=\"20\"/>\n "
+                    + "     </graphics>\n");
 
             bw.write("  </transition>");
             bw.newLine();
@@ -142,10 +142,10 @@ public class PetriNetWriter {
             }
 
             bw.write("  <arc " + "place=\"" + placeStr + "\" "
-                     + "transition=\"" + transStr + "\" " + "type=\""
-                     + transType + "\" " + "weight=\"" + 1 + "\"" + ">\n"
-                     + "     <nail xnail=\"0\" ynail=\"0\"/>\n"
-                     + "     <graphics color=\"0\">\n" + "     </graphics> \n");
+                    + "transition=\"" + transStr + "\" " + "type=\""
+                    + transType + "\" " + "weight=\"" + 1 + "\"" + ">\n"
+                    + "     <nail xnail=\"0\" ynail=\"0\"/>\n"
+                    + "     <graphics color=\"0\">\n" + "     </graphics> \n");
 
             bw.write("    </arc>\n\n");
 
@@ -154,10 +154,10 @@ public class PetriNetWriter {
         // Final steps
         bw
                 .write("  <preferences> \n"
-                       + "		<colorPlace  c0=\"SkyBlue2\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"yellow\"  c5=\"brown\" />\n"
-                       + "		<colorTransition  c0=\"yellow\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"SkyBlue2\"  c5=\"brown\" />\n"
-                       + "		<colorArc  c0=\"black\"  c1=\"gray\"  c2=\"blue\"  c3=\"#beb760\"  c4=\"#be5c7e\"  c5=\"#46be90\" />\n"
-                       + " 	</preferences>\n");
+                        + "		<colorPlace  c0=\"SkyBlue2\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"yellow\"  c5=\"brown\" />\n"
+                        + "		<colorTransition  c0=\"yellow\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"SkyBlue2\"  c5=\"brown\" />\n"
+                        + "		<colorArc  c0=\"black\"  c1=\"gray\"  c2=\"blue\"  c3=\"#beb760\"  c4=\"#be5c7e\"  c5=\"#46be90\" />\n"
+                        + " 	</preferences>\n");
 
         bw.write("</TPN>");
 
@@ -202,10 +202,10 @@ public class PetriNetWriter {
 
         bw
                 .write("  <preferences> \n"
-                       + "		<colorPlace  c0=\"SkyBlue2\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"yellow\"  c5=\"brown\" />\n"
-                       + "		<colorTransition  c0=\"yellow\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"SkyBlue2\"  c5=\"brown\" />\n"
-                       + "		<colorArc  c0=\"black\"  c1=\"gray\"  c2=\"blue\"  c3=\"#beb760\"  c4=\"#be5c7e\"  c5=\"#46be90\" />\n"
-                       + " 	</preferences>\n");
+                        + "		<colorPlace  c0=\"SkyBlue2\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"yellow\"  c5=\"brown\" />\n"
+                        + "		<colorTransition  c0=\"yellow\"  c1=\"gray\"  c2=\"cyan\"  c3=\"green\"  c4=\"SkyBlue2\"  c5=\"brown\" />\n"
+                        + "		<colorArc  c0=\"black\"  c1=\"gray\"  c2=\"blue\"  c3=\"#beb760\"  c4=\"#be5c7e\"  c5=\"#46be90\" />\n"
+                        + " 	</preferences>\n");
 
         bw.write("</TPN>");
     }
@@ -223,13 +223,13 @@ public class PetriNetWriter {
 
             // Now we need to know the P->T or T->P
             if ((tail.object instanceof Transition)
-                && (head.object instanceof Place)) {
+                    && (head.object instanceof Place)) {
                 placeStr = "" + ((Place) head.object).getNumber();
                 transStr = "" + ((Transition) tail.object).getNumber();
                 transType = "TransitionPlace";
 
             } else if ((tail.object instanceof Place)
-                       && (head.object instanceof Transition)) {
+                    && (head.object instanceof Transition)) {
                 placeStr = "" + ((Place) tail.object).getNumber();
                 transStr = "" + ((Transition) head.object).getNumber();
                 transType = "PlaceTransition";
@@ -249,10 +249,10 @@ public class PetriNetWriter {
              * xnail="0" ynail="0"/> <graphics color="0"> </graphics> </arc>
              */
             bw.write("  <arc " + "place=\"" + placeStr + "\" "
-                     + "transition=\"" + transStr + "\" " + "type=\""
-                     + transType + "\" " + "weight=\"" + 1 + "\"" + ">\n"
-                     + "     <nail xnail=\"0\" ynail=\"0\"/>\n"
-                     + "     <graphics color=\"0\">\n" + "     </graphics> \n");
+                    + "transition=\"" + transStr + "\" " + "type=\""
+                    + transType + "\" " + "weight=\"" + 1 + "\"" + ">\n"
+                    + "     <nail xnail=\"0\" ynail=\"0\"/>\n"
+                    + "     <graphics color=\"0\">\n" + "     </graphics> \n");
 
             bw.write("    </arc>\n\n");
             i++;
@@ -298,22 +298,22 @@ public class PetriNetWriter {
                 // bw.write("    <place id=\"place_" + p.getNumber() + "\">\n" +
                 bw
                         .write("  <place id=\""
-                               + p.getNumber()
-                               + "\" label=\""
-                               + p.getIdentifier()
-                               + "\"  initialMarking=\""
-                               + 0
-                               + " \">\n"
-                               + "      <graphics  color=\"0\">\n"
-                               + "         <position   x=\""
-                               + (x + X)
-                               + "\" y=\""
-                               + (y + Y)
-                               + "\" />\n"
-                               + "         <deltaLabel deltax=\"11\" deltay=\"10\"/>\n "
-                               + "      </graphics>\n"
-                               + "      <scheduling gamma=\"" + 0
-                               + "\" omega=\"" + 0 + "\"/> \n");
+                                + p.getNumber()
+                                + "\" label=\""
+                                + p.getIdentifier()
+                                + "\"  initialMarking=\""
+                                + 0
+                                + " \">\n"
+                                + "      <graphics  color=\"0\">\n"
+                                + "         <position   x=\""
+                                + (x + X)
+                                + "\" y=\""
+                                + (y + Y)
+                                + "\" />\n"
+                                + "         <deltaLabel deltax=\"11\" deltay=\"10\"/>\n "
+                                + "      </graphics>\n"
+                                + "      <scheduling gamma=\"" + 0
+                                + "\" omega=\"" + 0 + "\"/> \n");
 
                 bw.write("  </place>");
                 bw.newLine();
@@ -356,22 +356,22 @@ public class PetriNetWriter {
                      */
                 bw
                         .write("  <transition id=\""
-                               + t.getNumber()
-                               + "\" label=\""
-                               + t.getIdentifier()
-                               + "\" eft=\""
-                               + 0
-                               + "\" lft=\""
-                               + 0
-                               + "\">\n"
-                               + "     <graphics  color=\"0\">\n"
-                               + "        <position   x=\""
-                               + (x + X)
-                               + "\" y=\""
-                               + (y + Y)
-                               + "\"/>\n"
-                               + "        <deltaLabel deltax=\"20\" deltay=\"20\"/>\n "
-                               + "     </graphics>\n");
+                                + t.getNumber()
+                                + "\" label=\""
+                                + t.getIdentifier()
+                                + "\" eft=\""
+                                + 0
+                                + "\" lft=\""
+                                + 0
+                                + "\">\n"
+                                + "     <graphics  color=\"0\">\n"
+                                + "        <position   x=\""
+                                + (x + X)
+                                + "\" y=\""
+                                + (y + Y)
+                                + "\"/>\n"
+                                + "        <deltaLabel deltax=\"20\" deltay=\"20\"/>\n "
+                                + "     </graphics>\n");
 
                 bw.write("  </transition>");
                 bw.newLine();

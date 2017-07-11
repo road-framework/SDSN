@@ -44,7 +44,7 @@ public class MergeTest {
 
         ConfigurableEPC[] epcs = {
                 PatternToEPC.convertToEPC("  eTowRequested * ePickupLocKnown ", "TT.tTow",
-                                          "eCarTowed ^ eTowFailed")
+                        "eCarTowed ^ eTowFailed")
         };
         ConfigurableEPC result = epcs[0];
         frameIt(new SerendipEPCView("epc0", epcs[0]));
@@ -68,9 +68,9 @@ public class MergeTest {
 
     public static void showMergeDiff() throws SerendipException {
         ConfigurableEPC epc1 = PatternToEPC.convertToEPC("e11 AND e12", "t1",
-                                                         "e19 OR e25");
+                "e19 OR e25");
         ConfigurableEPC epc2 = PatternToEPC.convertToEPC("e11 AND e3 AND e19 ",
-                                                         "t2", "e24 | e25");
+                "t2", "e24 | e25");
         show(epc1, "epc1");
         show(epc2, "epc2");
         EPCMergeMethod mergeMethod = new EPCMergeMethod(epc1, epc2);
@@ -100,68 +100,68 @@ public class MergeTest {
         ConfigurableEPC[] epcs = {
                 // BT_Complain
                 PatternToEPC.convertToEPC("[ANY]", "MM.Complain",
-                                          "[ComplaintRcvd]"),
+                        "[ComplaintRcvd]"),
                 PatternToEPC.convertToEPC("[ComplaintRcvd]", "CO.SendAck",
-                                          "[ComplaintAcked]"),
+                        "[ComplaintAcked]"),
                 PatternToEPC.convertToEPC("[ComplaintRcvd]", "CO.Analyze",
-                                          "[TowReqd] | [RepairReqd]"),
+                        "[TowReqd] | [RepairReqd]"),
 
                 // BT_Towing
                 PatternToEPC.convertToEPC("[TowReqd]", "CO.SendTowReq",
-                                          "[TowReqSent] * [PickupLocKnown]"),
+                        "[TowReqSent] * [PickupLocKnown]"),
                 PatternToEPC.convertToEPC("[TowReqSent]", "GR.SendGRLocation",
-                                          "[DestinationKnown]"),
+                        "[DestinationKnown]"),
                 PatternToEPC.convertToEPC(
                         "[PickupLocKnown] * [DestinationKnown]", "TC.Tow",
                         "[CarTowSuccess] | [CarTowFailed]"),
                 PatternToEPC.convertToEPC("[CarTowSuccess]", "GR.TowingAck",
-                                          "[TowingAckedByGR]"),
+                        "[TowingAckedByGR]"),
                 PatternToEPC.convertToEPC(
                         "[CarTowSuccess] * [TowingAckedByGR]", "CO.PayTow",
                         "[TCPaid]"),
 
                 PatternToEPC.convertToEPC("[CarTowSuccess]", "GR.PayIncentive",
-                                          "[IncentivePaid]"),
+                        "[IncentivePaid]"),
 
                 // BT_Repair
                 PatternToEPC.convertToEPC("[RepairReqd]", "CO.SendGRReq",
-                                          "[GRReqSent]"),
+                        "[GRReqSent]"),
                 PatternToEPC.convertToEPC("[GRReqSent] * [CarTowSuccess]",
-                                          "GR.ReqAdvPay", "[AdvPayReqSent]"),
+                        "GR.ReqAdvPay", "[AdvPayReqSent]"),
                 PatternToEPC.convertToEPC(
                         "[CarTowSuccess] * [AdvPayReqSent]", "CO.PayAdvToGR",
                         "[AdvToGRPaid]"),
                 PatternToEPC
                         .convertToEPC("[CarTowSuccess] * [AdvToGRPaid]",
-                                      "GR.Repair",
-                                      "[CarRepairSuccess] * [CarRepairFailed]"),
+                        "GR.Repair",
+                        "[CarRepairSuccess] * [CarRepairFailed]"),
                 PatternToEPC.convertToEPC("[CarRepairSuccess]", "MM.Inspect",
-                                          "[CarRepairOKConfirmed] | [CarRepairFailureNoified]"),
+                        "[CarRepairOKConfirmed] | [CarRepairFailureNoified]"),
                 PatternToEPC.convertToEPC(
                         "[CarRepairSuccess] * [CarRepairOKConfirmed] ",
                         "CO.PayGR", "[GRPaid]"),
 
                 // BT_ProvideTaxi
                 PatternToEPC.convertToEPC("[ANY]", "MM.CallTaxi",
-                                          "[TaxiCallRcvd]"),
+                        "[TaxiCallRcvd]"),
                 PatternToEPC.convertToEPC("[ComplaintRcvd] * [TaxiCallRcvd]",
-                                          "CO.SendTaxiReq", "[TaxiRequested]"),
+                        "CO.SendTaxiReq", "[TaxiRequested]"),
                 PatternToEPC.convertToEPC("[TaxiRequested]",
-                                          "TX.AckTaxiReqRcvd", "[TaxiReqAcked]"),
+                        "TX.AckTaxiReqRcvd", "[TaxiReqAcked]"),
                 PatternToEPC.convertToEPC("[TaxiReqAcked]",
-                                          "TX.ProvideTaxiService", "[TaxiSvcProvided]"),
+                        "TX.ProvideTaxiService", "[TaxiSvcProvided]"),
                 PatternToEPC.convertToEPC("[TaxiSvcProvided]",
-                                          "TX.ProvideTaxiService", "[PayTaxi]"),
+                        "TX.ProvideTaxiService", "[PayTaxi]"),
 
                 // BT_ProvideHotel
                 PatternToEPC.convertToEPC("[ANY]", "MM.RequestAccommodation",
-                                          "[HotelReqd]"),
+                        "[HotelReqd]"),
                 PatternToEPC.convertToEPC("[ComplaintRcvd] * [HotelReqd]",
-                                          "CO.BookHotel", "[HotelReqSent]"),
+                        "CO.BookHotel", "[HotelReqSent]"),
                 PatternToEPC.convertToEPC("[HotelReqSent]",
-                                          "HT.SendBookingConfirmation", "[HotelBooked]"),
+                        "HT.SendBookingConfirmation", "[HotelBooked]"),
                 PatternToEPC.convertToEPC("[HotelBooked]",
-                                          "CO.NotifyMemberOfHotel", "[MemberNotifiedAboutHotel]"),
+                        "CO.NotifyMemberOfHotel", "[MemberNotifiedAboutHotel]"),
 
         };
 
@@ -209,7 +209,7 @@ public class MergeTest {
         // mergedEpc = mergeMethod.analyse();
 
         MergeBehavior merge = new MergeBehavior(new ConfigurableEPC[]{epc1,
-                                                                      epc2, epc3, epc4, epc5});
+                epc2, epc3, epc4, epc5});
         mergedEpc = merge.getMergedBehaviorAsEPC();
 
         EPMLWriter w = new EPMLWriter(mergedEpc, true);

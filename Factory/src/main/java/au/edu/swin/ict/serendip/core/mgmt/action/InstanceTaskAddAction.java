@@ -50,8 +50,8 @@ public class InstanceTaskAddAction implements InstanceAdaptAction, Constants {
 
         //Lets add task
         Task task = new Task(pi.getEngine(), pi, this.taskId,
-                             this.preep, this.postep, this.obligrole, null,
-                             new PerformanceProperty(this.pp), parentBt);
+                this.preep, this.postep, this.obligrole, null,
+                new PerformanceProperty(this.pp), parentBt);
 
         pi.addTask(this.btId, task);
 

@@ -41,10 +41,6 @@ public enum DirectionType {
         value = v;
     }
 
-    public String value() {
-        return value;
-    }
-
     public static DirectionType fromValue(String v) {
         for (DirectionType c : DirectionType.values()) {
             if (c.value.equals(v)) {
@@ -52,6 +48,10 @@ public enum DirectionType {
             }
         }
         throw new IllegalArgumentException(v);
+    }
+
+    public String value() {
+        return value;
     }
 
 }

@@ -7,10 +7,10 @@ import java.util.List;
  * TODO
  */
 public abstract class ManagementState implements IEvent {
-    private String id;
     public static String STATE_ACTIVE = "active";
     public static String STATE_PASSIVE = "passive";
     public static String STATE_QUIESCENCE = "quiescence";
+    private String id;
     private String state = STATE_PASSIVE;
     private List<ManagementStateChangeListener> listeners = new ArrayList<ManagementStateChangeListener>();
 

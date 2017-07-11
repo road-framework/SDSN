@@ -27,13 +27,13 @@ public class Weight implements Serializable {
         count.set(weight);
     }
 
+    public int getWeight() {
+        return count.get();
+    }
+
     public void setWeight(int weight) {
         this.weight = weight;
         count.set(weight);
-    }
-
-    public int getWeight() {
-        return count.get();
     }
 
     public String getId() {

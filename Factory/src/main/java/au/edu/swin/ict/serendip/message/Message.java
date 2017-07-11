@@ -12,14 +12,6 @@ public class Message {
     Role from = null;
     Role to = null;
 
-    public Object getContents() {
-        return contents;
-    }
-
-    public void setContents(Object contents) {
-        this.contents = contents;
-    }
-
     public Message(String id) {
         super();
         this.id = id;
@@ -29,6 +21,14 @@ public class Message {
     public Message(String id, String pid) {
         this(id);
         this.pid = pid;
+    }
+
+    public Object getContents() {
+        return contents;
+    }
+
+    public void setContents(Object contents) {
+        this.contents = contents;
     }
 
     public String getId() {

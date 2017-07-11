@@ -8,8 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * TODO
  */
 public class ProcessInstanceState {
-    private ConcurrentHashMap<String, StateRecord> cache = new ConcurrentHashMap<String, StateRecord>();
     private final Lock lock = new ReentrantLock();
+    private ConcurrentHashMap<String, StateRecord> cache = new ConcurrentHashMap<String, StateRecord>();
     private String processInsId;
 
     public ProcessInstanceState(String processInsId) {

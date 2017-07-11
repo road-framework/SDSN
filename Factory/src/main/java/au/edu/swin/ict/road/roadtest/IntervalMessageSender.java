@@ -27,16 +27,6 @@ public class IntervalMessageSender extends Thread {
     private IntervalMessage intervalMessage;
 
     /**
-     * Returns the uuid of this object
-     *
-     * @return the uid the uuid of this object
-     */
-    public UUID getUid() {
-        return uid;
-
-    }
-
-    /**
      * Constructor which takes the object <code>IntervalMessage</code> and a
      * Reference to the player.
      *
@@ -53,6 +43,16 @@ public class IntervalMessageSender extends Thread {
     }
 
     /**
+     * Returns the uuid of this object
+     *
+     * @return the uid the uuid of this object
+     */
+    public UUID getUid() {
+        return uid;
+
+    }
+
+    /**
      * Terminates the message sending
      *
      * @param terminate set to true to stop sending messages
@@ -60,22 +60,13 @@ public class IntervalMessageSender extends Thread {
     public void setTerminate(boolean terminate) {
         this.terminate = terminate;
         ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                             + this.player.getPlayerId()
-                                             + " stops interval message with the signature: "
-                                             + this.intervalMessage.getOperationName()
-                                             + " and the uid of this interval message is: "
-                                             + this.getUid()
-                                             + " " + this.intervalMessage.getSentMessageCount() + " has been send");
+                + this.player.getPlayerId()
+                + " stops interval message with the signature: "
+                + this.intervalMessage.getOperationName()
+                + " and the uid of this interval message is: "
+                + this.getUid()
+                + " " + this.intervalMessage.getSentMessageCount() + " has been send");
         this.stopped = true;
-    }
-
-    /**
-     * Set the stopped to false so the Interval Message can start with forward
-     *
-     * @param stopped to false if this interval message needs to started again
-     */
-    public void setStopped(boolean stopped) {
-        this.stopped = stopped;
     }
 
     /**
@@ -87,6 +78,15 @@ public class IntervalMessageSender extends Thread {
      */
     public boolean getStopped() {
         return this.stopped;
+    }
+
+    /**
+     * Set the stopped to false so the Interval Message can start with forward
+     *
+     * @param stopped to false if this interval message needs to started again
+     */
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
     }
 
     /**
@@ -112,11 +112,11 @@ public class IntervalMessageSender extends Thread {
     public void run() {
         if (!this.stopped) {
             ROADTest.logROADTest.log(Level.INFO, "Player with id:"
-                                                 + this.player.getPlayerId()
-                                                 + " starts interval message with the signature: "
-                                                 + this.intervalMessage.getOperationName()
-                                                 + " and the uid of this interval message is: "
-                                                 + this.getUid());
+                    + this.player.getPlayerId()
+                    + " starts interval message with the signature: "
+                    + this.intervalMessage.getOperationName()
+                    + " and the uid of this interval message is: "
+                    + this.getUid());
             do {
                 this.player.sendMessage(this.intervalMessage);
                 try {
@@ -126,7 +126,7 @@ public class IntervalMessageSender extends Thread {
                     e.printStackTrace();
                 }
                 fireMyEvent(new IntervalMessageSentEvent(this,
-                                                         this.intervalMessage));
+                        this.intervalMessage));
             } while (!terminate);
         }
     }

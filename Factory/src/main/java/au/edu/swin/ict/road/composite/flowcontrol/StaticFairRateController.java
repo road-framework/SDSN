@@ -15,10 +15,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class StaticFairRateController implements FlowControlFunction {
 
     private static Logger log = Logger.getLogger(StaticFairRateController.class);
+    private final Lock lock = new ReentrantLock();
     private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
     private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
     private long endTime = -1;
-    private final Lock lock = new ReentrantLock();
     private Composite composite;
 
     public StaticFairRateController(long interval, int threshold, Composite composite) {
@@ -79,7 +79,7 @@ public class StaticFairRateController implements FlowControlFunction {
             if (limit >= threshold) {
                 sourceEvent.setBlocked(true);
                 return new FlowControlResult(FlowControlResult.DENIED,
-                                             "Throughput threshold has reached : " + threshold);
+                        "Throughput threshold has reached : " + threshold);
             } else {
                 capacity.increaseUsedCapacity();
             }

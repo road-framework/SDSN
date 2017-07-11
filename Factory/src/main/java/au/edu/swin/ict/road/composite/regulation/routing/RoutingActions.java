@@ -35,8 +35,8 @@ import java.util.List;
 public class RoutingActions extends BasedActions {
 
     private static Logger log = Logger.getLogger(RoutingActions.class.getName());
-    private Role role;
     final private RoutingRegTable routingRegTable;
+    private Role role;
 
     public RoutingActions(Role role) {
         super(role.getComposite());
@@ -65,7 +65,7 @@ public class RoutingActions extends BasedActions {
 
         if (rateController.isNewConfig(conf)) {
             System.out.println("Re-instantiation of the regulation mechanism SimpleAdmissionController " +
-                               newId + " with configuration " + conf);
+                    newId + " with configuration " + conf);
             rateController = new SimpleAdmissionController(conf.trim());
             routingRegTable.removeFlowControlFunction(newId);
             routingRegTable.addFlowControlFunction(newId, rateController);
@@ -387,7 +387,7 @@ public class RoutingActions extends BasedActions {
                 //TODO verify COS condition
             } catch (SerendipException e) {
                 log.error("Error creating a process instance for the message " +
-                          message.getMessageId() + "," + e.getMessage(), e);
+                        message.getMessageId() + "," + e.getMessage(), e);
             }
         }
     }

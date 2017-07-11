@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProcessDefinition extends BaseManagedElement {
 
+    private final AtomicInteger versionNum = new AtomicInteger(1);
     private SerendipEngine serendipEngine;
     private ProcessDefinitionType type;
     private ConcurrentHashMap<String, ProcessInstance> processInstanceCollection = new ConcurrentHashMap<String, ProcessInstance>();
@@ -32,7 +33,6 @@ public class ProcessDefinition extends BaseManagedElement {
     private int threshold;
     private int minRate;
     private String version;
-    private final AtomicInteger versionNum = new AtomicInteger(1);
 
     public ProcessDefinition(ProcessDefinitionType type, SerendipEngine serendipEngine, Composite composite) {
         super(new ProcessManagementState(type.getId()));
@@ -109,14 +109,6 @@ public class ProcessDefinition extends BaseManagedElement {
         return processMonitor;
     }
 
-    public PerformanceModel getPerformanceModel() {
-        return performanceModel;
-    }
-
-    public void setPerformanceModel(PerformanceModel performanceModel) {
-        this.performanceModel = performanceModel;
-    }
-
     public void setProcessMonitor(MonitorType monitorType) {
 
         if (monitorType != null) {
@@ -129,7 +121,7 @@ public class ProcessDefinition extends BaseManagedElement {
             String monitorFileName = analysisType.getScript();
 
             IMonitoringRules iMonitoringRules = new DroolsMonitoringRules(parent.getId().toLowerCase() + "/" +
-                                                                          monitorFileName, composite.getRulesDir(), composite.getFTS());
+                    monitorFileName, composite.getRulesDir(), composite.getFTS());
             processMonitor = new ProcessMonitor(monitorId, iMonitoringRules);
             String cos = type.getCoS().trim();
             String cot = type.getCoT().trim();
@@ -142,6 +134,14 @@ public class ProcessDefinition extends BaseManagedElement {
             processMonitor.addEventPattern(cos);
             processMonitor.addEventPattern(cot);
         }
+    }
+
+    public PerformanceModel getPerformanceModel() {
+        return performanceModel;
+    }
+
+    public void setPerformanceModel(PerformanceModel performanceModel) {
+        this.performanceModel = performanceModel;
     }
 
     public void removeProcessMonitor() {

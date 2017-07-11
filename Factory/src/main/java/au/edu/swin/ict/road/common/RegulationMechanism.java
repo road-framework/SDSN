@@ -4,10 +4,10 @@ package au.edu.swin.ict.road.common;
  * TODO
  */
 public class RegulationMechanism {
+    private final RegMecManagementState mgtState;
     private String id;
     private String jarFileLocation;
     private String className;
-    private final RegMecManagementState mgtState;
 
     public RegulationMechanism(String id) {
         this.id = id;

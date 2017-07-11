@@ -19,8 +19,8 @@ import java.lang.reflect.Method;
  */
 public class CustomActions {
     private static Logger log = Logger.getLogger(CustomActions.class.getName());
-    protected Role role;
     protected final RoutingRegTable routingRegTable;
+    protected Role role;
 
     public CustomActions(Role role) {
         this.role = role;
@@ -110,7 +110,7 @@ public class CustomActions {
                 //TODO verify COS condition
             } catch (SerendipException e) {
                 log.error("Error creating a process instance for the message " +
-                          message.getMessageId() + "," + e.getMessage(), e);
+                        message.getMessageId() + "," + e.getMessage(), e);
             }
         }
     }

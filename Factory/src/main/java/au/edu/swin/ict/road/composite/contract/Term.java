@@ -276,6 +276,6 @@ public class Term {
 
     public String toString() {
         return "Term: '" + id + "' (operation: '" + operation.getName()
-               + "'; direction: '" + direction + "')";
+                + "'; direction: '" + direction + "')";
     }
 }

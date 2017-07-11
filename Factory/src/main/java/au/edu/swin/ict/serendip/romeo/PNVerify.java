@@ -39,12 +39,12 @@ public class PNVerify {
         for (int i = 0; i < propertyNames.length; i++) {
             // [C:/models/]R1-R2_B1[.xml]
             answer = this.verifyTCTL(new File(this.modelDir + behaviorName
-                                              + modelExtension), new File(this.propertyDir
-                                                                          + propertyNames[i] + propertyExtension));
+                    + modelExtension), new File(this.propertyDir
+                    + propertyNames[i] + propertyExtension));
             // If a single property failed, return false
             if (!answer) {
                 result = new VerificationResult(false, "", behaviorName,
-                                                propertyNames[i]);
+                        propertyNames[i]);
                 return result;
             }
         }
@@ -71,7 +71,7 @@ public class PNVerify {
         // the "-t" and "-f" flags are explained in the mercutio-tctl
         // documentation (type mercutio-tctl -h for more information)
         String[] cmd = {mercutioTctl, "-t", "-f", tctlFile.getAbsolutePath(),
-                        fileXml.getAbsolutePath()};
+                fileXml.getAbsolutePath()};
         boolean answer = false;
 
         Runtime r = Runtime.getRuntime();

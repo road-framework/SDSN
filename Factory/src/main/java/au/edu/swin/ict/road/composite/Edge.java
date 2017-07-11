@@ -10,16 +10,18 @@ public class Edge {
 
     private Node source;
     private String identifier;
-
-    public Node getSource() {
-        return source;
-    }
+    private ResultMsgType resultMsgType;
+    private SrcMsgType srcMsgType;
 
     public Edge(String identifier, ResultMsgType resultMsgType, SrcMsgType srcMsgType, Node source) {
         this.identifier = identifier;
         this.resultMsgType = resultMsgType;
         this.srcMsgType = srcMsgType;
         this.source = source;
+    }
+
+    public Node getSource() {
+        return source;
     }
 
     public ResultMsgType getResultMsgType() {
@@ -29,9 +31,6 @@ public class Edge {
     public SrcMsgType getSrcMsgType() {
         return srcMsgType;
     }
-
-    private ResultMsgType resultMsgType;
-    private SrcMsgType srcMsgType;
 
     public String toString() {
         StringBuilder sb = new StringBuilder();

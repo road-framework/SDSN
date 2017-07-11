@@ -30,6 +30,11 @@ public class SerendipDemo extends JFrame {
         this.startSerendipDemo("schemas/smc.xsd", "sample/Scenario/TestScenario2.xml", "xui/serendip.xui");
     }
 
+    /* Main View */
+    public static void main(String[] a) {
+        new SerendipDemo();
+    }
+
     public void startSerendipDemo(String xsdFile, String xmlFile, String xuiFile) {
 
         this.setLookNFeel();
@@ -81,10 +86,5 @@ public class SerendipDemo extends JFrame {
             e.printStackTrace();
         }
 
-    }
-
-    /* Main View */
-    public static void main(String[] a) {
-        new SerendipDemo();
     }
 } 

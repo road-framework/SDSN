@@ -110,12 +110,13 @@ public class EventRecord implements IEvent, Serializable {
 //        this.setExpiration(cal.getTime());
 //    }
 
-    public String getEventId() {
-        return eventId;
+    @XmlElement(name = "Classifier")
+    public void setClassifier(Classifier classifier) {
+        this.classifier = classifier;
     }
 
-    public String toString() {
-        return this.eventId;
+    public String getEventId() {
+        return eventId;
     }
 
     @XmlElement(name = "EventId")
@@ -124,6 +125,10 @@ public class EventRecord implements IEvent, Serializable {
             this.eventId = eventId.trim();
         }
         mgtState.setId(eventId);
+    }
+
+    public String toString() {
+        return this.eventId;
     }
 
     //    public String getDestinationRoleId() {
@@ -142,11 +147,6 @@ public class EventRecord implements IEvent, Serializable {
         this.place = place;
     }
 
-    @XmlElement(name = "Classifier")
-    public void setClassifier(Classifier classifier) {
-        this.classifier = classifier;
-    }
-
     public SNEventManagementState getMgtState() {
         return mgtState;
     }
@@ -155,7 +155,7 @@ public class EventRecord implements IEvent, Serializable {
         this.mgtState = mgtState;
     }
 
-    public boolean isPlaceSet (){
+    public boolean isPlaceSet() {
         return place != null;
     }
 }

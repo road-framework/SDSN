@@ -11,12 +11,11 @@ import java.util.EventObject;
  */
 public class MessageArrivedEvent extends EventObject {
 
-    private Message msg = null;
-
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+    private Message msg = null;
 
     /**
      * Constructor which needs the source of the object who fires the event and

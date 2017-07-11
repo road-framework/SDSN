@@ -65,7 +65,7 @@ public class ROADClassBuilder extends ClassBuilder {
             else
                 methodBody = "System.out.println($1); return null;";
             operation = new ClassOperations(visibility, returnType, methodName,
-                                            parameters, methodBody);
+                    parameters, methodBody);
             classOperations.add(operation);
         }
 
@@ -73,7 +73,7 @@ public class ROADClassBuilder extends ClassBuilder {
         try {
             java.lang.reflect.Method m;
             m = ClassLoader.class.getDeclaredMethod("findLoadedClass",
-                                                    new Class[]{String.class});
+                    new Class[]{String.class});
             m.setAccessible(true);
             ClassLoader cl = ClassLoader.getSystemClassLoader();
             Object testObject = m.invoke(cl, pkgName + "." + className);

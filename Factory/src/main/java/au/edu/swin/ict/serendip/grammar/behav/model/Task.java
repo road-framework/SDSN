@@ -65,11 +65,11 @@ public class Task {
 
     public String toString() {
         return "\tTask " + this.taskId + "{ " +
-               "\n\t\t pre \"" + this.preEP + "\";" +//Add double quotes
-               "\n\t\t post \"" + this.postEP + "\";" +//Add double quotes
-               "\n\t\t pp " + this.pp + ";" +
-               "\n\t\t role " + this.roblig + ";" +
-               "\n\t};"
+                "\n\t\t pre \"" + this.preEP + "\";" +//Add double quotes
+                "\n\t\t post \"" + this.postEP + "\";" +//Add double quotes
+                "\n\t\t pp " + this.pp + ";" +
+                "\n\t\t role " + this.roblig + ";" +
+                "\n\t};"
                 ;
     }
 }

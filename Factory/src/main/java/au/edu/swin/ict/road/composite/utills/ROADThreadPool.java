@@ -40,8 +40,8 @@ public class ROADThreadPool extends ThreadPoolExecutor {
     public ROADThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime,
                           TimeUnit unit, BlockingQueue<Runnable> workQueue) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
-              new ROADThreadFactory(
-                      new ThreadGroup(ROAD_THREAD_GROUP), ROAD_THREAD_ID_PREFIX));
+                new ROADThreadFactory(
+                        new ThreadGroup(ROAD_THREAD_GROUP), ROAD_THREAD_ID_PREFIX));
     }
 
     /**
@@ -49,7 +49,7 @@ public class ROADThreadPool extends ThreadPoolExecutor {
      */
     public ROADThreadPool() {
         this(ROAD_CORE_THREADS, ROAD_MAX_THREADS, ROAD_KEEP_ALIVE,
-             TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+                TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
     /**
@@ -66,8 +66,8 @@ public class ROADThreadPool extends ThreadPoolExecutor {
     public ROADThreadPool(int corePoolSize, int maxPoolSize, long keepAliveTime, int qlen,
                           String threadGroup, String threadIdPrefix) {
         super(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS,
-              qlen > 0 ? new LinkedBlockingQueue<Runnable>(qlen) : new LinkedBlockingQueue<Runnable>(),
-              new ROADThreadFactory(new ThreadGroup(threadGroup), threadIdPrefix));
+                qlen > 0 ? new LinkedBlockingQueue<Runnable>(qlen) : new LinkedBlockingQueue<Runnable>(),
+                new ROADThreadFactory(new ThreadGroup(threadGroup), threadIdPrefix));
     }
 
 }

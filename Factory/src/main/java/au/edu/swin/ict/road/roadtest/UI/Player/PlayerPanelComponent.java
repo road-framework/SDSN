@@ -37,6 +37,9 @@ import java.util.UUID;
 public class PlayerPanelComponent extends JPanel implements
         MessageArrivedEventListener, MessageSentEventListener {
 
+    private static final String INTERVALFIELD_VALUE = "3000";
+    private static final String MESSAGE_FOLDER = System.getProperty("user.dir")
+            + File.separator + "messages";
     private JLabel jLabelRoleID;
     private JLabel jLabelName;
     private JLabel jLabelError;
@@ -77,10 +80,6 @@ public class PlayerPanelComponent extends JPanel implements
     private Player player;
     private FileManager fileMgr;
 
-    private static final String INTERVALFIELD_VALUE = "3000";
-    private static final String MESSAGE_FOLDER = System.getProperty("user.dir")
-                                                 + File.separator + "messages";
-
     /**
      * Constructor for <code>PlayerPanel</code> which accepts a parameter of
      * type <code>Player</code>
@@ -103,7 +102,7 @@ public class PlayerPanelComponent extends JPanel implements
         jLabelRoleID = new JLabel("ID: " + player.getRole().getId());
         jLabelName = new JLabel("Name: " + player.getRole().getName());
         jLabelDescription = new JLabel("Description: "
-                                       + player.getRole().getDescription());
+                + player.getRole().getDescription());
         jLabelMsgSignature = new JLabel("Message Signature: ");
         jLabelMsgContent = new JLabel("Message Content: ");
         jLabelContracts = new JLabel("Contracts:");
@@ -141,27 +140,27 @@ public class PlayerPanelComponent extends JPanel implements
         String rootPath = System.getProperty("user.dir");
         String imagePath = rootPath + File.separator + "images/";
         jButtonAutoResponse.setIcon(new ImageIcon(CompositionUI.class
-                                                          .getResource("images/" + "autoreplyicon.gif")));
+                .getResource("images/" + "autoreplyicon.gif")));
         jButtonClearInbox = new JButton();
         jButtonClearInbox.setToolTipText("Clear Inbox");
         jButtonClearInbox.setIcon(new ImageIcon(CompositionUI.class
-                                                        .getResource("images/" + "clearicon.gif")));
+                .getResource("images/" + "clearicon.gif")));
         jButtonClearOutbox = new JButton();
         jButtonClearOutbox.setToolTipText("Clear Outbox");
         jButtonClearOutbox.setIcon(new ImageIcon(CompositionUI.class
-                                                         .getResource("images/" + "clearicon.gif")));
+                .getResource("images/" + "clearicon.gif")));
         jButtonPullMessage = new JButton();
         jButtonPullMessage.setToolTipText("Pull Message");
         jButtonPullMessage.setIcon(new ImageIcon(CompositionUI.class
-                                                         .getResource("images/" + "pullmessageicon.gif")));
+                .getResource("images/" + "pullmessageicon.gif")));
         jButtonSaveInbox = new JButton();
         jButtonSaveInbox.setToolTipText("Save Inbox Messages");
         jButtonSaveInbox.setIcon(new ImageIcon(CompositionUI.class
-                                                       .getResource("images/" + "saveicon.jpg")));
+                .getResource("images/" + "saveicon.jpg")));
         jButtonSaveOutbox = new JButton();
         jButtonSaveOutbox.setToolTipText("Save Outbox Messages");
         jButtonSaveOutbox.setIcon(new ImageIcon(CompositionUI.class
-                                                        .getResource("images/" + "saveicon.jpg")));
+                .getResource("images/" + "saveicon.jpg")));
 
         jButtonConfig = new JButton("Config");
         jButtonViewResponseSig = new JButton("Show Required");
@@ -318,7 +317,7 @@ public class PlayerPanelComponent extends JPanel implements
      */
     private void generateInbox() {
         String[] columnNamesInbox = {"Message Signature", "Content",
-                                     "Origin Role", "Message Type", "Time", "View"};
+                "Origin Role", "Message Type", "Time", "View"};
         jTableInbox.setModel(new DefaultTableModel(columnNamesInbox, 0));
         modelInbox = (DefaultTableModel) jTableInbox.getModel();
         jTableInbox.getTableHeader().setReorderingAllowed(false);
@@ -329,7 +328,7 @@ public class PlayerPanelComponent extends JPanel implements
      */
     private void generateOutbox() {
         String[] columnNamesOutbox = {"Message ID", "Message Signature",
-                                      "Content", "Interval(Sec)", "Count", "Time", "View", "Stop"};
+                "Content", "Interval(Sec)", "Count", "Time", "View", "Stop"};
         jTableOutbox.setModel(new DefaultTableModel(columnNamesOutbox, 0));
         modelOutbox = (DefaultTableModel) jTableOutbox.getModel();
         jTableOutbox.getTableHeader().setReorderingAllowed(false);
@@ -446,9 +445,9 @@ public class PlayerPanelComponent extends JPanel implements
                 msgInterval = ((IntervalMessage) msg).getIntervalUnit();
 
                 row = new Object[]{uid, msg.getOperationName(),
-                                   msg.getMessageContent().toString(), msgInterval,
-                                   msgCount, dateFormat.format(msg.getTimeStamp()),
-                                   "View", "Stop"};
+                        msg.getMessageContent().toString(), msgInterval,
+                        msgCount, dateFormat.format(msg.getTimeStamp()),
+                        "View", "Stop"};
 
                 // check if the entry exist in table
                 // if it returns -1 then it does not exist so we have to add it
@@ -461,35 +460,35 @@ public class PlayerPanelComponent extends JPanel implements
                 msgCount = ((AutoResponseMessage) msg).getSentMessageCount();
                 msgInterval = ((AutoResponseMessage) msg).getDelay();
                 row = new Object[]{uid, msg.getOperationName(),
-                                   msg.getMessageContent().toString(), msgInterval,
-                                   msgCount, dateFormat.format(msg.getTimeStamp()),
-                                   "View", "Abort"};
+                        msg.getMessageContent().toString(), msgInterval,
+                        msgCount, dateFormat.format(msg.getTimeStamp()),
+                        "View", "Abort"};
 
                 int i = checkIfExists(uid);
                 if (i != -1)
                     modelOutbox.removeRow(i);
             } else {
                 row = new Object[]{uid, msg.getOperationName(),
-                                   msg.getMessageContent().toString(), msgInterval,
-                                   msgCount, dateFormat.format(msg.getTimeStamp()),
-                                   "View", ""};
+                        msg.getMessageContent().toString(), msgInterval,
+                        msgCount, dateFormat.format(msg.getTimeStamp()),
+                        "View", ""};
             }
             // jTableOutbox.setToolTipText((String)getValueAt(rowIndex,
             // vColIndex));
             modelOutbox.insertRow(0, row);
             jTableOutbox.getColumn("View")
-                        .setCellRenderer(new ButtonRenderer());
+                    .setCellRenderer(new ButtonRenderer());
             jTableOutbox.getColumn("Stop")
-                        .setCellRenderer(new ButtonRenderer());
+                    .setCellRenderer(new ButtonRenderer());
             ButtonImpl myButton = new ButtonImpl(new JCheckBox(), uid, player,
-                                                 msg.getMessageContent().toString());
+                    msg.getMessageContent().toString());
             jTableOutbox.getColumn("View").setCellEditor(myButton);
             jTableOutbox.getColumn("Stop").setCellEditor(myButton);
 
             this.jLabelError.setText("Message is sent");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception: " + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -504,13 +503,13 @@ public class PlayerPanelComponent extends JPanel implements
             String msgContent = jTextAreaMsgContent.getText();
             if (msgContent.equals("") || msgContent.equals(null)) {
                 JOptionPane.showMessageDialog(this,
-                                              "Error: The message content can not be empty ",
-                                              "Exception", JOptionPane.ERROR_MESSAGE);
+                        "Error: The message content can not be empty ",
+                        "Exception", JOptionPane.ERROR_MESSAGE);
             } else {
                 String msgSignature = jComboBoxMsgSignatures.getSelectedItem()
-                                                            .toString();
+                        .toString();
                 long interval = Integer.parseInt(this.jTextFieldInterval
-                                                         .getText());
+                        .getText());
 
                 // check if user has selected the checkbox to send the
                 // messages on regular interval or not and what is the interval
@@ -518,7 +517,7 @@ public class PlayerPanelComponent extends JPanel implements
                 // message
                 if (this.jCheckBoxInterval.isSelected() && interval > 0) {
                     UUID uid = player.setUpIntervalMessage(msgSignature,
-                                                           msgContent, interval);
+                            msgContent, interval);
                     player.startIntervalMessageById(uid);
                 } else if (!this.jCheckBoxInterval.isSelected()) {
                     player.sendMessage(msgSignature, msgContent, false);
@@ -528,11 +527,11 @@ public class PlayerPanelComponent extends JPanel implements
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                                          "Exception: Interval should be numeric " + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception: Interval should be numeric " + ex.toString(),
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception:" + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -549,11 +548,11 @@ public class PlayerPanelComponent extends JPanel implements
             Calendar cal = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:SSS");
             Object[] row = new Object[]{msg.getOperationName(),
-                                        msg.getMessageContent().toString(), msg.getOriginRoleId(),
-                                        msg.getMessageType(),
-                                        dateFormat.format(msg.getTimeStamp()), "View"};
+                    msg.getMessageContent().toString(), msg.getOriginRoleId(),
+                    msg.getMessageType(),
+                    dateFormat.format(msg.getTimeStamp()), "View"};
             ButtonImpl myButton = new ButtonImpl(new JCheckBox(), null, player,
-                                                 msg.getMessageContent().toString());
+                    msg.getMessageContent().toString());
             jTableInbox.getColumn("View").setCellRenderer(new ButtonRenderer());
             jTableInbox.getColumn("View").setCellEditor(myButton);
             modelInbox.insertRow(0, row);
@@ -561,7 +560,7 @@ public class PlayerPanelComponent extends JPanel implements
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception:" + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -574,8 +573,8 @@ public class PlayerPanelComponent extends JPanel implements
         if (modelMessages.getSize() > 0) {
             // TODO Auto-generated method stub
             this.jTextAreaMsgContent.setText(this.fileMgr
-                                                     .getFileContent(this.jComboBoxMessages.getSelectedItem()
-                                                                                           .toString()));
+                    .getFileContent(this.jComboBoxMessages.getSelectedItem()
+                            .toString()));
             jTextAreaMsgContent.setCaretPosition(0);
         }
     }
@@ -589,11 +588,11 @@ public class PlayerPanelComponent extends JPanel implements
         try {
             this.player.terminateAllIntervalMessages();
             JOptionPane.showMessageDialog(this, "All messages from "
-                                                + player.getRole().getName() + " are stopped.", "Status",
-                                          JOptionPane.INFORMATION_MESSAGE);
+                            + player.getRole().getName() + " are stopped.", "Status",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception: " + ex.toString(),
-                                          "Exception", JOptionPane.ERROR_MESSAGE);
+                    "Exception", JOptionPane.ERROR_MESSAGE);
 
         }
     }
@@ -707,9 +706,9 @@ public class PlayerPanelComponent extends JPanel implements
             } else {// if file exists
                 int response = JOptionPane
                         .showConfirmDialog(null,
-                                           "Do you want to overwrite the file?",
-                                           "Confirm", JOptionPane.YES_NO_OPTION,
-                                           JOptionPane.QUESTION_MESSAGE);
+                                "Do you want to overwrite the file?",
+                                "Confirm", JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     writeTofile(opt);
                 }
@@ -732,7 +731,7 @@ public class PlayerPanelComponent extends JPanel implements
             JOptionPane.showMessageDialog(this, "Log written successfully");
         else
             JOptionPane.showMessageDialog(this,
-                                          "Error occurred while writing to log");
+                    "Error occurred while writing to log");
     }
 
     /**

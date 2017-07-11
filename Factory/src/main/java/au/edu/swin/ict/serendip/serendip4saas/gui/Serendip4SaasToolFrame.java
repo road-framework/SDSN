@@ -38,16 +38,16 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
     private JScrollPane epcViewScrol = null;
 
     public Serendip4SaasToolFrame(List<BehaviorTerm> behaviorTerms)
-    throws ClassNotFoundException, InstantiationException,
-    IllegalAccessException, UnsupportedLookAndFeelException {
+            throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, UnsupportedLookAndFeelException {
         this.behaviorTerms = behaviorTerms;
         // UI
         this.createUI();
     }
 
     private void createUI() throws ClassNotFoundException,
-    InstantiationException, IllegalAccessException,
-    UnsupportedLookAndFeelException {
+            InstantiationException, IllegalAccessException,
+            UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setIconImage(new ImageIcon("images/Refresh-icon.png").getImage());
@@ -58,13 +58,13 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
 
         this.createTenantView(tenant1Panel);
         tabbedPane.addTab("Tenant1: InsuranceCo", null, tenant1Panel,
-                          "InsuranceCo");
+                "InsuranceCo");
 
         tabbedPane.addTab("Tenant2: TravelCo", null, new JPanel(), "TravelCo");
         tabbedPane.addTab("Tenant3: CarSalesCo", null, new JPanel(),
-                          "CarSalesCo");
+                "CarSalesCo");
         tabbedPane.addTab("Organization : RoSaaS", null, new JPanel(),
-                          "Organization");
+                "Organization");
 
         this.getContentPane().add(tabbedPane);
         this.setSize(600, 400);
@@ -156,7 +156,7 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
         this.createProcessView2();
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                              controlScrol, epcViewScrol);
+                controlScrol, epcViewScrol);
         splitPane.setDividerLocation(200);
         panel.add(splitPane, BorderLayout.CENTER);
     }
@@ -208,7 +208,7 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
         }
 
         SerendipEPCView epcView = new SerendipEPCView("PD_InsuranceCo",
-                                                      result);
+                result);
 
         this.epcViewScrol.setViewportView(epcView);
 
@@ -227,22 +227,22 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
             ConfigurableEPC[] epcs = {
                     // BT_Towing
                     PatternToEPC.convertToEPC("[ComplaintRcvd]",
-                                              "CO.SendTowReq",
-                                              "[TowReqSent] AND [PickupLocKnown]"),
+                            "CO.SendTowReq",
+                            "[TowReqSent] AND [PickupLocKnown]"),
                     PatternToEPC.convertToEPC("[TowReqSent]",
-                                              "GR.SendGRLocation", "[DestinationKnown]"),
+                            "GR.SendGRLocation", "[DestinationKnown]"),
                     PatternToEPC.convertToEPC(
                             "[PickupLocKnown] AND [DestinationKnown]",
                             "TC.Tow", "[CarTowSuccess] OR [CarTowFailed]"),
                     PatternToEPC.convertToEPC("[CarTowSuccess]",
-                                              "GR.TowingAck", "[TowingAckedByGR]"),
+                            "GR.TowingAck", "[TowingAckedByGR]"),
                     PatternToEPC.convertToEPC(
                             "[CarTowSuccess] AND [TowingAckedByGR]",
                             "CO.PayTow", "[TCPaid]"),
 
                     // BT_Repair
                     PatternToEPC.convertToEPC("[ComplaintRcvd]",
-                                              "CO.SendGRReq", "[GRReqSent]"),
+                            "CO.SendGRReq", "[GRReqSent]"),
                     PatternToEPC.convertToEPC(
                             "[GRReqSent] AND [CarTowSuccess]", "GR.ReqAdvPay",
                             "[AdvPayReqSent]"),
@@ -254,7 +254,7 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
                             "[CarRepairSuccess] AND [CarRepairFailed]"),
                     PatternToEPC
                             .convertToEPC("[CarRepairSuccess]", "MM.Inspect",
-                                          "[CarRepairOKConfirmed] OR [CarRepairFailureNoified]"),
+                            "[CarRepairOKConfirmed] OR [CarRepairFailureNoified]"),
                     PatternToEPC.convertToEPC(
                             "[CarRepairSuccess] AND [CarRepairOKConfirmed] ",
                             "CO.PayGR", "[GRPaid]"),

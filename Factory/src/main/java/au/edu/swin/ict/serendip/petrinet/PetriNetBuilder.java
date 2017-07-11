@@ -18,7 +18,7 @@ public class PetriNetBuilder {
     static Logger log = Logger.getLogger(PetriNetBuilder.class);
 
     public static PetriNet epcToPetriNet(ConfigurableEPC epc)
-    throws SerendipException {
+            throws SerendipException {
         PetriNet pn = null;
         if (null == epc) {
             throw new SerendipException("No model is available");

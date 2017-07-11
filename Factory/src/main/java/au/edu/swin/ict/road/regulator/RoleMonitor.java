@@ -21,6 +21,10 @@ public class RoleMonitor {
         return iMonitoringRules;
     }
 
+    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
+        this.iMonitoringRules = iMonitoringRules;
+    }
+
     public String getId() {
         return id;
     }
@@ -31,9 +35,5 @@ public class RoleMonitor {
         } catch (RulesException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-    }
-
-    public void setMonitoringRules(IMonitoringRules iMonitoringRules) {
-        this.iMonitoringRules = iMonitoringRules;
     }
 }

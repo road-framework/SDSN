@@ -4,10 +4,10 @@ package au.edu.swin.ict.road.common;
  * TODO
  */
 public class RegulationUnitState {
-    private String id;
     public static String STATE_ACTIVE = "active";
     public static String STATE_PASSIVE = "passive";
     public static String STATE_QUIESCENCE = "quiescence";
+    private String id;
     private String state = STATE_PASSIVE;
 
     public RegulationUnitState(String id) {

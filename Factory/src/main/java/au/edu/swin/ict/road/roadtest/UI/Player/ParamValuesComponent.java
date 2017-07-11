@@ -11,13 +11,13 @@ import java.awt.event.ActionListener;
 
 public class ParamValuesComponent extends JPanel {
     private static Logger log = Logger.getLogger(ParamValuesComponent.class.getName());
+    private final int TABLE_VALUE_COLUMN = 2;
     private JTable jTableValues;
     private JScrollPane jScrollPaneRight;
     private JButton jButtonSave;
     private JButton jButtonAdd;
     private DefaultTableModel modelJTableValues;
     private Content parameterContent;
-    private final int TABLE_VALUE_COLUMN = 2;
 
     public ParamValuesComponent(Content parameterContent) {
         super();

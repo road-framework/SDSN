@@ -8,6 +8,26 @@ import antlr.collections.impl.BitSet;
 
 public class EventPatternParser extends antlr.LLkParser implements EventPatternParserTokenTypes {
 
+    public static final String[] _tokenNames = {
+            "<0>",
+            "EOF",
+            "<2>",
+            "NULL_TREE_LOOKAHEAD",
+            "XOR",
+            "OR",
+            "AND",
+            "LPAREN",
+            "RPAREN",
+            "WORD",
+            "WS",
+            "SEMI",
+            "DIGITX"
+    };
+    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
+    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
+    public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
+    public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
+
     protected EventPatternParser(TokenBuffer tokenBuf, int k) {
         super(tokenBuf, k);
         tokenNames = _tokenNames;
@@ -35,6 +55,28 @@ public class EventPatternParser extends antlr.LLkParser implements EventPatternP
         tokenNames = _tokenNames;
         buildTokenTypeASTClassMap();
         astFactory = new ASTFactory(getTokenTypeToASTClassMap());
+    }
+
+    private static final long[] mk_tokenSet_0() {
+        long[] data = {256L, 0L};
+        return data;
+    }
+
+    private static final long[] mk_tokenSet_1() {
+        long[] data = {272L, 0L};
+        return data;
+    }
+
+    ;
+
+    private static final long[] mk_tokenSet_2() {
+        long[] data = {304L, 0L};
+        return data;
+    }
+
+    private static final long[] mk_tokenSet_3() {
+        long[] data = {368L, 0L};
+        return data;
     }
 
     public final void expression() throws RecognitionException, TokenStreamException {
@@ -190,55 +232,8 @@ public class EventPatternParser extends antlr.LLkParser implements EventPatternP
         returnAST = atom_AST;
     }
 
-
-    public static final String[] _tokenNames = {
-            "<0>",
-            "EOF",
-            "<2>",
-            "NULL_TREE_LOOKAHEAD",
-            "XOR",
-            "OR",
-            "AND",
-            "LPAREN",
-            "RPAREN",
-            "WORD",
-            "WS",
-            "SEMI",
-            "DIGITX"
-    };
-
     protected void buildTokenTypeASTClassMap() {
         tokenTypeToASTClassMap = null;
     }
-
-    ;
-
-    private static final long[] mk_tokenSet_0() {
-        long[] data = {256L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
-
-    private static final long[] mk_tokenSet_1() {
-        long[] data = {272L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
-
-    private static final long[] mk_tokenSet_2() {
-        long[] data = {304L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
-
-    private static final long[] mk_tokenSet_3() {
-        long[] data = {368L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
 
 }

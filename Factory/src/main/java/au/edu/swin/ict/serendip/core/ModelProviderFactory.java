@@ -31,13 +31,13 @@ import java.util.Properties;
 public class ModelProviderFactory {
 
     static Logger logger = Logger.getLogger(ModelProviderFactory.class);
+    private static Properties props = new Properties();
     private XMLCompositionParser parser = null;
     private SerendipEngine engine = null;
     private String dirName = null;
     private String compositioName = null;
     /* Important: add only those who are working properly */
     private SerendipVerification[] verifs;
-    private static Properties props = new Properties();
 
     //private File descriptorFile = null;
 
@@ -54,8 +54,8 @@ public class ModelProviderFactory {
             // TODO Auto-generated catch block
             //e.printStackTrace();
             logger.error("serendip.properties file is missing. " +
-                         "It should be in the same directory as the executable. " +
-                         "e.g., if you are using TOMCAT+AXIS2 the file should be in TOMCAT_HOME/bin.");
+                    "It should be in the same directory as the executable. " +
+                    "e.g., if you are using TOMCAT+AXIS2 the file should be in TOMCAT_HOME/bin.");
         }
         this.engine = engine;
         if (getProperty(Constants.SERENDIP_ROMEO_EXE_PROP) != null) {
@@ -63,6 +63,10 @@ public class ModelProviderFactory {
         } else {
             this.verifs = new SerendipVerification[]{};
         }
+    }
+
+    public static String getProperty(String key) {
+        return props.getProperty(key);
     }
 
     /**
@@ -78,7 +82,7 @@ public class ModelProviderFactory {
      */
     public String getMatchingDefForCoS(String cos) {
         List<ProcessDefinitionsType> processDefs = this.engine.getComposition()
-                                                              .getComposite().getSmcBinding().getVirtualServiceNetwork();
+                .getComposite().getSmcBinding().getVirtualServiceNetwork();
         for (ProcessDefinitionsType pDefType : processDefs) {
             // If there are process definitions, iterate through them to find if there
             // is a matching request
@@ -122,14 +126,14 @@ public class ModelProviderFactory {
     }
 
     public boolean verifyProcessInstance(ProcessInstance pi)
-    throws SerendipVerificationException {
+            throws SerendipVerificationException {
         for (SerendipVerification verif : this.verifs) {
             VerificationResult result = verif.verifyProcessInstance(pi,
-                                                                    this);
+                    this);
             if (!result.isValid()) {
                 throw new SerendipVerificationException(
                         "Failed to verify instance " + pi.getId()
-                        + "\n Reason: " + result.getMessage());
+                                + "\n Reason: " + result.getMessage());
             }
         }
         return true;
@@ -150,12 +154,12 @@ public class ModelProviderFactory {
         for (String btId : btIdList) {
             // Get the type
             CollaborationUnitType btType = this.engine.getComposition()
-                                                      .getCollaborationUnitTypeById(btId);
+                    .getCollaborationUnitTypeById(btId);
             if (null == btType) {
                 logger.error("Behavior term " + btId + "not found for process "
-                             + defId);
+                        + defId);
                 throw new SerendipException("Behavior term " + btId
-                                            + "not found for process " + defId);
+                        + "not found for process " + defId);
             }
 
             // Create a new behavior term
@@ -230,10 +234,6 @@ public class ModelProviderFactory {
         return tempDirPath;
     }
 
-    public static String getProperty(String key) {
-        return props.getProperty(key);
-    }
-
     public SerendipEngine getEngine() {
         return engine;
     }
@@ -253,7 +253,7 @@ public class ModelProviderFactory {
             logger.info("Created EPML directory for " + this.compositioName);
             if (!success) {
                 logger.error("Cannot create EPML directory for "
-                             + this.compositioName);
+                        + this.compositioName);
             }
         } else {
             logger.debug("Directory exist" + strDirectoy);
@@ -271,7 +271,7 @@ public class ModelProviderFactory {
         }
 
         String[] btIds = CompositionUtil.getAllBTIDOfComposition(this.engine
-                                                                         .getComposition());
+                .getComposition());
 
         try {
             EPMLBehavior.createEmptyBehaviors(epmllocation, btIds);

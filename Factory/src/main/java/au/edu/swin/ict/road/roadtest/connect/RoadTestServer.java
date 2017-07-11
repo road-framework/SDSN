@@ -49,7 +49,7 @@ public class RoadTestServer extends UnicastRemoteObject implements IServerRMI {
     }
 
     public void sendMessage(String role, String msgSig, String msgCont, boolean response)
-    throws RemoteException, PlayerNotFoundException {
+            throws RemoteException, PlayerNotFoundException {
         rt.sendMessage(role, msgSig, msgCont, response);
     }
 

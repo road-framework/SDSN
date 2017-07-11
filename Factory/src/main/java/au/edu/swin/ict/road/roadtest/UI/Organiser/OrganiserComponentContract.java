@@ -182,12 +182,12 @@ public class OrganiserComponentContract extends JPanel {
 
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("drl",
-                                                                     "drl");
+                "drl");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             this.jTextFieldRules.setText(chooser.getSelectedFile()
-                                                .getAbsolutePath());
+                    .getAbsolutePath());
         }
 
     }

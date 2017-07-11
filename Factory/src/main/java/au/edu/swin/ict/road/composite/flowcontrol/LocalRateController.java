@@ -16,21 +16,9 @@ public class LocalRateController implements FlowControlFunction {
     private int threshold = FlowControlConstraints.DEFAULT_THRESHOLD;
     private long interval = FlowControlConstraints.DEFAULT_INTERVAL;
     private int reserved = 0;
-
-    public int getReserved() {
-        return reserved;
-    }
-
-    public void setReserved(int reserved) {
-        this.reserved = reserved;
-    }
-
-    public void increaseReserved(int increment) {
-        this.reserved += increment;
-    }
-
     private long endTime;
     private AtomicInteger count;
+    private FactTupleSpace factTupleSpace;
 
     public LocalRateController(long interval, int threshold, FactTupleSpace factTupleSpace) {
         this.interval = interval * 1000000000;      // Convert to nanosecond
@@ -43,7 +31,17 @@ public class LocalRateController implements FlowControlFunction {
         }
     }
 
-    private FactTupleSpace factTupleSpace;
+    public int getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(int reserved) {
+        this.reserved = reserved;
+    }
+
+    public void increaseReserved(int increment) {
+        this.reserved += increment;
+    }
 
     public int getThreshold() {
         return threshold;
@@ -74,7 +72,7 @@ public class LocalRateController implements FlowControlFunction {
         }
         if (count.incrementAndGet() > reserved) {
             return new FlowControlResult(FlowControlResult.DENIED,
-                                         "Throughput threshold has reached : " + reserved);
+                    "Throughput threshold has reached : " + reserved);
         }
         return new FlowControlResult(FlowControlResult.ALLOWED);
     }

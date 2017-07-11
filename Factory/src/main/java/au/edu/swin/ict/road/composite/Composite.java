@@ -55,38 +55,32 @@ import java.util.*;
  */
 public class Composite implements Runnable {
 
-    private static Logger log = Logger.getLogger(Composite.class.getName());
-    private ServiceNetwork smcBinding;
-    private BenchUtil benchUtil = null;
-    private ROADDeploymentEnv roadDepEnv = null;
     public static final String KEY_BU_EXTENDSFROM = "extendsFrom";
     public static final String KEY_BU_ISABSTRACT = "isAbstract";
     // Symbols
     public static final String SERENDIP_SYMBOL_AND = "*";//These need to sync with ep.g and behav.g antlr grammar
     public static final String SERENDIP_SYMBOL_OR = "|";
     public static final String SERENDIP_SYMBOL_XOR = "^";
-
     // descriptor
     public static final String SERENDIP_PATH_SEP = "_";
-    private DroolsBasedManagementPolicyEnactmentEngine policyEnactmentEngine;
-    private SerendipOrganizer serendipOrganizer;
+    private static Logger log = Logger.getLogger(Composite.class.getName());
     private final Map<String, RegulationMechanism> regulationMechanisums = new HashMap<String, RegulationMechanism>();
     private final Map<String, SNStateImplementation> snStateImplementations = new HashMap<String, SNStateImplementation>();
     private final Map<String, RegulationUnitState> regulationUnitStateMap = new HashMap<String, RegulationUnitState>();
     private final ServiceNetworkState serviceNetworkState;
+    private final Object shutdownMutex;
+    private ServiceNetwork smcBinding;
+    private BenchUtil benchUtil = null;
+    private ROADDeploymentEnv roadDepEnv = null;
+    private DroolsBasedManagementPolicyEnactmentEngine policyEnactmentEngine;
+    private SerendipOrganizer serendipOrganizer;
     private RolePushMessageListener defaultPushMessageListener;
     private GlobalRegTable globalRegTable;
-    private GlobalKnowledgebase globalKnowledgebase;
 //
 //    public ROADThreadPool getPendingOutBufferWorkers() {
 //        return pendingOutBufferWorkers;
 //    }
-
-    public ServiceNetwork getSmcBinding() {
-
-        return smcBinding;
-    }
-
+    private GlobalKnowledgebase globalKnowledgebase;
     private String description;
     private String name;
     private Map<String, Role> roleMap; // all this composites roles
@@ -98,21 +92,10 @@ public class Composite implements Runnable {
     // created for each role
     private OrganiserRole organiserRole;
     private IOperationalManagerRole operationalManagerRole;
-    private final Object shutdownMutex;
     private String rulesDir; // general directory for rules
     private String transDir; // general directory for transformations
-
-    public ROADThreadPool getEventCloudPool() {
-        return eventCloudPool;
-    }
-
     private String routingRulesFileName; // routing rule file
     private String compositeRulesFileName; // composite rule file
-
-    public Timer getTimeOutTimer() {
-        return timeOutTimer;
-    }
-
     private ICompositeRules compositeRules; // composite level rule engine
     private List<CompositeAddRoleListener> addRoleListenerList;
     private List<CompositeRemoveRoleListener> removeRoleListenerList;
@@ -122,28 +105,13 @@ public class Composite implements Runnable {
             ROADThreadPoolFactory.createROADThreadPool("eventCloudPool");
     private Timer timeOutTimer = new Timer(true);
     private Map<String, BehaviorMonitor> monitorMap = new HashMap<String, BehaviorMonitor>();
-//    private ROADThreadPool pendingOutBufferWorkers;
-//    private ROADThreadPool receivingTreads;
-
-    public ROADThreadPool getMessageDelivererWorkers() {
-        return messageDelivererWorkers;
-    }
-
-    public void setMessageDelivererWorkers(ROADThreadPool messageDelivererWorkers) {
-        this.messageDelivererWorkers = messageDelivererWorkers;
-    }
-
     private ROADThreadPool messageDelivererWorkers;
-
     // Serendip
     private SerendipEngine serendipEngine = null;
-
     // Fact Tuple Space
     private FactTupleSpace FTS;
-
-//    public ROADThreadPool getReceivingTreads() {
-//        return receivingTreads;
-//    }
+//    private ROADThreadPool pendingOutBufferWorkers;
+//    private ROADThreadPool receivingTreads;
 
     /**
      * Initializes a Composite using the supplied SMC, which is a JAXB binding
@@ -222,6 +190,31 @@ public class Composite implements Runnable {
 
         //   serendipOrganizer = new SerendipOrganizerImpl(serendipEngine, this);
         log.info("Deployment complete");
+    }
+
+    public ServiceNetwork getSmcBinding() {
+
+        return smcBinding;
+    }
+
+    public ROADThreadPool getEventCloudPool() {
+        return eventCloudPool;
+    }
+
+    public Timer getTimeOutTimer() {
+        return timeOutTimer;
+    }
+
+    public ROADThreadPool getMessageDelivererWorkers() {
+        return messageDelivererWorkers;
+    }
+
+//    public ROADThreadPool getReceivingTreads() {
+//        return receivingTreads;
+//    }
+
+    public void setMessageDelivererWorkers(ROADThreadPool messageDelivererWorkers) {
+        this.messageDelivererWorkers = messageDelivererWorkers;
     }
 
     /**
@@ -651,7 +644,7 @@ public class Composite implements Runnable {
         }
     }
 
-    public void undeployNetworkLevelPolicies(List<String> ruIds) {
+    public void undeployNetworkLevelPolicies() {
         InterVSNRegulationType ruType = smcBinding.getInterVSNRegulation();
         String ruId = "network";
         RegulationRuleRef passThroughRef = ruType.getPassthrough();
@@ -1715,7 +1708,7 @@ public class Composite implements Runnable {
     }
 
     public void undeployGlobalRulesOfRegulationUnit(String ruId, List<RegulationRuleIdType> ruleIdTypes) {
-       globalRegTable.removeRegulationRuleSet(ruId);
+        globalRegTable.removeRegulationRuleSet(ruId);
     }
 
     private void deployProcessDefinition(ProcessPath route, String sliceID) {
@@ -2462,6 +2455,15 @@ public class Composite implements Runnable {
         return contractMap;
     }
 
+    /**
+     * Sets the contract map to the desired contract map
+     *
+     * @param contractMap which contains all the contracts for this Composite
+     */
+    public void setContractMap(Map<String, Contract> contractMap) {
+        this.contractMap = contractMap;
+    }
+
     public Contract getContract(String id) {
         return this.contractMap.get(id);
     }
@@ -2472,15 +2474,6 @@ public class Composite implements Runnable {
 
     public boolean containsContract(String id) {
         return this.contractMap.containsKey(id);
-    }
-
-    /**
-     * Sets the contract map to the desired contract map
-     *
-     * @param contractMap which contains all the contracts for this Composite
-     */
-    public void setContractMap(Map<String, Contract> contractMap) {
-        this.contractMap = contractMap;
     }
 
     /**

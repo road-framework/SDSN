@@ -37,37 +37,6 @@ public class MergeBehavior {
         this.mergeAll();
     }
 
-    /**
-     * Merge all the behavior terms by going thru one by one
-     */
-    private void mergeAll() {
-
-        if (epcs.length == 0) {
-            finalMergedEPC = null;
-            return;
-        } else if (epcs.length == 1) {
-            finalMergedEPC = this.epcs[0];
-            return;
-        }
-
-        // Initialize
-        ConfigurableEPC curEPC = this.epcs[0];
-        for (int i = 1; i < epcs.length; i++) {
-            logger.debug("merging step " + i);
-            curEPC = mergeEPC(curEPC, epcs[i]);
-        }
-
-        this.finalMergedEPC = curEPC;
-        // Finally we have all the epcs merged.
-    }
-
-    /**
-     * @return Final merged EPC
-     */
-    public ConfigurableEPC getMergedBehaviorAsEPC() {
-        return this.finalMergedEPC;
-    }
-
     // For a given epc merge event e1 and e2
     //NOTE: Always delete first. There are restrictions of incoming and outgoing arcs
     //e.g.,  The number of incoming arcs at each function should be at most 1
@@ -174,8 +143,8 @@ public class MergeBehavior {
 //		1
 //		ConfigurableEPC epc = new ConfigurableEPC();
 //		HashMap<Long,EPCFunction> org2new=new HashMap<Long,EPCFunction>();
-//		epc.copyAllFrom(net1, org2new);	
-//		epc.copyAllFrom(net2, org2new);	
+//		epc.copyAllFrom(net1, org2new);
+//		epc.copyAllFrom(net2, org2new);
 
 
 //		//2. Copy net2 to net 1
@@ -184,25 +153,25 @@ public class MergeBehavior {
 //        	EPCFunction f = (EPCFunction) it1.next();
 //        	net1.getFunctions().add(f);
 //        }
-//        
+//
 //    	Iterator<EPCEvent> it2 = net2.getEvents().iterator();
 //        while (it2.hasNext()) {
 //        	EPCEvent e = (EPCEvent) it2.next();
 //        	net1.getEvents().add(e);
 //        }
-//        
+//
 //        Iterator<EPCConnector> it4 = net2.getConnectors().iterator();
 //        while (it4.hasNext()) {
 //        	EPCConnector connect = (EPCConnector) it4.next();
 //        	net1.getConnectors().add(connect);
 //        }
-//        
+//
 //        Iterator<EPCEdge> it3 = net2.getEdges().iterator();
 //        while (it3.hasNext()) {
 //        	EPCEdge edge = (EPCEdge) it3.next();
 //        	net1.getEdges().add(edge);
 //        }
-// 
+//
 
         //3
         HashMap<Long, EPCFunction> org2new = new HashMap<Long, EPCFunction>();
@@ -244,5 +213,36 @@ public class MergeBehavior {
          */
 
         return mergingEpc;
+    }
+
+    /**
+     * Merge all the behavior terms by going thru one by one
+     */
+    private void mergeAll() {
+
+        if (epcs.length == 0) {
+            finalMergedEPC = null;
+            return;
+        } else if (epcs.length == 1) {
+            finalMergedEPC = this.epcs[0];
+            return;
+        }
+
+        // Initialize
+        ConfigurableEPC curEPC = this.epcs[0];
+        for (int i = 1; i < epcs.length; i++) {
+            logger.debug("merging step " + i);
+            curEPC = mergeEPC(curEPC, epcs[i]);
+        }
+
+        this.finalMergedEPC = curEPC;
+        // Finally we have all the epcs merged.
+    }
+
+    /**
+     * @return Final merged EPC
+     */
+    public ConfigurableEPC getMergedBehaviorAsEPC() {
+        return this.finalMergedEPC;
     }
 }

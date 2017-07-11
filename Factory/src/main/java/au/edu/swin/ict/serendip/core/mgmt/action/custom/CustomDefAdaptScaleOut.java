@@ -54,6 +54,22 @@ public class CustomDefAdaptScaleOut extends CustomDefAdaptationAction {
         this.smcId = this.roleId + COMPO_PREFIX;
     }
 
+    //TEST
+    public static void main(String[] args) {
+        System.out.println("Test1");
+        Properties props = new Properties();
+        props.put("er", "GR");
+        props.put("s", "routing.drl ");
+        props.put("eps", "http://a.com/gr, http://b.com/gr");
+        CustomDefAdaptScaleOut action = new CustomDefAdaptScaleOut(commands.expandTheRole.name(), props);
+        try {
+            action.writeSubComFile(null);
+        } catch (AdaptationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
     public boolean adapt(Composite comp) throws AdaptationException {
         comp.getBenchUtil().addBenchRecord("SCALE_OUT", this.roleId);
@@ -356,22 +372,5 @@ public class CustomDefAdaptScaleOut extends CustomDefAdaptationAction {
             // TODO Auto-generated catch block
             throw new AdaptationException("Cannot create the rule file " + tgtFileName + " : " + e.getMessage());
         }
-    }
-
-    //TEST
-    public static void main(String[] args) {
-        System.out.println("Test1");
-        Properties props = new Properties();
-        props.put("er", "GR");
-        props.put("s", "routing.drl ");
-        props.put("eps", "http://a.com/gr, http://b.com/gr");
-        CustomDefAdaptScaleOut action = new CustomDefAdaptScaleOut(commands.expandTheRole.name(), props);
-        try {
-            action.writeSubComFile(null);
-        } catch (AdaptationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
     }
 }

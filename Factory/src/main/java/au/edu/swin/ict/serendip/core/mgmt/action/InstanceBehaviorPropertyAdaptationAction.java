@@ -5,12 +5,12 @@ import au.edu.swin.ict.serendip.core.ProcessInstance;
 import au.edu.swin.ict.serendip.core.mgmt.AdaptationException;
 
 public class InstanceBehaviorPropertyAdaptationAction implements InstanceAdaptAction {
-    private String btId;
-    private String proeprtyId;
-    private String newVal;
     public static final String ISABSTRACT = "isAbstract";
     public static final String EXTEND = "extends";
     public static final String DESCR = "descr";
+    private String btId;
+    private String proeprtyId;
+    private String newVal;
 
     public InstanceBehaviorPropertyAdaptationAction(String btId, String proeprtyId,
                                                     String newVal) {

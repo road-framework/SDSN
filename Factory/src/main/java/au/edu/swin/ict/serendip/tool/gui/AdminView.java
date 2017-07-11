@@ -63,6 +63,10 @@ public class AdminView extends JFrame implements ActionListener {
 
     }
 
+    public static void main(String[] args) {
+        AdminView av = new AdminView();
+    }
+
     //Start the initial view
     private void startView() {
 
@@ -190,7 +194,6 @@ public class AdminView extends JFrame implements ActionListener {
         this.tabbedPane.addTab("Process Instances", ptView);
     }
 
-
     private void addLogView() {
         this.logViewPanel = new JPanel(new BorderLayout());
         this.tabbedPane.addTab("Runtime Monitor", logViewPanel);
@@ -242,7 +245,7 @@ public class AdminView extends JFrame implements ActionListener {
 
     private DefaultTableModel createDefaultTableModel() {
         String[] columnNames = {"Pid", "DefId", "pi status", "Current Task",
-                                "Oblig Role"};
+                "Oblig Role"};
         Object[][] data = {};
         processDtModel = new DefaultTableModel();
         processDtModel.setDataVector(data, columnNames);
@@ -256,7 +259,7 @@ public class AdminView extends JFrame implements ActionListener {
         // First remove all the tasks
         for (int i = 0; i < this.processDtModel.getRowCount(); i++) {
             String tbl_pid = (String) this.processDtModel.getValueAt(i,
-                                                                     this.processDtModel.findColumn("Pid"));// Get the pid
+                    this.processDtModel.findColumn("Pid"));// Get the pid
             if (tbl_pid.equals(pi.getClassifier().getProcessInsId()))
                 ;
             {// We remove tasks of this process instance only
@@ -281,8 +284,8 @@ public class AdminView extends JFrame implements ActionListener {
             }
             if (ProcessInstance.status.completed != pi.getCurrentStatus()) {
                 this.processDtModel.addRow(new Object[]{pi.getClassifier().getProcessInsId(),
-                                                        pi.getDefinitionId(), pi.getCurrentStatus(), taskId,
-                                                        ObligRoleId});
+                        pi.getDefinitionId(), pi.getCurrentStatus(), taskId,
+                        ObligRoleId});
             }
         }
     }
@@ -321,7 +324,7 @@ public class AdminView extends JFrame implements ActionListener {
                 composite = demarsheller.demarshalSMC(file.getAbsolutePath());
                 if (null == composite) {
                     log.error("Cannot instantiate the composite from file "
-                              + file.getAbsoluteFile());
+                            + file.getAbsoluteFile());
                 }
 
             } catch (CompositeDemarshallingException ex) {
@@ -411,12 +414,11 @@ public class AdminView extends JFrame implements ActionListener {
     class UpdateThread extends Thread implements LogWriter {
 
         private JTextArea la = null;
+        private Queue<String> logMsgQ = new ConcurrentLinkedQueue<String>();
 
         public UpdateThread(JTextArea aTextArea) {
             this.la = aTextArea;
         }
-
-        private Queue<String> logMsgQ = new ConcurrentLinkedQueue<String>();
 
         @Override
         public void run() {
@@ -443,9 +445,5 @@ public class AdminView extends JFrame implements ActionListener {
             this.logMsgQ.add("\n[" + context + "]\t:" + message);
 
         }
-    }
-
-    public static void main(String[] args) {
-        AdminView av = new AdminView();
     }
 }

@@ -53,8 +53,9 @@ import java.util.Map;
  * @author Aditya
  */
 public class FactObject implements Cloneable {
+    public final static int EXTERNAL_SOURCE = 0;
+    public final static int INTERNAL_SOURCE = 1;
     private Logger log = Logger.getLogger(FactObject.class.getName());
-
     /*
       * Variables related to facts identifier is the name of the unique
       * identifier of each fact identifierValue is the value of the unique
@@ -66,9 +67,6 @@ public class FactObject implements Cloneable {
     private String factType;
     private int factSource;
     private Map<String, Object> attributes;
-
-    public final static int EXTERNAL_SOURCE = 0;
-    public final static int INTERNAL_SOURCE = 1;
 
     /**
      * Default constructor for the <code>FactObject</code> class. This
@@ -136,6 +134,16 @@ public class FactObject implements Cloneable {
     }
 
     /**
+     * Procedure to set the attributes of the <code>FactObject</code>.
+     *
+     * @param attributes a <code>Map</code> containing the attributes contained in the
+     *                   <code>FactObject</code>.
+     */
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    /**
      * Procedure to set a value to an attribute contained in the
      * <code>FactObject</code>. If there are previous values associated with the
      * attribute, it will be replaced.
@@ -148,16 +156,6 @@ public class FactObject implements Cloneable {
     }
 
     /**
-     * Procedure to set the attributes of the <code>FactObject</code>.
-     *
-     * @param attributes a <code>Map</code> containing the attributes contained in the
-     *                   <code>FactObject</code>.
-     */
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
      * Function to retrieve the type of the fact of this <code>FactObject</code>
      * instance.
      *
@@ -165,6 +163,20 @@ public class FactObject implements Cloneable {
      */
     public String getFactType() {
         return factType;
+    }
+
+    /**
+     * Function to retrieve the fact source. By default, each
+     * <code>FactObject</code> instance defaults to <em>internal</em> source.
+     *
+     * @return the fact source, 0 if <em>external</em> and 1 if
+     * <em>internal</em>.
+     */
+    public int getFactSource() {
+        if (this.factSource == FactObject.EXTERNAL_SOURCE)
+            return FactObject.EXTERNAL_SOURCE;
+        else
+            return FactObject.INTERNAL_SOURCE;
     }
 
     /**
@@ -183,20 +195,6 @@ public class FactObject implements Cloneable {
      */
     public void setFactSource(int source) {
         this.factSource = source;
-    }
-
-    /**
-     * Function to retrieve the fact source. By default, each
-     * <code>FactObject</code> instance defaults to <em>internal</em> source.
-     *
-     * @return the fact source, 0 if <em>external</em> and 1 if
-     * <em>internal</em>.
-     */
-    public int getFactSource() {
-        if (this.factSource == FactObject.EXTERNAL_SOURCE)
-            return FactObject.EXTERNAL_SOURCE;
-        else
-            return FactObject.INTERNAL_SOURCE;
     }
 
     /**
@@ -403,13 +401,13 @@ public class FactObject implements Cloneable {
         // strBldr.append("</Fact>");
 
         String factSource = (this.factSource == FactObject.EXTERNAL_SOURCE ? "external"
-                                                                           : "internal");
+                : "internal");
         strBldr.append("<attributes>");
         for (String attr : this.getAttributes().keySet()) {
             strBldr.append("<attribute><attributeKey>" + attr
-                           + "</attributeKey>" + "<attributeValue>"
-                           + this.getAttribute(attr).toString() + "</attributeValue>"
-                           + "</attribute>");
+                    + "</attributeKey>" + "<attributeValue>"
+                    + this.getAttribute(attr).toString() + "</attributeValue>"
+                    + "</attribute>");
         }
 
 

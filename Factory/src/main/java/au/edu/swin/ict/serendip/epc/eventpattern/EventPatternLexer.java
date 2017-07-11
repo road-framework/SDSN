@@ -11,6 +11,8 @@ import java.util.Hashtable;
 
 public class EventPatternLexer extends antlr.CharScanner implements
         EventPatternParserTokenTypes, TokenStream {
+    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
+
     public EventPatternLexer(InputStream in) {
         this(new ByteBuffer(in));
     }
@@ -28,6 +30,11 @@ public class EventPatternLexer extends antlr.CharScanner implements
         caseSensitiveLiterals = true;
         setCaseSensitive(true);
         literals = new Hashtable();
+    }
+
+    private static final long[] mk_tokenSet_0() {
+        long[] data = {288019269919178752L, 576460744518795262L, 0L, 0L};
+        return data;
     }
 
     public Token nextToken() throws TokenStreamException {
@@ -108,7 +115,7 @@ public class EventPatternLexer extends antlr.CharScanner implements
     }
 
     public final void mWS(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -135,7 +142,7 @@ public class EventPatternLexer extends antlr.CharScanner implements
                 }
                 default: {
                     throw new NoViableAltForCharException((char) LA(1),
-                                                          getFilename(), getLine(), getColumn());
+                            getFilename(), getLine(), getColumn());
                 }
             }
         }
@@ -143,14 +150,14 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mLPAREN(boolean _createToken)
-    throws RecognitionException, CharStreamException,
-    TokenStreamException {
+            throws RecognitionException, CharStreamException,
+            TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -161,14 +168,14 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mRPAREN(boolean _createToken)
-    throws RecognitionException, CharStreamException,
-    TokenStreamException {
+            throws RecognitionException, CharStreamException,
+            TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -179,13 +186,13 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mAND(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -196,13 +203,13 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mOR(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -213,13 +220,13 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mSEMI(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -230,13 +237,13 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mINT(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -254,7 +261,7 @@ public class EventPatternLexer extends antlr.CharScanner implements
                         break _loop90;
                     } else {
                         throw new NoViableAltForCharException((char) LA(1),
-                                                              getFilename(), getLine(), getColumn());
+                                getFilename(), getLine(), getColumn());
                     }
                 }
 
@@ -264,13 +271,13 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
 
     public final void mWORD(boolean _createToken) throws RecognitionException,
-    CharStreamException, TokenStreamException {
+            CharStreamException, TokenStreamException {
         int _ttype;
         Token _token = null;
         int _begin = text.length();
@@ -370,7 +377,7 @@ public class EventPatternLexer extends antlr.CharScanner implements
                             break _loop93;
                         } else {
                             throw new NoViableAltForCharException((char) LA(1),
-                                                                  getFilename(), getLine(), getColumn());
+                                    getFilename(), getLine(), getColumn());
                         }
                     }
                 }
@@ -380,16 +387,9 @@ public class EventPatternLexer extends antlr.CharScanner implements
         if (_createToken && _token == null && _ttype != Token.SKIP) {
             _token = makeToken(_ttype);
             _token.setText(new String(text.getBuffer(), _begin, text.length()
-                                                                - _begin));
+                    - _begin));
         }
         _returnToken = _token;
     }
-
-    private static final long[] mk_tokenSet_0() {
-        long[] data = {288019269919178752L, 576460744518795262L, 0L, 0L};
-        return data;
-    }
-
-    public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
 
 }

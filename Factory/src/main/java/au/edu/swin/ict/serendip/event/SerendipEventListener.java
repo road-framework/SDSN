@@ -21,19 +21,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class SerendipEventListener implements EventListener {
 
-    private String currentMatchedPattern;
-
-    public String getCurrentMatchedPattern() {
-        return currentMatchedPattern;
-    }
-
-    public void setCurrentMatchedPattern(String currentMatchedPattern) {
-        this.currentMatchedPattern = currentMatchedPattern;
-    }
-
     private final List<String> triggeredEvents = new ArrayList<String>();
-
+    private final Lock lock = new ReentrantLock();
+    private String currentMatchedPattern;
     private List<String> eventPatterns = new ArrayList<String>();
+    private Classifier classifier = null;
 //    private List<String> preEPIds;
 
 //    public List<String> getPreEPIds() {
@@ -44,9 +36,13 @@ public abstract class SerendipEventListener implements EventListener {
 //        this.preEPIds = preEPIds;
 //    }
 
-    private Classifier classifier = null;
+    public String getCurrentMatchedPattern() {
+        return currentMatchedPattern;
+    }
 
-    private final Lock lock = new ReentrantLock();
+    public void setCurrentMatchedPattern(String currentMatchedPattern) {
+        this.currentMatchedPattern = currentMatchedPattern;
+    }
 
     public List<String> getEventPatterns() {
         return eventPatterns;

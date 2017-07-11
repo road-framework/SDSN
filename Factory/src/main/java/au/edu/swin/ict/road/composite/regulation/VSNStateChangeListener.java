@@ -43,12 +43,12 @@ public class VSNStateChangeListener extends BaseManagementStateChangeListener {
                 VSNDefinition vsnDefinition = composite.getSerendipEngine().getProcessDefinitionGroup(classifier.getVsnId());
                 if (classifier.getProcessId() == null) {
                     role.executeRoutingRules(new RoutingRuleExecutionEvent(message, vsnDefinition.getMgtState()),
-                                             classifier.getVsnId());
+                            classifier.getVsnId());
                 }
                 if (classifier.getProcessId() != null) {
                     ProcessDefinition processDefinition = vsnDefinition.getProcessDefinition(classifier.getProcessId());
                     role.executeRoutingRules(new RoutingRuleExecutionEvent(message, vsnDefinition.getMgtState(), (ProcessManagementState) processDefinition.getMgtState()),
-                                             classifier.getVsnId() + "_" + classifier.getProcessId());
+                            classifier.getVsnId() + "_" + classifier.getProcessId());
                 }
             }
         }

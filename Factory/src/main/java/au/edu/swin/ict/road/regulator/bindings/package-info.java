@@ -5,4 +5,5 @@
 // Generated on: 2011.08.14 at 06:32:41 PM EST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.swin.edu.au/ict/road/regulator/Facts") package au.edu.swin.ict.road.regulator.bindings;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.swin.edu.au/ict/road/regulator/Facts")
+package au.edu.swin.ict.road.regulator.bindings;

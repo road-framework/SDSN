@@ -27,7 +27,7 @@ public class EventKnowledgeBase {
     private WorkingMemoryEntryPoint globalStream = null;
 
     public EventKnowledgeBase(String compositionId, String[] ruleFileNames)
-    throws Exception {
+            throws Exception {
         KnowledgeSessionConfiguration kbSessionConfig = KnowledgeBaseFactory
                 .newKnowledgeSessionConfiguration();
         kbase = readKnowledgeBase(compositionId, ruleFileNames);
@@ -69,8 +69,8 @@ public class EventKnowledgeBase {
         for (int i = 0; i < ruleFileNames.length; i++) {
 
             kbuilder.add(ResourceFactory.newFileResource("sample/rules/"
-                                                         + compositionId + "/" + ruleFileNames[i] + ".drl"),
-                         ResourceType.DRL);
+                            + compositionId + "/" + ruleFileNames[i] + ".drl"),
+                    ResourceType.DRL);
         }
 
         KnowledgeBuilderErrors errors = kbuilder.getErrors();
@@ -96,7 +96,7 @@ public class EventKnowledgeBase {
         for (int i = 0; i < bTerms.length; i++) {
             CollaborationUnitType bt = bTerms[i];
             kbuilder.add(ResourceFactory.newFileResource("sample/rules/"
-                                                         + bt.getId() + ".drl"), ResourceType.DRL);
+                    + bt.getId() + ".drl"), ResourceType.DRL);
         }
 
         KnowledgeBuilderErrors errors = kbuilder.getErrors();

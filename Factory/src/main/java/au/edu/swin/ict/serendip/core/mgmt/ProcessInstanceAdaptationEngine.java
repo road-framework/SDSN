@@ -95,7 +95,7 @@ public class ProcessInstanceAdaptationEngine {
      */
     private void restore() {
         this.engine.replaceProcessInstance(this.bkupInstance,
-                                           this.bkupInstance.getClassifier());// Both have the same id
+                this.bkupInstance.getClassifier());// Both have the same id
 
     }
 }

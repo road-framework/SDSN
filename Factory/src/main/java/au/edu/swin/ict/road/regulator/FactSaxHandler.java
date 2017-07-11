@@ -59,8 +59,8 @@ public class FactSaxHandler extends DefaultHandler {
                 } else if (attributes.getValue(1).equalsIgnoreCase("internal")) {
                     factSource = FactObject.INTERNAL_SOURCE;
                 } else if (!attributes.getValue(1).equalsIgnoreCase("external")
-                           && !attributes.getValue(1).equalsIgnoreCase("internal")
-                           && attributes.getValue(1) != "") {
+                        && !attributes.getValue(1).equalsIgnoreCase("internal")
+                        && attributes.getValue(1) != "") {
                     throw new SAXException(
                             "The source must be either internal or external");
                 }
@@ -82,7 +82,7 @@ public class FactSaxHandler extends DefaultHandler {
     }
 
     public void characters(char ch[], int start, int length)
-    throws SAXException {
+            throws SAXException {
         String value = new String(ch, start, length);
 
         if (!value.trim().equals("")) {
@@ -97,17 +97,17 @@ public class FactSaxHandler extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qName)
-    throws SAXException {
+            throws SAXException {
 
         if (localName.equalsIgnoreCase("Fact")) {
 
             if (factType.length() == 0 || identifier.length() == 0
-                || identifierValue.length() == 0) {
+                    || identifierValue.length() == 0) {
                 throw new SAXException(
                         "The Fact Type, Identifier or Identifier Value cannot be null");
             } else {
                 factObject = new FactObject(factType, identifier,
-                                            identifierValue);
+                        identifierValue);
                 factObject.setAttributes(properties);
                 factObject.setFactSource(factSource);
                 factObjectList.add(factObject);

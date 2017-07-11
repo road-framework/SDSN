@@ -43,11 +43,11 @@ public class SimpleRRScheduler extends TimerTask implements FlowControlFunction,
             queue.offer(msg, 60 * 1000, TimeUnit.MILLISECONDS);
             if (log.isInfoEnabled()) {
                 log.info("Queue the message : " +
-                         msg.getMessageWrapper().getMessageId() + " at " + roleId + " in the queue : " + queueId);
+                        msg.getMessageWrapper().getMessageId() + " at " + roleId + " in the queue : " + queueId);
             }
         } catch (InterruptedException ignored) {
             log.error("Error queuing the message : " + msg.getMessageWrapper().getMessageId()
-                      + " , " + ignored.getMessage(), ignored);
+                    + " , " + ignored.getMessage(), ignored);
         }
         return new FlowControlResult(FlowControlResult.ALLOWED, "Enqueued the message successfully");
     }
@@ -70,7 +70,7 @@ public class SimpleRRScheduler extends TimerTask implements FlowControlFunction,
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Executing the scheduler at the outport : " + interaction +
-                          " of the role : " + roleId);
+                        " of the role : " + roleId);
             }
             for (Queue<MessageReceivedAtOutPortEvent> queue : queues.values()) {
                 MessageReceivedAtOutPortEvent mse = queue.poll();

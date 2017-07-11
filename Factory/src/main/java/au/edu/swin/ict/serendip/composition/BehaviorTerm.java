@@ -32,15 +32,10 @@ import java.util.List;
  */
 public class BehaviorTerm {
     private static Logger log = Logger.getLogger(BehaviorTerm.class.getName());
-
-    private enum status {
-        BLOCKED, UNBLOCKED
-    }
+    private List<Task> tasksVec = new ArrayList<Task>();
 
     // Blocked= cannot be modified. All the modification methods should
     // NOT continue if BLOCKED
-
-    private List<Task> tasksVec = new ArrayList<Task>();
     private String id = null;
     private ConfigurableEPC epc = null;// Each behaviour term got its EPC
     private Composite composite = null;
@@ -51,11 +46,6 @@ public class BehaviorTerm {
     private boolean isAbstract = false;
     private CollaborationUnitType btType;
     private BehaviorUnitManagementState mgtState;
-
-    public enum propertyAttribute {
-        isAbstract, extendsFrom
-    }
-
     /**
      * Simplest form of the constructor. Cannot be enacted
      *
@@ -71,7 +61,6 @@ public class BehaviorTerm {
         this.isAbstract = isBastract;
         this.mgtState = new BehaviorUnitManagementState(id);
     }
-
 
     /**
      * The constructor to enact the behavior terms
@@ -106,13 +95,46 @@ public class BehaviorTerm {
 //			this.fromDescriptor(btType);// load from the <Task> elements in the
 //			// descriptor
 //		}
-//		
+//
 //		//Then we need to add the tasks from the parent behavior(s) if any
 //		if(null!=this.extendsFrom){
-//			this.supportInheritance();			
+//			this.supportInheritance();
 //		}
         this.init(btType, composite);
         this.mgtState = new BehaviorUnitManagementState(btType.getId());
+
+    }
+
+    public static void getAllParents(String btId, List<String> parentList, Composition comp) {
+        CollaborationUnitType childBT = comp.getCollaborationUnitTypeById(btId);
+        if (null == childBT) {
+            return;
+        }
+        String parentId = childBT.getExtends();
+        if ((null == parentId) || (parentId.equals(""))) {
+            //No parent
+            return;
+        } else {
+            //We have a parent
+            //Add to cart
+            parentList.add(parentId);
+            //recursive
+            getAllParents(parentId, parentList, comp);
+        }
+
+    }
+
+    public static boolean isChildOf(Composition comp, String childId, String parentId) {
+
+        List<String> parentIds = new ArrayList<String>();
+        getAllParents(childId, parentIds, comp);
+        for (String s : parentIds) {
+            if (s.equals(parentId)) {
+                return true;
+            }
+        }
+
+        return false;
 
     }
 
@@ -197,12 +219,12 @@ public class BehaviorTerm {
                         childTask.addEventPattern(t.getEventPatterns().get(0));
                     }
                     if ((null == childTask.getPostEventPattern()) ||
-                        (childTask.getPostEventPattern().equals(""))) {
+                            (childTask.getPostEventPattern().equals(""))) {
                         childTask.setPostEventPattern(t.getPostEventPattern());
                     }
                     if ((null == childTask.getProperty()) ||
-                        (null == childTask.getProperty().getValue()) ||
-                        childTask.getProperty().getValue().equals("")) {
+                            (null == childTask.getProperty().getValue()) ||
+                            childTask.getProperty().getValue().equals("")) {
                         childTask.setProperty(new PerformanceProperty(t.getProperty().getValue()));
                     }
                     //NOTE: If there are any other attributes of Task please override them here
@@ -241,7 +263,7 @@ public class BehaviorTerm {
     }
 
     private void fromDescriptor(CollaborationUnitType btType)
-    throws SerendipException {
+            throws SerendipException {
         //First we add the tasks defined in the behavior term itself
         List<TaskRefType> taskRefList = btType.getConfigurationDesign().getTaskRef();
         if (taskRefList.size() < 1) {
@@ -263,10 +285,10 @@ public class BehaviorTerm {
             // create tasks
             Task task = new Task(this.composite.getSerendipEngine(), this.pi, taskId, tt
                     .getPreEP(), tt.getPostEP(), roleId, null,
-                                 new PerformanceProperty(tt.getPerformanceVal()), this);
+                    new PerformanceProperty(tt.getPerformanceVal()), this);
 //            task.setPreEPIds(tt.getPreEPIds());
             String functionName = task.getObligatedRoleId() + "."
-                                  + task.getId() + "(" + task.getProperty().getValue() + ")";
+                    + task.getId() + "(" + task.getProperty().getValue() + ")";
 
             this.tasksVec.add(task);
         }
@@ -277,7 +299,7 @@ public class BehaviorTerm {
 
     private void fromEPML() throws SerendipException {
         File file = new File(engine.getModelFactory().getFileLoadingDirectory()
-                             + "/" + this.id + ".epml");
+                + "/" + this.id + ".epml");
         try {
             this.epc = EPMLReader.getEPCFromFile(file);
         } catch (Exception e) {
@@ -287,7 +309,7 @@ public class BehaviorTerm {
 
         if (null == this.epc) {
             throw new SerendipException("Unable to load a valid behavor from "
-                                        + file.getAbsolutePath());
+                    + file.getAbsolutePath());
         }
 
         // This will populate the behavior term
@@ -374,7 +396,7 @@ public class BehaviorTerm {
         Task t = this.getTask(taskId);
         if (null == t) {
             System.err.println("Error in adding new event no such task "
-                               + taskId);
+                    + taskId);
             return false;
         }
 
@@ -383,10 +405,10 @@ public class BehaviorTerm {
         ConfigurableEPC result = null;
         if (preOrPost.equals("pre")) {
             result = EPCModifier.addPreEvent(this.epc, functionId, eventId,
-                                             connectorStr);
+                    connectorStr);
         } else if (preOrPost.equals("post")) {
             result = EPCModifier.addPostEvent(this.epc, functionId, eventId,
-                                              connectorStr);
+                    connectorStr);
         } else {
 
         }
@@ -401,7 +423,7 @@ public class BehaviorTerm {
         // Then we take care of rest of the details
         EPCFunction function = this.epc.getAllFunctions(functionId).get(0);
         Task taskNew = EPCToSerendip.parseFunction(function, engine, pi,
-                                                   this.epc, this);
+                this.epc, this);
 
         this.tasksVec.remove(t);// We remove the current task
         this.tasksVec.add(taskNew);// Then replace with the new one
@@ -537,36 +559,11 @@ public class BehaviorTerm {
 
     }
 
-    public static void getAllParents(String btId, List<String> parentList, Composition comp) {
-        CollaborationUnitType childBT = comp.getCollaborationUnitTypeById(btId);
-        if (null == childBT) {
-            return;
-        }
-        String parentId = childBT.getExtends();
-        if ((null == parentId) || (parentId.equals(""))) {
-            //No parent
-            return;
-        } else {
-            //We have a parent
-            //Add to cart
-            parentList.add(parentId);
-            //recursive
-            getAllParents(parentId, parentList, comp);
-        }
-
+    private enum status {
+        BLOCKED, UNBLOCKED
     }
 
-    public static boolean isChildOf(Composition comp, String childId, String parentId) {
-
-        List<String> parentIds = new ArrayList<String>();
-        getAllParents(childId, parentIds, comp);
-        for (String s : parentIds) {
-            if (s.equals(parentId)) {
-                return true;
-            }
-        }
-
-        return false;
-
+    public enum propertyAttribute {
+        isAbstract, extendsFrom
     }
 }

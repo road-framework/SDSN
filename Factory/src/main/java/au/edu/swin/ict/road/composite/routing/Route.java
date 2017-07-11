@@ -5,6 +5,8 @@ package au.edu.swin.ict.road.composite.routing;
  */
 public class Route {
     private int threshold;
+    private String processId;
+    private int weight = 1;
 
     public Route(String processId) {
         this.processId = processId;
@@ -30,10 +32,6 @@ public class Route {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-
-    private String processId;
-    private int weight = 1;
-
 
     public int getThreshold() {
         return threshold;

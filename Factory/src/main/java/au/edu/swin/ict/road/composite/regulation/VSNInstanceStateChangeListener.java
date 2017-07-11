@@ -26,7 +26,7 @@ public class VSNInstanceStateChangeListener extends BaseManagementStateChangeLis
         try {
             eventCloud.addEvent(
                     new EventRecord("eVSNInstanceStateChanged", vsnInstance.getClassifier(),
-                                    ManagementState.STATE_ACTIVE, destinationRole));
+                            ManagementState.STATE_ACTIVE, destinationRole));
         } catch (SerendipException e) {
             e.printStackTrace();
         }

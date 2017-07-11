@@ -57,7 +57,7 @@ public class FactMessageSaxHandler extends DefaultHandler {
     }
 
     public void characters(char ch[], int start, int length)
-    throws SAXException {
+            throws SAXException {
         String value = new String(ch, start, length);
 
         if (!value.trim().equals("")) {
@@ -89,17 +89,17 @@ public class FactMessageSaxHandler extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qName)
-    throws SAXException {
+            throws SAXException {
 
         if (localName.equalsIgnoreCase("Fact")) {
 
             if (factNameValue.length() == 0 || IdentifierKey.length() == 0
-                || IdentifierValue.length() == 0) {
+                    || IdentifierValue.length() == 0) {
                 throw new SAXException(
                         "The Fact Type, Identifier or Identifier Value cannot be null");
             } else {
                 factObject = new FactObject(factNameValue, IdentifierKey,
-                                            IdentifierValue);
+                        IdentifierValue);
                 factObject.setAttributes(properties);
                 factObject.setFactSource(factSource);
                 factObjectList.add(factObject);

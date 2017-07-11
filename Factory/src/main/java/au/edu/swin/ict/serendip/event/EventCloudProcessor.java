@@ -6,10 +6,10 @@ import au.edu.swin.ict.serendip.core.SerendipException;
 import org.apache.log4j.Logger;
 
 public class EventCloudProcessor extends Thread {
+    private static Logger log = Logger.getLogger(EventCloud.class);
     private EventCloud eventCloud;
     private ROADThreadPool eventCloudPool;
     private boolean terminated = false;
-    private static Logger log = Logger.getLogger(EventCloud.class);
 
     public EventCloudProcessor(String name, EventCloud eventCloud, ROADThreadPool eventCloudPool) {
         super(name);

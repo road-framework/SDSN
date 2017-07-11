@@ -4,18 +4,16 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 public class ResponseCallback {
     private boolean _timedout;
+    private boolean _waiting = true;
+    private MessageWrapper response;
 
     public boolean is_timedout() {
         return _timedout;
     }
 
-    private boolean _waiting = true;
-
     public MessageWrapper getResponse() {
         return response;
     }
-
-    private MessageWrapper response;
 
     public synchronized boolean responseReceived(MessageWrapper messageWrapper) {
         if (_timedout) {

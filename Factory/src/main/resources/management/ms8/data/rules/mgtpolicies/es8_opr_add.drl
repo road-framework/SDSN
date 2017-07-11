@@ -15,7 +15,7 @@ rule "es8_opr_stage1"
 
     oprMgt.addSynchronizationRule("HC","HC_SYN.drl");
     oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
-    oprMgt.updateSynchronizationRule("SC","notify","replace" ,"MM_SYN_Diff_Replace.drl");
+    oprMgt.updateSynchronizationRule("MM","notify","replace" ,"MM_SYN_Diff_Replace.drl");
 
     oprMgt.addRoutingRule("HC","HC_Routing.drl");
     oprMgt.updateRoutingRule("SC","analyzeResponse,payGCResponse","replace","SC_Routing_Diff_Replace.drl");

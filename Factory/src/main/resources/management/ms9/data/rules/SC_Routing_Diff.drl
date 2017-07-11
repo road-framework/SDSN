@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "payVCResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payVCResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.payVehicleRent.Res","PayVehicleRentRes.xsl",$msg);
+end

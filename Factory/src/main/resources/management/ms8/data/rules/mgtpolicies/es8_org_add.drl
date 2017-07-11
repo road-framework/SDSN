@@ -19,15 +19,11 @@ rule "es8_org_stage1"
    orgMgt.setTaskOutMessage("HC","EndRoomRent","endRoomRent","String:content","String");
    orgMgt.setServiceBinding("HC","http://localhost:8082/axis2/services/HotelService");
 
-   orgMgt.addTask("GC1","ReceiveExternalAssessment","GC1-AS.orderRepairAssessment.Res","GC1-PS.orderParts.Req");
-   orgMgt.setTaskInMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
-   orgMgt.setTaskOutMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
-
    orgMgt.addTask("SC","PayHC","SC-HC.payRoomRent.Req","SC-HC.payRoomRent.Res");
    orgMgt.setTaskInMessage("SC","PayHC","payHC","String:content","String");
    orgMgt.setTaskOutMessage("SC","PayHC","payHC","String:content","String");
 
-   orgMgt.updateTask("SC","PayGC","add","outputs","SC-HC.rentRoom.Req");
+   orgMgt.updateTask("SC","PayGC","add","outputs","SC-HC.endRoomRent.Req");
    orgMgt.updateTask("SC","Analyze","add","outputs","SC-HC.rentRoom.Req");
 
    orgMgt.addContract("SC-HC","SC","HC");
@@ -39,7 +35,7 @@ rule "es8_org_stage1"
    orgMgt.setTermOperation("SC-HC","payRoomRent","payRoomRent","String:content","String");
 
    orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentRoomReqd");
-   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","SC.PayGC"," postEP "," eGC1Paid * eHCPaid");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","SC.PayGC"," postEP "," eGC1Paid * eEndRoomRentReqd");
 
    orgMgt.addBehaviorUnit("RentingRoom");
    orgMgt.addTaskToBehaviorUnit("RentingRoom","HC.RentRoom","eRentRoomReqd","eRentedRoom");
@@ -60,9 +56,8 @@ rule "es8_org_stage2"
   then
    disabledSet.disable("es8_org_stage2");
    System.out.println("Organizational management policy es8_org_stage2 has been started.");
-   orgMgt.updateRole("LF","state","active");
-   orgMgt.updateContract("LF-TC2","state","active");
-   orgMgt.updateContract("SC-LF","state","active");
+   orgMgt.updateRole("HC","state","active");
+   orgMgt.updateContract("SC-HC","state","active");
    orgMgt.updateBehaviorUnit("RentingRoom","state","active");
    System.out.println("Organizational management policy es8_org_stage2 has been completed successfully.");
    $mpsOrg.setState("quiescence");

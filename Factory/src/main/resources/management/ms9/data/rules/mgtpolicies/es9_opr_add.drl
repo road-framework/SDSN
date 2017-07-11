@@ -1,0 +1,37 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es9_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es9_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es9_org", state=="stage1done") )
+  then
+    disabledSet.disable("es9_opr_stage1");
+    System.out.println("Operational management policy es9_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("VC","VC_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+
+    oprMgt.addRoutingRule("VC","VC_Routing.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponse,payGCResponse","replace","SC_Routing_Diff_Replace.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+
+    oprMgt.addPassthroughRule("SC-VC","SC-VC.drl");
+    oprMgt.updateGlobalRule("terminateV1","replace" ,"roadside_global_diff_replace.drl");
+
+    oprMgt.addRegulationUnit("RentingVehicle");
+    oprMgt.addSynchronizationRulesToRegulationUnit("RentingVehicle","rentVehicle:VC,endVehicleRent:VC,payVC:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("RentingVehicle","payVCResponse:SC,rentVehicleResponse:VC,endVehicleRentResponse:VC");
+    oprMgt.addPassthroughRulesToRegulationUnit("RentingVehicle","rentVehicle:SC-VC,rentVehicleResponse:SC-VC,endVehicleRent:SC-VC,endVehicleRentResponse:SC-VC,payVehicleRent:SC-VC,payVehicleRentResponse:SC-VC");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","RentingVehicle");
+
+    oprMgt.updateRegulationUnit("RentingVehicle","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","RentingVehicle","state","active");
+
+    System.out.println("Operational management policy es9_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

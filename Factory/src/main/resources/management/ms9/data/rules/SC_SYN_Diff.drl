@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "payVC"
+  when
+   $e1 : EventRecord(eventId == "ePayVCReqd")
+  then
+   disabledSet.disable("payVC");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-VC.payVehicleRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayVC.xsl","PayVC");
+   actions.ExecuteTask(exMsg);
+end

@@ -1,0 +1,63 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es9_org_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es9_org", state=="incipient")
+   then
+   disabledSet.disable("es9_org_stage1");
+   System.out.println("Organizational management policy es9_org_stage1 has been started.");
+   orgMgt.addRole("VC","SilverVehicles");
+   orgMgt.addTask("VC","RentVehicle","SC-VC.rentVehicle.Req","SC-VC.rentVehicle.Res");
+   orgMgt.setTaskInMessage("VC","RentVehicle","rentVehicle","String:content","String");
+   orgMgt.setTaskOutMessage("VC","RentVehicle","rentVehicle","String:content","String");
+   orgMgt.addTask("VC","EndVehicleRent","SC-VC.endVehicleRent.Req","SC-VC.endVehicleRent.Res,SC-VC.payVehicleRent.Req");
+   orgMgt.setTaskInMessage("VC","EndVehicleRent","endVehicleRent","String:content","String");
+   orgMgt.setTaskOutMessage("VC","EndVehicleRent","endVehicleRent","String:content","String");
+   orgMgt.setServiceBinding("VC","http://localhost:8082/axis2/services/VehicleRentalService");
+
+   orgMgt.addTask("SC","PayVC","SC-VC.payVehicleRent.Req","SC-VC.payVehicleRent.Res");
+   orgMgt.setTaskInMessage("SC","PayVC","payVC","String:content","String");
+   orgMgt.setTaskOutMessage("SC","PayVC","payVC","String:content","String");
+
+   orgMgt.updateTask("SC","PayGC","add","outputs","SC-VC.endVehicleRent.Req");
+   orgMgt.updateTask("SC","Analyze","add","outputs","SC-VC.rentVehicle.Req");
+
+   orgMgt.addContract("SC-VC","SC","VC");
+   orgMgt.addTerm("SC-VC","rentVehicle","AtoB");
+   orgMgt.setTermOperation("SC-VC","rentVehicle","rentVehicle","String:content","String");
+   orgMgt.addTerm("SC-VC","endVehicleRent","AtoB");
+   orgMgt.setTermOperation("SC-VC","endVehicleRent","endVehicleRent","String:content","String");
+   orgMgt.addTerm("SC-VC","payVehicleRent","BtoA");
+   orgMgt.setTermOperation("SC-VC","payVehicleRent","payVehicleRent","String:content","String");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentRoomReqd * eRentVehicleReqd");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","SC.PayGC"," postEP "," eGC1Paid * eEndRoomRentReqd * eEndVehicleRentReqd");
+
+   orgMgt.addBehaviorUnit("RentingVehicle");
+   orgMgt.addTaskToBehaviorUnit("RentingVehicle","VC.RentVehicle","eRentVehicleReqd","eRentedVehicle");
+   orgMgt.addTaskToBehaviorUnit("RentingVehicle","VC.EndVehicleRent", "eEndVehicleRentReqd","eEndedVehicleRent");
+   orgMgt.addTaskToBehaviorUnit("RentingVehicle","SC.PayVC", "ePayVCReqd","eVCPaid");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","RentingVehicle");
+   System.out.println("Organizational management policy es9_org_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es9_org_stage2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="es9_org", state=="stage1done") ) and  ( $mpsOpr :
+                                                                               ManagementPolicyState (id
+                                                                               =="es9_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es9_org_stage2");
+   System.out.println("Organizational management policy es9_org_stage2 has been started.");
+   orgMgt.updateRole("VC","state","active");
+   orgMgt.updateContract("SC-VC","state","active");
+   orgMgt.updateBehaviorUnit("RentingVehicle","state","active");
+   System.out.println("Organizational management policy es9_org_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+ end

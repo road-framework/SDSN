@@ -113,7 +113,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         log.info("Operational Manager : remove sync regulation rule : " + ruleId1);
         String place = place1.trim();
         String ruleId = ruleId1.trim();
-        composite.getRole(place).getSynRules().removeRule(ruleId);
+        String[] ruleIds = ruleId.split(",");
+        for (String rule : ruleIds) {
+            composite.getRole(place).getSynRules().removeRule(rule.trim());
+        }
         return new OperationalMgtOpResult(true, "The sync regulation rule" + ruleId + "has been removed.");
     }
 
@@ -151,7 +154,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         log.info("Operational Manager : remove routing regulation rule : " + ruleId1);
         String place = place1.trim();
         String ruleId = ruleId1.trim();
-        composite.getRole(place).getRoutingRules().removeRule(ruleId);
+        String[] ruleIds = ruleId.split(",");
+        for (String rule : ruleIds) {
+            composite.getRole(place).getRoutingRules().removeRule(rule.trim());
+        }
         return new OperationalMgtOpResult(true, "The routing regulation rule" + ruleId + "has been removed.");
     }
 
@@ -189,7 +195,10 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         log.info("Operational Manager : remove passthrough regulation rule : " + ruleId1);
         String place = place1.trim();
         String ruleId = ruleId1.trim();
-        composite.getContract(place).getContractRules().removeRule(ruleId);
+        String[] ruleIds = ruleId.split(",");
+        for (String rule : ruleIds) {
+            composite.getContract(place).getContractRules().removeRule(rule.trim());
+        }
         return new OperationalMgtOpResult(true, "The passthrough regulation rule" + ruleId + "has been removed.");
     }
 
@@ -224,7 +233,11 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     @Override
     public OperationalMgtOpResult removeGlobalRule(String ruleId1) {
         log.info("Operational Manager : remove global regulation rule " + ruleId1);
-        composite.getGlobalKnowledgebase().removeRegulationRule(ruleId1.trim());
+        String ruleId = ruleId1.trim();
+        String[] ruleIds = ruleId.split(",");
+        for (String rule : ruleIds) {
+            composite.getGlobalKnowledgebase().removeRegulationRule(rule.trim());
+        }
         return new OperationalMgtOpResult(true, "The global regulation rule has been removed");
     }
 

@@ -1,0 +1,39 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es2_org_remove_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es2_org_remove", state=="incipient") and
+  ( $mpsOpr : ManagementPolicyState (id=="es2_opr_remove", state=="quiescence"))
+   then
+   disabledSet.disable("es2_org_remove_stage1");
+   System.out.println("Organizational management policy es2_org_remove_stage1 has been started.");
+   orgMgt.updateRole("FD","state","passive");
+   orgMgt.updateContract("MM-FD","state","passive");
+   orgMgt.updateBehaviorUnit("Reimbursement","state","passive");
+
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoS","eAssistReqd");
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","Reimbursement");
+   orgMgt.removeTaskFromBehaviorUnit("Reimbursement","FD.Reimburse");
+   orgMgt.removeBehaviorUnit("Reimbursement");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify");
+
+   orgMgt.removeTerm("MM-FD","reimburse");
+   orgMgt.removeContract("MM-FD");
+
+   orgMgt.removeTask("FD","Reimburse");
+   orgMgt.removeRole("FD");
+
+   orgMgt.updateTask("MM","RequestAssist","remove","inputs","MM-FD.reimburse.Req");
+   orgMgt.updateTask("MM","Notify","remove","outputs","MM-FD.reimburse.Res");
+
+
+
+   System.out.println("Organizational management policy es2_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+end

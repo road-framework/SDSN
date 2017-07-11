@@ -47,14 +47,14 @@ rule "es1_opr_remove_stage1"
     oprMgt.removeRoutingRulesFromInterVSNRegulationUnit("classify:MM");
     oprMgt.removeInterVSNRegulation();
 
-    oprMgt.removeSynchronizationRule("MM","MM_SYN.drl");
-    oprMgt.removeSynchronizationRule("SC","SC_SYN.drl");
+    oprMgt.removeSynchronizationRule("MM","notify");
+    oprMgt.removeSynchronizationRule("SC","analyze");
 
-    oprMgt.removeRoutingRule("MM","MM_Routing.drl");
-    oprMgt.removeRoutingRule("SC","SC_Routing.drl");
+    oprMgt.removeRoutingRule("MM","classify,admissionCheckV1,drop,createVsnInstance,requestAssistV1");
+    oprMgt.removeRoutingRule("SC","analyzeResponse");
 
-    oprMgt.removePassthroughRule("SC-MM","SC-MM.drl");
-    oprMgt.removeGlobalRule("roadside_global.drl");
+    oprMgt.removePassthroughRule("SC-MM","assist,assistResponse");
+    oprMgt.removeGlobalRule("activateV1,terminateV1");
 
     System.out.println("Operational management policy es1_opr_remove_stage1 has been completed successfully.");
     $mpsOpr.setState("quiescence");

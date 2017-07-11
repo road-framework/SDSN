@@ -1,0 +1,34 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es2_opr_remove_stage1"
+  when
+    $mpsOpr : ManagementPolicyState (id =="es2_opr_remove", state=="incipient")
+  then
+    disabledSet.disable("es2_opr_remove_stage1");
+    System.out.println("Operational management policy es2_opr_remove_stage1 has been started.");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","Reimbursement","state","passive");
+    oprMgt.updateRegulationUnit("Reimbursement","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","Reimbursement");
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("Reimbursement","reimburse:FD");
+    oprMgt.removeRoutingRulesFromRegulationUnit("Reimbursement","requestAssistV2:MM,reimburseResponse:FD");
+    oprMgt.removePassthroughRulesFromRegulationUnit("Reimbursement","reimburse:MM-FD,reimburseResponse:MM-FD");
+    oprMgt.removeRegulationUnit("Reimbursement");
+
+    oprMgt.removeSynchronizationRule("FD","reimburse");
+    oprMgt.removeSynchronizationRule("MM","notify");
+    oprMgt.addSynchronizationRule("MM","MM_SYN.drl");
+
+    oprMgt.removeRoutingRule("MM","requestAssistV2");
+    oprMgt.removeRoutingRule("FD","reimburseResponse");
+
+    oprMgt.removePassthroughRule("MM-FD","reimburse,reimburseResponse");
+    oprMgt.updateGlobalRule("terminateV1,activateV1","replace","roadside_global.drl");
+
+    System.out.println("Operational management policy es2_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

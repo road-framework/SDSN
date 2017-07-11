@@ -17,28 +17,28 @@ public class SMCTest5 {
                     ConfigurationContextFactory.createConfigurationContextFromFileSystem("sample\\confs\\axis2.xml"),
                     "AXIS2PushListener", false);
             CompositeDemarshaller dm = new CompositeDemarshaller();
-            Composite composite = dm.demarshalSMC("src\\main\\resources\\management\\ms2\\smc_source.xml");
+            Composite composite = dm.demarshalSMC("src\\main\\resources\\management\\ms4\\smc_source.xml");
             for (Role role : composite.getRoleMap().values()) {
                 role.registerNewPushListener(messagePusher);
             }
             composite.setDefaultPushMessageListener(messagePusher);
             Thread compo = new Thread(composite);
             compo.start();
-            Thread.sleep(1000);
-            Thread pe2 = new Thread(new PolicyExecutor(composite, "es2_org", "es2_org_add.drl", true));
-            pe2.start();
-            Thread pe3 = new Thread(new PolicyExecutor(composite, "es2_opr", "es2_opr_add.drl", false));
-            pe3.start();
             Thread.sleep(5000);
+            Thread pe2 = new Thread(new PolicyExecutor(composite, "es4_org", "es4_org_add.drl", true));
+            pe2.start();
+            Thread pe3 = new Thread(new PolicyExecutor(composite, "es4_opr", "es4_opr_add.drl", false));
+            pe3.start();
+            Thread.sleep(20000);
             System.out.println("Management policy applied nanoseconds");
             Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 1, "MM"));
             tenant14.start();
             Thread.sleep(20000);
-            Thread pe4 = new Thread(new PolicyExecutor(composite, "es2_org_remove", "es2_org_remove.drl", true));
+            Thread pe4 = new Thread(new PolicyExecutor(composite, "es4_org_remove", "es4_org_remove.drl", true));
             pe4.start();
-            Thread pe5 = new Thread(new PolicyExecutor(composite, "es2_opr_remove", "es2_opr_remove.drl", false));
+            Thread pe5 = new Thread(new PolicyExecutor(composite, "es4_opr_remove", "es4_opr_remove.drl", false));
             pe5.start();
-            Thread.sleep(5000);
+            Thread.sleep(20000);
             Thread tenant15 = new Thread(new Tenant("HappyTours", composite, 1, "MM"));
             tenant15.start();
         } catch (Exception e) {

@@ -1,0 +1,39 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es3_opr_remove_stage1"
+  when
+    $mpsOpr : ManagementPolicyState (id =="es3_opr_remove", state=="incipient")
+  then
+    disabledSet.disable("es3_opr_remove_stage1");
+    System.out.println("Operational management policy es3_opr_remove_stage1 has been started.");
+
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","TowingByTomTow","state","passive");
+    oprMgt.updateRegulationUnit("TowingByTomTow","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","TowingByTomTow");
+
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("TowingByTomTow","tow:TC2,payTC2:SC");
+    oprMgt.removeRoutingRulesFromRegulationUnit("TowingByTomTow","payTCResponseV2:SC, analyzeResponse:SC, requestAssistV3:MM, towResponse:TC2");
+    oprMgt.removePassthroughRulesFromRegulationUnit("TowingByTomTow","orderTow:SC-TC2, payTow:SC-TC2, payTowResponse:SC-TC2, sendGCLocation:MM-TC2, sendGCLocationResponse:MM-TC2");
+    oprMgt.removeRegulationUnit("TowingByTomTow");
+
+    oprMgt.removeSynchronizationRule("TC2","tow");
+    oprMgt.removeSynchronizationRule("SC","payTC2");
+    oprMgt.updateSynchronizationRule("MM","notify","replace", "MM_SYN.drl");
+
+    oprMgt.removeRoutingRule("MM","requestAssistV3");
+    oprMgt.removeRoutingRule("TC2","towResponse");
+    oprMgt.removeRoutingRule("SC","payTCResponseV2");
+    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing.drl");
+
+    oprMgt.removePassthroughRule("SC-TC2","orderTow,payTow,payTowResponse");
+    oprMgt.removePassthroughRule("MM-TC2","sendGCLocation,sendGCLocationResponse");
+    oprMgt.updateGlobalRule("terminateV1","replace","roadside_global.drl");
+
+    System.out.println("Operational management policy es3_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

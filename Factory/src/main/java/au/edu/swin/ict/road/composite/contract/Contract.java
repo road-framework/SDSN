@@ -199,6 +199,7 @@ public class Contract {
         String processID = msg.getClassifier().getProcessId();
         String vsnInstanceId = msg.getClassifier().getProcessInsId();
         List<RegulationUnitKey> vsnRegTableEntry = passthroughRegTable.getVSNTableEntry(vsnID + "_" + processID);
+//        System.out.println(getId() + vsnRegTableEntry+ passthroughRegTable.getSize());
         List<RegulationRuleSet> ruleSets = new ArrayList<RegulationRuleSet>();
         for (RegulationUnitKey regUnitId : vsnRegTableEntry) {
             if (vsnInstanceId != null) {

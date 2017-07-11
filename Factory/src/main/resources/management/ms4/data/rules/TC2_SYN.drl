@@ -9,6 +9,6 @@ rule "tow"
   then
    disabledSet.disable("tow");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC2.orderTow.Req","MM-TC2.sendGCLocation.Req"});
-   MessageWrapper exMsg = actions.Synthesis(msgs,"TowTC2.xsl","Tow");
+   MessageWrapper exMsg = actions.Synthesis(msgs,"TowTC2_V2.xsl","Tow");
    actions.ExecuteTask(exMsg);
 end

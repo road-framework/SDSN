@@ -1117,10 +1117,50 @@ public class OperationalManagerRole implements IOperationalManagerRole {
     }
 
     @Override
+    public OperationalMgtOpResult addSynchronizationRegulationUnitToProcessRegulationPolicyAt(String vsnId1,
+                                                                                              String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : addSynchronizationRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getRole(place1.trim()).getSynchronizationRegTable().addVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(),
+                new RegulationUnitKey(
+                        new RegulationUnitKeyManagementState(ruId1.trim(),
+                                ManagementState.STATE_ACTIVE, vsnId1.trim(), processId1.trim()), ruId1.trim()));
+        return new OperationalMgtOpResult(true, "addSynchronizationRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
+    public OperationalMgtOpResult addPassthroughRegulationUnitToProcessRegulationPolicyAt(String vsnId1,
+                                                                                          String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : addPassthroughRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getContract(place1.trim()).getPassthroughRegTable().addVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(),
+                new RegulationUnitKey(
+                        new RegulationUnitKeyManagementState(ruId1.trim(),
+                                ManagementState.STATE_ACTIVE, vsnId1.trim(), processId1.trim()), ruId1.trim()));
+        return new OperationalMgtOpResult(true, "addPassthroughRegulationUnitToProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
     public OperationalMgtOpResult removeRoutingRegulationUnitFromProcessRegulationPolicyAt(String vsnId1, String processId1, String ruId1, String place1) {
         log.info("Operational Manager : removeRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
         composite.getRole(place1.trim()).getRoutingRegTable().removeVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(), ruId1.trim());
         return new OperationalMgtOpResult(true, "removeRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
+    public OperationalMgtOpResult removeSynchronizationRegulationUnitFromProcessRegulationPolicyAt(String vsnId1, String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : removeSynchronizationRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getRole(place1.trim()).getSynchronizationRegTable().removeVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(), ruId1.trim());
+        return new OperationalMgtOpResult(true, "removeSynchronizationRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+
+    }
+
+    @Override
+    public OperationalMgtOpResult removePassthroughRegulationUnitFromProcessRegulationPolicyAt(String vsnId1, String processId1, String ruId1, String place1) {
+        log.info("Operational Manager : removePassthroughRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
+        composite.getContract(place1.trim()).getPassthroughRegTable().removeVSNTableEntry(vsnId1.trim() + "_" + processId1.trim(), ruId1.trim());
+        return new OperationalMgtOpResult(true, "removePassthroughRegulationUnitFromProcessRegulationPolicyAt " + place1 + " for process : " + processId1);
 
     }
 

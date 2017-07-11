@@ -115,7 +115,15 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addRegulationUnitsToProcessRegulationPolicy(String vsnId, String processId, String ruIds);
 
+    public OperationalMgtOpResult addSynchronizationRegulationUnitToProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
     public OperationalMgtOpResult addRoutingRegulationUnitToProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
+    public OperationalMgtOpResult addPassthroughRegulationUnitToProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
+    public OperationalMgtOpResult removePassthroughRegulationUnitFromProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
+
+    public OperationalMgtOpResult removeSynchronizationRegulationUnitFromProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
 
     public OperationalMgtOpResult removeRoutingRegulationUnitFromProcessRegulationPolicyAt(String vsnId, String processId, String ruId, String place);
 

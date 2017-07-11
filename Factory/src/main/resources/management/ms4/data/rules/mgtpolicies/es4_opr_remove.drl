@@ -1,0 +1,48 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es4_opr_remove_stage1"
+  when
+    ($mpsOpr : ManagementPolicyState (id =="es4_opr_remove", state=="incipient")) and
+    ($mpsOrg : ManagementPolicyState(id =="es4_org_remove", state=="stage1done"))
+  then
+    disabledSet.disable("es4_opr_remove_stage1");
+    System.out.println("Operational management policy es4_opr_remove_stage1 has been started.");
+    
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","RepairingByMacRepair","state","passive");
+    oprMgt.updateRegulationUnit("RepairingByMacRepair","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","RepairingByMacRepair"); 
+    
+    oprMgt.removeSynchronizationRule("GC1","orderRepair,doRepair");
+    oprMgt.removeSynchronizationRule("SC","payGC1");
+    oprMgt.updateSynchronizationRule("TC2","tow","replace", "TC2_SYN.drl");
+
+    oprMgt.removeRoutingRule("GC1","orderRepairResponse,doRepairResponse");
+    oprMgt.removeRoutingRule("SC","payGCResponse");
+    oprMgt.addRoutingRule("MM","MM_Routing_Add.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponse,payTCResponseV2","replace","SC_Routing.drl");
+    oprMgt.updateRoutingRule("TC2","towResponse","replace","TC2_Routing.drl");
+
+    oprMgt.removePassthroughRule("GC1-TC2","sendGCLocation,sendGCLocationResponse");
+    oprMgt.addPassthroughRule("MM-TC2","MM-TC2.drl");
+    oprMgt.removePassthroughRule("SC-GC1","orderRepair,payRepair,payRepairResponse");
+   
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("RepairingByMacRepair","payGC1:SC, orderRepair:GC1, doRepair:GC1");
+    oprMgt.removeRoutingRulesFromRegulationUnit("RepairingByMacRepair","payGCResponse:SC, orderRepairResponse:GC1, doRepairResponse:GC1");
+    oprMgt.removePassthroughRulesFromRegulationUnit("RepairingByMacRepair","orderRepair:SC-GC1, payRepair:SC-GC1, payRepairResponse:SC-GC1, sendGCLocation:GC1-TC2, sendGCLocationResponse:GC1-TC2");
+    oprMgt.removeRegulationUnit("RepairingByMacRepair");
+
+    oprMgt.removeRoutingRulesFromRegulationUnit("CaseHandling","analyzeResponse:SC");
+    oprMgt.addPassthroughRulesToRegulationUnit("TowingByTomTow","sendGCLocation:MM-TC2, sendGCLocationResponse:MM-TC2");
+    oprMgt.addRoutingRulesToRegulationUnit("TowingByTomTow","requestAssistV3:MM, analyzeResponse:SC");
+    oprMgt.removeRoutingRegulationUnitFromProcessRegulationPolicyAt("HappyTours","HappyToursP1","CaseHandling","SC");
+    oprMgt.addRoutingRegulationUnitToProcessRegulationPolicyAt("HappyTours","HappyToursP1","TowingByTomTow","MM");
+    oprMgt.addPassthroughRegulationUnitToProcessRegulationPolicyAt("HappyTours","HappyToursP1","TowingByTomTow","MM-TC2");
+
+    System.out.println("Operational management policy es4_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

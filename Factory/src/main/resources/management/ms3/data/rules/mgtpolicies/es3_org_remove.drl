@@ -1,0 +1,50 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es3_org_remove_stage1"
+  when
+   ($mpsOrg : ManagementPolicyState(id =="es3_org_remove", state=="incipient"))
+   and  ( $mpsOpr : ManagementPolicyState (id =="es3_opr_remove", state=="quiescence"))
+  then
+   disabledSet.disable("es3_org_remove_stage1");
+   System.out.println("Organizational management policy es3_org_remove_stage1 has been started.");
+
+   orgMgt.updateBehaviorUnit("TowingByTomTow","state","passive");
+   orgMgt.updateRole("TC2","state","passive");
+   orgMgt.updateContract("SC-TC2","state","passive");
+   orgMgt.updateContract("SC-TC2","state","passive");
+
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","TowingByTomTow");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd * eReimburseReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify * eReimbursed");
+
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoS","eAssistReqd * eReimburseReq");
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed");
+
+   orgMgt.removeTaskFromBehaviorUnit("TowingByTomTow","TC2.Tow");
+   orgMgt.removeTaskFromBehaviorUnit("TowingByTomTow","SC.PayTC");
+   orgMgt.removeBehaviorUnit("TowingByTomTow");
+
+   orgMgt.removeTerm("SC-TC2","orderTow");
+   orgMgt.removeTerm("SC-TC2","payTow");
+   orgMgt.removeContract("SC-TC2");
+
+   orgMgt.removeTerm("MM-TC2","sendGCLocation");
+   orgMgt.removeContract("MM-TC2");
+
+   orgMgt.removeTask("TC2","Tow");
+   orgMgt.removeRole("TC2");
+
+   orgMgt.removeTask("SC","PayTC");
+
+   orgMgt.updateTask("SC","Analyze","remove","outputs","SC-TC2.orderTow.Req");
+   orgMgt.updateTask("SC","Analyze","remove","outputs","SC-MM.assist.Res");
+   orgMgt.updateTask("MM","RequestAssist","remove","inputs","MM-TC2.sendGCLocation.Req");
+
+   System.out.println("Organizational management policy es3_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+end

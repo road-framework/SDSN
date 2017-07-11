@@ -124,4 +124,7 @@ public abstract class BaseRegTable {
         return customMap.containsKey(id);
     }
 
+    public int getSize(){
+        return vsn_process_2_regUnits.size();
+    }
 }

@@ -1,0 +1,66 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es4_org_remove_stage1"
+  when
+   $mpsOrg : ManagementPolicyState(id =="es4_org_remove", state=="incipient")
+  then
+   disabledSet.disable("es4_org_remove_stage1");
+   System.out.println("Organizational management policy es4_org_remove_stage1 has been started.");
+
+   orgMgt.addContract("MM-TC2","MM","TC2");
+   orgMgt.addTerm("MM-TC2","sendGCLocation","AtoB");
+   orgMgt.setTermOperation("MM-TC2","sendGCLocation","sendGCLocation","String:content","String");
+   orgMgt.updateContract("MM-TC2","state","active");
+
+   System.out.println("Organizational management policy es4_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end
+
+rule "es4_org_remove_stage2"
+  when
+   ($mpsOrg : ManagementPolicyState(id =="es4_org_remove", state=="stage1done"))
+   and  ( $mpsOpr :ManagementPolicyState (id =="es4_opr_remove", state=="quiescence"))
+  then
+   disabledSet.disable("es4_org_remove_stage2");
+   System.out.println("Organizational management policy es4_org_remove_stage2 has been started.");
+
+   orgMgt.updateRole("GC1","state","passive");
+   orgMgt.updateContract("GC1-TC2","state","passive");
+   orgMgt.updateContract("SC-GC1","state","passive");
+   orgMgt.updateBehaviorUnit("RepairingByMacRepair","state","passive");
+
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","RepairingByMacRepair");
+   orgMgt.removeTaskFromBehaviorUnit("RepairingByMacRepair","GC1.OrderRepair");
+   orgMgt.removeTaskFromBehaviorUnit("RepairingByMacRepair","GC1.DoRepair");
+   orgMgt.removeTaskFromBehaviorUnit("RepairingByMacRepair","SC.PayGC");
+   orgMgt.removeBehaviorUnit("RepairingByMacRepair");
+
+   orgMgt.removeTerm("GC1-TC2","sendGCLocation");
+   orgMgt.removeContract("GC1-TC2");
+
+   orgMgt.removeTerm("SC-GC1","orderRepair");
+   orgMgt.removeTerm("SC-GC1","payRepair");
+   orgMgt.removeContract("SC-GC1");
+
+   orgMgt.removeTask("GC1","OrderRepair");
+   orgMgt.removeTask("GC1","DoRepair");
+   orgMgt.removeRole("GC1");
+
+   orgMgt.removeTask("SC","PayGC");
+
+   orgMgt.updateTask("TC2","Tow","add","inputs","MM-TC2.sendGCLocation.Req");
+   orgMgt.updateTask("TC2","Tow","add","outputs","MM-TC2.sendGCLocation.Res");
+   orgMgt.updateTask("SC","PayTC","add","outputs","SC-MM.assist.Res");
+   orgMgt.updateTask("TC2","Tow","remove","inputs","GC1-TC2.sendGCLocation.Req");
+   orgMgt.updateTask("TC2","Tow","remove","outputs","GC1-TC2.sendGCLocation.Res");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.RequestAssist","postEP"," eAssistReqd * eReimburseReqd * eTowReqd");
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","MM.Notify","preEP"," eMMNotify * eReimbursed * eTC2Paid");
+
+   System.out.println("Organizational management policy es4_org_remove_stage2 has been completed successfully.");
+   $mpsOrg.setState("quiescence");
+end

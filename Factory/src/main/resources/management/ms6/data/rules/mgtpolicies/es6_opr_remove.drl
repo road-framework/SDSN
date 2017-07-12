@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es6_opr_remove_stage1"
+  when
+     $mpsOpr : ManagementPolicyState (id =="es6_opr_remove", state=="incipient")
+  then
+    disabledSet.disable("es6_opr_remove_stage1");
+    System.out.println("Operational management policy es6_opr_remove_stage1 has been started.");
+
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","VehicleAssessment","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","VehicleAssessment");
+    oprMgt.updateRegulationUnit("VehicleAssessment","state","passive");
+
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("VehicleAssessment","assessRepair:AS, payAS:SC, receiveExternalAssessment:GC1");
+    oprMgt.removeRoutingRulesFromRegulationUnit("VehicleAssessment","payASResponse:SC, assessRepairResponse:AS, receiveExternalAssessmentResponse:GC1");
+    oprMgt.removePassthroughRulesFromRegulationUnit("VehicleAssessment","orderRepairAssessment:GC1-AS, orderRepairAssessmentResponse:GC1-AS, payRepairAssessment:AS-SC, payRepairAssessmentsResponse:AS-SC");
+
+    oprMgt.removeRegulationUnit("VehicleAssessment");
+    oprMgt.removeSynchronizationRule("AS","assessRepair");
+    oprMgt.removeSynchronizationRule("GC1","receiveExternalAssessment");
+    oprMgt.removeSynchronizationRule("SC","payAS");
+
+    oprMgt.removeRoutingRule("AS","assessRepairResponse");
+    oprMgt.removeRoutingRule("GC1","receiveExternalAssessmentResponse");
+    oprMgt.updateRoutingRule("GC1","assessRepairResponse","replace","GC1_Routing_Diff_Replace_2.drl");
+    oprMgt.removeRoutingRule("SC","payASResponse");
+
+    oprMgt.removePassthroughRule("AS-SC","payRepairAssessment,payRepairAssessmentResponse");
+    oprMgt.removePassthroughRule("GC1-AS","orderRepairAssessment,orderRepairAssessmentResponse");
+
+    System.out.println("Operational management policy es6_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

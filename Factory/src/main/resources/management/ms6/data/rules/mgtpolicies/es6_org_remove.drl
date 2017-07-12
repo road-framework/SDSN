@@ -1,0 +1,46 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es6_org_remove_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es6_org_remove", state=="incipient")
+  and ( $mpsOpr : ManagementPolicyState (id =="es6_opr", state=="quiescence"))
+  then
+   disabledSet.disable("es6_org_remove_stage1");
+   System.out.println("Organizational management policy es6_org_remove_stage1 has been started.");
+   
+   orgMgt.updateRole("AS","state","passive");
+   orgMgt.updateContract("GC1-AS","state","passive");
+   orgMgt.updateContract("AS-SC","state","passive");
+   orgMgt.updateBehaviorUnit("VehicleAssessment","state","passive");
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","VehicleAssessment");
+
+   orgMgt.removeTaskFromBehaviorUnit("VehicleAssessment","AS.AssessRepair");
+   orgMgt.removeTaskFromBehaviorUnit("VehicleAssessment","GC1.ReceiveExternalAssessment");
+   orgMgt.removeTaskFromBehaviorUnit("VehicleAssessment","SC.PayAS");
+   orgMgt.removeBehaviorUnit("VehicleAssessment");
+
+   orgMgt.removeTerm("AS-SC","payRepairAssessment");
+   orgMgt.removeContract("AS-SC");
+
+   orgMgt.removeTerm("GC1-AS","orderRepairAssessment");
+   orgMgt.removeContract("GC1-AS");
+
+   orgMgt.removeTask("AS","AssessRepair");
+   orgMgt.removeRole("AS");
+
+   orgMgt.removeTask("GC1","ReceiveExternalAssessment");
+   orgMgt.removeTask("SC","PayAS");
+
+   orgMgt.updateTask("GC1","AssessRepair","remove","outputs","GC1-AS.orderRepairAssessment.Req");
+   orgMgt.updateTask("GC1","AssessRepair","remove","outputs","GC1-PS.orderParts.Req");
+
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.DoRepair","preEP","eReceivedParts");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.AssessRepair"," postEP ","eOrderPartsReq");
+
+   System.out.println("Organizational management policy es6_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end

@@ -1,0 +1,43 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es5_org_remove_stage1"
+  when
+  ($mpsOrg : ManagementPolicyState(id =="es5_org_remove", state=="incipient"))
+   and  ( $mpsOpr : ManagementPolicyState (id=="es5_opr_remove", state=="quiescence"))
+  then
+   disabledSet.disable("es5_org_remove_stage1");
+   System.out.println("Organizational management policy es5_org_remove_stage1 has been started.");
+   orgMgt.updateRole("PS","state","passive");
+   orgMgt.updateContract("PS-SC","state","passive");
+   orgMgt.updateContract("GC1-PS","state","passive");
+   orgMgt.updateBehaviorUnit("PartsSupplyByJack","state","passive");
+
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","PartsSupplyByJack");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","GC1.DoRepair","preEP","eDeliveredVehicleGC1ByTC2");
+   orgMgt.removeTaskFromBehaviorUnit("RepairingByMacRepair","GC1.AssessRepair");
+   orgMgt.removeTaskFromBehaviorUnit("PartsSupplyByJack","PS.OrderParts");
+   orgMgt.removeTaskFromBehaviorUnit("PartsSupplyByJack","SC.PayPS");
+   orgMgt.removeBehaviorUnit("PartsSupplyByJack");
+
+   orgMgt.removeTerm("PS-SC","payParts");
+   orgMgt.removeContract("PS-SC");
+
+   orgMgt.removeTerm("GC1-PS","orderParts");
+   orgMgt.removeContract("GC1-PS");
+
+   orgMgt.removeTask("PS","OrderParts");
+   orgMgt.removeRole("PS");
+
+   orgMgt.removeTask("GC1","AssessRepair");
+   orgMgt.removeTask("SC","PayPS");
+
+   orgMgt.updateTask("GC1","DoRepair","remove","inputs","GC1-PS.orderParts.Res");
+   orgMgt.updateTask("GC1","DoRepair","add","inputs","GC1-TC2.sendGCLocation.Res");
+
+   System.out.println("Organizational management policy es5_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end

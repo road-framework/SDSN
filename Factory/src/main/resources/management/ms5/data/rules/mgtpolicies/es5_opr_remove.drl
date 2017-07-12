@@ -1,0 +1,41 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es5_opr_remove_stage1"
+  when
+    $mpsOpr : ManagementPolicyState (id =="es5_opr_remove", state=="incipient")
+  then
+    disabledSet.disable("es5_opr_remove_stage1");
+    System.out.println("Operational management policy es5_opr_remove_stage1 has been started.");
+
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","PartsSupplyByJack","state","passive");
+    oprMgt.updateRegulationUnit("PartsSupplyByJack","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","PartsSupplyByJack");
+
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("RepairingByMacRepair","assessRepair:GC1");
+    oprMgt.removeRoutingRulesFromRegulationUnit("RepairingByMacRepair","assessRepairResponse:GC1");
+
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("PartsSupplyByJack","orderParts:PS, payPS:SC");
+    oprMgt.removeRoutingRulesFromRegulationUnit("PartsSupplyByJack","payPSResponse:SC, orderPartsResponse:PS");
+    oprMgt.removePassthroughRulesFromRegulationUnit("PartsSupplyByJack","orderParts:GC1-PS, orderPartsResponse:GC1-PS, payParts:PS-SC, payPartsResponse:PS-SC");
+    oprMgt.removeRegulationUnit("PartsSupplyByJack");
+
+    oprMgt.removeSynchronizationRule("PS","orderParts");
+    oprMgt.removeSynchronizationRule("SC","payPS");
+    oprMgt.removeSynchronizationRule("GC1","assessRepair");
+    oprMgt.updateSynchronizationRule("GC1","doRepair","replace","GC1_SYN_Diff_Replace2.drl");
+
+    oprMgt.removeRoutingRule("PS","orderPartsResponse");
+    oprMgt.removeRoutingRule("SC","payPSResponse");
+    oprMgt.removeRoutingRule("GC1","assessRepairResponse");
+
+    oprMgt.removePassthroughRule("PS-SC","payParts,payPartsResponse");
+    oprMgt.removePassthroughRule("GC1-PS","orderParts,orderPartsResponse");
+
+    System.out.println("Operational management policy es5_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

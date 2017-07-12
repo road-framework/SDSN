@@ -1,0 +1,44 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "es8_org_remove_stage1"
+  when
+  $mpsOrg : ManagementPolicyState(id =="es8_org_remove", state=="incipient") 
+  and  ( $mpsOpr : ManagementPolicyState (id =="es8_opr_remove", state=="quiescence"))
+ then
+   disabledSet.disable("es8_org_remove_stage1");
+   System.out.println("Organizational management policy es8_org_remove_stage1 has been started.");
+   orgMgt.updateRole("HC","state","passive");
+   orgMgt.updateContract("SC-HC","state","passive");
+   orgMgt.updateBehaviorUnit("RentingRoom","state","passive");
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","RentingRoom");
+
+   orgMgt.removeTaskFromBehaviorUnit("RentingRoom","HC.RentRoom");
+   orgMgt.removeTaskFromBehaviorUnit("RentingRoom","HC.EndRoomRent");
+   orgMgt.removeTaskFromBehaviorUnit("RentingRoom","SC.PayHC");
+   orgMgt.removeBehaviorUnit("RentingRoom");
+
+   orgMgt.removeTerm("SC-HC","rentRoom");
+   orgMgt.removeTerm("SC-HC","endRoomRent");
+   orgMgt.removeTerm("SC-HC","payRoomRent");
+   orgMgt.removeContract("SC-HC");
+
+   orgMgt.removeTask("HC","RentRoom");
+   orgMgt.removeTask("HC","EndRoomRent");
+   orgMgt.removeRole("HC");
+
+   orgMgt.removeTask("SC","PayHC");;
+
+   orgMgt.updateTask("SC","PayGC","remove","outputs","SC-HC.endRoomRent.Req");
+   orgMgt.updateTask("SC","Analyze","remove","outputs","SC-HC.rentRoom.Req");
+
+   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized");
+   orgMgt.updateTaskOfBehaviorUnit("RepairingByMacRepair","SC.PayGC"," postEP "," eGC1Paid");
+
+   orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","CoT","eMMNotify * eReimbursed");
+   System.out.println("Organizational management policy es8_org_remove_stage1 has been completed successfully.");
+   $mpsOrg.setState("stage1done");
+end

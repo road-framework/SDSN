@@ -1,0 +1,36 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "es7_opr_remove_stage1"
+  when
+    $mpsOpr : ManagementPolicyState (id =="es7_opr_remove", state=="incipient")
+  then
+    disabledSet.disable("es7_opr_remove_stage1");
+    System.out.println("Operational management policy es7_opr_remove_stage1 has been started.");
+
+    oprMgt.updateRegulationUnit("LegalAssistance","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","LegalAssistance","state","passive");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","LegalAssistance");
+
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("LegalAssistance","payLF:SC, inspectAccident:LF");
+    oprMgt.removeRoutingRulesFromRegulationUnit("LegalAssistance","payLFResponse:SC, inspectAccidentResponse:LF");
+    oprMgt.removePassthroughRulesFromRegulationUnit("LegalAssistance","inspectAccident:SC-LF, payLegalAid:SC-LF, payLegalAidResponse:SC-LF, authorizeTow:LF-TC2");
+    oprMgt.removeRegulationUnit("LegalAssistance");
+
+    oprMgt.removeSynchronizationRule("LF","inspectAccident");
+    oprMgt.removeSynchronizationRule("SC","payLF");
+    oprMgt.updateSynchronizationRule("TC2","tow","replace","TC2_SYN_Diff_ReplaceV2.drl");
+
+    oprMgt.removeRoutingRule("LF","inspectAccidentResponse");
+    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing_Diff_ReplaceV2.drl");
+    oprMgt.removeRoutingRule("SC","payLFResponse");
+
+    oprMgt.removePassthroughRule("LF-TC2","authorizeTow");
+    oprMgt.removePassthroughRule("SC-LF","inspectAccident,payLegalAid,payLegalAidResponse");
+    System.out.println("Operational management policy es7_opr_remove_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

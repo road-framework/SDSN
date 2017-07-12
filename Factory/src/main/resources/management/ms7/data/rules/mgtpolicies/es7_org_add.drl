@@ -16,10 +16,6 @@ rule "es7_org_stage1"
    orgMgt.setTaskOutMessage("LF","InspectAccident","inspectAccident","String:content","String");
    orgMgt.setServiceBinding("LF","http://localhost:8082/axis2/services/AusLawService");
 
-   orgMgt.addTask("GC1","ReceiveExternalAssessment","GC1-AS.orderRepairAssessment.Res","GC1-PS.orderParts.Req");
-   orgMgt.setTaskInMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
-   orgMgt.setTaskOutMessage("GC1","ReceiveExternalAssessment","receiveExternalAssessment","String:content","String");
-
    orgMgt.addTask("SC","PayLF","SC-LF.payLegalAid.Req","SC-LF.payLegalAid.Res");
    orgMgt.setTaskInMessage("SC","PayLF","payLF","String:content","String");
    orgMgt.setTaskOutMessage("SC","PayLF","payLF","String:content","String");

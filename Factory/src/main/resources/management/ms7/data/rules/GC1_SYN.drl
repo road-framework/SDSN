@@ -34,8 +34,12 @@ rule "receiveExternalAssessment"
   when
    $e1 : EventRecord(eventId == "eReceivedAssessmentReport")
   then
+  try {
    disabledSet.disable("receiveExternalAssessment");
    MessageWrapper [] msgs = actions.Pull(new String []{"GC1-AS.orderRepairAssessment.Res"});
    MessageWrapper exMsg = actions.Synthesis(msgs,"ReceiveExternalAssessment.xsl","ReceiveExternalAssessment");
    actions.ExecuteTask(exMsg);
+   }catch (Exception e){
+   e.printStackTrace();
+   }
 end

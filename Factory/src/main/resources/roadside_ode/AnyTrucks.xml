@@ -1,0 +1,31 @@
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="evolution/legalassistence/data2/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="AnyTrucks">
+        <tns1:Process id="AnyTrucksP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eHCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:Process id="AnyTrucksP2">
+            <tns1:CoS>eAssistReqd * ePickUpReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eHCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingBySwiftTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruSwiftTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV2</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionProcessSelection</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+</tns:ServiceNetwork>

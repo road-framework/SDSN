@@ -1,0 +1,15 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderParts"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderParts", response==false)
+    then
+		actions.publishEvent("eOrderPartsReq",$msg);
+end
+
+rule "orderPartsResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderParts", response==true)
+    then
+		actions.publishEvent("eReceivedParts",$msg);
+end

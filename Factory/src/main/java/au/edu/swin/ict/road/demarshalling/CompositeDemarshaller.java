@@ -72,6 +72,7 @@ public class CompositeDemarshaller {
                 }
 
             }
+            e.printStackTrace();
             throw new CompositeDemarshallingException(e.getMessage() + "\nMore:\n" + errorMessage);
         }
     }

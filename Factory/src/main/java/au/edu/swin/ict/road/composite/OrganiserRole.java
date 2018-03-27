@@ -145,11 +145,14 @@ public class OrganiserRole implements IOrganiserRole {
         long startTime = System.currentTimeMillis();
         ServiceNetwork definitionsType =
                 (ServiceNetwork) JaxbFactory.toObjects(
-                        vsnConf.getFirstElement(), new Class[]{ServiceNetwork.class, ProcessDefinitionsType.class, ProcessDefinitionType.class,
+                        vsnConf, new Class[]{ServiceNetwork.class, ProcessDefinitionsType.class, ProcessDefinitionType.class,
                                 InterProcessRegulationUnitsType.class, InterProcessRegulationUnitsType.class, QoSType.class, TrafficModelType.class, ConstraintsType.class, MonitorType.class});
-        composite.addProcessGroup(definitionsType.getVirtualServiceNetwork().get(0));
+
+        for (ProcessDefinitionsType vsnDef : definitionsType.getVirtualServiceNetwork()) {
+            composite.addProcessGroup(vsnDef);
+        }
         long endTime = System.currentTimeMillis();
-        StatWriter.writeResTime("Service", endTime - startTime);
+        StatWriter.writeResTime("VSN", endTime - startTime);
         return new OrganiserMgtOpResult(true, "Deployed VSN configuaration  successfully : " + definitionsType.getVirtualServiceNetwork().get(0).getId());
     }
 
@@ -760,10 +763,10 @@ public class OrganiserRole implements IOrganiserRole {
     }
 
     /*
-       * (non-Javadoc)
-       *
-       * @see au.edu.swin.ict.road.common.IOrganiserRole#takeSnapshot()
-       */
+     * (non-Javadoc)
+     *
+     * @see au.edu.swin.ict.road.common.IOrganiserRole#takeSnapshot()
+     */
 //    public OrganiserMgtOpResult takeSnapshot() {
 //        log.info("Organiser: takeSnapshot");
 //
@@ -783,12 +786,12 @@ public class OrganiserRole implements IOrganiserRole {
 
 
     /*
-       * (non-Javadoc)
-       *
-       * @see
-       * au.edu.swin.ict.road.common.IOrganiserRole#takeSnapshot(java.lang
-       * .String)
-       */
+     * (non-Javadoc)
+     *
+     * @see
+     * au.edu.swin.ict.road.common.IOrganiserRole#takeSnapshot(java.lang
+     * .String)
+     */
 //    public OrganiserMgtOpResult takeSnapshot(String folder) {
 //        log.info("Organiser: takeSnapshot");
 //

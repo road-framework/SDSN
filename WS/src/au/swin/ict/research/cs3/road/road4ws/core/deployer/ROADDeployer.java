@@ -176,7 +176,7 @@ public abstract class ROADDeployer implements Deployer, CompositeAddRoleListener
             e.printStackTrace();
         }
         long endTime = System.currentTimeMillis();
-        StatWriter.writeResTime("Service", endTime - startTime);
+        StatWriter.writeResTime("SN", endTime - startTime);
     }
 
     /**

@@ -2,7 +2,7 @@
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
         name="roadside" dataDir="evolution/legalassistence/data2/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
-        <tns1:Process id="HappyToursP1">
+        <tns1:Process id="HappyToursP1" >
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify</tns1:CoT>
             <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>

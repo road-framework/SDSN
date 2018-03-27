@@ -845,8 +845,8 @@ public class Composite implements Runnable {
         VSNState vsnState = new VSNState(group.getId());
         serviceNetworkState.addVsnState(vsnState);
         //dummy code
-        vsnState.putInCache("Throughput", new StateRecord("Throughput", new Throughput(100)));
-        vsnState.putInCache("ResponseTime", new StateRecord("ResponseTime", new ResponseTime(45.49)));
+//        vsnState.putInCache("Throughput", new StateRecord("Throughput", new Throughput(100)));
+//        vsnState.putInCache("ResponseTime", new StateRecord("ResponseTime", new ResponseTime(45.49)));
         //
         deployVSNRegulationPolicy(group.getId(), slice.getInterProcessRegulationUnitRef(), ManagementState.STATE_ACTIVE);
         String vsnId = group.getId();
@@ -921,8 +921,8 @@ public class Composite implements Runnable {
         ProcessState processState = new ProcessState(vsnId, pdDef.getId());
         vsnState.addProcessState(processState);
         //dummy
-        processState.putInCache("Throughput", new StateRecord("Throughput", new Throughput(50)));
-        processState.putInCache("ResponseTime", new StateRecord("ResponseTime", new ResponseTime(46.50)));
+//        processState.putInCache("Throughput", new StateRecord("Throughput", new Throughput(50)));
+//        processState.putInCache("ResponseTime", new StateRecord("ResponseTime", new ResponseTime(46.50)));
         //
         VSNDefinition group = serendipEngine.getProcessDefinitionGroup(vsnId);
         ProcessDefinition processDefinition = new ProcessDefinition(pdDef, serendipEngine, this);

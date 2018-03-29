@@ -23,12 +23,10 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Deploys the ROAD composites in Axis2 web services engine.
- * This class is abstract and need to be extended using a suitable technology to deploy ROAD composites.
+ * Deploys the VSNs
  *
- * @author Malinda Kapuruge
  */
-public abstract class VSNDeployer implements Deployer {
+public class VSNDeployer implements Deployer {
 
     protected static final Logger log = Logger.getLogger(VSNDeployer.class.getName());
     protected AxisConfiguration axisConfig;

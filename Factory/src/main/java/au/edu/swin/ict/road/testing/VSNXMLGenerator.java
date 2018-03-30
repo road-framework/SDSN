@@ -4,13 +4,18 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axis2.util.XMLPrettyPrinter;
 
 import javax.xml.namespace.QName;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class VSNXMLGenerator {
   public static void main(String args[]){
-      generateXML("C:\\post-doc\\projects\\SDSN\\Factory\\src\\main\\resources\\overhead\\os10\\vsn.xml","C:\\post-doc\\projects\\SDSN\\Factory\\src\\main\\resources\\overhead\\os10\\vsnto.xml",10);
+      for (int i = 1; i < 11; i++) {
+          generateXML("C:\\post-doc\\projects\\SDSN\\Factory\\src\\main\\resources\\overhead\\os" + i + "\\vsn.xml",
+                  "C:\\post-doc\\spe_test\\vsns\\os" + i + "\\", 101);
+
+      }
   }
     public static void generateXML(String pathFrom, String pathTo, int size) {
         OMElement root = OMUtils.getOM(pathFrom);
@@ -23,7 +28,11 @@ public class VSNXMLGenerator {
         }
         OutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(pathTo);
+            String path = pathTo + "vsn.xml";
+            new File(pathTo).mkdirs();
+            File yourFile = new File(path);
+            yourFile.createNewFile(); // if file already exists will do nothing
+            outputStream = new FileOutputStream(path,false);
             XMLPrettyPrinter.prettify(root, outputStream);
         } catch (Exception e) {
             e.printStackTrace();

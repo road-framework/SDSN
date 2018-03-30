@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:q0="http://ws.apache.org/axis2" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header>
+    </soapenv:Header>
+    <soapenv:Body>
+        <q0:requestAssistRequest>
+            <q0:memId>DN2132434</q0:memId>
+            <q0:complain>Broken Down</q0:complain>
+            <q0:pickUpLocation>Kandy</q0:pickUpLocation>
+        </q0:requestAssistRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

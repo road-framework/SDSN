@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SerendipEngine {
-    static Logger logger = Logger.getLogger(SerendipEngine.class);
+    private static Logger logger = Logger.getLogger(SerendipEngine.class);
     private EventCloud eventCloud = null;
     private XMLCompositionParser parser = null;
     private Map<String, VSNDefinition> processes = new HashMap<String, VSNDefinition>();
@@ -101,7 +101,7 @@ public class SerendipEngine {
         boolean success = processDefinition.addProcessInstance(pi);
         if (success) {
             classifier.setProcessInsId(pi.getId());
-            System.out.println("Starting a new process instance, pid:" + pi.getId());
+//            System.out.println("Starting a new process instance, pid:" + pi.getId());
             if (isInForLogEnable()) {
                 this.writeLogMessage("PI", "Starting a new process instance, pid:" + pi.getId());
             }
@@ -405,7 +405,9 @@ public class SerendipEngine {
             this.logwriter.writeLog(context, message);
         } else {
             //logger.error("LogWriter is null");
-            logger.info("[" + context + "]" + message);
+            if(logger.isInfoEnabled()) {
+                logger.info("[" + context + "]" + message);
+            }
         }
     }
 

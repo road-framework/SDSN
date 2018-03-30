@@ -2,7 +2,8 @@ global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
 global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
-import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.Classifier
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es10_org_remove_stage1"
   when
@@ -40,5 +41,6 @@ rule "es10_org_remove_stage1"
    orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentVehicleReqd * eRentVehicleReqd");
 
    System.out.println("Organizational management policy es10_org_remove_stage1 has been completed successfully.");
+   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    $mpsOrg.setState("stage1done");
 end

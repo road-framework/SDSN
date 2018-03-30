@@ -38,7 +38,7 @@
 ////            }
 ////            System.out.println("Done");
 ////            Thread.sleep(1000);
-//            Thread tenant14 = new Thread(new Tenant("HappyTours9", composite, 2, "MM"));
+//            Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 2, "MM"));
 //            tenant14.start();
 ////            Thread tenant11 = new Thread(new Tenant("EuroCars", composite, 2));
 ////            tenant11.start();

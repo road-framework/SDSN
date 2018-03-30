@@ -561,35 +561,35 @@
     </Contracts>
     <ServiceBindings>
         <ServiceBinding id="SC_SB">
-            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Endpoint>http://131.155.21.152:8082/axis2/services/CaseOfficerService</Endpoint>
             <Roles>
                 <RoleID>SC</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="FD_SB">
-            <Endpoint>http://localhost:8082/axis2/services/FinanceDepService</Endpoint>
+            <Endpoint>http://131.155.21.152:8082/axis2/services/FinanceDepService</Endpoint>
             <Roles>
                 <RoleID>FD</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="TC2_SB">
-            <Endpoint>http://localhost:8082/axis2/services/TowServiceSeq</Endpoint>
+            <Endpoint>http://131.155.21.152:8082/axis2/services/TowServiceSeq</Endpoint>
             <Roles>
                 <RoleID>TC2</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="GC1_SB">
-            <Endpoint>http://localhost:8082/axis2/services/InGarageService</Endpoint>
+            <Endpoint>http://131.155.21.152:8082/axis2/services/InGarageService</Endpoint>
             <Roles>
                 <RoleID>GC1</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="OrgBinding">
-            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Endpoint>http://131.155.21.152:8081/axis2/services/addtaxihire2_organizer</Endpoint>
             <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
         </ServiceBinding>
         <ServiceBinding id="OprBinding">
-            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+            <Endpoint>http://131.155.21.152:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
         </ServiceBinding>
     </ServiceBindings>
     <OrganiserBinding>OrgBinding</OrganiserBinding>

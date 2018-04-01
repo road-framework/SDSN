@@ -41,6 +41,6 @@ rule "es10_org_remove_stage1"
    orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentVehicleReqd * eRentVehicleReqd");
 
    System.out.println("Organizational management policy es10_org_remove_stage1 has been completed successfully.");
-   StatWriter.writeResTime("MGT",System.currentTimeMillis());
+   StatWriter.writeResTime("MGTR",System.currentTimeMillis());
    $mpsOrg.setState("stage1done");
 end

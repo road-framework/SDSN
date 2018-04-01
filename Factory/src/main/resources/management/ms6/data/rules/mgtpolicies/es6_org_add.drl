@@ -2,13 +2,15 @@ global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
 global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
-import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.Classifier
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es6_org_stage1"
   when
   $mpsOrg : ManagementPolicyState(id =="es6_org", state=="incipient")
    then
    disabledSet.disable("es6_org_stage1");
+   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    System.out.println("Organizational management policy es6_org_stage1 has been started.");
    orgMgt.addRole("AS","LanAS");
    orgMgt.addTask("AS","AssessRepair","GC1-AS.orderRepairAssessment.Req","GC1-AS.orderRepairAssessment.Res, AS-SC.payRepairAssessment.Req");
@@ -61,5 +63,6 @@ rule "es6_org_stage2"
    orgMgt.updateContract("AS-SC","state","active");
    orgMgt.updateBehaviorUnit("VehicleAssessment","state","active");
    System.out.println("Organizational management policy es6_org_stage2 has been completed successfully.");
+   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    $mpsOrg.setState("quiescence");
  end

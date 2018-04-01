@@ -3,7 +3,8 @@ global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
 import au.edu.swin.ict.road.common.Classifier;
-import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es4_opr_remove_stage1"
   when
@@ -11,6 +12,7 @@ rule "es4_opr_remove_stage1"
     ($mpsOrg : ManagementPolicyState(id =="es4_org_remove", state=="stage1done"))
   then
     disabledSet.disable("es4_opr_remove_stage1");
+    StatWriter.writeResTime("MGTR",System.currentTimeMillis());
     System.out.println("Operational management policy es4_opr_remove_stage1 has been started.");
     
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","RepairingByMacRepair","state","passive");

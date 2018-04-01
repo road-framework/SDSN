@@ -3,13 +3,15 @@ global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
 import au.edu.swin.ict.road.common.Classifier;
-import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es5_opr_remove_stage1"
   when
     $mpsOpr : ManagementPolicyState (id =="es5_opr_remove", state=="incipient")
   then
     disabledSet.disable("es5_opr_remove_stage1");
+    StatWriter.writeResTime("MGTR",System.currentTimeMillis());
     System.out.println("Operational management policy es5_opr_remove_stage1 has been started.");
 
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","PartsSupplyByJack","state","passive");

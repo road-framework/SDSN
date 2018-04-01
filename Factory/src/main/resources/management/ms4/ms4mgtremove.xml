@@ -1,0 +1,5 @@
+<management>
+    <composite>roadside</composite>
+    <policy id="es4_org_remove" isOrg="true">es4_org_remove.drl</policy>
+    <policy id="es4_opr_remove" isOrg="false">es4_opr_remove.drl</policy>
+</management>

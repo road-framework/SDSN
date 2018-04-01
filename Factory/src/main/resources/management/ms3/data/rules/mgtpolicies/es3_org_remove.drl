@@ -2,7 +2,8 @@ global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
 global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
-import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.Classifier
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es3_org_remove_stage1"
   when
@@ -46,5 +47,6 @@ rule "es3_org_remove_stage1"
    orgMgt.updateTask("MM","RequestAssist","remove","inputs","MM-TC2.sendGCLocation.Req");
 
    System.out.println("Organizational management policy es3_org_remove_stage1 has been completed successfully.");
+   StatWriter.writeResTime("MGTR",System.currentTimeMillis());
    $mpsOrg.setState("quiescence");
 end

@@ -2,13 +2,15 @@ global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
 global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
 global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
 import au.edu.swin.ict.road.common.ManagementPolicyState;
-import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.Classifier
+import au.edu.swin.ict.road.common.StatWriter;
 
 rule "es1_org_stage1"
   when
   $mpsOrg : ManagementPolicyState(id =="es1_org", state=="incipient")
    then
    disabledSet.disable("es1_org_stage1");
+   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    System.out.println("Organizational management policy es1_org_stage1 has been started.");
    $mpsOrg.setState("active");
    orgMgt.addRole("MM","Member");
@@ -49,7 +51,6 @@ rule "es1_org_stage2"
                                                                                ManagementPolicyState (id
                                                                                =="es1_opr", state=="quiescence"))
   then
-//    if(!disabledSet.contains("es1_org_stage2")){
         disabledSet.disable("es1_org_stage2");
         System.out.println("Organizational management policy es1_org_stage2 has been started.");
         orgMgt.updateRole("MM","state","active");
@@ -59,6 +60,6 @@ rule "es1_org_stage2"
         orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "active");
         orgMgt.updateVSN("HappyTours","state", "active");
         System.out.println("Organizational management policy es1_org_stage2 has been completed successfully.");
+        StatWriter.writeResTime("MGT",System.currentTimeMillis());
         $mpsOrg.setState("quiescence");
-//    }
  end

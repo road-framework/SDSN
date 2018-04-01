@@ -1,0 +1,5 @@
+<management>
+    <composite>roadside</composite>
+    <policy id="es6_org" isOrg="true">es6_org_add.drl</policy>
+    <policy id="es6_opr" isOrg="false">es6_opr_add.drl</policy>
+</management>

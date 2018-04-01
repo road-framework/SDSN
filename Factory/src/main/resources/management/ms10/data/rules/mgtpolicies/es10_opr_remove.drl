@@ -11,7 +11,7 @@ rule "es10_opr_remove_stage1"
     $mpsOpr : ManagementPolicyState (id =="es10_opr_remove", state=="incipient")
   then
     disabledSet.disable("es10_opr_remove_stage1");
-    StatWriter.writeResTime("MGT",System.currentTimeMillis());
+    StatWriter.writeResTime("MGTR",System.currentTimeMillis());
     System.out.println("Operational management policy es10_opr_remove_stage1 has been started.");
 
     oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","HiringTaxi","state","passive");

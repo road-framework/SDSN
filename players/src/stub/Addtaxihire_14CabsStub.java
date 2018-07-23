@@ -21,7 +21,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     private javax.xml.namespace.QName[] opNameArray = null;
 
     /**
-     *Constructor that takes in a configContext
+     * Constructor that takes in a configContext
      */
     public Addtaxihire_14CabsStub(
             org.apache.axis2.context.ConfigurationContext configurationContext,
@@ -118,8 +118,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     /**
      * Auto generated method signature
      *
-     * @see stub.Addtaxihire_14Cabs#provideTaxiInvoice
      * @param provideTaxiInvoiceRequest0
+     * @see stub.Addtaxihire_14Cabs#provideTaxiInvoice
      */
     public stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceResponse provideTaxiInvoice(
             stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0)
@@ -232,8 +232,8 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     /**
      * Auto generated method signature for Asynchronous Invocations
      *
-     * @see stub.Addtaxihire_14Cabs#startprovideTaxiInvoice
      * @param provideTaxiInvoiceRequest0
+     * @see stub.Addtaxihire_14Cabs#startprovideTaxiInvoice
      */
     public void startprovideTaxiInvoice(
             stub.Addtaxihire_14CabsStub.ProvideTaxiInvoiceRequest provideTaxiInvoiceRequest0,
@@ -380,7 +380,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     }
 
     /**
-     *  A utility method that copies the namepaces from the SOAPEnvelope
+     * A utility method that copies the namepaces from the SOAPEnvelope
      */
     private java.util.Map getEnvelopeNamespaces(
             org.apache.axiom.soap.SOAPEnvelope env) {
@@ -452,7 +452,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
     /* methods to provide back word compatibility */
 
     /**
-     *  get the default envelope
+     * get the default envelope
      */
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
             org.apache.axiom.soap.SOAPFactory factory) {
@@ -501,6 +501,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * Auto generated getter method
+         *
          * @return java.lang.String
          */
         public java.lang.String getContent() {
@@ -509,6 +510,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * Auto generated setter method
+         *
          * @param param Content
          */
         public void setContent(java.lang.String param) {
@@ -518,7 +520,6 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *
          * @param parentQName
          * @param factory
          * @return org.apache.axiom.om.OMElement
@@ -682,7 +683,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *  method to handle Qnames
+         * method to handle Qnames
          */
         private void writeQName(javax.xml.namespace.QName qname,
                                 javax.xml.stream.XMLStreamWriter xmlWriter)
@@ -790,7 +791,6 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * databinding method to get an XML representation of this object
-         *
          */
         public javax.xml.stream.XMLStreamReader getPullParser(
                 javax.xml.namespace.QName qName)
@@ -816,15 +816,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *  Factory class that keeps the parse method
+         * Factory class that keeps the parse method
          */
         public static class Factory {
             /**
              * static method to create the object
              * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
-             *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+             * If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
              * Postcondition: If this object is an element, the reader is positioned at its end element
-             *                If this object is a complex type, the reader is positioned at the end element of its outer element
+             * If this object is a complex type, the reader is positioned at the end element of its outer element
              */
             public static ProvideTaxiInvoiceRequest parse(
                     javax.xml.stream.XMLStreamReader reader)
@@ -951,6 +951,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * Auto generated getter method
+         *
          * @return java.lang.String
          */
         public java.lang.String get_return() {
@@ -959,6 +960,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * Auto generated setter method
+         *
          * @param param _return
          */
         public void set_return(java.lang.String param) {
@@ -968,7 +970,6 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *
          * @param parentQName
          * @param factory
          * @return org.apache.axiom.om.OMElement
@@ -1132,7 +1133,7 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *  method to handle Qnames
+         * method to handle Qnames
          */
         private void writeQName(javax.xml.namespace.QName qname,
                                 javax.xml.stream.XMLStreamWriter xmlWriter)
@@ -1240,7 +1241,6 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
 
         /**
          * databinding method to get an XML representation of this object
-         *
          */
         public javax.xml.stream.XMLStreamReader getPullParser(
                 javax.xml.namespace.QName qName)
@@ -1266,15 +1266,15 @@ public class Addtaxihire_14CabsStub extends org.apache.axis2.client.Stub {
         }
 
         /**
-         *  Factory class that keeps the parse method
+         * Factory class that keeps the parse method
          */
         public static class Factory {
             /**
              * static method to create the object
              * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
-             *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+             * If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
              * Postcondition: If this object is an element, the reader is positioned at its end element
-             *                If this object is a complex type, the reader is positioned at the end element of its outer element
+             * If this object is a complex type, the reader is positioned at the end element of its outer element
              */
             public static ProvideTaxiInvoiceResponse parse(
                     javax.xml.stream.XMLStreamReader reader)

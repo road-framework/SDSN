@@ -4,7 +4,7 @@ public class EquipmentProviderProxyImpl implements EquipmentProviderProxy {
     @Override
     public String rentEquipment(String equipmentRequirements, long avgTime) throws AxisFault {
         sleep(avgTime);
-        return "done";
+        return "rentedEquipment";
     }
 
     private void sleep(long avgTime) {

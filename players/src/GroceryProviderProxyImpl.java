@@ -4,7 +4,7 @@ public class GroceryProviderProxyImpl implements GroceryProviderProxy {
     @Override
     public String orderGroceries(String groceries, long avgTime) throws AxisFault {
         sleep(avgTime);
-        return "done";
+        return "grocery order accepted";
     }
 
     private void sleep(long avgTime) {

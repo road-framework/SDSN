@@ -4,5 +4,5 @@ rule "sendEquipmentRequirements"
     when
 		$msg : MessageReceivedEvent(operationName == "sendEquipmentRequirements",  response ==false)
     then
-		actions.publishEvent("eSendEquipmentRequirementsToEP1",$msg);
+		actions.publishEvent("eSendEquipmentRequirementsToEP2",$msg);
 end

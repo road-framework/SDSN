@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "deliver"
+    when
+		$msg : MessageReceivedEvent(operationName == "deliver",  response ==false)
+    then
+		actions.publishEvent("eDeliver",$msg);
+end
+rule "deliverResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "deliver",  response ==true)
+    then
+		actions.publishEvent("eDelivered",$msg);
+end

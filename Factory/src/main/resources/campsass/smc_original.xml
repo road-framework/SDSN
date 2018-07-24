@@ -312,8 +312,6 @@
                 </tns1:Task>
             </Tasks>
         </Role>
-
-
         <Role id="PS" name="JackParts" synchronization="PS_SYN.drl" routing="PS_Routing.drl">
             <Tasks>
                 <tns1:Task id="OrderParts">
@@ -352,7 +350,7 @@
     </Roles>
 
     <Contracts>
-        <Contract id="SC-MM" passthrough="SC-MM.drl">
+        <Contract id="CM-SM" passthrough="CM-SM.drl">
             <Terms>
                 <Term id="assist">
                     <Operation name="assist">
@@ -368,10 +366,28 @@
                         </Parameters>
                         <Return>String</Return>
                     </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="sendTourReservation">
+                    <Operation name="sendTourReservation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
                     <Direction>BtoA</Direction>
                 </Term>
-                <Term id="notifyRoomPayment">
-                    <Operation name="notifyRoomPayment">
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>SC</RoleBID>
+        </Contract>
+        <Contract id="CM-EP1" passthrough="CM-EP1.drl">
+            <Terms>
+                <Term id="sendEquipmentRequirements">
+                    <Operation name="sendEquipmentRequirements">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -382,8 +398,164 @@
                     </Operation>
                     <Direction>AtoB</Direction>
                 </Term>
-                <Term id="notifyVehiclePayment">
-                    <Operation name="notifyVehiclePayment">
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>EP1</RoleBID>
+        </Contract>
+        <Contract id="CM-EP2" passthrough="CM-EP2.drl">
+            <Terms>
+                <Term id="sendEquipmentRequirements">
+                    <Operation name="sendEquipmentRequirements">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>EP2</RoleBID>
+        </Contract>
+        <Contract id="CM-TC" passthrough="CM-TC.drl">
+            <Terms>
+                <Term id="endTourRequirements">
+                    <Operation name="endTourRequirements">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="sendTourReservation">
+                    <Operation name="sendTourReservation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>TC</RoleBID>
+        </Contract>
+        <Contract id="CM-TX" passthrough="CM-TX.drl">
+            <Terms>
+                <Term id="sendLocation">
+                    <Operation name="sendLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="sendTaxiReservation">
+                    <Operation name="sendTaxiReservation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>TX</RoleBID>
+        </Contract>
+        <Contract id="CM-DC" passthrough="CM-DC.drl">
+            <Terms>
+                <Term id="sendLocation">
+                    <Operation name="sendLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>DC</RoleBID>
+        </Contract>
+        <Contract id="CM-VR" passthrough="CM-VR.drl">
+            <Terms>
+                <Term id="sendLocation">
+                    <Operation name="sendLocation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>VR</RoleBID>
+        </Contract>
+        <Contract id="CM-GR" passthrough="CM-GR.drl">
+            <Terms>
+                <Term id="sendGroceryList">
+                    <Operation name="sendGroceryList">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>CM</RoleAID>
+            <RoleBID>GR</RoleBID>
+        </Contract>
+        <Contract id="EP1-DC" passthrough="EP1-DC.drl">
+            <Terms>
+                <Term id="deliver">
+                    <Operation name="deliver">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>EP1</RoleAID>
+            <RoleBID>DC</RoleBID>
+        </Contract>
+        <Contract id="SC-EP1" passthrough="SC-EP1.drl">
+            <Terms>
+                <Term id="rentEquipment">
+                    <Operation name="rentEquipment">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -396,12 +568,12 @@
                 </Term>
             </Terms>
             <RoleAID>SC</RoleAID>
-            <RoleBID>MM</RoleBID>
+            <RoleBID>EP1</RoleBID>
         </Contract>
-        <Contract id="MM-GC1" passthrough="MM-GC1.drl">
+        <Contract id="SC-EP2" passthrough="SC-EP2.drl">
             <Terms>
-                <Term id="orderRepair">
-                    <Operation name="orderRepair">
+                <Term id="rentEquipment">
+                    <Operation name="rentEquipment">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -413,8 +585,128 @@
                     <Direction>AtoB</Direction>
                 </Term>
             </Terms>
-            <RoleAID>MM</RoleAID>
-            <RoleBID>GC1</RoleBID>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>EP2</RoleBID>
+        </Contract>
+        <Contract id="SC-GR" passthrough="SC-GR.drl">
+            <Terms>
+                <Term id="orderGrocery">
+                    <Operation name="orderGrocery">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>GR</RoleBID>
+        </Contract>
+        <Contract id="SC-TC" passthrough="SC-TC.drl">
+            <Terms>
+                <Term id="orderTour">
+                    <Operation name="orderTour">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>TC</RoleBID>
+        </Contract>
+        <Contract id="SC-GR" passthrough="SC-GR.drl">
+            <Terms>
+                <Term id="findGuide">
+                    <Operation name="findGuide">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="bookGuide">
+                    <Operation name="bookGuide">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>GR</RoleBID>
+        </Contract>
+        <Contract id="SC-TX" passthrough="SC-TX.drl">
+            <Terms>
+                <Term id="bookTaxi">
+                    <Operation name="bookTaxi">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>TX</RoleBID>
+        </Contract>
+        <Contract id="SC-VR" passthrough="SC-VR.drl">
+            <Terms>
+                <Term id="rentVehicle">
+                    <Operation name="rentVehicle">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>VR</RoleBID>
+        </Contract>
+        <Contract id="TG-VR" passthrough="TG-VR.drl">
+            <Terms>
+                <Term id="sendTourSchedule">
+                    <Operation name="sendTourSchedule">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>TG</RoleAID>
+            <RoleBID>VR</RoleBID>
         </Contract>
     </Contracts>
     <ServiceBindings>

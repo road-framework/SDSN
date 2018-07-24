@@ -1,0 +1,49 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC3-per-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+
+    oprMgt.addRegulationMechanism("SimpleMarker","testmech.SimpleMarker","D:\\testing\\testmech.jar");
+    oprMgt.updateRegulationMechanism("SimpleMarker","state","active");
+
+    orgMgt.setTaskQoS("GC1","DoRepair","Throughput:350/d,ResponseTime:2d;Throughput:350/d,ResponseTime:3d;Throughput:350/d,ResponseTime:4d");
+    oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff_cs3_per.drl");
+
+    oprMgt.addPassthroughRule("GC1-TC1","GC1-TC1_Diff_cs3_per.drl");
+    oprMgt.addPassthroughRule("SC-GC1","SC-GC1_Diff_cs3_per.drl");
+
+    oprMgt.addRegulationUnit("ruRepairMonitoringV3");
+    oprMgt.updateRegulationUnit("ruRepairMonitoringV3","state","active");
+
+    oprMgt.addRegulationUnit("ruRepairPerLevelChange_2d3d4d");
+    oprMgt.updateRegulationUnit("ruRepairPerLevelChange_2d3d4d","state","active");
+
+    oprMgt.addRegulationUnit("ruRepairPerLevelChange_3d4d");
+    oprMgt.updateRegulationUnit("ruRepairPerLevelChange_3d4d","state","active");
+
+    oprMgt.addRegulationUnit("ruRepairPerLevelChange_2d4d");
+    oprMgt.updateRegulationUnit("ruRepairPerLevelChange_2d4d","state","active");
+
+    oprMgt.addPassthroughRulesToRegulationUnit("ruRepairMonitoringV3","startRepairMonitor4d:GC1-TC1,endRepairMonitor4d:SC-GC1");
+
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruRepairPerLevelChange_2d3d4d","doRepairChangePerfLevel_2d3d4d:GC1");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruRepairPerLevelChange_3d4d","doRepairChangePerfLevel_3d4d:GC1");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruRepairPerLevelChange_2d4d","doRepairChangePerfLevel_2d4d:GC1");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairMonitoringV3,ruRepairPerLevelChange_2d3d4d");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairMonitoringV3,ruRepairPerLevelChange_2d3d4d","state","active");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoringV3,ruRepairPerLevelChange_3d4d");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoringV3,ruRepairPerLevelChange_3d4d","state","active");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+end

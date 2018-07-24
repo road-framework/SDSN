@@ -1,0 +1,34 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "pickUp"
+  when
+   $e1 : EventRecord(eventId == "ePickUpReq")
+  then
+   disabledSet.disable("pickUp");
+   MessageWrapper [] msgs = actions.Pull(new String []{"MM-TC1.pickUp.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PickUp.xsl","PickUp");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "deliverGC1"
+  when
+   EventRecord(eventId == "eGC1LocKnown") and EventRecord(eventId == "ePickedUp")
+  then
+   disabledSet.disable("deliverGC1");
+   MessageWrapper [] msgs = actions.Pull(new String []{"GC1-TC1.sendGCLocation.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"DeliverGC1.xsl","Deliver");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "deliverGC2"
+  when
+   EventRecord(eventId == "eGC2LocKnown") and EventRecord(eventId == "ePickedUp")
+  then
+   disabledSet.disable("deliverGC2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"GC2-TC1.sendGCLocation.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"DeliverGC2.xsl","Deliver");
+   actions.ExecuteTask(exMsg);
+end

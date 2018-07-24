@@ -1,0 +1,28 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "happytours_add_org_stage_1"
+  when
+    $mpsOrg: ManagementPolicyState (id =="happytours_add_org", state=="incipient")
+  then
+    disabledSet.disable("happytours_add_org_stage_1");
+    orgMgt.addVSN("HappyTours");
+    orgMgt.addProcessToVSN("HappyTours","HappyToursP1","eAssistReqd","eMMNotify * eHCPaid");
+    orgMgt.addBehaviorUnitsToProcess("HappyTours",
+       "HappyToursP1","bCaseHandling, bRepairingByMacRepair, bTowingBySwiftTow, bRentingVehicle");
+    $mpsOrg.setState("stage_1_done");
+end
+
+rule "happytours_add_org_stage_2"
+  when
+   ( $mpsOrg : ManagementPolicyState(id =="happytours_add_org", state=="stage_1_done") ) and  ( $mpsOpr : ManagementPolicyState (id =="happytours_add_org", state=="stage_1_done") )
+  then
+    disabledSet.disable("happytours_add_org_stage_2");
+    orgMgt.updateVSN("HappyTours","state", "active");
+    orgMgt.updateProcessOfVSN("HappyTours","HappyToursP1","state", "active");
+    System.out.println("happytours_org_1 stage_2_done");
+    $mpsOrg.setState("stage_2_done");
+end

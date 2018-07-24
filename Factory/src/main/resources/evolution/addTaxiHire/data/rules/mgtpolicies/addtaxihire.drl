@@ -1,0 +1,110 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "OrganizationalChanges"
+  when
+    $mps : ManagementPolicyState(state=="incipient")
+  then
+    $mps.setState("active");
+    orgMgt.addRole("TX","14Cabs");
+//   orgMgt.removeRole("TX");
+    orgMgt.updateRole("VC","state","active");
+    orgMgt.setServiceBinding("HC", "http://localhost:8082/axis2/services/HotelService");
+    orgMgt.updateServiceBinding("GC1", "epr","http://localhost:8082/axis2/services/InGarageService");
+    orgMgt.addTask("TX","OrderTaxi","SC-TX.orderTaxi.Req","SC-TX.orderTaxi.Res,TX-MM.notifyTaxiBooking.Req");
+//    orgMgt.removeTask("TX","OrderTaxi");
+    orgMgt.updateTask("GC2","OrderRepair","outputs","GC2-TC2.sendGCLocation.Req");
+    orgMgt.setTaskOutMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskInMessage("TX","OrderTaxi","orderTaxi","String:content","String");
+    orgMgt.setTaskQoS("TX","OrderTaxi","Throughput:200/d");
+    orgMgt.addContract("SC-TX","SC","TX");
+//    orgMgt.removeContract("SC-TX");
+    orgMgt.updateContract("SC-MM","state","active");
+    orgMgt.addTerm("SC-TX","orderTaxi","AtoB");
+//    orgMgt.removeTerm("SC-TX","orderTaxi");
+    orgMgt.updateTerm("GC1-TC1","sendGCLocation","direction","AtoB");
+    orgMgt.setTermOperation("SC-TX","orderTaxi","orderTaxi","String:content","String");
+    orgMgt.addBehaviorUnit("bHiringTaxi");
+//    orgMgt.removeBehaviorUnit("bHiringTaxi");
+    orgMgt.updateBehaviorUnit("bRentingRoom","state","active");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.OrderTaxi","OrderTaxiReqd","OrderedTaxi * NotifyTaxiBookingReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","MM.NotifyTaxiBooking","NotifyTaxiBookingReqd",null);
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","TX.ProvideTaxiInvoice",null,"PayTXReqd");
+    orgMgt.addTaskToBehaviorUnit("bHiringTaxi","SC.PayTX","PayTXReqd","TXPaid");
+    orgMgt.removeTaskFromBehaviorUnit("bHiringTaxi","TX.OrderTaxi");
+    orgMgt.updateTaskOfBehaviorUnit("bRentingVehicle","VC.RentVehicle","preEP","RentVehicleReqd");
+    orgMgt.addVSN("AusTravels");
+//    orgMgt.removeVSN("AusTravels");
+    orgMgt.updateVSN("HappyTours","state","passive");
+    orgMgt.addProcessToVSN("AusTravels","AusTravelsP1","eAssistReqd","eMMNotify * eNotifyVehiclePaymentReqd");
+//    orgMgt.removeProcessFromVSN("AusTravels","AusTravelsP1");
+    orgMgt.updateProcessOfVSN("AnyTrucks","AnyTrucksP1","state","passive");
+    orgMgt.setProcessConfigurationDesign("AusTravels","AusTravelsP1","bCaseHandling,bRepairingByAutoRepair,bTowingByTomTow");
+    orgMgt.addBehaviorUnitToProcess("AusTravels","AusTravelsP1","bRentingVehicle");
+    orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bRepairingByMacRepair");
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bRepairingByMacRepair");
+    orgMgt.replaceBehaviorUnitOfProcess("AusTravels","AusTravelsP1","bRentingVehicle","bRentingRoom");
+
+    System.out.println("Organizational management policy has been executed successfully.");
+
+    oprMgt.addRegulationMechanism("SimpleRoundRobin","testmech.RoundRobin","D:\\testing\\testmech.jar");
+    oprMgt.updateRegulationMechanism("SimpleRoundRobin","state","active");
+//    oprMgt.removeRegulationMechanism("SimpleRoundRobin");
+    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.removeSynchronizationRule("SC","analyze");
+    oprMgt.addSynchronizationRule("SC","analyze.drl");
+    oprMgt.updateSynchronizationRule("SC","analyze","state","active");
+
+    oprMgt.addRoutingRule("TX","TX_Routing.drl");
+    oprMgt.removeRoutingRule("MM","processSelectionV1");
+    oprMgt.addRoutingRule("MM","processSelectionV1.drl");
+    oprMgt.updateRoutingRule("MM","processSelectionV1","state","active");
+
+    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
+//    oprMgt.removePassthroughRule("SC-TX","orderTaxi");
+    oprMgt.updatePassthroughRule("SC-TC1","payTow","replace","payTow.drl");
+    oprMgt.updatePassthroughRule("SC-TC1","payTow","state","active");
+
+    oprMgt.addRegulationUnit("ruHiringTaxi");
+//    oprMgt.removeRegulationUnit("ruHiringTaxi");
+    oprMgt.updateRegulationUnit("ruRentingRoom","state","active");
+
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruHiringTaxi","orderTaxi:TX");
+    oprMgt.removeSynchronizationRulesFromRegulationUnit("ruTowingBySwiftTow","pickUp:TC1,payTC1:SC");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruTowingBySwiftTow","pickUp:TC1,payTC1:SC");
+
+    oprMgt.addRoutingRulesToRegulationUnit("ruHiringTaxi","provideTaxiInvoice:TX,orderTaxiResponse:TX");
+    oprMgt.removeRoutingRulesFromRegulationUnit("ruRepairingByAutoRepair","payGCResponseV2:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("ruRepairingByAutoRepair","payGCResponseV2:SC");
+
+    oprMgt.addPassthroughRulesToRegulationUnit("ruHiringTaxi","orderTaxi:SC-TX,orderTaxiResponse:SC-TX");
+    oprMgt.removePassthroughRulesFromRegulationUnit("ruRentingVehicle","rentVehicle:SC-VC,rentVehicleResponse:SC-VC");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruRentingVehicle","rentVehicle:SC-VC,rentVehicleResponse:SC-VC");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AusTravels","AusTravelsP1","ruHiringTaxi,ruCaseHandling");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowingByTomTow,ruRentingRoom");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruTowingByTomTow,ruRentingRoom");
+
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("AusTravels","ruDrop,ruAdmissionV2");
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("AnyTrucks","ruAdmissionProcessSelection,ruDrop");
+    oprMgt.addRegulationUnitsToVSNRegulationPolicy("AnyTrucks","ruAdmissionProcessSelection,ruDrop");
+
+    oprMgt.removeRegulationUnitsFromServiceNetworkRegulationPolicy("ruClassify");
+    oprMgt.addRegulationUnitsToServiceNetworkRegulationPolicy("ruClassify");
+
+//    oprMgt.addServiceNetworkEvent("eComplainRcvd","SC", new Classifier("AusTravels","AusTravelsP1","AusTravelsP1_31"));
+//    oprMgt.removeServiceNetworkEvent("eComplainRcvd", new Classifier("AusTravelsP1_31"));
+//    oprMgt.updateServiceNetworkEvent("OrderPartsReq", new Classifier("AnyTrucksP1_31"),"state","passive");
+    oprMgt.addServiceNetworkStateImplementation("ResTime","states.ResponseTimeTarget","D:\\testing\\states.jar");
+    oprMgt.updateServiceNetworkStateImplementation("ResTime","state","active");
+//    oprMgt.updateServiceNetworkStateImplementation("ResTime","ResponseTime","30000");
+//    oprMgt.removeServiceNetworkStateImplementation("ResTime");
+
+    oprMgt.addServiceNetworkState("AnyTrucksP1ResTime", "ResTime", "process", new Classifier("AnyTrucks","AnyTrucksP1"));
+//    oprMgt.removeServiceNetworkState("AnyTrucksP1ResTime", "process", new Classifier("AnyTrucks","AnyTrucksP1"));
+    oprMgt.updateServiceNetworkState("AnyTrucksP1ResTime", "process", new Classifier("AnyTrucks","AnyTrucksP1"),"ResponseTime","30000");
+
+    System.out.println("Operational management policy has been executed successfully.");
+end

@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "authorizeTow"
+    when
+		$msg : MessageReceivedEvent(operationName == "authorizeTow", response==false)
+    then
+		actions.publishEvent("eAuthorizedTow",$msg);
+end

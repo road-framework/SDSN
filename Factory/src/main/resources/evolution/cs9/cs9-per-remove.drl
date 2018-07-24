@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC9-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+    long start1 = System.nanoTime();
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruRepairingByNickRepair,ruNickRepairAndTowTow,ruSelectRepair");
+    oprMgt.removeRegulationUnit("ruRepairingByNickRepair");
+    oprMgt.removeRegulationUnit("ruNickRepairAndTowTow");
+    oprMgt.removeRegulationUnit("ruSelectRepair");
+    orgMgt.removeRole("GC3");
+    orgMgt.updateTask("SC","Analyze","outputs","remove","SC-GC3.orderRepair.Req");
+    orgMgt.updateTask("SC","PayGC","inputs","remove","SC-GC3.payRepair.Req");
+    orgMgt.updateTask("SC","PayGC","outputs","remove","SC-GC3.payRepair.Res");
+    orgMgt.updateTask("TC2","Tow","inputs","remove","GC3-TC2.sendGCLocation.Req");
+    orgMgt.updateTask("TC2","Tow","outputs","remove","GC3-TC3.sendGCLocation.Res");
+    orgMgt.removeContract("SC-GC3");
+    orgMgt.removeContract("TC2-GC3");
+    orgMgt.removeBehaviorUnit("bRepairingByNickRepair");
+    orgMgt.updateTaskOfBehaviorUnit("bTowingByTomTow","TC2.Tow","preEP","eTowReqd * eGC2LocKnown ");
+    orgMgt.updateTaskOfBehaviorUnit("bTowingByTomTow","TC2.Tow","postEP","ePayTowReqdByTC2 * eDeliveredVehicleToGC2ByTC2");
+    orgMgt.updateTaskOfBehaviorUnit("bCaseHandling","SC.Analyze","postEP","( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqd  *  eRepairReqFromGC2BySC * eRentVehicleReqd )");
+    oprMgt.removeSynchronizationRule("SC","payGC3");
+    oprMgt.removeSynchronizationRule("TC2","tow2");
+    oprMgt.removeRoutingRule("SC","analyzeResponseV6");
+    oprMgt.removeRoutingRule("SC","payGCResponseV6");
+    oprMgt.removeRoutingRule("TC2","towResponse2");
+    oprMgt.removeRoutingRule("SC","selectRepair");
+    orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","bRepairingByNickRepair");
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+    $mps.setState("quiescence");
+end

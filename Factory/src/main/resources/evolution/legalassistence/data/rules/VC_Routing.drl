@@ -1,0 +1,17 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "rentVehicleResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "rentVehicleResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.rentVehicle.Res","RentVehicleRes.xsl",$msg);
+end
+
+rule "endVehicleRentResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "endVehicleRentResponse", state=="forwardable")
+  then
+   actions.Forward("SC-VC.endVehicleRent.Res","EndVehicleRentRes.xsl",$msg);
+   actions.Forward("SC-VC.payVehicleRent.Req","PayVehicleRentReq.xsl",$msg);
+end

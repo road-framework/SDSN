@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC3-per-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("HappyTours","ruRepairMonitoringV3,ruRepairPerLevelChange_2d3d4d");
+
+    oprMgt.removeRegulationUnitsFromVSNRegulationPolicy("EuroCars","ruRepairMonitoringV3,ruRepairPerLevelChange_3d4d");
+
+
+    oprMgt.removeRegulationMechanism("SimpleMarker");
+
+    orgMgt.setTaskQoS("GC1","DoRepair","Throughput:350/d,ResponseTime:2d;Throughput:350/d,ResponseTime:3d");
+    oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d3d4d");
+    oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_3d4d");
+    oprMgt.removeSynchronizationRule("GC1","doRepairChangePerfLevel_2d4d");
+
+    oprMgt.removePassthroughRule("GC1-TC1","startRepairMonitor4d");
+    oprMgt.removePassthroughRule("SC-GC1","endRepairMonitor4d");
+
+    oprMgt.removeRegulationUnit("ruRepairMonitoringV3");
+
+    oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d3d4d");
+
+    oprMgt.removeRegulationUnit("ruRepairPerLevelChange_3d4d");
+
+    oprMgt.removeRegulationUnit("ruRepairPerLevelChange_2d4d");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

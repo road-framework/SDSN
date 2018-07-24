@@ -1,0 +1,49 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC6-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+     $mps.setState("active");
+     long start1 = System.nanoTime();
+     oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruPartsSupplyByGillParts");
+
+     oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruPartsSupplyByGillParts");
+
+     oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruPartsSupplyByGillParts");
+
+     oprMgt.removeRegulationUnit("ruPartsSupplyByGillParts");
+
+     oprMgt.removeRoutingRulesFromRegulationUnit("ruRepairingByMacRepair","checkAssessRepairResponseForParts:GC1");
+     oprMgt.removeSynchronizationRulesFromRegulationUnit("ruSwiftTowAndMacRepair","assessRepairTC1:GC1");
+     // add Nick repair - no spare parts
+     orgMgt.removeRole("PS2");
+     orgMgt.removeTask("GC1","AssessRepair");
+     orgMgt.updateTask("GC1","DoRepair","inputs","remove","GC1-PS2.orderParts.Res");
+     orgMgt.updateTask("SC","PayPS","inputs","remove","PS2-SC.payParts.Req");
+     orgMgt.updateTask("SC","PayPS","outputs","remove","PS2-SC.payParts.Res");
+           // contract-level changes
+     orgMgt.removeContract("GC1-PS2");
+       // contract-level changes
+     orgMgt.removeContract("PS2-SC");
+          // behaviour unit changes"
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","PS2.OrderParts");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","SC.PayPS");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","SC.PayGC");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","GC1.AssessRepair");
+     orgMgt.updateTaskOfBehaviorUnit("bRepairingByMacRepair","GC1.DoRepair","preEP","eDeliveredVehicleToGC1ByTC1");
+
+     oprMgt.removeSynchronizationRule("SC","payPS2");
+     oprMgt.removeSynchronizationRule("GC1","assessRepairTC1");
+        //routing rule changes
+     oprMgt.removeRoutingRule("SC","payPSResponse2");
+     oprMgt.removeRoutingRule("GC1","assessRepairResponse");
+     oprMgt.removeRoutingRule("GC1","checkAssessRepairResponseForParts");
+
+     long stop1 = System.nanoTime();
+     System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

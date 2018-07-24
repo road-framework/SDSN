@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+import au.edu.swin.ict.road.common.StateRecord
+import au.edu.swin.ict.road.common.Weight;
+import au.edu.swin.ict.road.common.VSN;
+import au.edu.swin.ict.road.common.ProcessManagementState;
+rule "admissionCheckV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","80,200",$msg);
+   update($msg);
+end

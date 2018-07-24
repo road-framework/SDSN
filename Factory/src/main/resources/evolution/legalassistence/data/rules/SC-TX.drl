@@ -1,0 +1,28 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderTaxi"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTaxi",  response ==false)
+    then
+		actions.publishEvent("eOrderTaxiReqd",$msg);
+end
+rule "orderTaxiResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTaxi",  response ==true)
+    then
+		actions.publishEvent("eOrderedTaxi",$msg);
+end
+
+rule "sendTaxiInvoice"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendTaxiInvoice",  response ==false)
+    then
+		actions.publishEvent("ePayTXReqd",$msg);
+end
+
+rule "sendTaxiInvoiceResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendTaxiInvoice",  response ==true)
+    then
+		actions.publishEvent("eTXPaid",$msg);
+end

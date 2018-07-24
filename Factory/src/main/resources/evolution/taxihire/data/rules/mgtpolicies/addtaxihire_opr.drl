@@ -1,0 +1,57 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "addTaxiHire_oprMgt_1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="addhire_opr", state=="incipient") ) and ( $mpsOrg : ManagementPolicyState(id =="addhire_org", state=="enacted") )
+  then
+    $mpsOpr.setState("active");
+    //synchronization rule changes
+    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.addSynchronizationRule("MM","notifyTaxiBooking.drl");
+    oprMgt.addSynchronizationRule("SC","payTX.drl");
+
+    //routing rule changes
+    oprMgt.addRoutingRule("TX","TX_Routing.drl");
+    oprMgt.addRoutingRule("SC","payTXResponse.drl");
+    oprMgt.addRoutingRule("SC","analyzeResponseV6.drl");
+
+    //passthrough rule changes
+    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
+    oprMgt.addPassthroughRule("TX-MM","TX-MM.drl");
+
+    //global rule changes
+    oprMgt.addGlobalRule("terminateV3.drl");
+
+    // regulation unit changes
+    // Taxihire regulation unit
+    oprMgt.addRegulationUnit("ruHiringTaxi");
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruHiringTaxi","orderTaxi:TX,notifyTaxiBooking:MM,payTX:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("ruHiringTaxi","analyzeResponseV6:SC,payTXResponse:SC,provideTaxiInvoice:TX,orderTaxiResponse:TX");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruHiringTaxi","orderTaxi:SC-TX,orderTaxiResponse:SC-TX,sendTaxiInvoice:SC-TX,sendTaxiInvoiceResponse:SC-TX,notifyTaxiBooking:TX-MM");
+    // new termination regulation unit
+    oprMgt.addRegulationUnit("ruTerminateV3");
+    oprMgt.addGlobalRulesToRegulationUnit("ruTerminateV3","terminateV3");
+
+    // VSN/Process Regulation Policy Changes
+//    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle,ruTerminateV2");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle","state","passive");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTerminateV2","state","passive");
+//    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle,ruTerminateV2");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi,ruTerminateV3");
+
+    // State Changes
+    orgMgt.updateRole("TX","state","active");
+    orgMgt.updateContract("TX-MM","state","active");
+    orgMgt.updateContract("SC-TX","state","active");
+    oprMgt.updateRegulationUnit("ruHiringTaxi","state","active");
+    oprMgt.updateRegulationUnit("ruTerminateV3","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruTerminateV3","state","active");
+    orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","state", "active");
+    $mpsOpr.setState("enacted");
+
+    System.out.println("Operational management policy addhire_opr has been executed successfully.");
+end

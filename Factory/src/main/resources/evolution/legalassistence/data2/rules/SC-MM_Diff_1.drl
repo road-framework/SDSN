@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "reimburse2"
+    when
+		$msg : MessageReceivedEvent(operationName == "reimburse",  response ==false)
+    then
+		actions.publishEvent("eReimburseReqd",$msg);
+end
+rule "notifyReimburseStatus2"
+    when
+		$msg : MessageReceivedEvent(operationName == "notifyReimburseStatus",  response ==true)
+    then
+		actions.publishEvent("eReimbursed",$msg);
+end

@@ -1,0 +1,36 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "pickUpChangePerfLevel_3h" salience 1
+  when
+   $e1 : EventRecord(eventId == "ePickUpReqd")
+  then
+   disabledSet.disable("pickUpChangePerfLevel_3h");
+   // set the QOS level to 3h via marker
+end
+
+rule "deliverGC1ChangePerfLevel_3h" salience 1
+  when
+   EventRecord(eventId == "eGC1LocKnown") and EventRecord(eventId == "ePickedUp")
+  then
+   disabledSet.disable("deliverGC1ChangePerfLevel_3h");
+   // set the QOS level to 2h  via marker
+end
+rule "deliverGC1ChangePerfLevel_3h" salience 1
+  when
+   $e1 : EventRecord(eventId == "ePickUpReqd")
+  then
+   disabledSet.disable("deliverGC1ChangePerfLevel_3h");
+   // set the QOS level to 3h via marker
+end
+
+rule "deliverGC1ChangePerfLevel_3h" salience 1
+  when
+   EventRecord(eventId == "eGC1LocKnown") and EventRecord(eventId == "ePickedUp")
+  then
+   disabledSet.disable("deliverGC1ChangePerfLevel_3h");
+   // set the QOS level to 2h  via marker
+end

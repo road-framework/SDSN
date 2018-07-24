@@ -1,0 +1,28 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderRoom"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderRoom",  response ==false)
+    then
+		actions.publishEvent("eOrderRoomReqd",$msg);
+end
+rule "orderRoomResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderRoom",  response ==true)
+    then
+		actions.publishEvent("eOrderedRoom",$msg);
+end
+
+rule "sendRoomInvoice"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendRoomInvoice",  response ==false)
+    then
+		actions.publishEvent("ePayHC2Reqd",$msg);
+end
+
+rule "sendRoomInvoiceResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendRoomInvoice",  response ==true)
+    then
+		actions.publishEvent("eHC2Paid",$msg);
+end

@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "payTow"
+    when
+		$msg : MessageReceivedEvent(operationName == "payTow",  response ==false)
+    then
+		actions.publishEvent("ePayTowReqdByTC1",$msg);
+end

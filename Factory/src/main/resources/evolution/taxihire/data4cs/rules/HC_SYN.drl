@@ -1,0 +1,24 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "rentRoom"
+  when
+   $e1 : EventRecord(eventId == "eRentRoomReqd")
+  then
+   disabledSet.disable("rentRoom");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-HC.rentRoom.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"RentRoom.xsl","RentRoom");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "endRoomRent"
+  when
+   $e1 : EventRecord(eventId == "eEndRoomRentReqd")
+  then
+   disabledSet.disable("endRoomRent");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-HC.endRoomRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"EndRoomRent.xsl","EndRoomRent");
+   actions.ExecuteTask(exMsg);
+end

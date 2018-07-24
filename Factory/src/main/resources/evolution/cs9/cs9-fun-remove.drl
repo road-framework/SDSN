@@ -1,0 +1,49 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC9-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+       $mps.setState("active");
+       long start1 = System.nanoTime();
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi2,ruTerminateV5,ruSelectTaxiHire");
+       oprMgt.removeRegulationUnit("ruSelectTaxiHire");
+              // regulation unit changes
+              // Taxihire regulation unit
+       oprMgt.removeRegulationUnit("ruHiringTaxi2");
+              // new termination regulation unit
+       oprMgt.removeRegulationUnit("ruTerminateV5");
+       orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bHiringTaxi2");
+       // Role TX2
+       orgMgt.removeRole("TX2");
+       // Role MM
+       orgMgt.updateTask("MM","NotifyTaxiBooking","remove","inputs","TX2-MM.notifyTaxiBooking.Req");
+       // Role SC
+       orgMgt.updateTask("SC","PayTX","remove","inputs","SC-TX2.sendTaxiInvoice.Req");
+       orgMgt.updateTask("SC","PayTX","remove","outputs","SC-TX2.sendTaxiInvoice.Res");
+       orgMgt.updateTask("SC","Analyze","outputs","remove","SC-TX2.orderTaxi.Req");
+       // contract-level changes
+       orgMgt.removeContract("SC-TX2");
+       orgMgt.removeContract("TX2-MM");
+       // behaviour unit changes
+       orgMgt.removeBehaviorUnit("bHiringTaxi2");
+       //synchronization rule changes
+       oprMgt.removeSynchronizationRule("MM","notifyTaxiBookingTX2");
+       oprMgt.removeSynchronizationRule("SC","payTX2");
+       oprMgt.removeRoutingRule("SC","payTX2Response");
+       oprMgt.removeRoutingRule("SC","analyzeResponseTX2");
+       //global rule changes
+       oprMgt.removeGlobalRule("terminateV5");
+       oprMgt.removeRoutingRule("SC","selectTaxiHire");
+
+       orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eTXPaid ");
+             // VSN/Process Regulaiton Policy Changes
+           //routing rule changes
+       long stop1 = System.nanoTime();
+       System.out.println("Remove : " + (stop1 - start1)/1000000);
+       $mps.setState("quiescence");
+end

@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "notifyRoomBooking"
+  when
+   $e1 : EventRecord(eventId == "eNotifyTaxiBookingReqd")
+  then
+   disabledSet.disable("notifyRoomBooking");
+   MessageWrapper [] msgs = actions.Pull(new String []{"HC2-MM.notifyRoomBooking.Req"});
+   actions.ExecuteTask(msgs[0]);
+end

@@ -1,0 +1,75 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC6-per-add"
+  when
+    $mps : ManagementPolicyState(id =="add", state=="incipient")
+  then
+     $mps.setState("active");
+     long start1 = System.nanoTime();
+     orgMgt.addRole("AS","AutoAssessors");
+     orgMgt.setServiceBinding("AS", "http://localhost:8082/axis2/services/AutoAssessorsService");
+     orgMgt.addTask("AS","AssessRepair","TC1-AS.assessRepair.Req","AS-GC1.reportAssessment.Req, AS-SC.payAssessment.Req");
+     orgMgt.setTaskQoS("AS","AssessRepair","Throughput:400/d; ResponseTime:6h");
+     orgMgt.setTaskOutMessage("AS","AssessRepair","assessRepair","String:content","String");
+     orgMgt.setTaskInMessage("AS","assessRepair","assessRepair","String:content","String");
+     orgMgt.addTask("SC","PayAS","AS-SC.payAssessment.Req","AS-SC.payAssessment.Req");
+     orgMgt.setTaskOutMessage("SC","PayAS","payAssessment","String:content","String");
+     orgMgt.setTaskInMessage("SC","PayAS","payAssessment","String:content","String");
+     orgMgt.updateTask("TC1","Deliver","outputs","add","TC1-AS.assessRepair.Req");
+     orgMgt.removeTask("GC1","AssessRepair");
+     orgMgt.addTask("GC1","ReportAssessment","AS-GC1.reportAssessment.Req","GC1-PS.orderParts.Req");
+     orgMgt.setTaskOutMessage("GC1","ReportAssessment","reportAssessment","String:content","String");
+     orgMgt.setTaskInMessage("GC1","ReportAssessment","reportAssessment","String:content","String");
+           // contract-level changes
+     orgMgt.addContract("TC1-AS","TC1","AS");
+     orgMgt.addTerm("TC1-AS","assessRepair","AtoB");
+     orgMgt.setTermOperation("TC1-AS","assessRepair","assessRepair","String:content","String");
+
+     orgMgt.addContract("AS-GC1","AS","GC1");
+     orgMgt.addTerm("AS-GC1","reportAssessment","AtoB");
+     orgMgt.setTermOperation("AS-GC1","reportAssessment","reportAssessment","String:content","String");
+       // contract-level changes
+     orgMgt.addContract("AS-SC","AS","SC");
+     orgMgt.addTerm("AS-SC","payAssessment","AtoB");
+     orgMgt.setTermOperation("AS-SC","payAssessment","payAssessment","String:content","String");
+
+          // behaviour unit changes"
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","AS.AssessRepair","eDeliveredVehicleByTC1","ePayAssessmentReqd  * eSentReport");
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","SC.PayAS","ePayAssessmentReqd","eASPaid");
+     orgMgt.addTaskToBehaviorUnit("bRepairingByMacRepair","GC1.ReportAssessment","eSentReport","ePayPartsReqByPS");
+     orgMgt.removeTaskFromBehaviorUnit("bRepairingByMacRepair","GC1.AssessRepair");
+     
+     oprMgt.addSynchronizationRule("AS","AS_SYN.drl");
+     oprMgt.addSynchronizationRule("SC","SC_SYN_Diff_cs6_per.drl");
+     oprMgt.addSynchronizationRule("GC1","GC1_SYN_Diff_cs6_per.drl");
+        //routing rule changes
+     oprMgt.addRoutingRule("AS","AS_Routing.drl");
+     oprMgt.addRoutingRule("SC","SC_Routing_Diff_cs6_per.drl");
+     oprMgt.addRoutingRule("TC1","TC1_Routing_Diff_cs6_per.drl");
+        //passthrough rule changes
+     oprMgt.addPassthroughRule("TC1-AS","TC1-AS.drl");
+     oprMgt.addPassthroughRule("AS-GC1","AS-GC1.drl");
+     oprMgt.addPassthroughRule("AS-SC","AS-SC.drl");
+        // regulation unit changes
+        // Need to create separate reg unit for parts .. and use dynamic routing - routing for a conf design fragment
+
+     oprMgt.addSynchronizationRulesToRegulationUnit("ruRepairingByMacRepair","payAS:SC,reportAssessment:GC1");
+     oprMgt.addRoutingRulesToRegulationUnit("ruRepairingByMacRepair","payASResponse:SC,assessRepairResponse:AS,reportAssessmentResponse:GC1");
+     oprMgt.addPassthroughRulesToRegulationUnit("ruRepairingByMacRepair","payAssessment:AS-SC,payAssessmentResponse:AS-SC,reportAssessment:AS-GC1");
+
+     oprMgt.removeSynchronizationRulesFromRegulationUnit("ruSwiftTowAndMacRepair","assessRepairTC1:AS");
+     oprMgt.removePassthroughRulesFromRegulationUnit("ruSwiftTowAndMacRepair","sendGCLocationResponse:GC1-TC1");
+     oprMgt.addPassthroughRulesToRegulationUnit("ruSwiftTowAndMacRepair","assessRepair:TC1-AS");
+
+        // process/VSN changes
+     oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoring3d,ruRepairPerLevelChange_3d");
+     oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoring2d,ruRepairPerLevelChange_2d");
+     oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRepairMonitoring2d,ruRepairPerLevelChange_2d","state","active");
+
+     long stop1 = System.nanoTime();
+     System.out.println("Add : " + (stop1 - start1)/1000000);
+end

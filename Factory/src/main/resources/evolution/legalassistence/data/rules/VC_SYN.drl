@@ -1,0 +1,24 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "rentVehicle"
+  when
+   $e1 : EventRecord(eventId == "eRentVehicleReqd")
+  then
+   disabledSet.disable("rentVehicle");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-VC.rentVehicle.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"RentVehicle.xsl","RentVehicle");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "endVehicleRent"
+  when
+   $e1 : EventRecord(eventId == "eEndVehicleRentReqd")
+  then
+   disabledSet.disable("endVehicleRent");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-VC.endVehicleRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"EndVehicleRent.xsl","EndVehicleRent");
+   actions.ExecuteTask(exMsg);
+end

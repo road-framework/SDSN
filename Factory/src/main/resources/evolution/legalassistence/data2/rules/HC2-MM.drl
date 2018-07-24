@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "notifyRoomBooking"
+    when
+		$msg : MessageReceivedEvent(operationName == "notifyRoomBooking",  response ==false)
+    then
+		actions.publishEvent("eNotifyRoomBookingReqd",$msg);
+end

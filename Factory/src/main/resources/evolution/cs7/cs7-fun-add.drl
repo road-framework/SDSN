@@ -1,0 +1,89 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC2-fun-add"
+  when
+    $mps : ManagementPolicyState(id =="add",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    //this is second reimbursement
+    orgMgt.addRole("AC","24by7AC");
+    orgMgt.setServiceBinding("AC", "http://localhost:8082/axis2/services/24by7ACService");
+    orgMgt.addTask("AC","Reimburse","AC-MM.requestReimburse.Req","AC-MM.notifyReimburseStatus.Req");
+    orgMgt.setTaskOutMessage("AC","Reimburse","reimburse","String:content","String");
+    orgMgt.setTaskInMessage("AC","Reimburse","reimburse","String:content","String");
+    orgMgt.addTask("MM","RequestReimburse",null,"AC-MM.requestReimburse.Req");
+    orgMgt.updateTask("MM","RequestReimburse","","mep","one-way");
+    orgMgt.setTaskInMessage("MM","RequestReimburse","requestReimburse","String:content","String");
+    orgMgt.addTask("MM","NotifyReimburseStatus","AC-MM.notifyReimburseStatus.Req",null);
+    orgMgt.updateTask("MM","NotifyReimburseStatus","","mep","notification");
+    orgMgt.setTaskOutMessage("MM","NotifyReimburseStatus","notifyReimburseStatus","String:content","String");
+
+    orgMgt.addContract("AC-MM","AC","MM");
+    orgMgt.addTerm("AC-MM","reimburse","BtoA");
+    orgMgt.setTermOperation("AC-MM","reimburse","reimburse","String:content","String");
+    orgMgt.addTerm("AC-MM","notifyReimburseStatus","AtoB");
+    orgMgt.setTermOperation("AC-MM","notifyReimburseStatus","notifyReimburseStatus","String:content","String");
+
+    orgMgt.addBehaviorUnit("bReimbursement2");
+    orgMgt.addTaskToBehaviorUnit("bReimbursement2","AC.Reimburse","eReimburseReqd","eReimbursed");
+    orgMgt.addTaskToBehaviorUnit("bReimbursement2","MM.RequestReimburse","eReimburseReqd",null);
+    orgMgt.addTaskToBehaviorUnit("bReimbursement2","MM.NotifyReimburseStatus",null,"eReimbursed");
+
+    orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","bReimbursement2");
+    orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bReimbursement2");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP1","bReimbursement2");
+    orgMgt.addBehaviorUnitToProcess("AnyTrucks","AnyTrucksP2","bReimbursement2");
+
+    orgMgt.updateRole("AC","state","active");
+    orgMgt.updateContract("AC-MM","state","active");
+    orgMgt.updateTask("AC","Reimburse","","state","active");
+    orgMgt.updateTask("MM","RequestReimburse","","state","active");
+    orgMgt.updateTask("MM","NotifyReimburseStatus","","state","active");
+    orgMgt.updateTerm("AC-MM","reimburse","state","active");
+    orgMgt.updateTerm("AC-MM","notifyReimburseStatus","state","active");
+    orgMgt.updateBehaviorUnit("bReimbursement","state","active");
+
+    oprMgt.addSynchronizationRule("MM","MM_SYN_Diff_cs7_fun.drl");
+    oprMgt.addSynchronizationRule("AC","AC_SYN.drl");
+    oprMgt.updateSynchronizationRule("MM","notifyReimburseStatus","state","active");
+    oprMgt.updateSynchronizationRule("AC","reimburse","state","active");
+
+    oprMgt.addRoutingRule("AC","AC_Routing.drl");
+    oprMgt.updateRoutingRule("AC","reimburseResponse2","state","active");
+
+    oprMgt.addRoutingRule("MM","MM_Routing_Diff_cs7_fun.drl");
+    oprMgt.updateRoutingRule("MM","requestReimburse2","state","active");
+    oprMgt.updateRoutingRule("MM","selectReimburseAlt","state","active");
+
+    oprMgt.addPassthroughRule("AC-MM","AC-MM.drl");
+    oprMgt.updatePassthroughRule("AC-MM","reimburse","state","active");
+    oprMgt.updatePassthroughRule("AC-MM","notifyReimburseStatus","state","active");
+
+    oprMgt.addRegulationUnit("ruReimbursement2");
+    oprMgt.updateRegulationUnit("ruReimbursement2","state","active");
+
+    oprMgt.addSynchronizationRulesToRegulationUnit("ruReimbursement2","reimburse:AC,notifyReimburseStatus2:MM");
+    oprMgt.addRoutingRulesToRegulationUnit("ruReimbursement2","reimburseResponse:AC,requestReimburse2:MM");
+    oprMgt.addPassthroughRulesToRegulationUnit("ruReimbursement2","reimburse:AC-MM,notifyReimburseStatus:AC-MM");
+
+    oprMgt.addRegulationUnit("ruSelectReimburseAlt");
+    oprMgt.addRoutingRulesToRegulationUnit("ruSelectReimburseAlt","selectReimburseAlt:MM");
+    oprMgt.updateRegulationUnit("ruSelectReimburseAlt","state","active");
+
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursement2,ruSelectReimburseAlt");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursement2,ruSelectReimburseAlt","state","active");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursement2,ruSelectReimburseAlt");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursement2,ruSelectReimburseAlt","state","active");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruReimbursement2,ruSelectReimburseAlt");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP1","ruReimbursement2,ruSelectReimburseAlt","state","active");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruReimbursement2,ruSelectReimburseAlt");
+    oprMgt.updateRegulationUnitsOfProcessRegulationPolicy("AnyTrucks","AnyTrucksP2","ruReimbursement2,ruSelectReimburseAlt","state","active");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Add : " + (stop1 - start1)/1000000);
+end

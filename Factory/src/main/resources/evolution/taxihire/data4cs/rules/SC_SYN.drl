@@ -1,0 +1,85 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "analyze"
+  when
+  $e1 : EventRecord(eventId == "eAssistReqd")
+  then
+   disabledSet.disable("analyze");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Analyze.xsl","Analyze");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payTC1"
+  when
+   $e1 : EventRecord(eventId == "ePayTowReqdByTC1")
+  then
+   disabledSet.disable("payTC1");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC1.payTow.Req","SC-TC1.notifyPickUp.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayTC1.xsl","PayTC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payTC2"
+  when
+   $e1 : EventRecord(eventId == "ePayTowReqdByTC2")
+  then
+   disabledSet.disable("payTC2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC2.payTow.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayTC2.xsl","PayTC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payGC1"
+  when
+   $e1 : EventRecord(eventId == "ePayRepairReqdByGC1")
+  then
+   disabledSet.disable("payGC1");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-GC1.payRepair.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayGC1.xsl","PayGC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payGC2"
+  when
+   $e1 : EventRecord(eventId == "ePayRepairReqdByGC2")
+  then
+   disabledSet.disable("payGC2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-GC2.payRepair.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayGC2.xsl","PayGC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payPS"
+  when
+   $e1 : EventRecord(eventId == "ePayPSReq")
+  then
+   disabledSet.disable("payPS");
+   MessageWrapper [] msgs = actions.Pull(new String []{"PS-SC.payParts.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayPS.xsl","PayPS");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payHC"
+  when
+   $e1 : EventRecord(eventId == "ePayHCReqd")
+  then
+   disabledSet.disable("payHC");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-HC.payRoomRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayHC.xsl","PayHC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payVC"
+  when
+   $e1 : EventRecord(eventId == "ePayVCReqd")
+  then
+   disabledSet.disable("payVC");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-VC.payVehicleRent.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayVC.xsl","PayVC");
+   actions.ExecuteTask(exMsg);
+end

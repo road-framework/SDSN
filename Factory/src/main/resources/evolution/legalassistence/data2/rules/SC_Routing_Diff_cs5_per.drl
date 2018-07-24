@@ -1,0 +1,16 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "analyzeResponseV7"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC4.orderTow.Req","OrderTowReqFromTC4.xsl",$msg);
+end
+
+rule "analyzeResponseV8"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC2.orderRepair.Req","OrderRepairReqFromGC2BySC.xsl",$msg);
+end

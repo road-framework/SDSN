@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
+<tns:ServiceNetwork
+        xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
+        name="roadside" dataDir="src/main/resources/roadside/data/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="HappyTours">
+        <tns1:Process id="HappyToursP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eHCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionProcessSelection</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <VirtualServiceNetwork id="SunCampsites">
+        <tns1:Process id="SunCampsitesP1">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionV2</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <VirtualServiceNetwork id="UniUvtClub">
+        <tns1:Process id="UniUvtClubP1">
+            <tns1:CoS>eAssistReqd * ePickUpReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRepairingByMacRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingBySwiftTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruSwiftTowAndMacRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV2</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
+    </VirtualServiceNetwork>
+    <InterVSNRegulation>
+        <tns1:Routing>
+            <tns1:RuleRef id="classify" place="MM"/>
+        </tns1:Routing>
+    </InterVSNRegulation>
+    <InterProcessRegulationUnits>
+        <tns1:InterProcessRegulationUnit id="ruCreateVsnInstance">
+            <tns1:Routing>
+                <tns1:RuleRef id="createVsnInstance" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruAdmissionV1">
+            <tns1:Routing>
+                <tns1:RuleRef id="admissionCheckV1" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruAdmissionV2">
+            <tns1:Routing>
+                <tns1:RuleRef id="admissionCheckV2" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruAdmissionProcessSelection">
+            <tns1:Routing>
+                <tns1:RuleRef id="admissionCheckV3" place="MM"/>
+                <tns1:RuleRef id="processSelectionV1" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+        <tns1:InterProcessRegulationUnit id="ruDrop">
+            <tns1:Routing>
+                <tns1:RuleRef id="drop" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterProcessRegulationUnit>
+    </InterProcessRegulationUnits>
+    <InterCollaborationRegulationUnits>
+        <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="activateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruActivateV2">
+            <tns1:Global>
+                <tns1:RuleRef id="activateV2"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV2">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV2"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruSwiftTowAndMacRepair">
+            <tns1:Passthrough>
+                <tns1:RuleRef id="orderRepair" place="MM-GC1"/>
+                <tns1:RuleRef id="sendGCLocation" place="GC1-TC1"/>
+                <tns1:RuleRef id="sendGCLocationResponse" place="GC1-TC1"/>
+            </tns1:Passthrough>
+            <tns1:Synchronization>
+                <tns1:RuleRef id="deliverGC1" place="TC1"/>
+                <tns1:RuleRef id="orderRepair" place="GC1"/>
+            </tns1:Synchronization>
+            <tns1:Routing>
+                <tns1:RuleRef id="deliverResponseV2" place="TC1"/>
+                <tns1:RuleRef id="requestAssistV3" place="MM"/>
+                <tns1:RuleRef id="orderRepairResponse" place="GC1"/>
+            </tns1:Routing>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruSwiftTowAndAutoRepair">
+            <tns1:Passthrough>
+                <tns1:RuleRef id="orderRepair" place="MM-GC2"/>
+                <tns1:RuleRef id="sendGCLocation" place="GC2-TC1"/>
+                <tns1:RuleRef id="sendGCLocationResponse" place="GC2-TC1"/>
+            </tns1:Passthrough>
+            <tns1:Synchronization>
+                <tns1:RuleRef id="deliverGC2" place="TC1"/>
+                <tns1:RuleRef id="assessRepairTC1" place="GC2"/>
+                <tns1:RuleRef id="orderRepairFromMM" place="GC2"/>
+            </tns1:Synchronization>
+            <tns1:Routing>
+                <tns1:RuleRef id="deliverResponseV3" place="TC1"/>
+                <tns1:RuleRef id="orderRepairResponseV2" place="GC2"/>
+                <tns1:RuleRef id="requestAssistV4" place="MM"/>
+            </tns1:Routing>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTomTowAndAutoRepair">
+            <tns1:Passthrough>
+                <tns1:RuleRef id="orderRepair" place="SC-GC2"/>
+                <tns1:RuleRef id="sendGCLocation" place="GC2-TC2"/>
+                <tns1:RuleRef id="sendGCLocationResponse" place="GC2-TC2"/>
+            </tns1:Passthrough>
+            <tns1:Synchronization>
+                <tns1:RuleRef id="assessRepairTC2" place="GC2"/>
+                <tns1:RuleRef id="orderRepair" place="GC2"/>
+            </tns1:Synchronization>
+            <tns1:Routing>
+                <tns1:RuleRef id="orderRepairResponseV1" place="GC2"/>
+                <tns1:RuleRef id="analyzeResponseV4" place="SC"/>
+                <tns1:RuleRef id="towResponse" place="TC2"/>
+            </tns1:Routing>
+        </tns1:InterCollaborationRegulationUnit>
+    </InterCollaborationRegulationUnits>
+    <CollaborationUnits>
+        <tns1:CollaborationUnit id="bCaseHandling">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="MM.RequestAssist"
+                              postEP=" ( eAssistReqd ) | ( eAssistReqd * ( eRepairReqFromGC2ByMM  | eRepairReqFromGC1ByMM ) * ePickUpReq ) "/>
+                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
+                              postEP=" ( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqd  *  eRepairReqFromGC2BySC * eRentVehicleReqd )"/>
+                <tns1:TaskRef Id="MM.Notify" preEP=" eMMNotify "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="assist" place="SC-MM"/>
+                    <tns1:RuleRef id="assistResponse" place="SC-MM"/>
+                    <tns1:RuleRef id="notifyRoomPayment" place="SC-MM"/>
+                    <tns1:RuleRef id="notifyVehiclePayment" place="SC-MM"/>
+                </tns1:Passthrough>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="analyze" place="SC"/>
+                    <tns1:RuleRef id="notify" place="MM"/>
+                </tns1:Synchronization>
+                <tns1:Routing>
+                    <tns1:RuleRef id="requestAssistV1" place="MM"/>
+                    <tns1:RuleRef id="payGCResponseV3" place="SC"/>
+                </tns1:Routing>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="bRentingVehicle">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="VC.RentVehicle" preEP=" eRentVehicleReqd " postEP=" eRentedVehicle "/>
+                <tns1:TaskRef Id="VC.EndVehicleRent" preEP=" eEndVehicleRentReqd " postEP=" eEndedVehicleRent "/>
+                <tns1:TaskRef Id="SC.PayVC" preEP=" ePayVCReqd " postEP=" eVCPaid "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="rentVehicle" place="SC-VC"/>
+                    <tns1:RuleRef id="rentVehicleResponse" place="SC-VC"/>
+                    <tns1:RuleRef id="endVehicleRent" place="SC-VC"/>
+                    <tns1:RuleRef id="endVehicleRentResponse" place="SC-VC"/>
+                    <tns1:RuleRef id="payVehicleRent" place="SC-VC"/>
+                    <tns1:RuleRef id="payVehicleRentResponse" place="SC-VC"/>
+                </tns1:Passthrough>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="rentVehicle" place="VC"/>
+                    <tns1:RuleRef id="endVehicleRent" place="VC"/>
+                    <tns1:RuleRef id="payVC" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Routing>
+                    <tns1:RuleRef id="analyzeResponseV1" place="SC"/>
+                    <tns1:RuleRef id="payGCResponseV5" place="SC"/>
+                    <tns1:RuleRef id="payVCResponse" place="SC"/>
+                    <tns1:RuleRef id="rentVehicleResponse" place="VC"/>
+                    <tns1:RuleRef id="endVehicleRentResponse" place="VC"/>
+                </tns1:Routing>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+    </CollaborationUnits>
+    <Roles>
+        <Role id="MM" name="Member" entryRole="true" synchronization="MM_SYN.drl" routing="MM_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RequestAssist" mep="one-way">
+                    <tns1:In>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>pickUpLocation</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                        <tns1:ResultMsg contractId="MM-GC1" termId="orderRepair" isResponse="false"/>
+                        <tns1:ResultMsg contractId="MM-GC2" termId="orderRepair" isResponse="false"/>
+                        <tns1:ResultMsg contractId="MM-TC1" termId="pickUp" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="Notify" mep="notification">
+                    <tns1:Out>
+                        <tns1:Operation name="requestAssist">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complain</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="SC" name="24bySupportCenter" synchronization="SC_SYN.drl" routing="SC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Analyze">
+                    <tns1:Out>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="analyze">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>memId</Name>
+                                </Parameter>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>complainDetails</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>AnalyzeReturn</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-GC1" termId="orderRepair" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-GC2" termId="orderRepair" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-HC" termId="rentRoom" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-VC" termId="rentVehicle" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+
+
+        <Role id="PS" name="JackParts" synchronization="PS_SYN.drl" routing="PS_Routing.drl">
+            <Tasks>
+                <tns1:Task id="OrderParts">
+                    <tns1:Out>
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="orderParts">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="GC2-PS" termId="orderParts" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="GC2-PS" termId="orderParts" isResponse="true"/>
+                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+    </Roles>
+
+    <Contracts>
+        <Contract id="SC-MM" passthrough="SC-MM.drl">
+            <Terms>
+                <Term id="assist">
+                    <Operation name="assist">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>memId</Name>
+                            </Parameter>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>complain</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
+                </Term>
+                <Term id="notifyRoomPayment">
+                    <Operation name="notifyRoomPayment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+                <Term id="notifyVehiclePayment">
+                    <Operation name="notifyVehiclePayment">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>SC</RoleAID>
+            <RoleBID>MM</RoleBID>
+        </Contract>
+        <Contract id="MM-GC1" passthrough="MM-GC1.drl">
+            <Terms>
+                <Term id="orderRepair">
+                    <Operation name="orderRepair">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>AtoB</Direction>
+                </Term>
+            </Terms>
+            <RoleAID>MM</RoleAID>
+            <RoleBID>GC1</RoleBID>
+        </Contract>
+    </Contracts>
+    <ServiceBindings>
+        <ServiceBinding id="SC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/CaseOfficerService</Endpoint>
+            <Roles>
+                <RoleID>SC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="EP1_SB">
+            <Endpoint>http://localhost:8082/axis2/services/JackGearService</Endpoint>
+            <Roles>
+                <RoleID>EP1</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="EP2_SB">
+            <Endpoint>http://localhost:8082/axis2/services/TomGearService</Endpoint>
+            <Roles>
+                <RoleID>EP2</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TG_SB">
+            <Endpoint>http://localhost:8082/axis2/services/GuideByLocalsService</Endpoint>
+            <Roles>
+                <RoleID>TG</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/ShowAroundService</Endpoint>
+            <Roles>
+                <RoleID>TC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="VR_SB">
+            <Endpoint>http://localhost:8082/axis2/services/NedVehiclesService</Endpoint>
+            <Roles>
+                <RoleID>VR</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="GP_SB">
+            <Endpoint>http://localhost:8082/axis2/services/LocalGrocersService</Endpoint>
+            <Roles>
+                <RoleID>GP</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="DC_SB">
+            <Endpoint>http://localhost:8082/axis2/services/MacDeliveryService</Endpoint>
+            <Roles>
+                <RoleID>DC</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="TX_SB">
+            <Endpoint>http://localhost:8082/axis2/services/LocalCabsService</Endpoint>
+            <Roles>
+                <RoleID>TX</RoleID>
+            </Roles>
+        </ServiceBinding>
+        <ServiceBinding id="OrgBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addtaxihire2_organizer</Endpoint>
+            <Property name="namespace" value="http://controlpt.road.ict.swin.edu.au"/>
+        </ServiceBinding>
+        <ServiceBinding id="OprBinding">
+            <Endpoint>http://localhost:8081/axis2/services/addTaxiHire_OperationalManager</Endpoint>
+        </ServiceBinding>
+    </ServiceBindings>
+    <OrganiserBinding>OrgBinding</OrganiserBinding>
+    <OperationalManagerBinding>OprBinding</OperationalManagerBinding>
+</tns:ServiceNetwork>

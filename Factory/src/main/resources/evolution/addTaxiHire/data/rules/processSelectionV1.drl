@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+rule "processSelectionV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admitted")
+  then
+   actions.execute("SimpleRoundRobin", "AnyTrucksP1,AnyTrucksP2", $msg.getClassifier(),$msg);
+end

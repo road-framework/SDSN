@@ -1,0 +1,17 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "orderTaxiResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "orderTaxiResponse", state=="routed")
+  then
+   actions.Forward("SC-TX.orderTaxi.Res","OrderTaxiRes.xsl",$msg);
+   actions.Forward("TX-MM.notifyTaxiBooking.Req","NotifyTaxiBookingReq.xsl",$msg);
+end
+
+rule "provideTaxiInvoice"
+  when
+   $msg : RoleServiceMessage(operationName== "provideTaxiInvoice", state=="routed")
+  then
+   actions.Forward("SC-TX.sendTaxiInvoice.Req","SendTaxiInvoiceReq.xsl",$msg);
+end

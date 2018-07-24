@@ -1,0 +1,15 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "reportAssessment"
+  when
+   $e1 : EventRecord(eventId == "eSentReport")
+  then
+   disabledSet.disable("reportAssessment");
+   MessageWrapper [] msgs = actions.Pull(new String []{"AS-GC2.reportAssessment.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"reportAssessment.xsl","ReportAssessment");
+   actions.ExecuteTask(exMsg);
+end

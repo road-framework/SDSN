@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "assessRepair"
+    when
+		$msg : MessageReceivedEvent(operationName == "assessRepair", response==false)
+    then
+		actions.publishEvent("eAssessRepairReqdByTC1",$msg);
+end

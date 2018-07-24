@@ -1,0 +1,25 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.common.VSNInstance;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "payTC5"
+  when
+   $e1 : EventRecord(eventId == "ePayT3Reqd")
+  then
+   disabledSet.disable("payTC5");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC5.payTow.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayTC5.xsl","PayTC");
+   actions.ExecuteTask(exMsg);
+end
+
+rule "payLF2"
+  when
+   $e1 : EventRecord(eventId == "ePayLFReqd")
+  then
+   disabledSet.disable("payLF2");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-LF2.payLegalAid.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayLF.xsl","PayLF");
+   actions.ExecuteTask(exMsg);
+end

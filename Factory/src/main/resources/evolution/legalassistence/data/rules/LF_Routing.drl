@@ -1,0 +1,10 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "inspectAccidentResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "inspectAccidentResponse", state=="forwardable")
+  then
+   actions.Forward("LF-TC3.authorizeTow.Req","AuthorizeTowFromLFToTC3.xsl",$msg);
+   actions.Forward("SC-LF.payLegalAid.Req","PayLegalAidFromLFToSC.xsl",$msg);
+end

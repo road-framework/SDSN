@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "notifyReimburseStatus"
+  when
+   $e1 : EventRecord(eventId == "eReimbursed")
+  then
+   disabledSet.disable("");
+   MessageWrapper [] msgs = actions.Pull(new String []{"AC-MM.notifyReimburseStatus.Req"});
+   actions.ExecuteTask(msgs[0]);
+end

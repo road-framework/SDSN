@@ -1,0 +1,23 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "orderRepairResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRepairResponse", state=="forwardable")
+  then
+   actions.Forward("GC1-TC1.sendGCLocation.Req","SendGC1LocationReq.xsl",$msg);
+end
+
+rule "orderRepairResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "orderRepairResponse", state=="forwardable")
+  then
+   actions.Forward("GC1-TC3.sendGCLocation.Req","SendGC1LocationToTC3Req.xsl",$msg);
+end
+
+rule "doRepairResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "doRepairResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GC1.payRepair.Req","PayGC1Req.xsl",$msg);
+end

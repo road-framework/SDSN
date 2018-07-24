@@ -1,0 +1,22 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage
+import au.edu.swin.ict.road.common.StateRecord
+import au.edu.swin.ict.road.common.Weight;
+import au.edu.swin.ict.road.common.VSN;
+import au.edu.swin.ict.road.common.ProcessManagementState;
+
+rule "admissionCheckV1"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admittable")
+  then
+   actions.FixedThroughput("requestAssist","160,200",$msg);
+   update($msg);
+end
+
+rule "processSelectionV2"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="admitted")
+  then
+   actions.WeightedRoundRobin("requestAssist","HappyToursP1:1,HappyToursP2:1",$msg);
+   update($msg);
+end

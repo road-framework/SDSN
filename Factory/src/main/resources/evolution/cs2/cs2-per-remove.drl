@@ -1,0 +1,29 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC2-per-add"
+  when
+    $mps : ManagementPolicyState(id =="remove",state=="incipient")
+  then
+    $mps.setState("active");
+    long start1 = System.nanoTime();
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","ruReimbursementPerformanceV1");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruReimbursementPerformanceV1");
+    oprMgt.removeRegulationUnit("ruReimbursementPerformanceV1");
+
+    oprMgt.removeServiceNetworkStateImplementation("ResponseTime");
+
+    oprMgt.removeServiceNetworkState("ReimburseTime", "vsn", new Classifier("HappyTours",""));
+    oprMgt.removeServiceNetworkState("ReimburseTime", "vsn", new Classifier("EuroCars",""));
+
+    oprMgt.removeRoutingRule("MM","requestReimburse2");
+
+    oprMgt.removePassthroughRule("SC-MM","reimburse2");
+    oprMgt.removePassthroughRule("SC-MM","notifyReimburseStatus2");
+
+    long stop1 = System.nanoTime();
+    System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

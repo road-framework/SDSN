@@ -1,0 +1,54 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+
+rule "ChangesForC3-fun-remove"
+  when
+    $mps : ManagementPolicyState(id =="remove", state=="incipient")
+  then
+       $mps.setState("active");
+       long start1 = System.nanoTime();
+       oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("EuroCars","EuroCarsP1","ruHiringTaxi,ruTerminateV3");
+     // regulation unit changes
+       // Taxihire regulation unit
+       oprMgt.removeRegulationUnit("ruHiringTaxi");
+       // new termination regulation unit
+       oprMgt.removeRegulationUnit("ruTerminateV3");
+       // role-level changes
+       // Role TX
+       orgMgt.removeRole("TX");
+       // Role MM
+       orgMgt.removeTask("MM","NotifyTaxiBooking");
+       // Role SC
+       orgMgt.removeTask("SC","PayTX");
+       orgMgt.updateTask("SC","Analyze","outputs","remove","SC-TX.orderTaxi.Req");
+
+       // contract-level changes
+       orgMgt.removeContract("SC-TX");
+       orgMgt.removeContract("TX-MM");
+
+       // behaviour unit changes
+       orgMgt.removeBehaviorUnit("bHiringTaxi");
+
+       orgMgt.addBehaviorUnitToProcess("EuroCars","EuroCarsP1","bRentingVehicle");
+       orgMgt.removeBehaviorUnitFromProcess("EuroCars","EuroCarsP1","bHiringTaxi");
+       orgMgt.updateProcessOfVSN("EuroCars","EuroCarsP1","CoT","eMMNotify * eVCPaid");
+
+       //synchronization rule changes
+       oprMgt.removeSynchronizationRule("MM","notifyTaxiBooking");
+       oprMgt.removeSynchronizationRule("SC","payTX");
+
+       //routing rule changes
+       oprMgt.removeRoutingRule("SC","payTXResponse");
+       oprMgt.removeRoutingRule("SC","analyzeResponseV6");
+
+       //global rule changes
+       oprMgt.removeGlobalRule("terminateV3");
+       // VSN/Process Regulaiton Policy Changes
+       oprMgt.addRegulationUnitsToProcessRegulationPolicy("EuroCars","EuroCarsP1","ruRentingVehicle,ruTerminateV2");
+
+       long stop1 = System.nanoTime();
+       System.out.println("Remove : " + (stop1 - start1)/1000000);
+end

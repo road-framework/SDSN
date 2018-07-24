@@ -1,8 +1,8 @@
 global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
 import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
-rule "orderRepair"
+rule "sendEquipmentRequirements"
     when
-		$msg : MessageReceivedEvent(operationName == "orderRepair",  response ==false)
+		$msg : MessageReceivedEvent(operationName == "sendEquipmentRequirements",  response ==false)
     then
-		actions.publishEvent("eRepairReqdFromGC2ByMM",$msg);
+		actions.publishEvent("eSendEquipmentRequirementsToEP1",$msg);
 end

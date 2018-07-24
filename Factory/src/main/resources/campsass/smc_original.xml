@@ -212,7 +212,7 @@
         </tns1:CollaborationUnit>
     </CollaborationUnits>
     <Roles>
-        <Role id="MM" name="Member" entryRole="true" synchronization="MM_SYN.drl" routing="MM_Routing.drl">
+        <Role id="CM" name="Camper" entryRole="true" synchronization="CM_SYN.drl" routing="CM_Routing.drl">
             <Tasks>
                 <tns1:Task id="RequestAssist" mep="one-way">
                     <tns1:In>
@@ -235,10 +235,13 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="SC-MM" termId="assist" isResponse="false"/>
-                        <tns1:ResultMsg contractId="MM-GC1" termId="orderRepair" isResponse="false"/>
-                        <tns1:ResultMsg contractId="MM-GC2" termId="orderRepair" isResponse="false"/>
-                        <tns1:ResultMsg contractId="MM-TC1" termId="pickUp" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-SC" termId="assist" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-EP1" termId="sendEquipmentRequirements" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-EP2" termId="sendEquipmentRequirements" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-TC" termId="sendTourRequirements" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-TX" termId="sendLocation" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-DC" termId="sendLocation" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-GR" termId="sendGroceryList" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
                 <tns1:Task id="Notify" mep="notification">
@@ -258,7 +261,7 @@
                         </tns1:Operation>
                     </tns1:Out>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="true"/>
+                        <tns1:SrcMsg contractId="CM-SC" termId="assist" isResponse="true"/>
                     </tns1:SrcMsgs>
                 </tns1:Task>
             </Tasks>

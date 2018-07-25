@@ -4,11 +4,11 @@ rule "rentEquipment"
     when
 		$msg : MessageReceivedEvent(operationName == "rentEquipment",  response ==false)
     then
-		actions.publishEvent("eRentEquipmentByEP2",$msg);
+		actions.publishEvent("eRentEquipmentByEP1",$msg);
 end
 rule "rentEquipmentResponse"
     when
 		$msg : MessageReceivedEvent(operationName == "rentEquipment",  response ==true)
     then
-		actions.publishEvent("eRentedEquipmentByEP2",$msg);
+		actions.publishEvent("eRentedEquipmentByEP1",$msg);
 end

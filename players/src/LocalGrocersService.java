@@ -12,11 +12,11 @@ public class LocalGrocersService {
 
     public LocalGrocersService() {
         roadProperties = ROADProperties.getInstance("players.properties");
-        opRateLimiters.put("tow", new OperationRateLimiter("LocalGrocersService", "orderGroceries", roadProperties));
+        opRateLimiters.put("orderGroceries", new OperationRateLimiter("LocalGrocersService", "orderGroceries", roadProperties));
     }
 
     public String orderGroceries(String groceries) throws AxisFault {
-        OperationRateLimiter rateLimier = opRateLimiters.get("tow");
+        OperationRateLimiter rateLimier = opRateLimiters.get("orderGroceries");
         if (log.isInfoEnabled()) {
             log.info("rentEquipment in LocalGrocersService received >>>>>>>>> : " + groceries);
         }

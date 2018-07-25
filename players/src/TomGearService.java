@@ -12,7 +12,7 @@ public class TomGearService {
 
     public TomGearService() {
         roadProperties = ROADProperties.getInstance("players.properties");
-        opRateLimiters.put("tow", new OperationRateLimiter("TomGearService", "rentAndDeliverEquipment", roadProperties));
+        opRateLimiters.put("rentAndDeliverEquipment", new OperationRateLimiter("TomGearService", "rentAndDeliverEquipment", roadProperties));
     }
 
     public String rentAndDeliverEquipment(String equipmentRequirements) throws AxisFault {

@@ -2,23 +2,22 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                xmlns:q0="http://ws.apache.org/axis2/xsd/co">
+                xmlns:q0="http://ws.apache.org/axis2/xsd/dc">
     <xsl:output method="xml" indent="yes"/>
-    <xsl:param name="CM-SC.assist.Req"/>
+    <xsl:param name="CM-DC.sendLocationReq"/>
+    <xsl:param name="EP1-DC.orderDelivery.Req"/>
     <xsl:template match="/">
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q0:analyze xmlns:q0="http://ws.apache.org/axis2/xsd/co">
-                    <memId>
+                <q0:deliver xmlns:q0="http://ws.apache.org/axis2/xsd/dc">
+                    <q0:content>
                         <xsl:value-of
-                                select="$CM-SC.assist.Req/soapenv:Envelope/soapenv:Body/q0:assist/q0:memId"/>
-                    </memId>
-                    <complainDetails>
+                                select="$CM-DC.sendLocationReq/soapenv:Envelope/soapenv:Body/q0:sendLocation/q0:content"/>
                         <xsl:value-of
-                                select="$CM-SC.assist.Req/soapenv:Envelope/soapenv:Body/q0:assist/q0:complain"/>
-                    </complainDetails>
-                </q0:analyze>
+                                select="$EP1-DC.orderDelivery.Req/soapenv:Envelope/soapenv:Body/q0:orderDelivery/q0:content"/>
+                    </q0:content>
+                </q0:deliver>
             </soapenv:Body>
         </soapenv:Envelope>
     </xsl:template>

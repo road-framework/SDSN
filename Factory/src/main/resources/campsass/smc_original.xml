@@ -553,7 +553,7 @@
         </Role>
         <Role id="EP1" name="JackGear" synchronization="EP1_SYN.drl" routing="EP1_Routing.drl">
             <Tasks>
-                <tns1:Task id="rentEquipment">
+                <tns1:Task id="RentEquipment">
                     <tns1:Out>
                         <tns1:Operation name="rentEquipment">
                             <Parameters>

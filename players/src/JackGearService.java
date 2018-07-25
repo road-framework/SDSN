@@ -12,7 +12,7 @@ public class JackGearService {
 
     public JackGearService() {
         roadProperties = ROADProperties.getInstance("players.properties");
-        opRateLimiters.put("tow", new OperationRateLimiter("JackGearService", "rentEquipment", roadProperties));
+        opRateLimiters.put("rentEquipment", new OperationRateLimiter("JackGearService", "rentEquipment", roadProperties));
     }
 
     public String rentEquipment(String equipmentRequirements) throws AxisFault {

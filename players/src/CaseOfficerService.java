@@ -23,6 +23,7 @@ public class CaseOfficerService implements Lifecycle {
         opRateLimiters.put("payVC", new OperationRateLimiter("CaseOfficerService", "payVC", roadProperties));
         opRateLimiters.put("payTX", new OperationRateLimiter("CaseOfficerService", "payTX", roadProperties));
         opRateLimiters.put("payLF", new OperationRateLimiter("CaseOfficerService", "payLF", roadProperties));
+        opRateLimiters.put("SendGuideList", new OperationRateLimiter("CaseOfficerService", "SendGuideList", roadProperties));
     }
 
     public AnalyzeReturn analyze(String memId, String complainDetails) throws AxisFault {

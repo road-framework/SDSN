@@ -13,11 +13,11 @@ public class GuideByLocalsService {
     public GuideByLocalsService() {
         roadProperties = ROADProperties.getInstance("players.properties");
         opRateLimiters.put("findGuide", new OperationRateLimiter("GuideByLocalsService ", "findGuide", roadProperties));
-        opRateLimiters.put("inspectAccident", new OperationRateLimiter("GuideByLocalsService ", "bookGuide", roadProperties));
+        opRateLimiters.put("bookGuide", new OperationRateLimiter("GuideByLocalsService ", "bookGuide", roadProperties));
     }
 
     public String findGuide(String criteria) throws AxisFault {
-        OperationRateLimiter rateLimier = opRateLimiters.get("inspectAccident");
+        OperationRateLimiter rateLimier = opRateLimiters.get("findGuide");
         if (log.isInfoEnabled()) {
             log.info("findGuide in GuideByLocalsService  received >>>>>>>>> : " + criteria);
         }
@@ -41,7 +41,7 @@ public class GuideByLocalsService {
     }
 
     public String bookGuide(String bookingInfo) throws AxisFault {
-        OperationRateLimiter rateLimier = opRateLimiters.get("inspectAccident");
+        OperationRateLimiter rateLimier = opRateLimiters.get("bookGuide");
         if (log.isInfoEnabled()) {
             log.info("bookGuide in GuideByLocalsService  received >>>>>>>>> : " + bookingInfo);
         }

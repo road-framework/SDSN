@@ -474,7 +474,7 @@
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-TG" termId="bookGuide" isResponse="true"/>
-                        <tns1:ResultMsg contractId="SC-TG" termId="sendTourSchedule" isResponse="false"/>
+                        <tns1:ResultMsg contractId="TG-VR" termId="sendTourSchedule" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
@@ -506,7 +506,7 @@
                     </tns1:In>
                     <tns1:SrcMsgs>
                         <tns1:SrcMsg contractId="SC-VR" termId="rentVehicle" isResponse="false"/>
-                        <tns1:SrcMsg contractId="SC-TG" termId="sendTourSchedule" isResponse="false"/>
+                        <tns1:SrcMsg contractId="TG-VR" termId="sendTourSchedule" isResponse="false"/>
                         <tns1:SrcMsg contractId="CM-VR" termId="sendVehicleRequirements" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
@@ -649,7 +649,7 @@
                     </tns1:In>
                     <tns1:SrcMsgs>
                         <tns1:SrcMsg contractId="CM-GR" termId="sendGroceryList" isResponse="false"/>
-                        <tns1:SrcMsg contractId="CM-GR" termId="orderGrocery" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-GR" termId="orderGrocery" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-GR" termId="orderGrocery" isResponse="true"/>

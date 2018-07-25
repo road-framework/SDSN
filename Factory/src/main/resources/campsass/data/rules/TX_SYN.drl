@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "bookTaxi"
+  when
+   $e1 : EventRecord(eventId == "eBookTaxi")
+  then
+   disabledSet.disable("bookTaxi");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TX.bookTaxi.Req","CM-TX.sendLocation.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"BookTaxi.xsl","BookTaxi");
+   actions.ExecuteTask(exMsg);
+end

@@ -731,8 +731,8 @@
         </Contract>
         <Contract id="CM-TC" passthrough="CM-TC.drl">
             <Terms>
-                <Term id="endTourRequirements">
-                    <Operation name="endTourRequirements">
+                <Term id="sendTourRequirements">
+                    <Operation name="sendTourRequirements">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -917,8 +917,8 @@
         </Contract>
         <Contract id="SC-TC" passthrough="SC-TC.drl">
             <Terms>
-                <Term id="orderTour">
-                    <Operation name="orderTour">
+                <Term id="bookTour">
+                    <Operation name="bookTour">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>

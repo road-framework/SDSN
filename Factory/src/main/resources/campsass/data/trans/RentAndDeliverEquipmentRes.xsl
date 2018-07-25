@@ -12,7 +12,7 @@
                 <q1:rentAndDeliverEquipmentResponse xmlns:q1="http://ws.apache.org/axis2/xsd/ep2">
                     <return>
                         <xsl:value-of
-                                select="$rentAndDeliverEquipment.doneMsg/soapenv:Envelope/soapenv:Body/q0:rentAndDeliverEquipmentResponse/q0:return"/>
+                                select="$RentAndDeliverEquipment.doneMsg/soapenv:Envelope/soapenv:Body/q0:rentAndDeliverEquipmentResponse/q0:return"/>
                     </return>
                 </q1:rentAndDeliverEquipmentResponse>
             </soapenv:Body>

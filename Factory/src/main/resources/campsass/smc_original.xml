@@ -577,7 +577,7 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="EP1-DC" termId="rentEquipment" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-EP1" termId="rentEquipment" isResponse="false"/>
                         <tns1:SrcMsg contractId="CM-EP1" termId="sendEquipmentRequirements" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
@@ -613,11 +613,11 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="EP1-DC" termId="rentAndDeliverEquipment" isResponse="false"/>
-                        <tns1:SrcMsg contractId="CM-EP1" termId="sendEquipmentRequirements" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-EP2" termId="rentAndDeliverEquipment" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-EP2" termId="sendEquipmentRequirements" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="SC-EP1" termId="rentAndDeliverEquipment" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-EP2" termId="rentAndDeliverEquipment" isResponse="true"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>

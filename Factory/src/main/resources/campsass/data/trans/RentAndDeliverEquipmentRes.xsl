@@ -2,19 +2,19 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                xmlns:q0="http://ws.apache.org/axis2/xsd/co" xmlns:ax21="http://ws.apache.org/axis2/xsd">
+                xmlns:q0="http://ws.apache.org/axis2/xsd/ep2">
     <xsl:output method="xml" indent="yes"/>
-    <xsl:param name="SendGuideList.doneMsg"/>
+    <xsl:param name="RentAndDeliverEquipment.doneMsg"/>
     <xsl:template match="/">
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q1:rentVehicle xmlns:q1="http://ws.apache.org/axis2/xsd/vr">
-                    <content>
+                <q1:rentAndDeliverEquipmentResponse xmlns:q1="http://ws.apache.org/axis2/xsd/ep2">
+                    <return>
                         <xsl:value-of
-                                select="$SendGuideList.doneMsg/soapenv:Envelope/soapenv:Body/q0:sendGuideListResponse/q0:return"/>
-                    </content>
-                </q1:rentVehicle>
+                                select="$rentAndDeliverEquipment.doneMsg/soapenv:Envelope/soapenv:Body/q0:rentAndDeliverEquipmentResponse/q0:return"/>
+                    </return>
+                </q1:rentAndDeliverEquipmentResponse>
             </soapenv:Body>
         </soapenv:Envelope>
     </xsl:template>

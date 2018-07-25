@@ -9,12 +9,12 @@
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q1:rentVehicle xmlns:q1="http://ws.apache.org/axis2/xsd/vr">
+                <q1:bookGuide xmlns:q1="http://ws.apache.org/axis2/xsd/tg">
                     <content>
                         <xsl:value-of
                                 select="$SendGuideList.doneMsg/soapenv:Envelope/soapenv:Body/q0:sendGuideListResponse/q0:return"/>
                     </content>
-                </q1:rentVehicle>
+                </q1:bookGuide>
             </soapenv:Body>
         </soapenv:Envelope>
     </xsl:template>

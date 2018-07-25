@@ -11,7 +11,7 @@
             <soapenv:Body>
                 <q0:deliver xmlns:q0="http://ws.apache.org/axis2/xsd/ep1">
                     <q0:equipmentRequirements>
-                        deliver ep1
+                        tent brand x ep1
                     </q0:equipmentRequirements>
                 </q0:deliver>
             </soapenv:Body>

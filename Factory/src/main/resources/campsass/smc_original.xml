@@ -301,7 +301,7 @@
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-EP1" termId="rentEquipment" isResponse="false"/>
-                        <tns1:ResultMsg contractId="SC-EP2" termId="rentEquipment" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-EP2" termId="rentAndDeliverEquipment" isResponse="false"/>
                         <tns1:ResultMsg contractId="SC-GR" termId="orderGrocery" isResponse="false"/>
                         <tns1:ResultMsg contractId="SC-TC" termId="orderTour" isResponse="false"/>
                         <tns1:ResultMsg contractId="SC-TX" termId="bookTaxi" isResponse="false"/>

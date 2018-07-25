@@ -10,7 +10,7 @@ rule "assistResponse"
     when
 		$msg : MessageReceivedEvent(operationName == "assist",  response ==true)
     then
-	actions.publishEvent("eMMNotify",$msg);
+	actions.publishEvent("eCaseCreated",$msg);
 end
 rule "sendTourReservation"
     when

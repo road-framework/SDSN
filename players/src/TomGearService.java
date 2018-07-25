@@ -12,13 +12,13 @@ public class TomGearService {
 
     public TomGearService() {
         roadProperties = ROADProperties.getInstance("players.properties");
-        opRateLimiters.put("tow", new OperationRateLimiter("TomGearService", "rentEquipment", roadProperties));
+        opRateLimiters.put("tow", new OperationRateLimiter("TomGearService", "rentAndDeliverEquipment", roadProperties));
     }
 
-    public String rentEquipment(String equipmentRequirements, String garageLocation) throws AxisFault {
-        OperationRateLimiter rateLimier = opRateLimiters.get("tow");
+    public String rentAndDeliverEquipment(String equipmentRequirements) throws AxisFault {
+        OperationRateLimiter rateLimier = opRateLimiters.get("rentAndDeliverEquipment");
         if (log.isInfoEnabled()) {
-            log.info("rentEquipment in JackGearService received >>>>>>>>> : " + equipmentRequirements);
+            log.info("rentEquipment in TomGearService received >>>>>>>>> : " + equipmentRequirements);
         }
         if (!rateLimier.tryConsume()) {
             String msg = "Capacity limit has reached for tow : " + rateLimier.getThreshold();

@@ -23,7 +23,7 @@
     </description>
     <parameter name="ServiceClass">InGarageService</parameter>
     <schema schemaNamespace="http://ws.apache.org/axis2/xsd/accountingfirm"/>
-    <operation name="placeRepairOrder">
+    <operation name="getGarageLocation">
         <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
     </operation>
     <operation name="doRepair">

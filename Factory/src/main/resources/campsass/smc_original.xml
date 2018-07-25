@@ -226,10 +226,6 @@
                                     <Type>String</Type>
                                     <Name>complain</Name>
                                 </Parameter>
-                                <Parameter>
-                                    <Type>String</Type>
-                                    <Name>pickUpLocation</Name>
-                                </Parameter>
                             </Parameters>
                             <Return>String</Return>
                         </tns1:Operation>
@@ -242,6 +238,7 @@
                         <tns1:ResultMsg contractId="CM-TX" termId="sendLocation" isResponse="false"/>
                         <tns1:ResultMsg contractId="CM-DC" termId="sendLocation" isResponse="false"/>
                         <tns1:ResultMsg contractId="CM-GR" termId="sendGroceryList" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-VR" termId="sendVehicleRequirements" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
                 <tns1:Task id="Notify" mep="notification">
@@ -303,20 +300,53 @@
                         <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="SC-TC2" termId="orderTow" isResponse="false"/>
-                        <tns1:ResultMsg contractId="SC-GC1" termId="orderRepair" isResponse="false"/>
-                        <tns1:ResultMsg contractId="SC-GC2" termId="orderRepair" isResponse="false"/>
-                        <tns1:ResultMsg contractId="SC-HC" termId="rentRoom" isResponse="false"/>
-                        <tns1:ResultMsg contractId="SC-VC" termId="rentVehicle" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-EP1" termId="rentEquipment" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-EP2" termId="rentEquipment" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-GR" termId="orderGrocery" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-TC" termId="orderTour" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-TX" termId="bookTaxi" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-TG" termId="findGuide" isResponse="false"/>
+                        <tns1:ResultMsg contractId="CM-SC" termId="assist" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="SendGuideList">
+                    <tns1:Out>
+                        <tns1:Operation name="sendGuideList">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>guideList</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="sendGuideList">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>guideList</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TG" termId="findGuide" isResponse="true"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TG" termId="bookGuide" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-VR" termId="rentVehicle" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
         </Role>
-        <Role id="PS" name="JackParts" synchronization="PS_SYN.drl" routing="PS_Routing.drl">
+        <Role id="TX" name="LocalCabs" synchronization="TX_SYN.drl" routing="TX_Routing.drl">
             <Tasks>
-                <tns1:Task id="OrderParts">
+                <tns1:Task id="BookTaxi">
                     <tns1:Out>
-                        <tns1:Operation name="orderParts">
+                        <tns1:Operation name="bookTaxi">
                             <Parameters>
                                 <Parameter>
                                     <Type>String</Type>
@@ -327,7 +357,7 @@
                         </tns1:Operation>
                     </tns1:Out>
                     <tns1:In>
-                        <tns1:Operation name="orderParts">
+                        <tns1:Operation name="bookTaxi">
                             <Parameters>
                                 <Parameter>
                                     <Type>String</Type>
@@ -338,17 +368,296 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="GC2-PS" termId="orderParts" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-TX" termId="bookTaxi" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-TX" termId="sendLocation" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="GC2-PS" termId="orderParts" isResponse="true"/>
-                        <tns1:ResultMsg contractId="PS-SC" termId="payParts" isResponse="false"/>
+                        <tns1:ResultMsg contractId="SC-TX" termId="bookTaxi" isResponse="true"/>
+                        <tns1:ResultMsg contractId="CM-TX" termId="sendTaxiReservation" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TC" name="ShowAround" synchronization="TC_SYN.drl" routing="TC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="BookTour">
+                    <tns1:Out>
+                        <tns1:Operation name="bookTour">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="bookTour">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TC" termId="bookTour" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-TC" termId="sendTourRequirements" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TC" termId="bookTour" isResponse="true"/>
+                        <tns1:ResultMsg contractId="CM-TC" termId="sendTourReservation" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="TG" name="GuideByLocals" synchronization="TG_SYN.drl" routing="TG_Routing.drl">
+            <Tasks>
+                <tns1:Task id="FindGuide">
+                    <tns1:Out>
+                        <tns1:Operation name="findGuide">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>criteria</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="findGuide">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>criteria</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TG" termId="findGuide" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TG" termId="findGuide" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+                <tns1:Task id="BookGuide">
+                    <tns1:Out>
+                        <tns1:Operation name="bookGuide">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>criteria</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="bookGuide">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>criteria</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-TG" termId="bookGuide" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-TG" termId="bookGuide" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-TG" termId="sendTourSchedule" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="VR" name="NedVehicles" synchronization="VR_SYN.drl" routing="VR_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RentVehicle">
+                    <tns1:Out>
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="rentVehicle">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="SC-VR" termId="rentVehicle" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-TG" termId="sendTourSchedule" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-VR" termId="sendVehicleRequirements" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-VR" termId="rentVehicle" isResponse="true"/>
+                        <tns1:ResultMsg contractId="CM-VR" termId="sendTourReservation" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="DC" name="MacDelivery" synchronization="DC_SYN.drl" routing="DC_Routing.drl">
+            <Tasks>
+                <tns1:Task id="Deliver">
+                    <tns1:Out>
+                        <tns1:Operation name="deliver">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="deliver">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>content</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="EP1-DC" termId="orderDelivery" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-DC" termId="sendLocation" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="EP1-DC" termId="orderDelivery" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="EP1" name="JackGear" synchronization="EP1_SYN.drl" routing="EP1_Routing.drl">
+            <Tasks>
+                <tns1:Task id="rentEquipment">
+                    <tns1:Out>
+                        <tns1:Operation name="rentEquipment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="rentEquipment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="EP1-DC" termId="rentEquipment" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-EP1" termId="sendEquipmentRequirements" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-EP1" termId="rentEquipment" isResponse="true"/>
+                        <tns1:ResultMsg contractId="EP1-DC" termId="orderDelivery" isResponse="false"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="EP2" name="JackGear" synchronization="EP2_SYN.drl" routing="EP2_Routing.drl">
+            <Tasks>
+                <tns1:Task id="RentAndDeliverEquipment">
+                    <tns1:Out>
+                        <tns1:Operation name="rentAndDeliverEquipment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="rentAndDeliverEquipment">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="EP1-DC" termId="rentAndDeliverEquipment" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-EP1" termId="sendEquipmentRequirements" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-EP1" termId="rentAndDeliverEquipment" isResponse="true"/>
+                    </tns1:ResultMsgs>
+                </tns1:Task>
+            </Tasks>
+        </Role>
+        <Role id="GR" name="JackGear" synchronization="GR_SYN.drl" routing="GR_Routing.drl">
+            <Tasks>
+                <tns1:Task id="OrderGrocery">
+                    <tns1:Out>
+                        <tns1:Operation name="orderGrocery">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:Out>
+                    <tns1:In>
+                        <tns1:Operation name="orderGrocery">
+                            <Parameters>
+                                <Parameter>
+                                    <Type>String</Type>
+                                    <Name>equipmentRequirements</Name>
+                                </Parameter>
+                            </Parameters>
+                            <Return>String</Return>
+                        </tns1:Operation>
+                    </tns1:In>
+                    <tns1:SrcMsgs>
+                        <tns1:SrcMsg contractId="CM-GR" termId="sendGroceryList" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-GR" termId="orderGrocery" isResponse="false"/>
+                    </tns1:SrcMsgs>
+                    <tns1:ResultMsgs>
+                        <tns1:ResultMsg contractId="SC-GR" termId="orderGrocery" isResponse="true"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
             </Tasks>
         </Role>
     </Roles>
-
     <Contracts>
         <Contract id="CM-SM" passthrough="CM-SM.drl">
             <Terms>
@@ -536,8 +845,8 @@
         </Contract>
         <Contract id="EP1-DC" passthrough="EP1-DC.drl">
             <Terms>
-                <Term id="deliver">
-                    <Operation name="deliver">
+                <Term id="orderDelivery">
+                    <Operation name="orderDelivery">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -572,8 +881,8 @@
         </Contract>
         <Contract id="SC-EP2" passthrough="SC-EP2.drl">
             <Terms>
-                <Term id="rentEquipment">
-                    <Operation name="rentEquipment">
+                <Term id="rentAndDeliverEquipment">
+                    <Operation name="rentAndDeliverEquipment">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>

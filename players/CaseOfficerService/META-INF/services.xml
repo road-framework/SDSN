@@ -20,7 +20,7 @@
 <serviceGroup>
     <service name="CaseOfficerService" scope="application" targetNamespace="http://ws.apache.org/axis2/co">
         <description>
-            This service is to get the running Axis version
+            This service is to represent support center
         </description>
         <parameter name="ServiceClass">CaseOfficerService</parameter>
         <schema schemaNamespace="http://ws.apache.org/axis2/xsd/co"/>
@@ -49,6 +49,9 @@
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
         </operation>
         <operation name="payLF">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+        </operation>
+        <operation name="sendGuideList">
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
         </operation>
     </service>

@@ -1,14 +1,14 @@
 global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
 import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
-rule "rentEquipment"
+rule "rentAndDeliverEquipment"
     when
-		$msg : MessageReceivedEvent(operationName == "rentEquipment",  response ==false)
+		$msg : MessageReceivedEvent(operationName == "rentAndDeliverEquipment",  response ==false)
     then
-		actions.publishEvent("eRentEquipmentByEP2",$msg);
+		actions.publishEvent("eRentAndDeliverEquipmentByEP2",$msg);
 end
-rule "rentEquipmentResponse"
+rule "rentAndDeliverEquipmentResponse"
     when
-		$msg : MessageReceivedEvent(operationName == "rentEquipment",  response ==true)
+		$msg : MessageReceivedEvent(operationName == "rentAndDeliveryEquipment",  response ==true)
     then
-		actions.publishEvent("eRentedEquipmentByEP2",$msg);
+		actions.publishEvent("eRentedAndDeliveredEquipmentByEP2",$msg);
 end

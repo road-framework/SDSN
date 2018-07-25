@@ -15,10 +15,10 @@ public class MacDeliveryService {
         opRateLimiters.put("deliver", new OperationRateLimiter("MacDeliveryService", "deliver", roadProperties));
     }
 
-    public String deliver(String garageLocation) throws AxisFault {
+    public String deliver(String content) throws AxisFault {
         OperationRateLimiter rateLimier = opRateLimiters.get("deliver");
         if (log.isInfoEnabled()) {
-            log.info("Deliver in MacDeliveryService received >>>>>>>>> : " + garageLocation);
+            log.info("Deliver in MacDeliveryService received >>>>>>>>> : " + content);
         }
         if (!rateLimier.tryConsume()) {
             String msg = "Capacity limit has reached for tow : " + rateLimier.getThreshold();
@@ -30,9 +30,9 @@ public class MacDeliveryService {
                 new DeliveryServiceProxyImpl(), DeliveryServiceProxy.class, rateLimier.getAverageResponseTime(),
                 TimeUnit.MILLISECONDS);
         try {
-            result = proxy.deliver(garageLocation, rateLimier.getAverageResponseTime());
+            result = proxy.deliver(content, rateLimier.getAverageResponseTime());
         } catch (UncheckedTimeoutException e) {
-            result = "Delivered to " + garageLocation;
+            result = "Delivered to " + content;
             e.printStackTrace();
         }
         rateLimier.refill();

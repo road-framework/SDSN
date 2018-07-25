@@ -259,6 +259,32 @@ public class CaseOfficerService implements Lifecycle {
         rateLimier.refill();
         return result;
     }
+    public String sendGuideList(String guideList) throws AxisFault {
+        OperationRateLimiter rateLimier = opRateLimiters.get("SendGuideList");
+        if (log.isInfoEnabled()) {
+            log.info("SendGuideList in CaseOfficerService received >>>>>>>>> : " + guideList);
+        }
+        if (!rateLimier.tryConsume()) {
+            String msg = "Capacity limit has reached for SendGuideList : " + rateLimier.getThreshold();
+            log.error(msg);
+            throw new AxisFault(msg);
+        }
+        String result;
+        CaseOfficerProxy proxy = rateLimier.getLimiter().newProxy(
+                new CaseOfficerProxyImpl(), CaseOfficerProxy.class, rateLimier.getAverageResponseTime(),
+                TimeUnit.MILLISECONDS);
+        try {
+            result = proxy.sendGuideList(guideList, rateLimier.getAverageResponseTime());
+        } catch (UncheckedTimeoutException e) {
+            result = "sendGuideListResponse";
+            e.printStackTrace();
+        }
+        if (log.isInfoEnabled()) {
+            log.info(result);
+        }
+        rateLimier.refill();
+        return result;
+    }
 
     @Override
     public void init(ServiceContext serviceContext) throws AxisFault {

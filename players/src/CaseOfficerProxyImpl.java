@@ -59,6 +59,12 @@ public class CaseOfficerProxyImpl implements CaseOfficerProxy {
         return "PayLawFirmResponse";
     }
 
+    @Override
+    public String sendGuideList(String guideList, long avgTime) throws AxisFault {
+        sleep(avgTime);
+        return "SendGuideListResponse";
+    }
+
     private void sleep(long avgTime) {
         try {
             Thread.sleep(avgTime);

@@ -20,4 +20,6 @@ public interface CaseOfficerProxy {
     public String payTX(String content, long avgTime) throws AxisFault;
 
     public String payLF(String content, long avgTime) throws AxisFault;
+
+    public String sendGuideList(String guideList, long avgTime) throws AxisFault ;
 }

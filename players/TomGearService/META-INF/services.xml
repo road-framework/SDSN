@@ -23,7 +23,7 @@
     </description>
     <parameter name="ServiceClass">TomGearService</parameter>
     <schema schemaNamespace="http://ws.apache.org/axis2/xsd/ep2"/>
-    <operation name="rentEquipment">
+    <operation name="rentAndDeliverEquipment">
         <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
     </operation>
 </service>

@@ -15,8 +15,8 @@ public class JackGearService {
         opRateLimiters.put("tow", new OperationRateLimiter("JackGearService", "rentEquipment", roadProperties));
     }
 
-    public String rentEquipment(String equipmentRequirements, String garageLocation) throws AxisFault {
-        OperationRateLimiter rateLimier = opRateLimiters.get("tow");
+    public String rentEquipment(String equipmentRequirements) throws AxisFault {
+        OperationRateLimiter rateLimier = opRateLimiters.get("rentEquipment");
         if (log.isInfoEnabled()) {
             log.info("rentEquipment in JackGearService received >>>>>>>>> : " + equipmentRequirements);
         }

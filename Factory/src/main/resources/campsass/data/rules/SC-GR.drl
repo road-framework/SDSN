@@ -6,7 +6,7 @@ rule "orderGrocery"
     then
 		actions.publishEvent("eOrderGrocery",$msg);
 end
-rule "orderGroceryesponse"
+rule "orderGroceryResponse"
     when
 		$msg : MessageReceivedEvent(operationName == "orderGrocery",  response ==true)
     then

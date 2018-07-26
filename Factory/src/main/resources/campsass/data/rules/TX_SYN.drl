@@ -5,7 +5,7 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "bookTaxi"
   when
-   $e1 : EventRecord(eventId == "eBookTaxi")
+   ($e1 : EventRecord(eventId == "eBookTaxi")) and ($e2 : EventRecord(eventId == "eSendLocToTX"))
   then
    disabledSet.disable("bookTaxi");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-TX.bookTaxi.Req","CM-TX.sendLocation.Req"});

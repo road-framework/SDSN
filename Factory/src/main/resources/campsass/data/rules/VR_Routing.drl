@@ -5,5 +5,5 @@ rule "rentVehicleResponse"
   when
    $msg : RoleServiceMessage(operationName== "rentVehicleResponse", state=="forwardable")
   then
-   actions.Forward("SC-VC.rentVehicle.Res","RentVehicleRes.xsl",$msg);
+   actions.Forward("SC-VR.rentVehicle.Res","RentVehicleRes.xsl",$msg);
 end

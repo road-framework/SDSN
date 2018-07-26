@@ -5,7 +5,7 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "bookTour"
   when
-   $e1 : EventRecord(eventId == "eBookTour")
+   ($e1 : EventRecord(eventId == "eBookTour")) and ($e2 : EventRecord(eventId == "eSendTourRequirementsToTC"))
   then
    disabledSet.disable("bookTour");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC.bookTour.Req","CM-TC.sendTourRequirements.Req"});

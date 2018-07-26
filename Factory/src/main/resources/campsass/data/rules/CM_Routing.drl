@@ -94,3 +94,9 @@ rule "requestAssistV7"
   then
   actions.Forward("CM-DC.sendGroceryList.Req","SendGroceryList.xsl",$msg);
 end
+rule "requestAssistV8"
+  when
+   $msg : RoleServiceMessage(operationName== "requestAssist", state=="forwardable")
+  then
+  actions.Forward("CM-VR.sendVehicleRequirements.Req","SendVehicleRequirements.xsl",$msg);
+end

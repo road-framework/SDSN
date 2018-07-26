@@ -7,8 +7,8 @@
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eHCPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTC</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bRentingRoom</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
@@ -23,8 +23,19 @@
         <tns1:Process id="SunCampsitesP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRepairingByAutoRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTC</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:Process id="SunCampsitesP2">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
+            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bTowingByTomTow</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTomTowAndAutoRepair</tns1:InterCollaborationRegulationUnitRef>
@@ -39,8 +50,8 @@
         <tns1:Process id="UniUvtClubP1">
             <tns1:CoS>eAssistReqd * ePickUpReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>bCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>bRepairingByMacRepair</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bTowingBySwiftTow</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>bRentingVehicle</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruSwiftTowAndMacRepair</tns1:InterCollaborationRegulationUnitRef>
@@ -156,57 +167,83 @@
         </tns1:InterCollaborationRegulationUnit>
     </InterCollaborationRegulationUnits>
     <CollaborationUnits>
-        <tns1:CollaborationUnit id="bCaseHandling">
+        <tns1:CollaborationUnit id="cuCaseHandling">
             <tns1:ConfigurationDesign>
-                <tns1:TaskRef Id="MM.RequestAssist"
-                              postEP=" ( eAssistReqd ) | ( eAssistReqd * ( eRepairReqFromGC2ByMM  | eRepairReqFromGC1ByMM ) * ePickUpReq ) "/>
+                <tns1:TaskRef Id="CM.RequestAssist"
+                              postEP="eAssistReqd"/>
                 <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
-                              postEP=" ( eRentVehicleReqd ) | ( eRentRoomReqd ) | ( eTowReqd  *  eRepairReqFromGC2BySC * eRentVehicleReqd )"/>
-                <tns1:TaskRef Id="MM.Notify" preEP=" eMMNotify "/>
+                              postEP="eCaseCreated"/>
+                <tns1:TaskRef Id="CM.Notify" preEP=" eCMNotify "/>
             </tns1:ConfigurationDesign>
             <tns1:RegulationDesign>
                 <tns1:Passthrough>
-                    <tns1:RuleRef id="assist" place="SC-MM"/>
-                    <tns1:RuleRef id="assistResponse" place="SC-MM"/>
-                    <tns1:RuleRef id="notifyRoomPayment" place="SC-MM"/>
-                    <tns1:RuleRef id="notifyVehiclePayment" place="SC-MM"/>
+                    <tns1:RuleRef id="assist" place="CM-SC"/>
+                    <tns1:RuleRef id="assistResponse" place="CM-sC"/>
                 </tns1:Passthrough>
                 <tns1:Synchronization>
                     <tns1:RuleRef id="analyze" place="SC"/>
-                    <tns1:RuleRef id="notify" place="MM"/>
+                    <tns1:RuleRef id="notify" place="CM"/>
                 </tns1:Synchronization>
                 <tns1:Routing>
-                    <tns1:RuleRef id="requestAssistV1" place="MM"/>
-                    <tns1:RuleRef id="payGCResponseV3" place="SC"/>
+                    <tns1:RuleRef id="requestAssistV1" place="CM"/>
+                    <tns1:RuleRef id="analyzeResponseV6" place="SC"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="bRentingVehicle">
+        <tns1:CollaborationUnit id="cuArrangingTourWithTC">
             <tns1:ConfigurationDesign>
-                <tns1:TaskRef Id="VC.RentVehicle" preEP=" eRentVehicleReqd " postEP=" eRentedVehicle "/>
-                <tns1:TaskRef Id="VC.EndVehicleRent" preEP=" eEndVehicleRentReqd " postEP=" eEndedVehicleRent "/>
-                <tns1:TaskRef Id="SC.PayVC" preEP=" ePayVCReqd " postEP=" eVCPaid "/>
+                <tns1:TaskRef Id="TC.BookTour" preEP=" eBookTour * eSendTourRequirementsToTC "
+                              postEP=" eSendTourReservationToCM * eReservedTour "/>
             </tns1:ConfigurationDesign>
             <tns1:RegulationDesign>
                 <tns1:Passthrough>
-                    <tns1:RuleRef id="rentVehicle" place="SC-VC"/>
-                    <tns1:RuleRef id="rentVehicleResponse" place="SC-VC"/>
-                    <tns1:RuleRef id="endVehicleRent" place="SC-VC"/>
-                    <tns1:RuleRef id="endVehicleRentResponse" place="SC-VC"/>
-                    <tns1:RuleRef id="payVehicleRent" place="SC-VC"/>
-                    <tns1:RuleRef id="payVehicleRentResponse" place="SC-VC"/>
+                    <tns1:RuleRef id="orderTourResponse" place="SC-TC"/>
+                    <tns1:RuleRef id="orderTour" place="SC-TC"/>
+                    <tns1:RuleRef id="sendTourRequirements" place="CM-TC"/>
+                    <tns1:RuleRef id="sendTourReservation" place="CM-TC"/>
                 </tns1:Passthrough>
                 <tns1:Synchronization>
-                    <tns1:RuleRef id="rentVehicle" place="VC"/>
-                    <tns1:RuleRef id="endVehicleRent" place="VC"/>
-                    <tns1:RuleRef id="payVC" place="SC"/>
+                    <tns1:RuleRef id="bookTour" place="TC"/>
                 </tns1:Synchronization>
                 <tns1:Routing>
+                    <tns1:RuleRef id="bookTourResponse" place="TC"/>
+                    <tns1:RuleRef id="requestAssistV4" place="CM"/>
+                    <tns1:RuleRef id="analyzeResponseV5" place="SC"/>
+                </tns1:Routing>
+            </tns1:RegulationDesign>
+        </tns1:CollaborationUnit>
+        <tns1:CollaborationUnit id="cuArrangingTourWithTG_VR">
+            <tns1:ConfigurationDesign>
+                <tns1:TaskRef Id="TG.FindGuide" preEP="eFindGuide"
+                              postEP="eFoundGuide"/>
+                <tns1:TaskRef Id="SC.SendGuideList" preEP="eFoundGuide"
+                              postEP="eBookGuide * eRentVehicle"/>
+                <tns1:TaskRef Id="TG.BookGuide" preEP="eBookGuide"
+                              postEP=" eSendTourReservationToCM * eSendTourSchedule"/>
+                <tns1:TaskRef Id="VR.RentVehicle" preEP=" eRentVehicle * eSendVehicleRequirementsToEP1 * eSendTourSchedule "
+                              postEP=" eSendTourReservationToCMFromVR * eRentedVehicle "/>
+            </tns1:ConfigurationDesign>
+            <tns1:RegulationDesign>
+                <tns1:Passthrough>
+                    <tns1:RuleRef id="findGuide" place="SC-TG"/>
+                    <tns1:RuleRef id="bookGuide" place="SC-TG"/>
+                    <tns1:RuleRef id="sendTourSchedule" place="TG-VR"/>
+                    <tns1:RuleRef id="sendVehicleRequirements" place="CM-VR"/>
+                    <tns1:RuleRef id="sendTourReservation" place="CM-VR"/>
+                </tns1:Passthrough>
+                <tns1:Synchronization>
+                    <tns1:RuleRef id="rentVehicle" place="VR"/>
+                    <tns1:RuleRef id="findGuide" place="TG"/>
+                    <tns1:RuleRef id="bookGuide" place="TG"/>
+                    <tns1:RuleRef id="sendGuideList" place="SC"/>
+                </tns1:Synchronization>
+                <tns1:Routing>
+                    <tns1:RuleRef id="rentVehicleResponse" place="VR"/>
+                    <tns1:RuleRef id="bookGuideResponse" place="TG"/>
+                    <tns1:RuleRef id="findGuideResponse" place="TG"/>
+                    <tns1:RuleRef id="requestAssistV8" place="CM"/>
+                    <tns1:RuleRef id="sendGuideListResponse" place="SC"/>
                     <tns1:RuleRef id="analyzeResponseV1" place="SC"/>
-                    <tns1:RuleRef id="payGCResponseV5" place="SC"/>
-                    <tns1:RuleRef id="payVCResponse" place="SC"/>
-                    <tns1:RuleRef id="rentVehicleResponse" place="VC"/>
-                    <tns1:RuleRef id="endVehicleRentResponse" place="VC"/>
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>

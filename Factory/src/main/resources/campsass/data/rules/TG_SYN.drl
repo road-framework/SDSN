@@ -18,7 +18,7 @@ rule "bookGuide"
    $e1 : EventRecord(eventId == "eBookGuide")
   then
    disabledSet.disable("bookGuide");
-   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TG.bookGuide.Req""});
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TG.bookGuide.Req"});
    MessageWrapper exMsg = actions.Synthesis(msgs,"BookGuide.xsl","BookGuide");
    actions.ExecuteTask(exMsg);
 end

@@ -4,7 +4,7 @@ rule "rentVehicle"
     when
 		$msg : MessageReceivedEvent(operationName == "rentVehicle",  response ==false)
     then
-		actions.publishEvent("eRentVehicleReqd",$msg);
+		actions.publishEvent("eRentVehicle",$msg);
 end
 rule "rentVehicleResponse"
     when

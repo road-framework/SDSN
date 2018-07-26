@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
  * TODO
  */
 public class VehicleRepairAssessmentService {
-    private static Logger log = Logger.getLogger(InGarageService.class.getName());
+    private static Logger log = Logger.getLogger(VehicleRepairAssessmentService.class.getName());
 
     public String assessRepair(String content) throws AxisFault {
         if (log.isInfoEnabled()) {

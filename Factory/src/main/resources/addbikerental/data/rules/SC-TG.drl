@@ -1,0 +1,26 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "findGuide"
+    when
+		$msg : MessageReceivedEvent(operationName == "findGuide",  response ==false)
+    then
+		actions.publishEvent("eFindGuide",$msg);
+end
+rule "findGuideResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "findGuide",  response ==true)
+    then
+		actions.publishEvent("eFoundGuide",$msg);
+end
+rule "bookGuide"
+    when
+		$msg : MessageReceivedEvent(operationName == "bookGuide",  response ==false)
+    then
+		actions.publishEvent("eBookGuide",$msg);
+end
+rule "bookGuideResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "bookGuide",  response ==true)
+    then
+		actions.publishEvent("eReservedGuide",$msg);
+end

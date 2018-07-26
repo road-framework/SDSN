@@ -1,0 +1,38 @@
+global au.edu.swin.ict.road.common.IOrganiserRole orgMgt;
+global au.edu.swin.ict.road.common.IOperationalManagerRole oprMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.ManagementPolicyState;
+import au.edu.swin.ict.road.common.Classifier;
+import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
+
+rule "bikerental_opr_stage1"
+  when
+    ( $mpsOpr : ManagementPolicyState (id =="es10_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="es10_org", state=="stage1done") )
+  then
+    disabledSet.disable("es10_opr_stage1");
+    System.out.println("Operational management policy es10_opr_stage1 has been started.");
+
+    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
+
+    oprMgt.addRoutingRule("TX","TX_Routing.drl");
+    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing_Diff_Replace.drl");
+    oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+
+    oprMgt.addPassthroughRule("TX-MM","TX-MM.drl");
+    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
+    oprMgt.updateGlobalRule("terminateV1","replace" ,"roadside_global_diff_replace.drl");
+
+    oprMgt.addRegulationUnit("HiringTaxi");
+    oprMgt.addSynchronizationRulesToRegulationUnit("HiringTaxi","orderTaxi:TX,notifyTaxiBooking:MM,payTX:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("HiringTaxi","payTXResponse:SC,orderTaxiResponse:TX");
+    oprMgt.addPassthroughRulesToRegulationUnit("HiringTaxi","orderTaxi:SC-TX, notifyTaxiBooking:TX-MM, sendTaxiInvoice:SC-TX, sendTaxiInvoiceResponse:SC-TX");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","HiringTaxi");
+
+    oprMgt.updateRegulationUnit("HiringTaxi","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","HiringTaxi","state","active");
+
+    System.out.println("Operational management policy es10_opr_stage1 has been completed successfully.");
+    $mpsOpr.setState("quiescence");
+end

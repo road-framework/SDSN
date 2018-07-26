@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "rentVehicle"
+  when
+   ($e1 : EventRecord(eventId == "eRentVehicle")) and  ($e2 : EventRecord(eventId == "eSendTourSchedule")) and  ($e3 : EventRecord(eventId == "eSendVehicleRequirementsToEP1"))
+  then
+   disabledSet.disable("rentVehicle");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-VR.rentVehicle.Req","TG-VR.sendTourSchedule.Req","CM-VR.sendVehicleRequirements.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"RentVehicle.xsl","RentVehicle");
+   actions.ExecuteTask(exMsg);
+end

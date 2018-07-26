@@ -1,0 +1,8 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "sendEquipmentRequirements"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendEquipmentRequirements",  response ==false)
+    then
+		actions.publishEvent("eSendEquipmentRequirementsToEP2",$msg);
+end

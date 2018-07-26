@@ -2,7 +2,7 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="campsass" dataDir="src/main/resources/campsass/data/" globalRegulation="campsass_global.drl">
+        name="campsass" dataDir="src/main/resources/addbikerental/data/" globalRegulation="campsass_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
             <tns1:CoS>eAssist</tns1:CoS>

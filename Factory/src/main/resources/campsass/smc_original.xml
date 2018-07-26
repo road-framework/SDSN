@@ -5,8 +5,8 @@
         name="roadside" dataDir="src/main/resources/roadside/data/" globalRegulation="roadside_global.drl">
     <VirtualServiceNetwork id="HappyTours">
         <tns1:Process id="HappyToursP1">
-            <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eHCPaid</tns1:CoT>
+            <tns1:CoS>eAssist</tns1:CoS>
+            <tns1:CoT>eCaseCreated * eRentedEquipmentByEP1 * eSendTourReservationToCM * eSendTaxiReservationToCM</tns1:CoT>
             <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuArrangingTourWithTC</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP1</tns1:CollaborationUnitRef>
@@ -14,28 +14,18 @@
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV1</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
-        <tns1:InterProcessRegulationUnitRef>ruAdmissionProcessSelection</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
     </VirtualServiceNetwork>
-    <VirtualServiceNetwork id="SunCampsites">
-        <tns1:Process id="SunCampsitesP1">
-            <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
-            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuArrangingTourWithTC</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP2</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
-            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
-            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
-        </tns1:Process>
-        <tns1:Process id="SunCampsitesP2">
-            <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
+    <VirtualServiceNetwork id="UniUvtClub">
+        <tns1:Process id="UniUvtClubP1">
+            <tns1:CoS>eAssist</tns1:CoS>
+            <tns1:CoT>eCaseCreated * eSendTourReservationToCM * eOrderedGrocery * eSendTaxiReservationToCM</tns1:CoT>
             <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP2</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuHiringTaxi</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
@@ -43,51 +33,61 @@
         <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
     </VirtualServiceNetwork>
-    <VirtualServiceNetwork id="UniUvtClub">
-        <tns1:Process id="UniUvtClubP1">
+    <VirtualServiceNetwork id="SunCampsites">
+        <tns1:Process id="SunCampsitesP1">
             <tns1:CoS>eAssistReqd</tns1:CoS>
-            <tns1:CoT>eMMNotify * eVCPaid</tns1:CoT>
+            <tns1:CoT>eCaseCreated * eRentedAndDeliveredEquipmentByEP2 * eOrderedGrocery * eSendTourReservationToCM</tns1:CoT>
+            <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTC</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP2</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV3_1</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
+        </tns1:Process>
+        <tns1:Process id="SunCampsitesP2">
+            <tns1:CoS>eAssistReqd</tns1:CoS>
+            <tns1:CoT>eCaseCreated * eRentedAndDeliveredEquipmentByEP2 * eOrderedGrocery * eSendTourReservationToCMFromVR</tns1:CoT>
             <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP2</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuHiringTaxi</tns1:CollaborationUnitRef>
-            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
-            <tns1:InterCollaborationRegulationUnitRef>ruActivateV2</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruTerminateV3_2</tns1:InterCollaborationRegulationUnitRef>
+            <tns1:InterCollaborationRegulationUnitRef>ruActivateV1</tns1:InterCollaborationRegulationUnitRef>
         </tns1:Process>
-        <tns1:InterProcessRegulationUnitRef>ruAdmissionV1</tns1:InterProcessRegulationUnitRef>
+        <tns1:InterProcessRegulationUnitRef>ruAdmissionProcessSelection</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruDrop</tns1:InterProcessRegulationUnitRef>
         <tns1:InterProcessRegulationUnitRef>ruCreateVsnInstance</tns1:InterProcessRegulationUnitRef>
     </VirtualServiceNetwork>
     <InterVSNRegulation>
         <tns1:Routing>
-            <tns1:RuleRef id="classify" place="MM"/>
+            <tns1:RuleRef id="classify" place="CM"/>
         </tns1:Routing>
     </InterVSNRegulation>
     <InterProcessRegulationUnits>
         <tns1:InterProcessRegulationUnit id="ruCreateVsnInstance">
             <tns1:Routing>
-                <tns1:RuleRef id="createVsnInstance" place="MM"/>
+                <tns1:RuleRef id="createVsnInstance" place="CM"/>
             </tns1:Routing>
         </tns1:InterProcessRegulationUnit>
         <tns1:InterProcessRegulationUnit id="ruAdmissionV1">
             <tns1:Routing>
-                <tns1:RuleRef id="admissionCheckV1" place="MM"/>
+                <tns1:RuleRef id="admissionCheckV1" place="CM"/>
             </tns1:Routing>
         </tns1:InterProcessRegulationUnit>
         <tns1:InterProcessRegulationUnit id="ruAdmissionV2">
             <tns1:Routing>
-                <tns1:RuleRef id="admissionCheckV2" place="MM"/>
+                <tns1:RuleRef id="admissionCheckV3" place="CM"/>
             </tns1:Routing>
         </tns1:InterProcessRegulationUnit>
         <tns1:InterProcessRegulationUnit id="ruAdmissionProcessSelection">
             <tns1:Routing>
-                <tns1:RuleRef id="admissionCheckV3" place="MM"/>
-                <tns1:RuleRef id="processSelectionV1" place="MM"/>
+                <tns1:RuleRef id="admissionCheckV3" place="CM"/>
+                <tns1:RuleRef id="processSelectionV1" place="CM"/>
             </tns1:Routing>
         </tns1:InterProcessRegulationUnit>
         <tns1:InterProcessRegulationUnit id="ruDrop">
             <tns1:Routing>
-                <tns1:RuleRef id="drop" place="MM"/>
+                <tns1:RuleRef id="drop" place="CM"/>
             </tns1:Routing>
         </tns1:InterProcessRegulationUnit>
     </InterProcessRegulationUnits>
@@ -95,11 +95,6 @@
         <tns1:InterCollaborationRegulationUnit id="ruActivateV1">
             <tns1:Global>
                 <tns1:RuleRef id="activateV1"/>
-            </tns1:Global>
-        </tns1:InterCollaborationRegulationUnit>
-        <tns1:InterCollaborationRegulationUnit id="ruActivateV2">
-            <tns1:Global>
-                <tns1:RuleRef id="activateV2"/>
             </tns1:Global>
         </tns1:InterCollaborationRegulationUnit>
         <tns1:InterCollaborationRegulationUnit id="ruTerminateV1">
@@ -110,6 +105,16 @@
         <tns1:InterCollaborationRegulationUnit id="ruTerminateV2">
             <tns1:Global>
                 <tns1:RuleRef id="terminateV2"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV3_1">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV3_1"/>
+            </tns1:Global>
+        </tns1:InterCollaborationRegulationUnit>
+        <tns1:InterCollaborationRegulationUnit id="ruTerminateV3_2">
+            <tns1:Global>
+                <tns1:RuleRef id="terminateV3_2"/>
             </tns1:Global>
         </tns1:InterCollaborationRegulationUnit>
     </InterCollaborationRegulationUnits>
@@ -375,7 +380,7 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="SC-MM" termId="assist" isResponse="false"/>
+                        <tns1:SrcMsg contractId="CM-SC" termId="assist" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
                         <tns1:ResultMsg contractId="SC-EP1" termId="rentEquipment" isResponse="false"/>

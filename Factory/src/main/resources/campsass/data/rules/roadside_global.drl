@@ -5,29 +5,40 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "activateV1"
 when
-    $e1 : EventRecord(eventId == "eAssistReqd")
+    $e1 : EventRecord(eventId == "eAssist")
 then
     disabledSet.disable("activateV1");
     actions.ChangeVSNInstanceState($e1.getClassifier(),"active");
 end
-rule "activateV2"
-when
-   ($e1 : EventRecord(eventId == "eAssistReqd")) and ($e2 : EventRecord(eventId == "ePickUpReqd"))
-then
-    disabledSet.disable("activateV2");
-    actions.ChangeVSNInstanceState($e1.getClassifier(),"active");
-end
 rule "terminateV1"
 when
-    ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eHCPaid"))
+    ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eRentedEquipmentByEP1")) and
+    ($e3 : EventRecord(eventId == "eSendTourReservationToCM")) and ($e4 : EventRecord(eventId == "eSendTaxiReservationToCM"))
 then
     disabledSet.disable("terminateV1");
     actions.TerminateVSNInstance($e1.getClassifier());
 end
 rule "terminateV2"
 when
-   ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eVCPaid"))
+    ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eSendTourReservationToCM")) and
+    ($e3 : EventRecord(eventId == "eOrderedGrocery")) and ($e4 : EventRecord(eventId == "eSendTaxiReservationToCM"))
 then
     disabledSet.disable("terminateV2");
+    actions.TerminateVSNInstance($e1.getClassifier());
+end
+rule "terminateV3_1"
+when
+  ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eRentedAndDeliveredEquipmentByEP2")) and
+  ($e3 : EventRecord(eventId == "eOrderedGrocery")) and ($e4 : EventRecord(eventId == "eSendTourReservationToCM"))
+then
+    disabledSet.disable("terminateV3_1");
+    actions.TerminateVSNInstance($e1.getClassifier());
+end
+rule "terminateV3_2"
+when
+   ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eRentedAndDeliveredEquipmentByEP2")) and
+   ($e3 : EventRecord(eventId == "eOrderedGrocery")) and ($e4 : EventRecord(eventId == "eSendTourReservationToCMFromVR"))
+then
+    disabledSet.disable("terminateV3_2");
     actions.TerminateVSNInstance($e1.getClassifier());
 end

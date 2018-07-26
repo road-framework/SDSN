@@ -6,7 +6,7 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "analyze"
   when
-  $e1 : EventRecord(eventId == "eAssistReqd")
+  $e1 : EventRecord(eventId == "eAssist")
   then
    disabledSet.disable("analyze");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-MM.assist.Req"});

@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "deliver"
+  when
+   ($e1 : EventRecord(eventId == "eSendLocToDC")) and   ($e2 : EventRecord(eventId == "eDeliver"))
+  then
+   disabledSet.disable("Deliver");
+   MessageWrapper [] msgs = actions.Pull(new String []{"CM-DC.sendLocation.Req","EP1-DC.orderDelivery.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"Deliver.xsl","Deliver");
+   actions.ExecuteTask(exMsg);
+end

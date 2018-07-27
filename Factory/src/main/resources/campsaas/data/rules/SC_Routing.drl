@@ -1,0 +1,59 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "analyzeResponseV1"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TG.findGuide.Req","FindGuideReq.xsl",$msg);
+end
+
+rule "analyzeResponseV2"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-EP1.rentEquipment.Req","RentEquipmentReq.xsl",$msg);
+end
+
+rule "analyzeResponseV3"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-EP2.rentAndDeliverEquipment.Req","RentAndDeliverEquipmentReq.xsl",$msg);
+end
+
+rule "analyzeResponseV4"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-GR.orderGrocery.Req","OrderGroceryReq.xsl",$msg);
+end
+
+rule "analyzeResponseV5"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC.orderTour.Req","BookTourReq.xsl",$msg);
+end
+
+rule "analyzeResponseV6"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("CM-SC.assist.Res","AssistRes.xsl",$msg);
+end
+
+rule "analyzeResponseV7"
+  when
+   $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TX.bookTaxi.Req","BookTaxiReq.xsl",$msg);
+end
+
+rule "sendGuideListResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "sendGuideListResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TG.bookGuide.Req","BookGuideReq.xsl",$msg);
+   actions.Forward("SC-VR.rentVehicle.Req","RentVehicleReq.xsl",$msg);
+end

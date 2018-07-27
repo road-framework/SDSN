@@ -8,7 +8,7 @@ rule "rentAndDeliverEquipment"
 end
 rule "rentAndDeliverEquipmentResponse"
     when
-		$msg : MessageReceivedEvent(operationName == "rentAndDeliveryEquipment",  response ==true)
+		$msg : MessageReceivedEvent(operationName == "rentAndDeliverEquipment",  response ==true)
     then
 		actions.publishEvent("eRentedAndDeliveredEquipmentByEP2",$msg);
 end

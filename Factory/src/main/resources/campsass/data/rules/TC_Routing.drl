@@ -5,6 +5,6 @@ rule "bookTourResponse"
   when
    $msg : RoleServiceMessage(operationName== "bookTourResponse", state=="forwardable")
   then
-   actions.Forward("SC-TC.bookTour.Res","BookTourRes.xsl",$msg);
+   actions.Forward("SC-TC.orderTour.Res","BookTourRes.xsl",$msg);
    actions.Forward("CM-TC.sendTourReservation.Req","SendTourReservationReq.xsl",$msg);
 end

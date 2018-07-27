@@ -2,7 +2,7 @@ global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
 import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
 rule "orderGroceryResponse"
   when
-   $msg : RoleServiceMessage(operationName== "orderGroceryResponse", state=="forwardable")
+   $msg : RoleServiceMessage(operationName== "orderGroceriesResponse", state=="forwardable")
   then
    actions.Forward("SC-GR.orderGrocery.Res","OrderGroceryRes.xsl",$msg);
 end

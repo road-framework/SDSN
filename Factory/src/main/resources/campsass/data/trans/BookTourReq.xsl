@@ -8,11 +8,11 @@
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q1:bookTour xmlns:q1="http://ws.apache.org/axis2/xsd/tourc">
+                <q1:orderTour xmlns:q1="http://ws.apache.org/axis2/xsd/tourc">
                     <q1:content>
                         book tour for amsterdam
                     </q1:content>
-                </q1:bookTour>
+                </q1:orderTour>
             </soapenv:Body>
         </soapenv:Envelope>
     </xsl:template>

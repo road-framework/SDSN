@@ -18,7 +18,7 @@ public class TomGearService {
     public String rentAndDeliverEquipment(String equipmentRequirements) throws AxisFault {
         OperationRateLimiter rateLimier = opRateLimiters.get("rentAndDeliverEquipment");
         if (log.isInfoEnabled()) {
-            log.info("rentEquipment in TomGearService received >>>>>>>>> : " + equipmentRequirements);
+            log.info("rentAndDeliverEquipment in TomGearService received >>>>>>>>> : " + equipmentRequirements);
         }
         if (!rateLimier.tryConsume()) {
             String msg = "Capacity limit has reached for tow : " + rateLimier.getThreshold();

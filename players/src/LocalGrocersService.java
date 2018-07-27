@@ -18,7 +18,7 @@ public class LocalGrocersService {
     public String orderGroceries(String groceries) throws AxisFault {
         OperationRateLimiter rateLimier = opRateLimiters.get("orderGroceries");
         if (log.isInfoEnabled()) {
-            log.info("rentEquipment in LocalGrocersService received >>>>>>>>> : " + groceries);
+            log.info("orderGroceries in LocalGrocersService received >>>>>>>>> : " + groceries);
         }
         if (!rateLimier.tryConsume()) {
             String msg = "Capacity limit has reached for tow : " + rateLimier.getThreshold();

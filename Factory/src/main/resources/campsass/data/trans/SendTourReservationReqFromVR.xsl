@@ -2,17 +2,17 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                xmlns:q0="http://ws.apache.org/axis2/xsd/tourc">
+                xmlns:q0="http://ws.apache.org/axis2/xsd/cm">
     <xsl:output method="xml" indent="yes"/>
     <xsl:template match="/">
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q0:orderTourResponse xmlns:q0="http://ws.apache.org/axis2/xsd/tourc">
+                <q0:sendTourReservation xmlns:q0="http://ws.apache.org/axis2/xsd/cm">
                     <q0:content>
-                        booked tour for amsterdam
+                        reservation of tour of amsterdam to indika
                     </q0:content>
-                </q0:orderTourResponse>
+                </q0:sendTourReservation>
             </soapenv:Body>
         </soapenv:Envelope>
     </xsl:template>

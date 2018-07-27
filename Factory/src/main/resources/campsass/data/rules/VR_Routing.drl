@@ -6,4 +6,5 @@ rule "rentVehicleResponse"
    $msg : RoleServiceMessage(operationName== "rentVehicleResponse", state=="forwardable")
   then
    actions.Forward("SC-VR.rentVehicle.Res","RentVehicleRes.xsl",$msg);
+   actions.Forward("CM-VR.sendTourReservation.Req","SendTourReservationReqFromVR.xsl",$msg);
 end

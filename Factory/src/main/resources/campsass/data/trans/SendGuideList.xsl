@@ -2,16 +2,16 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                xmlns:q0="http://ws.apache.org/axis2/xsd/tg">
+                xmlns:q0="http://ws.apache.org/axis2/xsd/co">
     <xsl:output method="xml" indent="yes"/>
     <xsl:template match="/">
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <soapenv:Header/>
             <soapenv:Body>
-                <q0:sendGuideList xmlns:q0="http://ws.apache.org/axis2/xsd/tg">
-                    <q0:content>
+                <q0:sendGuideList xmlns:q0="http://ws.apache.org/axis2/xsd/co">
+                    <q0:guideList>
                         indika, kumara, janaka
-                    </q0:content>
+                    </q0:guideList>
                 </q0:sendGuideList>
             </soapenv:Body>
         </soapenv:Envelope>

@@ -5,9 +5,9 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "orderGrocery"
   when
-   ($e1 : EventRecord(eventId == "eOrderGrocery")) and   ($e2 : EventRecord(eventId == "eSendGroceryList"))
+   ($e1 : EventRecord(eventId == "eOrderGrocery")) and ($e2 : EventRecord(eventId == "eSendGroceryList"))
   then
-   disabledSet.disable("OrderGrocery");
+   disabledSet.disable("orderGrocery");
    MessageWrapper [] msgs = actions.Pull(new String []{"CM-GR.sendGroceryList.Req","SC-GR.orderGrocery.Req"});
    MessageWrapper exMsg = actions.Synthesis(msgs,"OrderGrocery.xsl","OrderGrocery");
    actions.ExecuteTask(exMsg);

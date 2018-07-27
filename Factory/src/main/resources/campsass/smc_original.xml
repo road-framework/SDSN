@@ -23,7 +23,7 @@
             <tns1:CoS>eAssist</tns1:CoS>
             <tns1:CoT>eCaseCreated * eSendTourReservationToCM * eOrderedGrocery * eSendTaxiReservationToCM</tns1:CoT>
             <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTGandVR</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuHiringTaxi</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV2</tns1:InterCollaborationRegulationUnitRef>
@@ -48,7 +48,7 @@
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eCaseCreated * eRentedAndDeliveredEquipmentByEP2 * eOrderedGrocery * eSendTourReservationToCMFromVR</tns1:CoT>
             <tns1:CollaborationUnitRef>cuCaseHandling</tns1:CollaborationUnitRef>
-            <tns1:CollaborationUnitRef>cuArrangingTourWithTG_VR</tns1:CollaborationUnitRef>
+            <tns1:CollaborationUnitRef>cuArrangingTourWithTGandVR</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuRentingEquipmentFromEP2</tns1:CollaborationUnitRef>
             <tns1:CollaborationUnitRef>cuDeliveringGrocery</tns1:CollaborationUnitRef>
             <tns1:InterCollaborationRegulationUnitRef>ruTerminateV3_2</tns1:InterCollaborationRegulationUnitRef>
@@ -164,7 +164,7 @@
                 </tns1:Routing>
             </tns1:RegulationDesign>
         </tns1:CollaborationUnit>
-        <tns1:CollaborationUnit id="cuArrangingTourWithTG_VR">
+        <tns1:CollaborationUnit id="cuArrangingTourWithTGandVR">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="TG.FindGuide" preEP="eFindGuide"
                               postEP="eFoundGuide"/>
@@ -179,10 +179,14 @@
             <tns1:RegulationDesign>
                 <tns1:Passthrough>
                     <tns1:RuleRef id="findGuide" place="SC-TG"/>
+                    <tns1:RuleRef id="findGuideResponse" place="SC-TG"/>
                     <tns1:RuleRef id="bookGuide" place="SC-TG"/>
+                    <tns1:RuleRef id="bookGuideResponse" place="SC-TG"/>
                     <tns1:RuleRef id="sendTourSchedule" place="TG-VR"/>
                     <tns1:RuleRef id="sendVehicleRequirements" place="CM-VR"/>
                     <tns1:RuleRef id="sendTourReservation" place="CM-VR"/>
+                    <tns1:RuleRef id="rentVehicle" place="SC-VR"/>
+                    <tns1:RuleRef id="rentVehicleResponse" place="SC-VR"/>
                 </tns1:Passthrough>
                 <tns1:Synchronization>
                     <tns1:RuleRef id="rentVehicle" place="VR"/>
@@ -285,7 +289,7 @@
                     <tns1:RuleRef id="bookTaxiResponse" place="SC-TX"/>
                 </tns1:Passthrough>
                 <tns1:Synchronization>
-                    <tns1:RuleRef id="bookTaxi" place="GR"/>
+                    <tns1:RuleRef id="bookTaxi" place="TX"/>
                 </tns1:Synchronization>
                 <tns1:Routing>
                     <tns1:RuleRef id="bookTaxiResponse" place="TX"/>
@@ -488,11 +492,11 @@
                         </tns1:Operation>
                     </tns1:In>
                     <tns1:SrcMsgs>
-                        <tns1:SrcMsg contractId="SC-TC" termId="bookTour" isResponse="false"/>
+                        <tns1:SrcMsg contractId="SC-TC" termId="orderTour" isResponse="false"/>
                         <tns1:SrcMsg contractId="CM-TC" termId="sendTourRequirements" isResponse="false"/>
                     </tns1:SrcMsgs>
                     <tns1:ResultMsgs>
-                        <tns1:ResultMsg contractId="SC-TC" termId="bookTour" isResponse="true"/>
+                        <tns1:ResultMsg contractId="SC-TC" termId="orderTour" isResponse="true"/>
                         <tns1:ResultMsg contractId="CM-TC" termId="sendTourReservation" isResponse="false"/>
                     </tns1:ResultMsgs>
                 </tns1:Task>
@@ -671,7 +675,7 @@
                 </tns1:Task>
             </Tasks>
         </Role>
-        <Role id="EP2" name="JackGear" synchronization="EP2_SYN.drl" routing="EP2_Routing.drl">
+        <Role id="EP2" name="TomGear" synchronization="EP2_SYN.drl" routing="EP2_Routing.drl">
             <Tasks>
                 <tns1:Task id="RentAndDeliverEquipment">
                     <tns1:Out>
@@ -710,22 +714,22 @@
             <Tasks>
                 <tns1:Task id="OrderGrocery">
                     <tns1:Out>
-                        <tns1:Operation name="orderGrocery">
+                        <tns1:Operation name="orderGroceries">
                             <Parameters>
                                 <Parameter>
                                     <Type>String</Type>
-                                    <Name>equipmentRequirements</Name>
+                                    <Name>groceries</Name>
                                 </Parameter>
                             </Parameters>
                             <Return>String</Return>
                         </tns1:Operation>
                     </tns1:Out>
                     <tns1:In>
-                        <tns1:Operation name="orderGrocery">
+                        <tns1:Operation name="orderGroceries">
                             <Parameters>
                                 <Parameter>
                                     <Type>String</Type>
-                                    <Name>equipmentRequirements</Name>
+                                    <Name>groceries</Name>
                                 </Parameter>
                             </Parameters>
                             <Return>String</Return>
@@ -893,8 +897,8 @@
         </Contract>
         <Contract id="CM-VR" passthrough="CM-VR.drl">
             <Terms>
-                <Term id="sendLocation">
-                    <Operation name="sendLocation">
+                <Term id="sendVehicleRequirements">
+                    <Operation name="sendVehicleRequirements">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -904,6 +908,18 @@
                         <Return>String</Return>
                     </Operation>
                     <Direction>AtoB</Direction>
+                </Term>
+                <Term id="sendTourReservation">
+                    <Operation name="sendTourReservation">
+                        <Parameters>
+                            <Parameter>
+                                <Type>String</Type>
+                                <Name>content</Name>
+                            </Parameter>
+                        </Parameters>
+                        <Return>String</Return>
+                    </Operation>
+                    <Direction>BtoA</Direction>
                 </Term>
             </Terms>
             <RoleAID>CM</RoleAID>
@@ -1001,8 +1017,8 @@
         </Contract>
         <Contract id="SC-TC" passthrough="SC-TC.drl">
             <Terms>
-                <Term id="bookTour">
-                    <Operation name="bookTour">
+                <Term id="orderTour">
+                    <Operation name="orderTour">
                         <Parameters>
                             <Parameter>
                                 <Type>String</Type>
@@ -1139,10 +1155,10 @@
                 <RoleID>VR</RoleID>
             </Roles>
         </ServiceBinding>
-        <ServiceBinding id="GP_SB">
+        <ServiceBinding id="GR_SB">
             <Endpoint>http://localhost:8082/axis2/services/LocalGrocersService</Endpoint>
             <Roles>
-                <RoleID>GP</RoleID>
+                <RoleID>GR</RoleID>
             </Roles>
         </ServiceBinding>
         <ServiceBinding id="DC_SB">

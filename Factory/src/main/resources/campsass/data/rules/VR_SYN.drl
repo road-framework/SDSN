@@ -5,7 +5,7 @@ import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
 rule "rentVehicle"
   when
-   ($e1 : EventRecord(eventId == "eRentVehicle")) and  ($e2 : EventRecord(eventId == "eSendTourSchedule")) and  ($e3 : EventRecord(eventId == "eSendVehicleRequirementsToEP1"))
+   ($e1 : EventRecord(eventId == "eRentVehicle")) and  ($e2 : EventRecord(eventId == "eSendTourSchedule")) and  ($e3 : EventRecord(eventId == "eSendVehicleRequirementsToVR"))
   then
    disabledSet.disable("rentVehicle");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-VR.rentVehicle.Req","TG-VR.sendTourSchedule.Req","CM-VR.sendVehicleRequirements.Req"});

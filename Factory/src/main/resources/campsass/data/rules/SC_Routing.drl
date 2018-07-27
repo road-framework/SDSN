@@ -33,7 +33,7 @@ rule "analyzeResponseV5"
   when
    $msg : RoleServiceMessage(operationName== "analyzeResponse", state=="forwardable")
   then
-   actions.Forward("SC-TC.bookTour.Req","BookTourReq.xsl",$msg);
+   actions.Forward("SC-TC.orderTour.Req","BookTourReq.xsl",$msg);
 end
 
 rule "analyzeResponseV6"

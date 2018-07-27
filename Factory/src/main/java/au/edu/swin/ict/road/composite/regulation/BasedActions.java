@@ -132,7 +132,7 @@ public abstract class BasedActions {
 
     public void TerminateVSNInstance(Classifier classifier) {
         EventRecord eventRecord = new EventRecord("eTerminated", classifier, ManagementState.STATE_ACTIVE);
-        eventRecord.setPlace("MM");
+        eventRecord.setPlace(classifier.getProcessRole());
         try {
             composite.getSerendipEngine().getEventCloud().addEvent(eventRecord);
         } catch (SerendipException e) {

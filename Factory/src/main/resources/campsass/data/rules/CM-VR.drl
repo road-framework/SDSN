@@ -4,7 +4,7 @@ rule "sendVehicleRequirements"
     when
 		$msg : MessageReceivedEvent(operationName == "sendVehicleRequirements",  response ==false)
     then
-		actions.publishEvent("eSendVehicleRequirementsToEP1",$msg);
+		actions.publishEvent("eSendVehicleRequirementsToVR",$msg);
 end
 rule "sendTourReservation"
     when

@@ -13,12 +13,13 @@ rule "analyze"
    MessageWrapper exMsg = actions.Synthesis(msgs,"Analyze.xsl","Analyze");
    actions.ExecuteTask(exMsg);
 end
+
 rule "sendGuideList"
   when
    $e1 : EventRecord(eventId == "eFoundGuide")
   then
    disabledSet.disable("sendGuideList");
-   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TG.findGuide.Req"});
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TG.findGuide.Res"});
    MessageWrapper exMsg = actions.Synthesis(msgs,"SendGuideList.xsl","SendGuideList");
    actions.ExecuteTask(exMsg);
 end

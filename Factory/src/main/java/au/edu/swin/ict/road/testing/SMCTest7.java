@@ -24,12 +24,12 @@ public class SMCTest7 {
             Thread compo = new Thread(composite);
             compo.start();
             Thread.sleep(5000);
-            Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 1, "CM"));
+            Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 2, "CM"));
             tenant14.start();
-//            Thread tenant11 = new Thread(new Tenant("EuroCars", composite, 2));
-//            tenant11.start();
-//            Thread tenant10 = new Thread(new Tenant("AnyTrucks", composite, 4));
-//            tenant10.start();
+            Thread tenant11 = new Thread(new Tenant("UniUvtClub", composite, 2, "CM"));
+            tenant11.start();
+            Thread tenant10 = new Thread(new Tenant("SunCampsites", composite, 7, "CM"));
+            tenant10.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

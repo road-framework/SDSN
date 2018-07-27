@@ -22,7 +22,7 @@ end
 
 rule "terminateV2"
 when
-    ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eSendTourReservationToCM")) and
+    ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eSendTourReservationToCMFromVR")) and
     ($e3 : EventRecord(eventId == "eOrderedGrocery")) and ($e4 : EventRecord(eventId == "eSendTaxiReservationToCM"))
 then
     disabledSet.disable("terminateV2");

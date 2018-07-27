@@ -58,22 +58,33 @@ public class EndUser implements Runnable {
             } else {
                 MessageWrapper mw = new MessageWrapper();
                 SOAPEnvelope envelope;
-                if (userRole == null || !userRole.equals("MM")) {
-                    envelope = TestMessageContextBuilder.build("\n" +
-                            "<q0:echo xmlns:q0=\"http://ws.apache.org/axis2\">\n" +
-                            "\t\t\t\t\t<q0:content>" + name + " </q0:content>\n" +
-                            "\t\t\t\t</q0:echo>");
-                    mw.setOperationName("echo");
-
-                } else {
-                    envelope = TestMessageContextBuilder.build("\n" +
-                            "                <q0:requestAssist xmlns:q0=\"http://ws.apache.org/axis2\">\n" +
-                            "\t\t\t\t\t<q0:memId>" + name + " </q0:memId>\n" +
-                            "\t\t\t\t\t<q0:complain>" + complain + "</q0:complain>\n" +
-                            "\t\t\t\t\t<q0:pickUpLocation>" + pickUplocation + "</q0:pickUpLocation>\n" +
-                            "\t\t\t\t</q0:requestAssist>");
-                    mw.setOperationName("requestAssist");
+                switch (userRole) {
+                    case "MM":
+                        envelope = TestMessageContextBuilder.build("\n" +
+                                "                <q0:requestAssist xmlns:q0=\"http://ws.apache.org/axis2\">\n" +
+                                "\t\t\t\t\t<q0:memId>" + name + " </q0:memId>\n" +
+                                "\t\t\t\t\t<q0:complain>" + complain + "</q0:complain>\n" +
+                                "\t\t\t\t\t<q0:pickUpLocation>" + pickUplocation + "</q0:pickUpLocation>\n" +
+                                "\t\t\t\t</q0:requestAssist>");
+                        mw.setOperationName("requestAssist");
+                        break;
+                    case "CM":
+                        envelope = TestMessageContextBuilder.build("\n" +
+                                "                <q0:requestAssist xmlns:q0=\"http://ws.apache.org/axis2\">\n" +
+                                "\t\t\t\t\t<q0:memId>" + name + " </q0:memId>\n" +
+                                "\t\t\t\t\t<q0:complain>" + complain + "</q0:complain>\n" +
+                                "\t\t\t\t</q0:requestAssist>");
+                        mw.setOperationName("requestAssist");
+                        break;
+                    default:
+                        envelope = TestMessageContextBuilder.build("\n" +
+                                "<q0:echo xmlns:q0=\"http://ws.apache.org/axis2\">\n" +
+                                "\t\t\t\t\t<q0:content>" + name + " </q0:content>\n" +
+                                "\t\t\t\t</q0:echo>");
+                        mw.setOperationName("echo");
+                        break;
                 }
+
                 mw.setMessage(envelope);
                 mw.setOriginRole(role);
                 mw.setClientID(UIDGenerator.generateURNString());

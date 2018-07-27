@@ -90,18 +90,18 @@ public class SOAPMessageSender {
 
             //Execute
 //            long startTime = System.currentTimeMillis();
-//            operationClient.execute(true);
+            operationClient.execute(true);
             //Process the response for two way interactions
             if (isResponseExpected) {
 //                envelope = ;
                 //Now we create our response
                 // uncomment following if you need to avoid calling
-                ResponseMsg responseMsg =
-                        new ResponseMsg(request, true);
-//
 //                ResponseMsg responseMsg =
-//                        new ResponseMsg(operationClient.getMessageContext("In").getEnvelope(), true);
-//                responseMsg.setSoapAction(operationClient.getMessageContext("In").getSoapAction());
+//                        new ResponseMsg(request, true);
+
+                ResponseMsg responseMsg =
+                        new ResponseMsg(operationClient.getMessageContext("In").getEnvelope(), true);
+                responseMsg.setSoapAction(operationClient.getMessageContext("In").getSoapAction());
 //                long endTime = System.currentTimeMillis();
 //                StatWriter.writeResTime("Service", endTime - startTime);
                 return responseMsg;

@@ -153,10 +153,10 @@ public class MessagePusher implements RolePushMessageListener {
                         //We will remember the operation name
                         String opName = responseMsg.getEnvelope().getSOAPBodyFirstElementLocalName();//
                         //uncomment if no servcie call - overhead check
-                        MessageWrapper smwResponse = new MessageWrapper(
-                                responseMsg.getEnvelope(), opName + "Response", true);
 //                        MessageWrapper smwResponse = new MessageWrapper(
-//                                responseMsg.getEnvelope(), opName, true);
+//                                responseMsg.getEnvelope(), opName + "Response", true);
+                        MessageWrapper smwResponse = new MessageWrapper(
+                                responseMsg.getEnvelope(), opName, true);
                         smwResponse.setFault(responseMsg.getEnvelope().hasFault());
                         // Set the SOAP Action
                         smwResponse.setClassifier(mw.getClassifier());   //TODO Indika

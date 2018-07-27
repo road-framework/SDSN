@@ -122,15 +122,15 @@
         <tns1:CollaborationUnit id="cuCaseHandling">
             <tns1:ConfigurationDesign>
                 <tns1:TaskRef Id="CM.RequestAssist"
-                              postEP="eAssistReqd"/>
-                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssistReqd "
+                              postEP="eAssist"/>
+                <tns1:TaskRef Id="SC.Analyze" preEP=" eAssist "
                               postEP="eCaseCreated"/>
                 <tns1:TaskRef Id="CM.Notify" preEP=" eCMNotify "/>
             </tns1:ConfigurationDesign>
             <tns1:RegulationDesign>
                 <tns1:Passthrough>
                     <tns1:RuleRef id="assist" place="CM-SC"/>
-                    <tns1:RuleRef id="assistResponse" place="CM-sC"/>
+                    <tns1:RuleRef id="assistResponse" place="CM-SC"/>
                 </tns1:Passthrough>
                 <tns1:Synchronization>
                     <tns1:RuleRef id="analyze" place="SC"/>
@@ -222,6 +222,7 @@
                 </tns1:Synchronization>
                 <tns1:Routing>
                     <tns1:RuleRef id="analyzeResponseV2" place="SC"/>
+                    <tns1:RuleRef id="requestAssistV6" place="CM"/>
                     <tns1:RuleRef id="requestAssistV2" place="CM"/>
                     <tns1:RuleRef id="deliverResponse" place="DC"/>
                     <tns1:RuleRef id="rentEquipmentResponse" place="EP1"/>
@@ -742,7 +743,7 @@
         </Role>
     </Roles>
     <Contracts>
-        <Contract id="CM-SM" passthrough="CM-SM.drl">
+        <Contract id="CM-SC" passthrough="CM-SC.drl">
             <Terms>
                 <Term id="assist">
                     <Operation name="assist">
@@ -1016,7 +1017,7 @@
             <RoleAID>SC</RoleAID>
             <RoleBID>TC</RoleBID>
         </Contract>
-        <Contract id="SC-GR" passthrough="SC-GR.drl">
+        <Contract id="SC-TG" passthrough="SC-TG.drl">
             <Terms>
                 <Term id="findGuide">
                     <Operation name="findGuide">
@@ -1044,7 +1045,7 @@
                 </Term>
             </Terms>
             <RoleAID>SC</RoleAID>
-            <RoleBID>GR</RoleBID>
+            <RoleBID>TG</RoleBID>
         </Contract>
         <Contract id="SC-TX" passthrough="SC-TX.drl">
             <Terms>

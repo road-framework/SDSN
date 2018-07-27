@@ -4,7 +4,7 @@
                 xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
                 xmlns:q0="http://ws.apache.org/axis2/xsd/dc">
     <xsl:output method="xml" indent="yes"/>
-    <xsl:param name="CM-DC.sendLocationReq"/>
+    <xsl:param name="CM-DC.sendLocation.Req"/>
     <xsl:param name="EP1-DC.orderDelivery.Req"/>
     <xsl:template match="/">
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
@@ -13,7 +13,7 @@
                 <q0:deliver xmlns:q0="http://ws.apache.org/axis2/xsd/dc">
                     <q0:content>
                         <xsl:value-of
-                                select="$CM-DC.sendLocationReq/soapenv:Envelope/soapenv:Body/q0:sendLocation/q0:content"/>
+                                select="$CM-DC.sendLocation.Req/soapenv:Envelope/soapenv:Body/q0:sendLocation/q0:content"/>
                         <xsl:value-of
                                 select="$EP1-DC.orderDelivery.Req/soapenv:Envelope/soapenv:Body/q0:orderDelivery/q0:content"/>
                     </q0:content>

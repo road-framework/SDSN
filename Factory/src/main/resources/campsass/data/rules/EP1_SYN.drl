@@ -7,7 +7,7 @@ rule "rentEquipment"
   when
    ($e1 : EventRecord(eventId == "eRentEquipmentByEP1")) and   ($e2 : EventRecord(eventId == "eSendEquipmentRequirementsToEP1"))
   then
-   disabledSet.disable("RentEquipment");
+   disabledSet.disable("rentEquipment");
    MessageWrapper [] msgs = actions.Pull(new String []{"SC-EP1.rentEquipment.Req","CM-EP1.sendEquipmentRequirements.Req"});
    MessageWrapper exMsg = actions.Synthesis(msgs,"RentEquipment.xsl","RentEquipment");
    actions.ExecuteTask(exMsg);

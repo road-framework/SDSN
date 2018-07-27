@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.sglobal.GlobalActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+
+rule "terminateV1"
+when
+    ($e1 : EventRecord(eventId == "eCaseCreated")) and ($e2 : EventRecord(eventId == "eDelivered")) and
+    ($e3 : EventRecord(eventId == "eSendTourReservationToCM")) and ($e4 : EventRecord(eventId == "eInvoiceReceived"))
+then
+    disabledSet.disable("terminateV1");
+    actions.TerminateVSNInstance($e1.getClassifier());
+end

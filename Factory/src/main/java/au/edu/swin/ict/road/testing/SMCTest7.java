@@ -16,7 +16,7 @@ public class SMCTest7 {
                     ConfigurationContextFactory.createConfigurationContextFromFileSystem("sample\\confs\\axis2.xml"),
                     "AXIS2PushListener", false);
             CompositeDemarshaller dm = new CompositeDemarshaller();
-            Composite composite = dm.demarshalSMC("src\\main\\resources\\campsaas\\smc_original.xml");
+            Composite composite = dm.demarshalSMC("src\\main\\resources\\campsaas_bike\\smc_target.xml");
             for (Role role : composite.getRoleMap().values()) {
                 role.registerNewPushListener(messagePusher);
             }
@@ -24,12 +24,12 @@ public class SMCTest7 {
             Thread compo = new Thread(composite);
             compo.start();
             Thread.sleep(5000);
-            Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 2, "CM"));
+            Thread tenant14 = new Thread(new Tenant("HappyTours", composite, 1, "CM"));
             tenant14.start();
-            Thread tenant11 = new Thread(new Tenant("UniUvtClub", composite, 2, "CM"));
-            tenant11.start();
-            Thread tenant10 = new Thread(new Tenant("SunCampsites", composite, 7, "CM"));
-            tenant10.start();
+//            Thread tenant11 = new Thread(new Tenant("UniUvtClub", composite, 2, "CM"));
+//            tenant11.start();
+//            Thread tenant10 = new Thread(new Tenant("SunCampsites", composite, 7, "CM"));
+//            tenant10.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

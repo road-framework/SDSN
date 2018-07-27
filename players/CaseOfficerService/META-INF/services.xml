@@ -54,5 +54,8 @@
         <operation name="sendGuideList">
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
         </operation>
+        <operation name="sendRentInvoice">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+        </operation>
     </service>
 </serviceGroup>

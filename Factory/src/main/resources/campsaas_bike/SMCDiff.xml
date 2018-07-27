@@ -1,0 +1,172 @@
+<tns1:CollaborationUnitRef>cuRentingBike</tns1:CollaborationUnitRef> (add) HappyToursP1
+<tns1:CollaborationUnitRef>cuHiringTaxi</tns1:CollaborationUnitRef> (remove) HappyToursP1
+
+add
+
+<tns1:ResultMsg contractId="CM-BR" termId="sendBikeRequirements" isResponse="false"/>
+<tns1:ResultMsg contractId="SC-BR" termId="rentBike" isResponse="true"/>
+
+<tns1:CollaborationUnit id="cuRentingBike">
+<tns1:ConfigurationDesign>
+    <tns1:TaskRef Id="BR.RentBike" preEP="eRentBike * eSendBikeRequirements"
+                  postEP="eSendRentInvoice * eSendBikeReservation"/>
+    <tns1:TaskRef Id="SC.SendRentInvoice" preEP="eSendRentInvoice"
+                  postEP="eInvoiceReceived"/>
+</tns1:ConfigurationDesign>
+<tns1:RegulationDesign>
+    <tns1:Passthrough>
+        <tns1:RuleRef id="sendBikeRequirements" place="CM-BR"/>
+        <tns1:RuleRef id="sendBikeReservation" place="CM-BR"/>
+        <tns1:RuleRef id="rentBike" place="SC-BR"/>
+        <tns1:RuleRef id="sendRentInvoice" place="SC-BR"/>
+        <tns1:RuleRef id="sendRentInvoiceResponse" place="SC-BR"/>
+    </tns1:Passthrough>
+    <tns1:Synchronization>
+        <tns1:RuleRef id="rentBike" place="BR"/>
+        <tns1:RuleRef id="sendRentInvoice" place="SC"/>
+    </tns1:Synchronization>
+    <tns1:Routing>
+        <tns1:RuleRef id="rentBikeResponse" place="BR"/>
+        <tns1:RuleRef id="requestAssistV9" place="CM"/>
+        <tns1:RuleRef id="analyzeResponseV8" place="SC"/>
+        <tns1:RuleRef id="sendRentInvoiceResponse" place="SC"/>
+    </tns1:Routing>
+</tns1:RegulationDesign>
+</tns1:CollaborationUnit>
+
+<tns1:Task id="SendRentInvoice">
+<tns1:Out>
+    <tns1:Operation name="sendRentInvoice">
+        <Parameters>
+            <Parameter>
+                <Type>String</Type>
+                <Name>content</Name>
+            </Parameter>
+        </Parameters>
+        <Return>String</Return>
+    </tns1:Operation>
+</tns1:Out>
+<tns1:In>
+    <tns1:Operation name="sendRentInvoice">
+        <Parameters>
+            <Parameter>
+                <Type>String</Type>
+                <Name>content</Name>
+            </Parameter>
+        </Parameters>
+        <Return>String</Return>
+    </tns1:Operation>
+</tns1:In>
+<tns1:SrcMsgs>
+    <tns1:SrcMsg contractId="SC-BR" termId="sendRentInvoice" isResponse="false"/>
+</tns1:SrcMsgs>
+<tns1:ResultMsgs>
+    <tns1:ResultMsg contractId="SC-BR" termId="sendRentInvoice" isResponse="true"/>
+</tns1:ResultMsgs>
+</tns1:Task>
+
+
+<Role id="BR" name="EuroBikeRental" synchronization="BR_SYN.drl" routing="BR_Routing.drl">
+<Tasks>
+    <tns1:Task id="RentBike">
+        <tns1:Out>
+            <tns1:Operation name="rentBike">
+                <Parameters>
+                    <Parameter>
+                        <Type>String</Type>
+                        <Name>content</Name>
+                    </Parameter>
+                </Parameters>
+                <Return>String</Return>
+            </tns1:Operation>
+        </tns1:Out>
+        <tns1:In>
+            <tns1:Operation name="rentBike">
+                <Parameters>
+                    <Parameter>
+                        <Type>String</Type>
+                        <Name>content</Name>
+                    </Parameter>
+                </Parameters>
+                <Return>String</Return>
+            </tns1:Operation>
+        </tns1:In>
+        <tns1:SrcMsgs>
+            <tns1:SrcMsg contractId="CM-BR" termId="sendBikeRequirements" isResponse="false"/>
+            <tns1:SrcMsg contractId="SC-BR" termId="rentBike" isResponse="false"/>
+        </tns1:SrcMsgs>
+        <tns1:ResultMsgs>
+            <tns1:ResultMsg contractId="SC-BR" termId="sendRentInvoice" isResponse="false"/>
+            <tns1:ResultMsg contractId="CM-BR" termId="sendBikeReservation" isResponse="false"/>
+        </tns1:ResultMsgs>
+    </tns1:Task>
+</Tasks>
+</Role>
+
+<Contract id="SC-BR" passthrough="SC-BR.drl">
+<Terms>
+    <Term id="rentBike">
+        <Operation name="rentBike">
+            <Parameters>
+                <Parameter>
+                    <Type>String</Type>
+                    <Name>content</Name>
+                </Parameter>
+            </Parameters>
+            <Return>String</Return>
+        </Operation>
+        <Direction>AtoB</Direction>
+    </Term>
+    <Term id="sendRentInvoice">
+        <Operation name="sendRentInvoice">
+            <Parameters>
+                <Parameter>
+                    <Type>String</Type>
+                    <Name>content</Name>
+                </Parameter>
+            </Parameters>
+            <Return>String</Return>
+        </Operation>
+        <Direction>AtoB</Direction>
+    </Term>
+</Terms>
+<RoleAID>SC</RoleAID>
+<RoleBID>BR</RoleBID>
+</Contract>
+<Contract id="CM-BR" passthrough="CM-BR.drl">
+<Terms>
+    <Term id="sendBikeRequirements">
+        <Operation name="sendBikeRequirements">
+            <Parameters>
+                <Parameter>
+                    <Type>String</Type>
+                    <Name>content</Name>
+                </Parameter>
+            </Parameters>
+            <Return>String</Return>
+        </Operation>
+        <Direction>AtoB</Direction>
+    </Term>
+    <Term id="sendBikeReservation">
+        <Operation name="sendBikeReservation">
+            <Parameters>
+                <Parameter>
+                    <Type>String</Type>
+                    <Name>content</Name>
+                </Parameter>
+            </Parameters>
+            <Return>String</Return>
+        </Operation>
+        <Direction>BtoA</Direction>
+    </Term>
+</Terms>
+<RoleAID>CM</RoleAID>
+<RoleBID>BR</RoleBID>
+</Contract>
+
+<ServiceBinding id="BR_SB">
+<Endpoint>http://localhost:8082/axis2/services/EuroBikeRentalService</Endpoint>
+<Roles>
+    <RoleID>BR</RoleID>
+</Roles>
+</ServiceBinding>

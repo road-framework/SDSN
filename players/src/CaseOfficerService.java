@@ -287,6 +287,16 @@ public class CaseOfficerService implements Lifecycle {
         return result;
     }
 
+    public String sendRentInvoice(String content) throws AxisFault{
+            if (log.isInfoEnabled()) {
+                log.info("sendRentInvoice in 24by7  received >>>>>>>>> : " + content);
+            }
+            String result = "received";
+            if (log.isInfoEnabled()) {
+                log.info(result);
+            }
+            return result;
+    }
     @Override
     public void init(ServiceContext serviceContext) throws AxisFault {
 //        log.info("Initialize CaseOfficerService");

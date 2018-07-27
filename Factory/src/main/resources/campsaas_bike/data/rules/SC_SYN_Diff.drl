@@ -4,26 +4,6 @@ import au.edu.swin.ict.road.common.EventRecord;
 import au.edu.swin.ict.road.common.VSNInstance;
 import au.edu.swin.ict.road.composite.message.MessageWrapper;
 
-rule "analyze"
-  when
-  $e1 : EventRecord(eventId == "eAssist")
-  then
-   disabledSet.disable("analyze");
-   MessageWrapper [] msgs = actions.Pull(new String []{"CM-SC.assist.Req"});
-   MessageWrapper exMsg = actions.Synthesis(msgs,"Analyze.xsl","Analyze");
-   actions.ExecuteTask(exMsg);
-end
-
-rule "sendGuideList"
-  when
-   $e1 : EventRecord(eventId == "eFoundGuide")
-  then
-   disabledSet.disable("sendGuideList");
-   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TG.findGuide.Res"});
-   MessageWrapper exMsg = actions.Synthesis(msgs,"SendGuideList.xsl","SendGuideList");
-   actions.ExecuteTask(exMsg);
-end
-
 rule "sendRentInvoice"
   when
    $e1 : EventRecord(eventId == "eSendRentInvoice")

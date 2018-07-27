@@ -10,41 +10,41 @@ rule "bikerental_org_stage1"
   $mpsOrg : ManagementPolicyState(id =="bikerental_org", state=="incipient")
    then
    disabledSet.disable("bikerental_org_stage1");
-   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    System.out.println("Organizational management policy bikerental_org_stage1 has been started.");
-   orgMgt.addRole("TX","14Cabs");
-   orgMgt.addTask("TX","OrderTaxi","SC-TX.orderTaxi.Req","SC-TX.orderTaxi.Res,TX-MM.notifyTaxiBooking.Req");
-   orgMgt.setTaskInMessage("TX","OrderTaxi","rentVehicle","String:content","String");
-   orgMgt.setTaskOutMessage("TX","OrderTaxi","rentVehicle","String:content","String");
-   orgMgt.addTask("TX","ProvideTaxiInvoice",null,"SC-TX.sendTaxiInvoice.Req");
-   orgMgt.updateTask("TX","ProvideTaxiInvoice","add","mep","one-way");
-   orgMgt.setTaskInMessage("TX","ProvideTaxiInvoice","provideTaxiInvoice","String:content","String");
-   orgMgt.setServiceBinding("TX","http://localhost:8082/axis2/services/TaxiHireService");
 
-   orgMgt.addTask("SC","PayTX","SC-TX.sendTaxiInvoice.Req","SC-TX.sendTaxiInvoice.Res");
-   orgMgt.setTaskInMessage("SC","PayTX","payTX","String:content","String");
-   orgMgt.setTaskOutMessage("SC","PayTX","payTX","String:content","String");
+   orgMgt.addRole("BR","EuroBikeRental");
+   orgMgt.addTask("BR","RentBike","CM-BR.sendBikeRequirements.Req,SC-BR.rentBike.Req",
+   "SC-BR.sendRentInvoice.Req,CM-BR.sendBikeReservation.Req");
+   orgMgt.setTaskInMessage("BR","RentBike","rentBike","String:content","String");
+   orgMgt.setTaskOutMessage("BR","RentBike","rentBike","String:content","String");
 
-   orgMgt.updateTask("SC","Analyze","add","outputs","SC-TX.orderTax.Req");
+   orgMgt.setServiceBinding("BR","http://localhost:8082/axis2/services/EuroBikeRentalService");
 
-   orgMgt.addContract("SC-TX","SC","TX");
-   orgMgt.addTerm("SC-TX","orderTaxi","AtoB");
-   orgMgt.setTermOperation("SC-TX","orderTaxi","orderTaxi","String:content","String");
-   orgMgt.addTerm("SC-TX","sendTaxiInvoice","BtoA");
-   orgMgt.setTermOperation("SC-TX","sendTaxiInvoice","sendTaxiInvoice","String:content","String");
+   orgMgt.addTask("SC","SendRentInvoice","SC-BR.sendRentInvoice.Req","SC-BR.sendRentInvoice.Req");
+   orgMgt.setTaskInMessage("SC","SendRentInvoice","sendRentInvoice","String:content","String");
+   orgMgt.setTaskOutMessage("SC","SendRentInvoice","sendRentInvoice","String:content","String");
 
-   orgMgt.addContract("TX-MM","TX","MM");
-   orgMgt.addTerm("TX-MM","notifyTaxiBooking","AtoB");
-   orgMgt.setTermOperation("TX-MM","notifyTaxiBooking","notifyTaxiBooking","String:content","String");
+   orgMgt.updateTask("SC","Analyze","add","outputs","SC-BR.rentBike.Req");
+   orgMgt.updateTask("CM","RequestAssist","add","outputs","CM-BR.sendBikeRequirements.Req");
 
-   orgMgt.updateTaskOfBehaviorUnit("CaseHandling","SC.Analyze","postEP"," eTowReqd * eGCLocKnown * eTowAuthorized * eRentVehicleReqd * eRentVehicleReqd * eOrderTaxiReqd");
+   orgMgt.addContract("SC-BR","SC","BR");
+   orgMgt.addTerm("SC-BR","rentBike","AtoB");
+   orgMgt.setTermOperation("SC-BR","rentBike","rentBike","String:content","String");
+   orgMgt.addTerm("SC-BR","sendRentInvoice","BtoA");
+   orgMgt.setTermOperation("SC-BR","sendRentInvoice","sendRentInvoice","String:content","String");
 
-   orgMgt.addBehaviorUnit("HiringTaxi");
-   orgMgt.addTaskToBehaviorUnit("HiringTaxi","TX.OrderTaxi","eOrderTaxiReqd ","ePayTXReqd * eNotifyTaxiBookingReqd");
-   orgMgt.addTaskToBehaviorUnit("HiringTaxi","MM.NotifyTaxiBooking", "eNotifyTaxiBookingReqd",null);
-   orgMgt.addTaskToBehaviorUnit("HiringTaxi","SC.PayTX", "ePayTXReqd","eTXPaid");
+   orgMgt.addContract("CM-BR","CM","BR");
+   orgMgt.addTerm("CM-BR","sendBikeRequirements","AtoB");
+   orgMgt.setTermOperation("CM-BR","sendBikeRequirements","sendBikeRequirements","String:content","String");
+   orgMgt.addTerm("CM-BR","sendBikeReservation","AtoB");
+   orgMgt.setTermOperation("CM-BR","sendBikeReservation","sendBikeReservation","String:content","String");
 
-   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","HiringTaxi");
+   orgMgt.addBehaviorUnit("cuRentingBike");
+   orgMgt.addTaskToBehaviorUnit("cuRentingBike","BR.RentBike","eRentBike * eSendBikeRequirements","eSendRentInvoice * eSendBikeReservation");
+   orgMgt.addTaskToBehaviorUnit("cuRentingBike","SC.SendRentInvoice", "eSendRentInvoice","eInvoiceReceived");
+
+   orgMgt.addBehaviorUnitToProcess("HappyTours","HappyToursP1","cuRentingBike");
+   orgMgt.removeBehaviorUnitFromProcess("HappyTours","HappyToursP1","cuHiringTaxi");
    System.out.println("Organizational management policy bikerental_org_stage1 has been completed successfully.");
    $mpsOrg.setState("stage1done");
 end
@@ -57,11 +57,10 @@ rule "bikerental_org_stage2"
   then
    disabledSet.disable("bikerental_org_stage2");
    System.out.println("Organizational management policy bikerental_org_stage2 has been started.");
-   orgMgt.updateRole("TX","state","active");
-   orgMgt.updateContract("TX-MM","state","active");
-   orgMgt.updateContract("SC-TX","state","active");
-   orgMgt.updateBehaviorUnit("HiringTaxi","state","active");
+   orgMgt.updateRole("BR","state","active");
+   orgMgt.updateContract("CM-BR","state","active");
+   orgMgt.updateContract("SC-BR","state","active");
+   orgMgt.updateBehaviorUnit("cuRentingBike","state","active");
    System.out.println("Organizational management policy bikerental_org_stage2 has been completed successfully.");
-   StatWriter.writeResTime("MGT",System.currentTimeMillis());
    $mpsOrg.setState("quiescence");
  end

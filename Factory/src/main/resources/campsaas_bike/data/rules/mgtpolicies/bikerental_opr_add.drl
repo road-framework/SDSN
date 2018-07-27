@@ -7,32 +7,34 @@ import au.edu.swin.ict.road.common.RegulationUnitKeyManagementState;
 
 rule "bikerental_opr_stage1"
   when
-    ( $mpsOpr : ManagementPolicyState (id =="es10_opr", state=="incipient") ) and ( $mpsOrg :
-    ManagementPolicyState(id =="es10_org", state=="stage1done") )
+    ( $mpsOpr : ManagementPolicyState (id =="bikerental_opr", state=="incipient") ) and ( $mpsOrg :
+    ManagementPolicyState(id =="bikerental_org", state=="stage1done") )
   then
-    disabledSet.disable("es10_opr_stage1");
-    System.out.println("Operational management policy es10_opr_stage1 has been started.");
+    disabledSet.disable("bikerental_opr_stage1");
+    System.out.println("Operational management policy bikerental_opr_stage1 has been started.");
 
-    oprMgt.addSynchronizationRule("TX","TX_SYN.drl");
+    oprMgt.addSynchronizationRule("BR","BR_SYN.drl");
     oprMgt.addSynchronizationRule("SC","SC_SYN_Diff.drl");
 
-    oprMgt.addRoutingRule("TX","TX_Routing.drl");
-    oprMgt.updateRoutingRule("SC","analyzeResponse","replace","SC_Routing_Diff_Replace.drl");
+    oprMgt.addRoutingRule("BR","BR_Routing.drl");
     oprMgt.addRoutingRule("SC","SC_Routing_Diff.drl");
+    oprMgt.addRoutingRule("CM","CM_Routing_Diff.drl");
 
-    oprMgt.addPassthroughRule("TX-MM","TX-MM.drl");
-    oprMgt.addPassthroughRule("SC-TX","SC-TX.drl");
-    oprMgt.updateGlobalRule("terminateV1","replace" ,"roadside_global_diff_replace.drl");
+    oprMgt.addPassthroughRule("CM-BR","CM-BR.drl");
+    oprMgt.addPassthroughRule("SC-BR","SC-BR.drl");
+    oprMgt.updateGlobalRule("terminateV1","replace" ,"campsass_global_diff.drl");
 
-    oprMgt.addRegulationUnit("HiringTaxi");
-    oprMgt.addSynchronizationRulesToRegulationUnit("HiringTaxi","orderTaxi:TX,notifyTaxiBooking:MM,payTX:SC");
-    oprMgt.addRoutingRulesToRegulationUnit("HiringTaxi","payTXResponse:SC,orderTaxiResponse:TX");
-    oprMgt.addPassthroughRulesToRegulationUnit("HiringTaxi","orderTaxi:SC-TX, notifyTaxiBooking:TX-MM, sendTaxiInvoice:SC-TX, sendTaxiInvoiceResponse:SC-TX");
-    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","HiringTaxi");
+    oprMgt.addRegulationUnit("cuRentingBike");
+    oprMgt.addSynchronizationRulesToRegulationUnit("cuRentingBike","rentBike:BR,sendRentInvoice:SC");
+    oprMgt.addRoutingRulesToRegulationUnit("cuRentingBike","rentBikeResponse:BR,requestAssistV9:CM,analyzeResponseV8:SC,sendRentInvoiceResponse:SC");
+    oprMgt.addPassthroughRulesToRegulationUnit("cuRentingBike",
+    "sendBikeRequirements:CM-BR,sendBikeReservation:CM-BR,rentBike:SC-BR,sendRentInvoice:SC-BR,sendRentInvoiceResponse:SC-BR");
+    oprMgt.addRegulationUnitsToProcessRegulationPolicy("HappyTours","HappyToursP1","cuRentingBike");
+    oprMgt.removeRegulationUnitsFromProcessRegulationPolicy("HappyTours","HappyToursP1","cuHiringTaxi");
 
-    oprMgt.updateRegulationUnit("HiringTaxi","state","active");
-    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","HiringTaxi","state","active");
+    oprMgt.updateRegulationUnit("cuRentingBike","state","active");
+    oprMgt.updateRegulationUnitOfProcessRegulationPolicy("HappyTours","HappyToursP1","cuRentingBike","state","active");
 
-    System.out.println("Operational management policy es10_opr_stage1 has been completed successfully.");
+    System.out.println("Operational management policy bikerental_opr_stage1 has been completed successfully.");
     $mpsOpr.setState("quiescence");
 end

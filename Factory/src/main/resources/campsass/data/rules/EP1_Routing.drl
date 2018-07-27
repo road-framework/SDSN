@@ -1,9 +1,0 @@
-global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
-import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
-rule "rentEquipmentResponse"
-  when
-   $msg : RoleServiceMessage(operationName== "rentEquipmentResponse", state=="forwardable")
-  then
-   actions.Forward("SC-EP1.rentEquipment.Res","RentEquipmentRes.xsl",$msg);
-   actions.Forward("EP1-DC.orderDelivery.Req","OrderDeliveryReq.xsl",$msg);
-end

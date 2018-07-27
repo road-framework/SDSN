@@ -1,8 +1,0 @@
-global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
-import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
-rule "sendGroceryList"
-    when
-		$msg : MessageReceivedEvent(operationName == "sendGroceryList",  response ==false)
-    then
-		actions.publishEvent("eSendGroceryList",$msg);
-end

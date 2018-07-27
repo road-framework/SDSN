@@ -1,7 +1,7 @@
 2018-07-27 18:36:39,942 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No services directory was found under C:\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
 2018-07-27 18:36:39,942 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No modules directory was found under C:\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
-2018-07-27 18:36:40,004 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsass\smc_original.xml
-2018-07-27 18:36:40,644 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsass\smc_original.xml
+2018-07-27 18:36:40,004 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsaas\smc_original.xml
+2018-07-27 18:36:40,644 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsaas\smc_original.xml
 2018-07-27 18:36:40,660 [main] INFO  au.edu.swin.ict.serendip.util.BenchUtil  - Bench mark OFF
 2018-07-27 18:36:40,675 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from campsass_global.drl
 2018-07-27 18:36:40,722 [main] WARN  org.kie.scanner.embedder.MavenSettings  - Environment variable M2_HOME is not set
@@ -19,138 +19,138 @@
 2018-07-27 18:36:43,655 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM_Routing.drl
 2018-07-27 18:36:43,655 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:43,982 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:43,982 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'CM' to composite campsass
+2018-07-27 18:36:43,982 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'CM' to composite campsaas
 2018-07-27 18:36:43,998 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_SYN.drl
 2018-07-27 18:36:43,998 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,138 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:44,138 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_Routing.drl
 2018-07-27 18:36:44,138 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,310 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:44,310 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'SC' to composite campsass
+2018-07-27 18:36:44,310 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'SC' to composite campsaas
 2018-07-27 18:36:44,310 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_SYN.drl
 2018-07-27 18:36:44,310 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,435 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:44,435 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_Routing.drl
 2018-07-27 18:36:44,435 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,560 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:44,575 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TX' to composite campsass
+2018-07-27 18:36:44,575 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TX' to composite campsaas
 2018-07-27 18:36:44,575 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC_SYN.drl
 2018-07-27 18:36:44,575 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,700 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:44,700 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC_Routing.drl
 2018-07-27 18:36:44,700 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:44,903 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:44,918 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TC' to composite campsass
+2018-07-27 18:36:44,918 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TC' to composite campsaas
 2018-07-27 18:36:44,918 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG_SYN.drl
 2018-07-27 18:36:44,918 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,106 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:45,106 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG_Routing.drl
 2018-07-27 18:36:45,106 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,277 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:45,277 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TG' to composite campsass
+2018-07-27 18:36:45,277 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TG' to composite campsaas
 2018-07-27 18:36:45,277 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VR_SYN.drl
 2018-07-27 18:36:45,277 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,386 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VR_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:45,386 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VR_Routing.drl
 2018-07-27 18:36:45,386 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,496 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VR_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:45,496 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'VR' to composite campsass
+2018-07-27 18:36:45,496 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'VR' to composite campsaas
 2018-07-27 18:36:45,496 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from DC_SYN.drl
 2018-07-27 18:36:45,496 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,589 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=DC_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:45,605 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from DC_Routing.drl
 2018-07-27 18:36:45,605 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,698 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=DC_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:45,714 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'DC' to composite campsass
+2018-07-27 18:36:45,714 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'DC' to composite campsaas
 2018-07-27 18:36:45,714 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1_SYN.drl
 2018-07-27 18:36:45,714 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,839 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:45,839 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1_Routing.drl
 2018-07-27 18:36:45,839 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:45,932 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:45,932 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP1' to composite campsass
+2018-07-27 18:36:45,932 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP1' to composite campsaas
 2018-07-27 18:36:45,932 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP2_SYN.drl
 2018-07-27 18:36:45,932 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,026 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP2_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:46,026 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP2_Routing.drl
 2018-07-27 18:36:46,042 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,123 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP2_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,129 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP2' to composite campsass
+2018-07-27 18:36:46,129 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP2' to composite campsaas
 2018-07-27 18:36:46,129 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GR_SYN.drl
 2018-07-27 18:36:46,129 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,207 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GR_SYN.drl:road-rep:1.0.0]
 2018-07-27 18:36:46,207 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GR_Routing.drl
 2018-07-27 18:36:46,207 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,316 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GR_Routing.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,316 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'GR' to composite campsass
+2018-07-27 18:36:46,316 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'GR' to composite campsaas
 2018-07-27 18:36:46,316 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-SC.drl
 2018-07-27 18:36:46,316 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,425 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-SC.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,441 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-SC to composite campsass
+2018-07-27 18:36:46,441 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-SC to composite campsaas
 2018-07-27 18:36:46,441 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-EP1.drl
 2018-07-27 18:36:46,441 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,566 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-EP1.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,566 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP1 to composite campsass
+2018-07-27 18:36:46,566 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP1 to composite campsaas
 2018-07-27 18:36:46,566 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-EP2.drl
 2018-07-27 18:36:46,566 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,675 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-EP2.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,675 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP2 to composite campsass
+2018-07-27 18:36:46,675 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP2 to composite campsaas
 2018-07-27 18:36:46,675 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-TC.drl
 2018-07-27 18:36:46,675 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,847 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-TC.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,862 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TC to composite campsass
+2018-07-27 18:36:46,862 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TC to composite campsaas
 2018-07-27 18:36:46,862 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-TX.drl
 2018-07-27 18:36:46,862 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:46,940 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-TX.drl:road-rep:1.0.0]
-2018-07-27 18:36:46,956 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TX to composite campsass
+2018-07-27 18:36:46,956 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TX to composite campsaas
 2018-07-27 18:36:46,956 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-DC.drl
 2018-07-27 18:36:46,956 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,034 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-DC.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,034 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-DC to composite campsass
+2018-07-27 18:36:47,034 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-DC to composite campsaas
 2018-07-27 18:36:47,034 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-VR.drl
 2018-07-27 18:36:47,034 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,127 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-VR.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,127 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-VR to composite campsass
+2018-07-27 18:36:47,127 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-VR to composite campsaas
 2018-07-27 18:36:47,127 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-GR.drl
 2018-07-27 18:36:47,127 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,221 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-GR.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,237 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-GR to composite campsass
+2018-07-27 18:36:47,237 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-GR to composite campsaas
 2018-07-27 18:36:47,237 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1-DC.drl
 2018-07-27 18:36:47,237 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,315 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1-DC.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,315 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract EP1-DC to composite campsass
+2018-07-27 18:36:47,315 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract EP1-DC to composite campsaas
 2018-07-27 18:36:47,315 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-EP1.drl
 2018-07-27 18:36:47,315 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,377 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-EP1.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,377 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP1 to composite campsass
+2018-07-27 18:36:47,377 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP1 to composite campsaas
 2018-07-27 18:36:47,377 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-EP2.drl
 2018-07-27 18:36:47,377 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,439 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-EP2.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,439 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP2 to composite campsass
+2018-07-27 18:36:47,439 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP2 to composite campsaas
 2018-07-27 18:36:47,439 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-GR.drl
 2018-07-27 18:36:47,439 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,533 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-GR.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,549 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-GR to composite campsass
+2018-07-27 18:36:47,549 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-GR to composite campsaas
 2018-07-27 18:36:47,549 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TC.drl
 2018-07-27 18:36:47,549 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,627 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TC.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,627 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TC to composite campsass
+2018-07-27 18:36:47,627 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TC to composite campsaas
 2018-07-27 18:36:47,627 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TG.drl
 2018-07-27 18:36:47,627 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,705 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TG.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,705 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TG to composite campsass
+2018-07-27 18:36:47,705 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TG to composite campsaas
 2018-07-27 18:36:47,705 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TX.drl
 2018-07-27 18:36:47,705 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,798 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TX.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,814 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TX to composite campsass
+2018-07-27 18:36:47,814 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TX to composite campsaas
 2018-07-27 18:36:47,814 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-VR.drl
 2018-07-27 18:36:47,814 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:47,907 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-VR.drl:road-rep:1.0.0]
-2018-07-27 18:36:47,923 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-VR to composite campsass
+2018-07-27 18:36:47,923 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-VR to composite campsaas
 2018-07-27 18:36:47,923 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG-VR.drl
 2018-07-27 18:36:47,923 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
 2018-07-27 18:36:48,017 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG-VR.drl:road-rep:1.0.0]
-2018-07-27 18:36:48,017 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract TG-VR to composite campsass
+2018-07-27 18:36:48,017 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract TG-VR to composite campsaas
 2018-07-27 18:36:48,017 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : HappyTours as [ruAdmissionV1, ruDrop, ruCreateVsnInstance]
 2018-07-27 18:36:48,017 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process HappyToursP1 of the VSN : HappyTours
 2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process HappyToursP1 of the VSN : HappyTours as [cuCaseHandling, cuArrangingTourWithTC, cuRentingEquipmentFromEP1, cuHiringTaxi]
@@ -178,7 +178,7 @@
 2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - DC subscribed to the engine
 2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deployment complete
 2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Serendip adminview disabled. If you need to monitor processes set SERENDIP_SHOW_ADMIN_VIEW=TRUEin serendip.properties file
-2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Finished instantiation of src\main\resources\campsass\smc_original.xml
+2018-07-27 18:36:48,032 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Finished instantiation of src\main\resources\campsaas\smc_original.xml
 2018-07-27 18:36:48,032 [Thread-4] INFO  au.edu.swin.ict.road.composite.Composite  - Composite is now running...
 2018-07-27 18:36:53,289 [Thread-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [PI]Starting a new process instance, pid:HappyToursHappyToursP111
 2018-07-27 18:36:53,289 [Thread-12] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [PI]Starting a new process instance, pid:UniUvtClubUniUvtClubP113

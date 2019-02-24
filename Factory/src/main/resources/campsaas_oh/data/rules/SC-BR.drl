@@ -1,0 +1,20 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "rentBike"
+    when
+		$msg : MessageReceivedEvent(operationName == "rentBike",  response ==false)
+    then
+		actions.publishEvent("eRentBike",$msg);
+end
+rule "sendRentInvoice"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendRentInvoice",  response ==false)
+    then
+		actions.publishEvent("eSendRentInvoice",$msg);
+end
+rule "sendRentInvoiceResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendRentInvoice",  response ==true)
+    then
+		actions.publishEvent("eInvoiceReceived",$msg);
+end

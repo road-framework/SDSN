@@ -12,3 +12,11 @@ rule "notify"
    exMsg.setUserResponse(true);
    actions.ExecuteTask(exMsg);
 end
+rule "notifyTaxiBooking"
+  when
+   $e1 : EventRecord(eventId == "eNotifyTaxiBookingReqd")
+  then
+   disabledSet.disable("notifyTaxiBooking");
+   MessageWrapper [] msgs = actions.Pull(new String []{"TX-MM.notifyTaxiBooking.Req"});
+//   actions.ExecuteTask(msgs[0]);
+end

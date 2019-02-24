@@ -1,0 +1,10 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "bookTourResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "bookTourResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TC.orderTour.Res","BookTourRes.xsl",$msg);
+   actions.Forward("CM-TC.sendTourReservation.Req","SendTourReservationReq.xsl",$msg);
+end

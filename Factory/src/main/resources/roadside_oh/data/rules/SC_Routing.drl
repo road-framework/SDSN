@@ -9,6 +9,7 @@ rule "analyzeResponse"
    actions.Forward("SC-LF.inspectAccident.Req","InspectAccidentReqFromLFBySC.xsl",$msg);
    actions.Forward("SC-HC.rentRoom.Req","RentRoomReq.xsl",$msg);
    actions.Forward("SC-VC.rentVehicle.Req","RentVehicleReq.xsl",$msg);
+   actions.Forward("SC-TX.orderTaxi.Req","OrderTaxReq.xsl",$msg);
 end
 rule "payTCResponseV2"
   when
@@ -54,4 +55,10 @@ rule "payVCResponse"
    $msg : RoleServiceMessage(operationName== "payVCResponse", state=="forwardable")
   then
    actions.Forward("SC-VC.payVehicleRent.Res","PayVehicleRentRes.xsl",$msg);
+end
+rule "payTXResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "payTXResponse", state=="forwardable")
+  then
+   actions.Forward("SC-TX.sendTaxiInvoice.Res","SendTaxiInvoiceRes.xsl",$msg);
 end

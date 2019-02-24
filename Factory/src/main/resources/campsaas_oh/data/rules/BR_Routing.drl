@@ -1,0 +1,10 @@
+global au.edu.swin.ict.road.composite.regulation.routing.RoutingActions actions;
+import au.edu.swin.ict.road.composite.rules.events.composite.RoleServiceMessage;
+
+rule "rentBikeResponse"
+  when
+   $msg : RoleServiceMessage(operationName== "rentBikeResponse", state=="forwardable")
+  then
+   actions.Forward("SC-BR.sendRentInvoice.Req","SendRentInvoiceReq.xsl",$msg);
+   actions.Forward("CM-BR.sendBikeReservation.Req","SendBikeReservationReq.xsl",$msg);
+end

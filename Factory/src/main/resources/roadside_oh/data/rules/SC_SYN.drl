@@ -75,3 +75,12 @@ rule "payVC"
    MessageWrapper exMsg = actions.Synthesis(msgs,"PayVC.xsl","PayVC");
    actions.ExecuteTask(exMsg);
 end
+rule "payTX"
+  when
+   $e1 : EventRecord(eventId == "ePayTXReqd")
+  then
+   disabledSet.disable("payTX");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TX.sendTaxiInvoice.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"PayTX.xsl","PayTX");
+   actions.ExecuteTask(exMsg);
+end

@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "sendBikeRequirements"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendBikeRequirements",  response ==false)
+    then
+		actions.publishEvent("eSendBikeRequirements", $msg);
+end
+rule "sendBikeReservation"
+    when
+		$msg : MessageReceivedEvent(operationName == "sendBikeReservation",  response ==false)
+    then
+		actions.publishEvent("eSendBikeReservation", $msg);
+end

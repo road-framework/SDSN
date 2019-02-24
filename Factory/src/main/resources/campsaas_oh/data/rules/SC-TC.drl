@@ -1,0 +1,14 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "orderTour"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTour",  response ==false)
+    then
+		actions.publishEvent("eOrderTour",$msg);
+end
+rule "orderTourResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "orderTour",  response ==false)
+    then
+		actions.publishEvent("eReservedTour",$msg,"TC");
+end

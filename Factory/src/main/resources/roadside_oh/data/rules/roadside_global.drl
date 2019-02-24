@@ -11,7 +11,7 @@ then
 end
 rule "terminateV1"
 when
-    ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed")) and ($e3 : EventRecord(eventId == "eHCPaid")) and ($e4 : EventRecord(eventId == "eVCPaid"))
+    ($e1 : EventRecord(eventId == "eMMNotify")) and ($e2 : EventRecord(eventId == "eReimbursed")) and ($e3 : EventRecord(eventId == "eHCPaid")) and ($e4 : EventRecord(eventId == "eVCPaid"))  and ($e5 : EventRecord(eventId == "eTXPaid"))
 then
     disabledSet.disable("terminateV1");
     actions.TerminateVSNInstance($e1.getClassifier());

@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "orderTaxi"
+  when
+   $e1 : EventRecord(eventId == "eOrderTaxiReqd")
+  then
+   disabledSet.disable("orderTaxi");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TX.orderTaxi.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"OrderTaxi.xsl","OrderTaxi");
+   actions.ExecuteTask(exMsg);
+end

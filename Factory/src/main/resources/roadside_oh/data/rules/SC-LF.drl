@@ -1,0 +1,20 @@
+global au.edu.swin.ict.road.composite.regulation.passthrough.PassthroughActions actions;
+import au.edu.swin.ict.road.composite.rules.events.contract.MessageReceivedEvent;
+rule "inspectAccident"
+    when
+		$msg : MessageReceivedEvent(operationName == "inspectAccident", response==false)
+    then
+		actions.publishEvent("eInspectAccidentReqd",$msg);
+end
+rule "payLegalAid"
+    when
+		$msg : MessageReceivedEvent(operationName == "payLegalAid", response==false)
+    then
+		actions.publishEvent("ePayLFReqd",$msg);
+end
+rule "payLegalAidResponse"
+    when
+		$msg : MessageReceivedEvent(operationName == "payLegalAid", response==true)
+    then
+		actions.publishEvent("eLFPaid",$msg);
+end

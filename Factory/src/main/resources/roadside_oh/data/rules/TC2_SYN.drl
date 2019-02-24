@@ -1,0 +1,13 @@
+global au.edu.swin.ict.road.composite.regulation.synchronization.SynchronizationActions actions;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.EventRecord;
+import au.edu.swin.ict.road.composite.message.MessageWrapper;
+rule "tow"
+  when
+   EventRecord(eventId == "eTowReqd") and  EventRecord(eventId == "eSentGC1LocToTC2") and EventRecord(eventId == "eAuthorizedTow")
+  then
+   disabledSet.disable("tow");
+   MessageWrapper [] msgs = actions.Pull(new String []{"SC-TC2.orderTow.Req","GC1-TC2.sendGCLocation.Req","LF-TC2.authorizeTow.Req"});
+   MessageWrapper exMsg = actions.Synthesis(msgs,"TowTC2.xsl","Tow");
+   actions.ExecuteTask(exMsg);
+end

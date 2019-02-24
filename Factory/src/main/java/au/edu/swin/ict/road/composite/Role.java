@@ -56,8 +56,6 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import au.edu.swin.ict.road.xml.bindings.ParamsType.Parameter;
-
 /**
  * <code>Role</code> is a functional role implementation which allows a player
  * to interact with a composite. A <code>Role</code> is conceptually an
@@ -115,6 +113,7 @@ public class Role implements IRole, EventEngineSubscriber {
     private String rulesDir;
     private SynchronizationKnowledgebase synRules;
     private RoutingKnowledgebase routingRules;
+
     /**
      * Default constructor which initialises all values to null.
      */
@@ -150,6 +149,7 @@ public class Role implements IRole, EventEngineSubscriber {
 //        MBeanRegistrar registrar = MBeanRegistrar.getInstance();
 //        registrar.registerMBean(new RoleView(this), name + "View", name + "View");
     }
+
     /**
      * Initialises a <code>Role</code> using the supplied <code>RoleType</code>,
      * which is a JAXB binding class containing properties from an XML file.
@@ -1552,9 +1552,9 @@ public class Role implements IRole, EventEngineSubscriber {
     public RoleType createRoleBinding() {
 
         /*
-           * Creating a new role type - JAXB binding object and setting the
-           * instance variables using the role object's instance values
-           */
+         * Creating a new role type - JAXB binding object and setting the
+         * instance variables using the role object's instance values
+         */
         RoleType rt = new RoleType();
 
         rt.setId(id);

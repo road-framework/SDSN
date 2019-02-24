@@ -47,7 +47,7 @@ public class ProcessInstance extends SerendipEventListener implements Cloneable 
     public ProcessInstance(SerendipEngine engine, String defId, Classifier classifier) {
         this.engine = engine;
         this.defId = defId;
-        this.pId = classifier.getVsnId()+ defId + engine.getUniqueId();//we increment the process ids
+        this.pId = classifier.getVsnId() + defId + engine.getUniqueId();//we increment the process ids
         setClassifier(classifier);
         this.mgtState = new VSNInstance(classifier);
     }

@@ -17,6 +17,7 @@ public class Node {
     private TaskType taskType;
     private String identifier;
     private TaskRefType taskRefType;
+
     public Node(String identifier, Role iRole, TaskType taskType, TaskRefType taskRefType) {
         this.identifier = identifier;
         this.role = iRole;

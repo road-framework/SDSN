@@ -146,9 +146,9 @@ public class PlayerBinding {
     public PlayerBindingType createPlayerBinding() {
 
         /*
-           * Creating a new player binding type - JAXB binding object and setting the
-           * instance variables using the player binding object's instance values
-           */
+         * Creating a new player binding type - JAXB binding object and setting the
+         * instance variables using the player binding object's instance values
+         */
         PlayerBindingType playerBindingType = new PlayerBindingType();
 
         playerBindingType.setId(this.getId());

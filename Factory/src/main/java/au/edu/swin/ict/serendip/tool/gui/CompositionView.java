@@ -32,8 +32,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class CompositionView extends JPanel implements ActionListener {
     private final static String PD_PREFIX = "P:";

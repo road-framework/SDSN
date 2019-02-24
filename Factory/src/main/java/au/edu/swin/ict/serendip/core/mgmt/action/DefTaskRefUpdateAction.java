@@ -11,6 +11,7 @@ public class DefTaskRefUpdateAction implements DefAdaptAction {
     String tId;
     String property;
     String value;
+
     public DefTaskRefUpdateAction(String bId, String tId, String property, String value) {
         this.bId = bId;
         this.tId = tId;

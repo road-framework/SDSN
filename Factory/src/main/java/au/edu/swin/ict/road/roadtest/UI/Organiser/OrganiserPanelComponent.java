@@ -339,8 +339,8 @@ public class OrganiserPanelComponent extends JPanel implements OrganiserListener
      */
     private void addRowToInbox(Object message) {
         /*
-           * if(modelInbox.getRowCount()>1) modelInbox.setRowCount(0);
-           */
+         * if(modelInbox.getRowCount()>1) modelInbox.setRowCount(0);
+         */
         try {
             Calendar cal = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:SSS");

@@ -397,23 +397,23 @@ public class PlayerPanelComponent extends JPanel implements
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @seeau.edu.swin.ict.road.roadtest.listeners.MessageArrivedEventListener#
-      * messageArrived(au.edu.swin.ict.road.roadtest.events.MessageArrivedEvent)
-      */
+     * (non-Javadoc)
+     *
+     * @seeau.edu.swin.ict.road.roadtest.listeners.MessageArrivedEventListener#
+     * messageArrived(au.edu.swin.ict.road.roadtest.events.MessageArrivedEvent)
+     */
     public void messageArrived(MessageArrivedEvent msgArrivedEvent) {
         // TODO Auto-generated method stub
         addRowToInbox(msgArrivedEvent.getMessage());
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * au.edu.swin.ict.road.roadtest.listeners.MessageSentEventListener#messageSent
-      * (au.edu.swin.ict.road.roadtest.events.MessageSentEvent)
-      */
+     * (non-Javadoc)
+     *
+     * @see
+     * au.edu.swin.ict.road.roadtest.listeners.MessageSentEventListener#messageSent
+     * (au.edu.swin.ict.road.roadtest.events.MessageSentEvent)
+     */
     public void messageSent(MessageSentEvent msgSentEvent) {
         // TODO Auto-generated method stub
         addRowToOutbox(msgSentEvent.getMessage());
@@ -542,8 +542,8 @@ public class PlayerPanelComponent extends JPanel implements
      */
     private void addRowToInbox(Message msg) {
         /*
-           * if(modelInbox.getRowCount()>1) modelInbox.setRowCount(0);
-           */
+         * if(modelInbox.getRowCount()>1) modelInbox.setRowCount(0);
+         */
         try {
             Calendar cal = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:SSS");
@@ -742,9 +742,9 @@ public class PlayerPanelComponent extends JPanel implements
     private String showBrowseDialog() {
         JFileChooser chooser = new JFileChooser();
         /*
-           * FileNameExtensionFilter filter = new
-           * FileNameExtensionFilter("txt","txt"); chooser.setFileFilter(filter);
-           */
+         * FileNameExtensionFilter filter = new
+         * FileNameExtensionFilter("txt","txt"); chooser.setFileFilter(filter);
+         */
 
         int returnVal = chooser.showSaveDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {

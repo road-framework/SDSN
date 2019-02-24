@@ -7,6 +7,7 @@ public class VSNInstance extends ManagementState {
     public static String STATE_SATISFIED = "satisfied";
     public static String STATE_VIOLATED = "violated";
     private Classifier classifier;
+
     public VSNInstance(String id, Classifier classifier) {
         super(id);
         this.classifier = classifier;

@@ -405,7 +405,7 @@ public class SerendipEngine {
             this.logwriter.writeLog(context, message);
         } else {
             //logger.error("LogWriter is null");
-            if(logger.isInfoEnabled()) {
+            if (logger.isInfoEnabled()) {
                 logger.info("[" + context + "]" + message);
             }
         }
@@ -439,6 +439,10 @@ public class SerendipEngine {
 
     public VSNDefinition getProcessDefinitionGroup(String id) {
         return processes.get(id);
+    }
+
+    public boolean containsProcessDefinitionGroup(String id) {
+        return processes.containsKey(id);
     }
 
     public Collection<VSNDefinition> getAllProcessDefinitionGroups() {

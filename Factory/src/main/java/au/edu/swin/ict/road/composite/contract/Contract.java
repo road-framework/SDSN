@@ -78,6 +78,7 @@ public class Contract {
         this.mgtState = new ContractManagementState(id);
         this.mgtState.setState(contractBinding.getState());
     }
+
     public Contract(String id, String rulesDir) throws CompositeInstantiationException {
         this.id = id;
         this.rulesDir = rulesDir;
@@ -85,6 +86,7 @@ public class Contract {
         this.contractRules = new PassthroughKnowledgebase(rulesDir, this);
         this.mgtState = new ContractManagementState(id);
     }
+
     /**
      * Populates a Contract without the need for a JAXB binding class.
      *
@@ -199,7 +201,7 @@ public class Contract {
         String processID = msg.getClassifier().getProcessId();
         String vsnInstanceId = msg.getClassifier().getProcessInsId();
         List<RegulationUnitKey> vsnRegTableEntry = passthroughRegTable.getVSNTableEntry(vsnID + "_" + processID);
-        if(vsnRegTableEntry == null){
+        if (vsnRegTableEntry == null) {
             System.out.println(vsnID + "_" + processID + " *******");
         }
 //        System.out.println(getId() + vsnRegTableEntry+ passthroughRegTable.getSize());
@@ -654,17 +656,17 @@ public class Contract {
             this.abstractContract = conBinding.isAbstract();
         }
         /*
-           * if (conBinding.getLinkedFacts() != null) { LinkedFacts linkedFacts =
-           * conBinding.getLinkedFacts(); for (ContractLinkedFactType factType :
-           * linkedFacts.getFact()) { for (FactTupleSpaceRow factRow :
-           * this.roleA.getComposite() .getFTS().getFTSMemory()) { if
-           * (factRow.getFactType().equalsIgnoreCase( factType.getName())) {
-           *
-           * FactSynchroniser synchroniser = new FactSynchroniser(
-           * factType.getName());
-           * synchroniser.setAcceptableFact(factRow.getMasterFact());
-           * registerRegulator(synchroniser); } } } }
-           */
+         * if (conBinding.getLinkedFacts() != null) { LinkedFacts linkedFacts =
+         * conBinding.getLinkedFacts(); for (ContractLinkedFactType factType :
+         * linkedFacts.getFact()) { for (FactTupleSpaceRow factRow :
+         * this.roleA.getComposite() .getFTS().getFTSMemory()) { if
+         * (factRow.getFactType().equalsIgnoreCase( factType.getName())) {
+         *
+         * FactSynchroniser synchroniser = new FactSynchroniser(
+         * factType.getName());
+         * synchroniser.setAcceptableFact(factRow.getMasterFact());
+         * registerRegulator(synchroniser); } } } }
+         */
         if (conBinding.getPassthrough() != null) {
             loadContractRules(conBinding.getPassthrough());
         }
@@ -732,9 +734,9 @@ public class Contract {
     public ContractType createContractBinding() {
 
         /*
-           * Creating a new contract type - JAXB binding object and setting the
-           * instance variables using the contract object's instance values
-           */
+         * Creating a new contract type - JAXB binding object and setting the
+         * instance variables using the contract object's instance values
+         */
         ContractType ct = new ContractType();
 
         ct.setId(this.getId());

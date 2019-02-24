@@ -12,6 +12,7 @@ public class MessageReceivedAtOutPortEvent implements IEvent {
     private Role role;
     private boolean blocked;
     private OutRouterPort outPort;
+
     public MessageReceivedAtOutPortEvent(Role role, OutRouterPort outPort, MessageWrapper mw) {
         this.role = role;
         this.outPort = outPort;

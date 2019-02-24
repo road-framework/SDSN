@@ -57,11 +57,11 @@ public class FactObject implements Cloneable {
     public final static int INTERNAL_SOURCE = 1;
     private Logger log = Logger.getLogger(FactObject.class.getName());
     /*
-      * Variables related to facts identifier is the name of the unique
-      * identifier of each fact identifierValue is the value of the unique
-      * identifier factType is the type/class/group of fact attributes is the
-      * attribute of the fact
-      */
+     * Variables related to facts identifier is the name of the unique
+     * identifier of each fact identifierValue is the value of the unique
+     * identifier factType is the type/class/group of fact attributes is the
+     * attribute of the fact
+     */
     private String identifier;
     private String identifierValue;
     private String factType;

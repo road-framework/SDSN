@@ -9,6 +9,7 @@ public class DefUpdateTermAction implements DefAdaptAction {
     private String tmId = null;
     private String property;
     private String value;
+
     public DefUpdateTermAction(String ctId, String tmId, String property, String value) {
         this.ctId = ctId;
         this.tmId = tmId;

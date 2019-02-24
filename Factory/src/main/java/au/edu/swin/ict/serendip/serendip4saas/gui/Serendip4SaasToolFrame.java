@@ -131,14 +131,14 @@ public class Serendip4SaasToolFrame extends JFrame implements ActionListener {
             btIdList.add(bt.getId());
         }
         /*
-           * String[] btIds = new String[]{ "ZZZ", "ZZZ", "ZZZ", "ZZZ", "ZZZ",
-           * "ZZZ", "ZZZ", "ZZZ",
-           * "ProvideTaxi","ProvideTaxi2","ProvideTaxi3","ProvideHotel"
-           * ,"ProvideHotel2"
-           * ,"ProvideHotel3","Repairing","Repairing2","Repairing3"
-           * ,"Repairing4","Towing","Towing2", "Towing3", "ZZZ", "ZZZ", "ZZZ",
-           * "ZZZ", "ZZZ"};
-           */
+         * String[] btIds = new String[]{ "ZZZ", "ZZZ", "ZZZ", "ZZZ", "ZZZ",
+         * "ZZZ", "ZZZ", "ZZZ",
+         * "ProvideTaxi","ProvideTaxi2","ProvideTaxi3","ProvideHotel"
+         * ,"ProvideHotel2"
+         * ,"ProvideHotel3","Repairing","Repairing2","Repairing3"
+         * ,"Repairing4","Towing","Towing2", "Towing3", "ZZZ", "ZZZ", "ZZZ",
+         * "ZZZ", "ZZZ"};
+         */
         String[] btIds = new String[btIdList.size()];
         this.fromList = new SerendipJList("Available Behaviors", btIdList
                 .toArray(btIds));

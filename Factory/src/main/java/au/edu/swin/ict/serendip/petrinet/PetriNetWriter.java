@@ -50,9 +50,9 @@ public class PetriNetWriter {
             int initialMarking = 0;
 
             /*
-                * If there is an initPlaces array and the currnt place label is in
-                * the array
-                */
+             * If there is an initPlaces array and the currnt place label is in
+             * the array
+             */
             if ((null != initPlaces)
                     && (isInArray(p.getIdentifier(), initPlaces))) {// check if
                 // the place
@@ -349,11 +349,11 @@ public class PetriNetWriter {
                 t.setNumber(i);
                 i++;
                 /*
-                     *
-                     * <transition id="11" label="T2" eft="0" lft="33"> <graphics
-                     * color="0"> <position x="124.0" y="177.0"/> <deltaLabel
-                     * deltax="20" deltay="20"/> </graphics> </transition>
-                     */
+                 *
+                 * <transition id="11" label="T2" eft="0" lft="33"> <graphics
+                 * color="0"> <position x="124.0" y="177.0"/> <deltaLabel
+                 * deltax="20" deltay="20"/> </graphics> </transition>
+                 */
                 bw
                         .write("  <transition id=\""
                                 + t.getNumber()

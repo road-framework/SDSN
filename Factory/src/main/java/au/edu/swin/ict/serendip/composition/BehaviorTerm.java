@@ -46,6 +46,7 @@ public class BehaviorTerm {
     private boolean isAbstract = false;
     private CollaborationUnitType btType;
     private BehaviorUnitManagementState mgtState;
+
     /**
      * Simplest form of the constructor. Cannot be enacted
      *
@@ -369,8 +370,8 @@ public class BehaviorTerm {
 
     // Adaptation methods////////////////////////////
     /*
-      * Change an event pattern of a particular behavior term
-      */
+     * Change an event pattern of a particular behavior term
+     */
     public boolean changeEventPattern(String taskId, String newEventPattern) {
 
         for (int j = 0; j < this.getTasksVec().size(); j++) {

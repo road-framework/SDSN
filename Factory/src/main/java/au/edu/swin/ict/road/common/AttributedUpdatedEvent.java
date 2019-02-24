@@ -6,7 +6,7 @@ public class AttributedUpdatedEvent {
     private String vsnId;
     private String intValue;
 
-    public  AttributedUpdatedEvent(String name, String value, String vsnId) {
+    public AttributedUpdatedEvent(String name, String value, String vsnId) {
         this.name = name;
         this.value = value;
         this.vsnId = vsnId;

@@ -42,14 +42,14 @@ public class CompositionUtil {
     // DONE
     public static String[] getAllBTIDOfComposition(Composition comp) {
         /*
-           * TODO List<String> btVec = new ArrayList<String>(); List<ContractType>
-           * contractList =
-           * comp.getComposite().getSmcBinding().getContracts().getContract();
-           * for(ContractType ct: contractList){ List<CollaborationUnitType> btTypeList
-           * = ct.getBehaviorTerms().getBehaviorTerm(); for(CollaborationUnitType bt :
-           * btTypeList){ btVec.add( bt.getId()); } } String[] idArr =
-           * (String[])btVec.toArray(new String[btVec.size()]); return idArr;
-           */
+         * TODO List<String> btVec = new ArrayList<String>(); List<ContractType>
+         * contractList =
+         * comp.getComposite().getSmcBinding().getContracts().getContract();
+         * for(ContractType ct: contractList){ List<CollaborationUnitType> btTypeList
+         * = ct.getBehaviorTerms().getBehaviorTerm(); for(CollaborationUnitType bt :
+         * btTypeList){ btVec.add( bt.getId()); } } String[] idArr =
+         * (String[])btVec.toArray(new String[btVec.size()]); return idArr;
+         */
         return null;
     }
 
@@ -148,17 +148,17 @@ public class CompositionUtil {
     // Done
     public static String[] getAllBTIDsForSR(String srId, Composition comp) {
         /*
-           * TODO List<String> btIdVec = new ArrayList<String>();
-           * List<ContractType> contractList =
-           * comp.getComposite().getSmcBinding().getContracts().getContract();
-           * for(ContractType ct: contractList ){ List<CollaborationUnitType>
-           * CollaborationUnitTypeList= ct.getBehaviorTerms().getBehaviorTerm();
-           * for(CollaborationUnitType btt : CollaborationUnitTypeList){
-           * btIdVec.add(btt.getId()); } }
-           *
-           * String[] btIds = new String[btIdVec.size()]; return
-           * btIdVec.toArray(btIds);
-           */
+         * TODO List<String> btIdVec = new ArrayList<String>();
+         * List<ContractType> contractList =
+         * comp.getComposite().getSmcBinding().getContracts().getContract();
+         * for(ContractType ct: contractList ){ List<CollaborationUnitType>
+         * CollaborationUnitTypeList= ct.getBehaviorTerms().getBehaviorTerm();
+         * for(CollaborationUnitType btt : CollaborationUnitTypeList){
+         * btIdVec.add(btt.getId()); } }
+         *
+         * String[] btIds = new String[btIdVec.size()]; return
+         * btIdVec.toArray(btIds);
+         */
         return null;
     }
 
@@ -176,25 +176,25 @@ public class CompositionUtil {
                                             Composition comp/* compType */, ContractType localityContract/* localitySR */) {
         // TODO: Support inheritance. Check the parent service relationship
         /*
-           * TODO List<String> btIdVec = new ArrayList<String>();
-           *
-           * List<CollaborationUnitType> CollaborationUnitTypeList =
-           * contract.getBehaviorTerms().getBehaviorTerm(); for(CollaborationUnitType
-           * btt : CollaborationUnitTypeList){ btIdVec.add(btt.getId()); }
-           *
-           *
-           * //If extended, use the behavior terms of the parent too String
-           * extendsFromID = contract.getExtends(); if(null != extendsFromID){
-           * ContractType conractParent = getContractType(extendsFromID, comp);
-           *
-           * String[] extended = getAllBTIDsForSR(conractParent, comp,
-           * localityContract); //Recursive call for(int i=0; i< extended.length;
-           * i++){ btIdVec.add(extended[i]); } }
-           *
-           * String[] btIds = new String[btIdVec.size()];
-           *
-           * return btIdVec.toArray(btIds);
-           */
+         * TODO List<String> btIdVec = new ArrayList<String>();
+         *
+         * List<CollaborationUnitType> CollaborationUnitTypeList =
+         * contract.getBehaviorTerms().getBehaviorTerm(); for(CollaborationUnitType
+         * btt : CollaborationUnitTypeList){ btIdVec.add(btt.getId()); }
+         *
+         *
+         * //If extended, use the behavior terms of the parent too String
+         * extendsFromID = contract.getExtends(); if(null != extendsFromID){
+         * ContractType conractParent = getContractType(extendsFromID, comp);
+         *
+         * String[] extended = getAllBTIDsForSR(conractParent, comp,
+         * localityContract); //Recursive call for(int i=0; i< extended.length;
+         * i++){ btIdVec.add(extended[i]); } }
+         *
+         * String[] btIds = new String[btIdVec.size()];
+         *
+         * return btIdVec.toArray(btIds);
+         */
         return null;
     }
 
@@ -242,19 +242,19 @@ public class CompositionUtil {
     public static ConstraintType[] getAllConstriantsForSR(String contractId,
                                                           Composition comp) {
         /*
-           * TODO List<ConstraintType> constriantsVec = new
-           * List<ConstraintType>();
-           *
-           * List<ContractType> contractList =
-           * comp.getComposite().getSmcBinding().getContracts().getContract();
-           * for(ContractType ct: contractList){ List<CollaborationUnitType>
-           * CollaborationUnitTypeList = ct.getBehaviorTerms().getBehaviorTerm();
-           * for(CollaborationUnitType bt: CollaborationUnitTypeList){
-           * constriantsVec.addAll(bt.getConstraints().getConstraint()); } }
-           * ConstraintType[] constraintsArr = new
-           * ConstraintType[constriantsVec.size()]; return (ConstraintType[])
-           * constriantsVec.toArray(constraintsArr);
-           */
+         * TODO List<ConstraintType> constriantsVec = new
+         * List<ConstraintType>();
+         *
+         * List<ContractType> contractList =
+         * comp.getComposite().getSmcBinding().getContracts().getContract();
+         * for(ContractType ct: contractList){ List<CollaborationUnitType>
+         * CollaborationUnitTypeList = ct.getBehaviorTerms().getBehaviorTerm();
+         * for(CollaborationUnitType bt: CollaborationUnitTypeList){
+         * constriantsVec.addAll(bt.getConstraints().getConstraint()); } }
+         * ConstraintType[] constraintsArr = new
+         * ConstraintType[constriantsVec.size()]; return (ConstraintType[])
+         * constriantsVec.toArray(constraintsArr);
+         */
         return null;
     }
 
@@ -290,13 +290,13 @@ public class CompositionUtil {
     public static CollaborationUnitType getBTFromSR(String btnqId,
                                                     ContractType contractType, Composition comp) {
         /*
-           * TODO List<CollaborationUnitType> CollaborationUnitTypeList=
-           * contractType.getBehaviorTerms().getBehaviorTerm();
-           * for(CollaborationUnitType btt: CollaborationUnitTypeList){
-           * if(btt.getId().equals(btnqId)){ return btt; } }
-           *
-           * return null;
-           */
+         * TODO List<CollaborationUnitType> CollaborationUnitTypeList=
+         * contractType.getBehaviorTerms().getBehaviorTerm();
+         * for(CollaborationUnitType btt: CollaborationUnitTypeList){
+         * if(btt.getId().equals(btnqId)){ return btt; } }
+         *
+         * return null;
+         */
         return null;
     }
 

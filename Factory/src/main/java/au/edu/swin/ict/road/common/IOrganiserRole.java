@@ -116,6 +116,8 @@ public interface IOrganiserRole {
 
     public OrganiserMgtOpResult addVSN(String vsnId);
 
+    public boolean containsVSN(String vsnId);
+
     public OrganiserMgtOpResult removeVSN(String vsnId);
 
     public OrganiserMgtOpResult updateVSN(String vsnId, String property, String value);

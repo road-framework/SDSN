@@ -143,9 +143,9 @@ public class CompositeMarshalling {
         ServiceNetwork.Roles roles = new ServiceNetwork.Roles();
 
         /*
-           * Iterating through the composite object's role map to get the current
-           * roles
-           */
+         * Iterating through the composite object's role map to get the current
+         * roles
+         */
         Iterator i = c.getRoleMap().values().iterator();
         while (i.hasNext()) {
 
@@ -163,9 +163,9 @@ public class CompositeMarshalling {
         ServiceNetwork.Contracts contracts = new ServiceNetwork.Contracts();
 
         /*
-           * Iterating through the composite object's role map to get the current
-           * contracts
-           */
+         * Iterating through the composite object's role map to get the current
+         * contracts
+         */
         Iterator i2 = c.getContractMap().values().iterator();
         while (i2.hasNext()) {
 
@@ -181,9 +181,9 @@ public class CompositeMarshalling {
         ServiceNetwork.ServiceBindings playerBindings = new ServiceNetwork.ServiceBindings();
 
         /*
-           * Iterating through the composite object's role map to get the current
-           * roles
-           */
+         * Iterating through the composite object's role map to get the current
+         * roles
+         */
         Iterator i3 = c.getPlayerBindingMap().values().iterator();
         while (i3.hasNext()) {
 
@@ -281,9 +281,9 @@ public class CompositeMarshalling {
         }
 
         /*
-           * Creating the directory structure if the directory structure does not
-           * exist
-           */
+         * Creating the directory structure if the directory structure does not
+         * exist
+         */
         File completePath = new File(dirPath);
         if (!completePath.exists()) {
             if (log.isInfoEnabled()) {

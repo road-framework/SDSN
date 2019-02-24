@@ -27,6 +27,7 @@ public class TransformLogic {
     private boolean isResponse;
     private SyncType syncType;
     private ResultMsgType resultMsgType;
+
     public TransformLogic() {
         role = null;
         deliveryType = null;

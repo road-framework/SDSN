@@ -91,12 +91,12 @@ public class MergeTest {
 
     public static void mergeTasks() throws SerendipException {
         /*
-           * BT_Towing: ComplaintRcvd->CO.SendTowReq->TowReqSent & PickupLocKnown
-           * TowReqSent->GR.SendGRLocation->DestinationKnown PickupLocKnown &
-           * DestinationKnown -> TC.Tow-> CarTowSuccess | CarTowFailed
-           * CarTowSuccess-> GR.TowingAck -> TowingAckedByGR CarTowSuccess &
-           * TowingAckedByGR -> CO.PayTow -> TCPaid
-           */
+         * BT_Towing: ComplaintRcvd->CO.SendTowReq->TowReqSent & PickupLocKnown
+         * TowReqSent->GR.SendGRLocation->DestinationKnown PickupLocKnown &
+         * DestinationKnown -> TC.Tow-> CarTowSuccess | CarTowFailed
+         * CarTowSuccess-> GR.TowingAck -> TowingAckedByGR CarTowSuccess &
+         * TowingAckedByGR -> CO.PayTow -> TCPaid
+         */
         ConfigurableEPC[] epcs = {
                 // BT_Complain
                 PatternToEPC.convertToEPC("[ANY]", "MM.Complain",

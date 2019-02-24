@@ -105,12 +105,12 @@ public class SerendipPetriNetConverterPlugin {
         // HV: The next block is taken care of by the functionActivityMapping
         // below.
         /*
-           * Iterator it = petrinet.getTransitions().iterator(); while
-           * (it.hasNext()) { Transition t = (Transition) it.next(); if (t.object
-           * instanceof EPCFunction) { // if (t.getLogEvent() != null) { // Add
-           * transitions with LogEvent (i.e. referring to functions)
-           * visible.add(t); } }
-           */
+         * Iterator it = petrinet.getTransitions().iterator(); while
+         * (it.hasNext()) { Transition t = (Transition) it.next(); if (t.object
+         * instanceof EPCFunction) { // if (t.getLogEvent() != null) { // Add
+         * transitions with LogEvent (i.e. referring to functions)
+         * visible.add(t); } }
+         */
 
         // HV: Prevent the places mapped onto from being reduced.
         visible.addAll(functionActivityMapping.values());

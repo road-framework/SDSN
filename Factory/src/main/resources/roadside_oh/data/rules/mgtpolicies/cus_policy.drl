@@ -1,0 +1,272 @@
+global au.edu.swin.ict.road.common.CustomizationManager cusMgt;
+global au.edu.swin.ict.road.common.DisabledRuleSet disabledSet;
+import au.edu.swin.ict.road.common.FeatureSelectedEvent;
+import au.edu.swin.ict.road.common.FeatureDeselectedEvent;
+import au.edu.swin.ict.road.common.AttributedSelectedEvent;
+import au.edu.swin.ict.road.common.AttributedUpdatedEvent;
+import au.edu.swin.ict.road.common.FeatureUpdatedEvent;
+import au.edu.swin.ict.road.common.Classifier
+import au.edu.swin.ict.road.common.StatWriter;
+import java.util.Map
+import java.util.HashMap;
+
+rule "casehandling_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="CaseHandling") and
+    $f2 : AttributedSelectedEvent((name =="Throughput"))
+  then
+    disabledSet.disable("casehandling_select");
+    Map pars = new HashMap();
+    pars.put("throughput", $f2.getValue());
+    cusMgt.addCollaboration("CaseHandling", $f1.getVsnId(),pars);
+end
+
+rule "casehandling_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="CaseHandling"))
+   then
+   disabledSet.disable("casehandling_deselect");
+   cusMgt.removeCollaboration("CaseHandling", $f1.getVsnId());
+end
+
+rule "casehandling_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="CaseHandling")) and
+  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+   then
+   disabledSet.disable("casehandling_update");
+   Map pars = new HashMap();
+   pars.put("throughput", $f2.getValue());
+   cusMgt.updateCollaboration("CaseHandling", $f1.getVsnId(),pars);
+end
+
+rule "Reimbursement_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="Reimbursement") and
+    $f2 : AttributedSelectedEvent((name =="Throughput"))
+  then
+    disabledSet.disable("Reimbursement_select");
+    cusMgt.addCollaboration("Reimbursement", $f1.getVsnId());
+end
+
+rule "Reimbursement_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="Reimbursement"))
+   then
+   disabledSet.disable("Reimbursement_deselect");
+   cusMgt.removeCollaboration("Reimbursement", $f1.getVsnId());
+end
+
+rule "Reimbursement_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="Reimbursement")) and
+  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+   then
+   disabledSet.disable("Reimbursement_update");
+   cusMgt.updateCollaboration("Reimbursement", $f1.getVsnId());
+end
+
+rule "Tow_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="Tow") and
+    $f2 : AttributedSelectedEvent((name =="Throughput"))
+  then
+    disabledSet.disable("Tow_select");
+     Map pars = new HashMap();
+        pars.put("throughput", $f2.getValue());
+    cusMgt.addCollaboration("TowingByTomTow", $f1.getVsnId(),pars);
+end
+
+rule "Tow_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="Tow"))
+   then
+   disabledSet.disable("Tow_deselect");
+   cusMgt.removeCollaboration("TowingByTomTow", $f1.getVsnId());
+end
+
+rule "Tow_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="Tow")) and
+  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+   then
+   disabledSet.disable("Tow_update");
+   Map pars = new HashMap();
+   pars.put("throughput", $f2.getValue());
+   cusMgt.updateCollaboration("TowingByTomTow", $f1.getVsnId(),pars);
+end
+
+rule "Repair_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="Repair") and
+    $f2 : AttributedSelectedEvent((name =="Throughput"))
+  then
+    disabledSet.disable("Repair_select");
+    Map pars = new HashMap();
+    pars.put("throughput", $f2.getValue());
+    cusMgt.addCollaboration("RepairingByMacRepair", $f1.getVsnId(),pars);
+end
+
+rule "Repair_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="Repair"))
+   then
+   disabledSet.disable("Repair_deselect");
+   cusMgt.removeCollaboration("RepairingByMacRepair", $f1.getVsnId());
+end
+
+rule "Repair_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="Repair")) and
+  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+   then
+   disabledSet.disable("Repair_update");
+   Map pars = new HashMap();
+   pars.put("throughput", $f2.getValue());
+   cusMgt.updateCollaboration("RepairingByMacRepair", $f1.getVsnId(),pars);
+end
+
+rule "External_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="External")
+  then
+    disabledSet.disable("External_select");
+    cusMgt.addCollaboration("PartsSupplyByJack", $f1.getVsnId());
+end
+
+rule "External_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="External"))
+   then
+   disabledSet.disable("External_deselect");
+   cusMgt.removeCollaboration("PartsSupplyByJack", $f1.getVsnId());
+end
+
+rule "External_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="External"))
+   then
+   disabledSet.disable("External_update");
+   cusMgt.updateCollaboration("PartsSupplyByJack", $f1.getVsnId());
+end
+
+rule "VehicleAssessment_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="VehicleAssessment")
+  then
+    disabledSet.disable("VehicleAssessment_select");
+    cusMgt.addCollaboration("VehicleAssessment", $f1.getVsnId());
+end
+
+rule "VehicleAssessment_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="VehicleAssessment"))
+   then
+   disabledSet.disable("VehicleAssessment_deselect");
+   cusMgt.removeCollaboration("VehicleAssessment", $f1.getVsnId());
+end
+
+rule "VehicleAssessment_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="VehicleAssessment"))
+   then
+   disabledSet.disable("VehicleAssessment_update");
+   cusMgt.updateCollaboration("VehicleAssessment", $f1.getVsnId());
+end
+
+rule "LegalAssistance_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="LegalAssistance")
+  then
+    disabledSet.disable("LegalAssistance_select");
+    cusMgt.addCollaboration("LegalAssistance", $f1.getVsnId());
+end
+
+rule "LegalAssistance_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="LegalAssistance"))
+   then
+   disabledSet.disable("LegalAssistance_deselect");
+   cusMgt.removeCollaboration("LegalAssistance", $f1.getVsnId());
+end
+
+rule "LegalAssistance_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="LegalAssistance"))
+   then
+   disabledSet.disable("LegalAssistance_update");
+   cusMgt.updateCollaboration("LegalAssistance", $f1.getVsnId());
+end
+
+rule "taxihire_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="TaxiHire") and
+    $f2 : AttributedSelectedEvent((name =="Throughput"))
+  then
+    disabledSet.disable("taxihire_select");
+    cusMgt.addCollaboration("HiringTaxi", $f1.getVsnId());
+end
+
+rule "taxihire_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="TaxiHire"))
+   then
+   disabledSet.disable("taxihire_deselect");
+   cusMgt.removeCollaboration("HiringTaxi", $f1.getVsnId());
+end
+
+rule "taxihire_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="TaxiHire"))
+   then
+   disabledSet.disable("taxihire_update");
+   cusMgt.updateCollaboration("HiringTaxi", $f1.getVsnId());
+end
+
+rule "rentalvehicle_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="RentalVehicle")
+  then
+    disabledSet.disable("rentalvehicle_select");
+    cusMgt.addCollaboration("RentingVehicle", $f1.getVsnId());
+end
+
+rule "rentalvehicle_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="RentalVehicle"))
+   then
+   disabledSet.disable("rentalvehicle_deselect");
+   cusMgt.removeCollaboration("RentingVehicle", $f1.getVsnId());
+end
+
+rule "rentalvehicle_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="RentalVehicle"))
+   then
+   disabledSet.disable("rentalvehicle_update");
+   cusMgt.updateCollaboration("RentingVehicle", $f1.getVsnId());
+end
+
+rule "accommodation_select"
+  when
+    $f1 : FeatureSelectedEvent(name =="Accommodation")
+  then
+    disabledSet.disable("accommodation_select");
+    cusMgt.addCollaboration("RentingRoom", $f1.getVsnId());
+end
+
+rule "accommodation_deselect"
+  when
+  $f1 : FeatureDeselectedEvent((name =="Accommodation"))
+   then
+   disabledSet.disable("accommodation_deselect");
+   cusMgt.removeCollaboration("RentingRoom", $f1.getVsnId());
+end
+
+rule "accommodation_update"
+  when
+  $f1 : FeatureUpdatedEvent((name =="Accommodation"))
+  then
+   disabledSet.disable("accommodation_update");
+   cusMgt.updateCollaboration("RentingRoom", $f1.getVsnId());
+end

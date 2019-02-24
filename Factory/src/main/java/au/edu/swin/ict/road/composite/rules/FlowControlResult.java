@@ -17,6 +17,7 @@ public class FlowControlResult extends RuleExecutionResult {
         this.message = message;
         this.state = state;
     }
+
     public FlowControlResult(int state) {
         this.state = state;
     }

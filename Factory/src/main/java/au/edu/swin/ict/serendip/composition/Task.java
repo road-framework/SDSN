@@ -50,6 +50,7 @@ public class Task extends SerendipEventListener {
     private ConfigurableEPC epc = null;
     private String taskType = null;
     private String messagingPattern = OPTYPE_SOLI_RES;
+
     /**
      * A task description
      *
@@ -66,6 +67,7 @@ public class Task extends SerendipEventListener {
         this.postEventPattern = postEP.trim();
 
     }
+
     /**
      * New constructor
      */
@@ -95,12 +97,12 @@ public class Task extends SerendipEventListener {
     public static ArrayList<String> getAllEventsAsAnArray(String eventPattern) {
         ArrayList<String> eventList = new ArrayList<String>();
         /*
-           * \\ -- one backslash, meaning "match next character" [ -- the quoted
-           * character: a [ without special meaning [ -- start of a character
-           * class ^] -- ... containing all characters except ] ] -- end of the
-           * character class -- match zero or more non-] characters ] -- match a
-           * single ] character
-           */
+         * \\ -- one backslash, meaning "match next character" [ -- the quoted
+         * character: a [ without special meaning [ -- start of a character
+         * class ^] -- ... containing all characters except ] ] -- end of the
+         * character class -- match zero or more non-] characters ] -- match a
+         * single ] character
+         */
         String regex = "\\[[^]]*]";// Find anything that match [somestring]
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(eventPattern);

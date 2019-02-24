@@ -55,6 +55,10 @@ public interface IOperationalManagerRole {
 
     public OperationalMgtOpResult addInterCollaborationRegulationUnit(String ruId);
 
+    public OperationalMgtOpResult addInterCollaborationRegulationUnitToVSN(String vsnId, String processId, String ruId);
+
+    public OperationalMgtOpResult removeInterCollaborationRegulationUnitFromVSN(String vsnId, String processId, String ruId);
+
     public OperationalMgtOpResult removeInterCollaborationRegulationUnit(String ruId);
 
     public OperationalMgtOpResult addInterProcessRegulationUnit(String ruId);

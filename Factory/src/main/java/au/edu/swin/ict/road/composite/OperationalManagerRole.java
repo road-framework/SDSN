@@ -339,7 +339,20 @@ public class OperationalManagerRole implements IOperationalManagerRole {
         }
         smcCur.getInterCollaborationRegulationUnits().getInterCollaborationRegulationUnit().add(unitType);
         composite.addRegulationUnitState(new RegulationUnitState(ruId, RegulationUnitState.STATE_PASSIVE));
-        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been added.");
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 +
+                "has been added.");
+    }
+
+    public OperationalMgtOpResult addInterCollaborationRegulationUnitToVSN(String vsnId, String processId, String ruId) {
+        composite.addInterCollaborationRegulationUnitToVSN(vsnId, processId, ruId);
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId +
+                "has been added to VSN.");
+    }
+
+    public OperationalMgtOpResult removeInterCollaborationRegulationUnitFromVSN(String vsnId, String processId, String ruId) {
+        composite.removeInterCollaborationRegulationUnitFromVSN(vsnId, processId, ruId);
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId
+                + "has been removed from VSN.");
     }
 
     @Override
@@ -352,7 +365,8 @@ public class OperationalManagerRole implements IOperationalManagerRole {
             composite.removeRegulationUnitState(ruId);
             composite.getSmcBinding().getInterCollaborationRegulationUnits().getInterCollaborationRegulationUnit().remove(tobeRemoved);
         }
-        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " + ruId1 + "has been removed.");
+        return new OperationalMgtOpResult(true, "The InterCollaborationRegulationUnit " +
+                ruId1 + "has been removed.");
     }
 
     public OperationalMgtOpResult setInterVSNRegulation() {

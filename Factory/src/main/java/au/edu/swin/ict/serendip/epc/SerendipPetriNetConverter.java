@@ -112,8 +112,8 @@ public class SerendipPetriNetConverter {
         while (ei.hasNext()) {
             EPCEvent e = (EPCEvent) ei.next();
             /*
-                * Place p = petrinet.addPlace("p" + counter); counter++;
-                */
+             * Place p = petrinet.addPlace("p" + counter); counter++;
+             */
             // NEW added by Kau
             Place p = petrinet.addPlace(e.getIdentifier());
 

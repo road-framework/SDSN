@@ -1,7 +1,7 @@
 package au.edu.swin.ict.road.composite;
 
-import au.edu.swin.ict.road.common.*;
 import au.edu.swin.ict.road.common.Parameter;
+import au.edu.swin.ict.road.common.*;
 import au.edu.swin.ict.road.composite.contract.Contract;
 import au.edu.swin.ict.road.composite.contract.Term;
 import au.edu.swin.ict.road.composite.exceptions.CompositeInstantiationException;
@@ -628,6 +628,11 @@ public class OrganiserRole implements IOrganiserRole {
         vsnDef.setId(vsnId);
         composite.addProcessGroup(vsnDef);
         return new OrganiserMgtOpResult(true, "Successfully added a VSN : " + vsnId);
+    }
+
+    public boolean containsVSN(String vsnId) {
+        log.info("Organiser: Contains a VSN : " + vsnId);
+        return composite.containsVSN(vsnId);
     }
 
     @Override

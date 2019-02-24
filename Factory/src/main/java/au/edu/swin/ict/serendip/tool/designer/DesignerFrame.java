@@ -28,7 +28,7 @@ import java.io.File;
  * TODO: Sync the save action with rest of the GUI by reloading
  *
  * @author Malinda
- *         *
+ * *
  */
 public class DesignerFrame extends JFrame implements ActionListener {
 

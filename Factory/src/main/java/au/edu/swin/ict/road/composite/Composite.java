@@ -1,7 +1,7 @@
 package au.edu.swin.ict.road.composite;
 
-import au.edu.swin.ict.road.common.*;
 import au.edu.swin.ict.road.common.Parameter;
+import au.edu.swin.ict.road.common.*;
 import au.edu.swin.ict.road.composite.contract.Contract;
 import au.edu.swin.ict.road.composite.contract.Operation;
 import au.edu.swin.ict.road.composite.contract.Term;
@@ -76,7 +76,7 @@ public class Composite implements Runnable {
     private SerendipOrganizer serendipOrganizer;
     private RolePushMessageListener defaultPushMessageListener;
     private GlobalRegTable globalRegTable;
-//
+    //
 //    public ROADThreadPool getPendingOutBufferWorkers() {
 //        return pendingOutBufferWorkers;
 //    }
@@ -961,6 +961,62 @@ public class Composite implements Runnable {
             if (globalRuleRef != null) {
                 globalRegTable.addVSNTableEntry(vsnId + "_" + processId, new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, state, vsnId, processId), ruId));
             }
+        }
+    }
+
+    public void addInterCollaborationRegulationUnitToVSN(String vsnId, String processId, String ruId) {
+        log.info("addInterCollaborationRegulationUnitToVSN " + processId + " of the VSN : " + vsnId + " as " + ruId);
+        InterCollaborationRegulationUnitType ruType = new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        RegulationRuleRef passThroughRef = ruType.getPassthrough();
+        if (passThroughRef != null) {
+            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
+                getContract(ruleIdType.getPlace()).getPassthroughRegTable().addVSNTableEntry(vsnId + "_" +
+                        processId, new
+                        RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_ACTIVE, vsnId, processId), ruId));
+            }
+        }
+        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
+        if (synRegRuleRef != null) {
+            for (RegulationRuleIdType synRuleID : synRegRuleRef.getRuleRef()) {
+                getRole(synRuleID.getPlace()).getSynchronizationRegTable().addVSNTableEntry(vsnId + "_" + processId, new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_ACTIVE, vsnId, processId), ruId));
+            }
+        }
+        RegulationRuleRef routingRuleRef = ruType.getRouting();
+        if (routingRuleRef != null) {
+            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
+                getRole(ruleIdType.getPlace()).getRoutingRegTable().addVSNTableEntry(vsnId + "_" + processId, new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_ACTIVE, vsnId, processId), ruId));
+            }
+        }
+        RegulationRuleRef globalRuleRef = ruType.getGlobal();
+        if (globalRuleRef != null) {
+            globalRegTable.addVSNTableEntry(vsnId + "_" + processId, new RegulationUnitKey(new RegulationUnitKeyManagementState(ruId, ManagementState.STATE_ACTIVE, vsnId, processId), ruId));
+        }
+    }
+
+    public void removeInterCollaborationRegulationUnitFromVSN(String vsnId, String processId, String ruId) {
+        log.info("addInterCollaborationRegulationUnitToVSN " + processId + " of the VSN : " + vsnId + " as " + ruId);
+        InterCollaborationRegulationUnitType ruType = new SMCDataExtractor(smcBinding).getInterCollaborationRegulationUnitTypeById(ruId);
+        RegulationRuleRef passThroughRef = ruType.getPassthrough();
+        if (passThroughRef != null) {
+            for (RegulationRuleIdType ruleIdType : passThroughRef.getRuleRef()) {
+                getContract(ruleIdType.getPlace()).getPassthroughRegTable().removeVSNTableEntry(vsnId + "_" + processId, ruId);
+            }
+        }
+        RegulationRuleRef synRegRuleRef = ruType.getSynchronization();
+        if (synRegRuleRef != null) {
+            for (RegulationRuleIdType synRuleID : synRegRuleRef.getRuleRef()) {
+                getRole(synRuleID.getPlace()).getSynchronizationRegTable().removeVSNTableEntry(vsnId + "_" + processId, ruId);
+            }
+        }
+        RegulationRuleRef routingRuleRef = ruType.getRouting();
+        if (routingRuleRef != null) {
+            for (RegulationRuleIdType ruleIdType : routingRuleRef.getRuleRef()) {
+                getRole(ruleIdType.getPlace()).getRoutingRegTable().removeVSNTableEntry(vsnId + "_" + processId, ruId);
+            }
+        }
+        RegulationRuleRef globalRuleRef = ruType.getGlobal();
+        if (globalRuleRef != null) {
+            globalRegTable.removeVSNTableEntry(vsnId + "_" + processId, ruId);
         }
     }
 
@@ -1897,6 +1953,10 @@ public class Composite implements Runnable {
 
     public ProcessDefinition getProcessDefinition(String vsnId, String processId) {
         return serendipEngine.getProcessDefinitionGroup(vsnId).getProcessDefinition(processId);
+    }
+
+    public boolean containsVSN(String vsnId) {
+        return serendipEngine.containsProcessDefinitionGroup(vsnId);
     }
 
 

@@ -137,7 +137,7 @@ end
 rule "External_deselect"
   when
   $f1 : FeatureDeselectedEvent((name =="External"))
-   then
+  then
    disabledSet.disable("External_deselect");
    cusMgt.removeCollaboration("PartsSupplyByJack", $f1.getVsnId());
 end
@@ -161,7 +161,7 @@ end
 rule "VehicleAssessment_deselect"
   when
   $f1 : FeatureDeselectedEvent((name =="VehicleAssessment"))
-   then
+  then
    disabledSet.disable("VehicleAssessment_deselect");
    cusMgt.removeCollaboration("VehicleAssessment", $f1.getVsnId());
 end
@@ -169,7 +169,7 @@ end
 rule "VehicleAssessment_update"
   when
   $f1 : FeatureUpdatedEvent((name =="VehicleAssessment"))
-   then
+  then
    disabledSet.disable("VehicleAssessment_update");
    cusMgt.updateCollaboration("VehicleAssessment", $f1.getVsnId());
 end

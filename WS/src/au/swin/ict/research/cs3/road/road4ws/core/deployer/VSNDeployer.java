@@ -3,9 +3,6 @@ package au.swin.ict.research.cs3.road.road4ws.core.deployer;
 import au.edu.swin.ict.road.composite.Composite;
 import au.edu.swin.ict.road.testing.OMUtils;
 import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.OMXMLBuilderFactory;
-import org.apache.axiom.om.OMXMLParserWrapper;
-import org.apache.axiom.om.util.StAXUtils;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.deployment.Deployer;
 import org.apache.axis2.deployment.DeploymentException;
@@ -14,17 +11,11 @@ import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.log4j.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Iterator;
 
 /**
  * Deploys the VSNs
- *
  */
 public class VSNDeployer implements Deployer {
 

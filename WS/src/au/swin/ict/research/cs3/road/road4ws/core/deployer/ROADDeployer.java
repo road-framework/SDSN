@@ -1,5 +1,6 @@
 package au.swin.ict.research.cs3.road.road4ws.core.deployer;
 
+import au.edu.swin.ict.road.common.StatWriter;
 import au.edu.swin.ict.road.composite.Composite;
 import au.edu.swin.ict.road.composite.IRole;
 import au.edu.swin.ict.road.composite.exceptions.CompositeInstantiationException;
@@ -10,7 +11,8 @@ import au.edu.swin.ict.road.composite.listeners.CompositeUpdateRoleListener;
 import au.edu.swin.ict.road.demarshalling.CompositeDemarshaller;
 import au.edu.swin.ict.road.demarshalling.exceptions.CompositeDemarshallingException;
 import au.swin.ict.research.cs3.road.road4ws.core.ROADConstants;
-import au.edu.swin.ict.road.common.StatWriter;
+import au.swin.ict.research.cs3.road.road4ws.core.util.ControlPlaneAPI;
+import au.swin.ict.research.cs3.road.road4ws.core.util.IControlPlaneAPI;
 import au.swin.ict.research.cs3.road.road4ws.message.MessagePusher;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.ConfigurationContext;
@@ -125,6 +127,18 @@ public abstract class ROADDeployer implements Deployer, CompositeAddRoleListener
             operationalManagerDeployer.createOrgService();
         } catch (AxisFault e1) {
             log.error("Could not create the operational manager service for the composite"
+                    + composite.getName());
+            e1.printStackTrace();
+        }
+
+        // Set the operational manager service - TODO Remove Only for Testing
+        IControlPlaneAPI iControlPlaneAPI = new ControlPlaneAPI(
+                composite.getOperationalManagerRole(), composite.getOrganiserRole(), composite.getRulesDir());
+        ControlPlaneAPIDeployer controlPlaneAPIDeployer = new ControlPlaneAPIDeployer(configCtx, composite, iControlPlaneAPI);
+        try {
+            controlPlaneAPIDeployer.createOrgService();
+        } catch (AxisFault e1) {
+            log.error("Could not create the Control Plane manager service for the composite"
                     + composite.getName());
             e1.printStackTrace();
         }
@@ -366,9 +380,9 @@ public abstract class ROADDeployer implements Deployer, CompositeAddRoleListener
     private void removeRole(String compositeName, String roleName)
             throws AxisFault {
         /*
-           * Remove a specific service from the axis2 configuration context. We
-           * check for the Role name if a match found remove it
-           */
+         * Remove a specific service from the axis2 configuration context. We
+         * check for the Role name if a match found remove it
+         */
 
         String svcName = this.getNoramlizedServiceName(compositeName, roleName);
 
@@ -463,11 +477,11 @@ public abstract class ROADDeployer implements Deployer, CompositeAddRoleListener
     @Override
     public void roleUpdated(IRole role) {
         /*
-           * TODO This need to be fixed. The change in ROADfactory gives less
-           * information about the update. Earlier it was public void
-           * roleUpdated(RoleChangeDescription changeDescription) But now there is
-           * no change description. So we just remove the role and re-deploy it.
-           */
+         * TODO This need to be fixed. The change in ROADfactory gives less
+         * information about the update. Earlier it was public void
+         * roleUpdated(RoleChangeDescription changeDescription) But now there is
+         * no change description. So we just remove the role and re-deploy it.
+         */
         try {
             this.removeRole(role.getComposite().getName(), role.getName());
             deployANewRole(role);

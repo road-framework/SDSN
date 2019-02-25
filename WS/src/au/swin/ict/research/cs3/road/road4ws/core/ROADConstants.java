@@ -17,6 +17,7 @@ public interface ROADConstants {
     public static final String ROAD4WS_SVC_NAME_SEPERATOR = "_";
     public static final String ROAD4WS_ORGANIZER_NAME = "OrganizerRole";
     public static final String ROAD4WS_OPMANAGER_NAME = "OperationalManagerRole";
+    public static final String ROAD4WS_CUSMANAGER_NAME = "CusManagerRole";
     public static final String ROAD4WS_GET_NEXT_MSG_OP = "getNextMessage"; //Should be sync with the ROAD Factory
     public static final String ROAD4WS_CURRENT_COMPOSITE = "CurrentComposite";
     public static final String ROAD4WS_CURRENT_ROLE = "CurrentRole";

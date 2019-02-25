@@ -1,6 +1,5 @@
 package au.swin.ict.research.cs3.road.road4ws.message;
 
-import au.edu.swin.ict.road.common.StatWriter;
 import au.edu.swin.ict.road.composite.message.MessageWrapper;
 import au.edu.swin.ict.road.composite.utills.ROADProperties;
 import au.edu.swin.ict.serendip.message.SOAPFactory;

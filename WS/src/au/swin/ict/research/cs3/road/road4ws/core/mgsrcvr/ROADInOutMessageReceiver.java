@@ -6,7 +6,6 @@ import au.edu.swin.ict.road.composite.Composite;
 import au.edu.swin.ict.road.composite.IRole;
 import au.edu.swin.ict.road.composite.message.MessageWrapper;
 import au.swin.ict.research.cs3.road.road4ws.core.ROADConstants;
-import au.edu.swin.ict.road.common.StatWriter;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;

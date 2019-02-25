@@ -20,7 +20,6 @@ public class CustomizationManager {
         }
     }
 
-
     public void addCollaboration(String name, String vsnId, Map<String, String> parameters) {
         createVSN(vsnId);
         opMgt.addRegulationUnitsToProcessRegulationPolicy(vsnId, vsnId, name);

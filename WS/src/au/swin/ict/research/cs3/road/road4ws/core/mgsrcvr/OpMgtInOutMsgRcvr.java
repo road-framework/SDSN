@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  *
  * @author Malinda Kapuruge
  */
-public class OpMgtInOutMsgRcvr extends org.apache.axis2.rpc.receivers.RPCInOutAsyncMessageReceiver {
+public class OpMgtInOutMsgRcvr extends org.apache.axis2.rpc.receivers.RPCMessageReceiver {
     private static final Logger log = Logger.getLogger(OpMgtInOutMsgRcvr.class);
     private IOperationalManagerRole operationalManagerRole;
 

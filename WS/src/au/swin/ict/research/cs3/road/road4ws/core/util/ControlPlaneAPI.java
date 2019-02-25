@@ -50,14 +50,14 @@ public class ControlPlaneAPI implements IControlPlaneAPI {
     }
 
     @Override
-    public boolean customizeA(OMElement featureConf) {
-        customize(CusEventGenerator.getInstance().generateEventsForROSAS(featureConf));
+    public boolean customizeA(String featureConf) {
+        customize(CusEventGenerator.getInstance().generateEventsForROSAS(null));
         return true;
     }
 
     @Override
-    public boolean customizeB(OMElement featureConf) {
-        customize(CusEventGenerator.getInstance().generateEventsForCASAS(featureConf));
+    public boolean customizeB(String featureConf) {
+        customize(CusEventGenerator.getInstance().generateEventsForCASAS(null));
         return true;
     }
 }

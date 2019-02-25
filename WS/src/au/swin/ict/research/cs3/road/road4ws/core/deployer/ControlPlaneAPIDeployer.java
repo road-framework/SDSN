@@ -36,7 +36,7 @@ public class ControlPlaneAPIDeployer {
      *
      * @throws org.apache.axis2.AxisFault
      */
-    public void createOrgService() throws AxisFault {
+    public void createService() throws AxisFault {
         log.debug("Creating ControlPlaneAPI Service "
                 + composite.getName());
 
@@ -53,14 +53,14 @@ public class ControlPlaneAPIDeployer {
         orgService.setDocumentation("This is the control plane manager service of composite "
                 + this.composite.getName());
 
-        this.setOrgMessageReceivers(orgService);
+        this.setControlAPIMessageReceivers(orgService);
 
         //We might need to remove an existing operationalManagerRole service for the same composition in case of re-deployment before adding the new one
-        removeExistingOrgService(svcName, this.axisConfig);
+        removeExistingControlAPIService(svcName, this.axisConfig);
 
         // At this point we add the org service
         this.axisConfig.addService(orgService);
-        log.info("Operational Manager role added to composite " + composite.getName());
+        log.info("ControlAPI Manager role added to composite " + composite.getName());
 
 
     }
@@ -70,7 +70,7 @@ public class ControlPlaneAPIDeployer {
      *
      * @param svcName
      */
-    public static void removeExistingOrgService(String svcName, AxisConfiguration axisConfiguration) {
+    private static void removeExistingControlAPIService(String svcName, AxisConfiguration axisConfiguration) {
         try {
             if (null != (axisConfiguration.getService(svcName))) {
 
@@ -86,7 +86,7 @@ public class ControlPlaneAPIDeployer {
      *
      * @return
      */
-    public Composite getComposite() {
+    private Composite getComposite() {
         return composite;
     }
 
@@ -99,7 +99,7 @@ public class ControlPlaneAPIDeployer {
      *
      * @param service
      */
-    public void setOrgMessageReceivers(AxisService service) {
+    private void setControlAPIMessageReceivers(AxisService service) {
         Iterator<AxisOperation> iterator = service.getOperations();
         while (iterator.hasNext()) {
             AxisOperation operation = iterator.next();

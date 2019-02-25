@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  *
  * @author Malinda Kapuruge
  */
-public class CusMgtInOutMsgRcvr extends org.apache.axis2.rpc.receivers.RPCInOutAsyncMessageReceiver {
+public class CusMgtInOutMsgRcvr extends org.apache.axis2.rpc.receivers.RPCMessageReceiver {
     private static final Logger log = Logger.getLogger(CusMgtInOutMsgRcvr.class);
     private IControlPlaneAPI controlPlaneAPI;
 

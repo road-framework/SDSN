@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ROADfactory">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Factory/ROADfactory.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

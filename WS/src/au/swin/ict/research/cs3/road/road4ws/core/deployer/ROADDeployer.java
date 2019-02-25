@@ -136,7 +136,7 @@ public abstract class ROADDeployer implements Deployer, CompositeAddRoleListener
                 composite.getOperationalManagerRole(), composite.getOrganiserRole(), composite.getRulesDir());
         ControlPlaneAPIDeployer controlPlaneAPIDeployer = new ControlPlaneAPIDeployer(configCtx, composite, iControlPlaneAPI);
         try {
-            controlPlaneAPIDeployer.createOrgService();
+            controlPlaneAPIDeployer.createService();
         } catch (AxisFault e1) {
             log.error("Could not create the Control Plane manager service for the composite"
                     + composite.getName());

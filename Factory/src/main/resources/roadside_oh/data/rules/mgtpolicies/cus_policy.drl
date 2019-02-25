@@ -71,7 +71,7 @@ end
 rule "Tow_select"
   when
     $f1 : FeatureSelectedEvent(name =="Tow") and
-    $f2 : AttributedSelectedEvent((name =="Reimbursement.Throughput"))
+    $f2 : AttributedSelectedEvent((name =="Tow.Throughput"))
   then
     disabledSet.disable("Tow_select");
      Map pars = new HashMap();
@@ -91,7 +91,7 @@ end
 rule "Tow_update"
   when
   $f1 : FeatureUpdatedEvent((name =="Tow")) and
-  $f2 : AttributedUpdatedEvent((name =="Reimbursement.Throughput"))
+  $f2 : AttributedUpdatedEvent((name =="Tow.Throughput"))
    then
    disabledSet.disable("Tow_update");
    Map pars = new HashMap();

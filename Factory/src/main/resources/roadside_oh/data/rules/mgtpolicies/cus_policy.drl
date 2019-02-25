@@ -13,12 +13,13 @@ import java.util.HashMap;
 rule "casehandling_select"
   when
     $f1 : FeatureSelectedEvent(name =="CaseHandling") and
-    $f2 : AttributedSelectedEvent((name =="Throughput"))
+    $f2 : AttributedSelectedEvent((name =="CaseHandling.Throughput"))
   then
     disabledSet.disable("casehandling_select");
     Map pars = new HashMap();
     pars.put("throughput", $f2.getValue());
     cusMgt.addCollaboration("CaseHandling", $f1.getVsnId(),pars);
+    System.out.println("casehandling_select");
 end
 
 rule "casehandling_deselect"
@@ -32,7 +33,7 @@ end
 rule "casehandling_update"
   when
   $f1 : FeatureUpdatedEvent((name =="CaseHandling")) and
-  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+  $f2 : AttributedUpdatedEvent((name =="CaseHandling.Throughput"))
    then
    disabledSet.disable("casehandling_update");
    Map pars = new HashMap();
@@ -43,10 +44,11 @@ end
 rule "Reimbursement_select"
   when
     $f1 : FeatureSelectedEvent(name =="Reimbursement") and
-    $f2 : AttributedSelectedEvent((name =="Throughput"))
+    $f2 : AttributedSelectedEvent((name =="Reimbursement.Throughput"))
   then
     disabledSet.disable("Reimbursement_select");
     cusMgt.addCollaboration("Reimbursement", $f1.getVsnId());
+    System.out.println("Reimbursement_select");
 end
 
 rule "Reimbursement_deselect"
@@ -60,7 +62,7 @@ end
 rule "Reimbursement_update"
   when
   $f1 : FeatureUpdatedEvent((name =="Reimbursement")) and
-  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+  $f2 : AttributedUpdatedEvent((name =="Reimbursement.Throughput"))
    then
    disabledSet.disable("Reimbursement_update");
    cusMgt.updateCollaboration("Reimbursement", $f1.getVsnId());
@@ -69,12 +71,13 @@ end
 rule "Tow_select"
   when
     $f1 : FeatureSelectedEvent(name =="Tow") and
-    $f2 : AttributedSelectedEvent((name =="Throughput"))
+    $f2 : AttributedSelectedEvent((name =="Reimbursement.Throughput"))
   then
     disabledSet.disable("Tow_select");
      Map pars = new HashMap();
         pars.put("throughput", $f2.getValue());
     cusMgt.addCollaboration("TowingByTomTow", $f1.getVsnId(),pars);
+    System.out.println("Tow_select");
 end
 
 rule "Tow_deselect"
@@ -88,7 +91,7 @@ end
 rule "Tow_update"
   when
   $f1 : FeatureUpdatedEvent((name =="Tow")) and
-  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+  $f2 : AttributedUpdatedEvent((name =="Reimbursement.Throughput"))
    then
    disabledSet.disable("Tow_update");
    Map pars = new HashMap();
@@ -99,12 +102,13 @@ end
 rule "Repair_select"
   when
     $f1 : FeatureSelectedEvent(name =="Repair") and
-    $f2 : AttributedSelectedEvent((name =="Throughput"))
+    $f2 : AttributedSelectedEvent((name =="Repair.Throughput"))
   then
     disabledSet.disable("Repair_select");
     Map pars = new HashMap();
     pars.put("throughput", $f2.getValue());
     cusMgt.addCollaboration("RepairingByMacRepair", $f1.getVsnId(),pars);
+    System.out.println("Repair_select");
 end
 
 rule "Repair_deselect"
@@ -118,7 +122,7 @@ end
 rule "Repair_update"
   when
   $f1 : FeatureUpdatedEvent((name =="Repair")) and
-  $f2 : AttributedUpdatedEvent((name =="Throughput"))
+  $f2 : AttributedUpdatedEvent((name =="Repair.Throughput"))
    then
    disabledSet.disable("Repair_update");
    Map pars = new HashMap();
@@ -132,6 +136,7 @@ rule "External_select"
   then
     disabledSet.disable("External_select");
     cusMgt.addCollaboration("PartsSupplyByJack", $f1.getVsnId());
+    System.out.println("External_select");
 end
 
 rule "External_deselect"
@@ -156,6 +161,7 @@ rule "VehicleAssessment_select"
   then
     disabledSet.disable("VehicleAssessment_select");
     cusMgt.addCollaboration("VehicleAssessment", $f1.getVsnId());
+    System.out.println("VehicleAssessment_select");
 end
 
 rule "VehicleAssessment_deselect"
@@ -180,6 +186,7 @@ rule "LegalAssistance_select"
   then
     disabledSet.disable("LegalAssistance_select");
     cusMgt.addCollaboration("LegalAssistance", $f1.getVsnId());
+    System.out.println("LegalAssistance_select");
 end
 
 rule "LegalAssistance_deselect"
@@ -200,11 +207,11 @@ end
 
 rule "taxihire_select"
   when
-    $f1 : FeatureSelectedEvent(name =="TaxiHire") and
-    $f2 : AttributedSelectedEvent((name =="Throughput"))
+    $f1 : FeatureSelectedEvent(name =="TaxiHire")
   then
     disabledSet.disable("taxihire_select");
     cusMgt.addCollaboration("HiringTaxi", $f1.getVsnId());
+    System.out.println("taxihire_select");
 end
 
 rule "taxihire_deselect"
@@ -229,6 +236,7 @@ rule "rentalvehicle_select"
   then
     disabledSet.disable("rentalvehicle_select");
     cusMgt.addCollaboration("RentingVehicle", $f1.getVsnId());
+    System.out.println("rentalvehicle_select");
 end
 
 rule "rentalvehicle_deselect"
@@ -253,6 +261,7 @@ rule "accommodation_select"
   then
     disabledSet.disable("accommodation_select");
     cusMgt.addCollaboration("RentingRoom", $f1.getVsnId());
+    System.out.println("accommodation_select");
 end
 
 rule "accommodation_deselect"

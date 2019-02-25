@@ -1,6 +1,6 @@
 package au.edu.swin.ict.road.common;
 
-public class AttributedDeSelectedEvent {
+public class AttributedDeSelectedEvent implements IEvent{
     private String name;
     private String value;
     private String vsnId;
@@ -34,5 +34,13 @@ public class AttributedDeSelectedEvent {
 
     public void setIntValue(String intValue) {
         this.intValue = intValue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

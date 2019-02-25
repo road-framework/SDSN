@@ -1,6 +1,6 @@
 package au.edu.swin.ict.road.common;
 
-public class FeatureDeselectedEvent {
+public class FeatureDeselectedEvent implements IEvent{
     private String name;
     private String vsnId;
 
@@ -11,5 +11,13 @@ public class FeatureDeselectedEvent {
 
     public String getVsnId() {
         return vsnId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

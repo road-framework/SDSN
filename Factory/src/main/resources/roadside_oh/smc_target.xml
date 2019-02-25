@@ -1,9 +1,9 @@
 <?jaxfront version=2.66;time=2011-06-27 17:36:31.846;xui=road1.xui;xsd=smc.xsd?>
 <tns:ServiceNetwork
         xmlns:tns1="http://www.ict.swin.edu.au/serendip/types" xmlns:tns="http://www.swin.edu.au/ict/road/smc"
-        name="roadside" dataDir="src/main/resources/management/ms10/data/" globalRegulation="roadside_global.drl">
-    <VirtualServiceNetwork id="HappyTours">
-        <tns1:Process id="HappyToursP1">
+        name="roadside" dataDir="src/main/resources/roadside_oh/data/" globalRegulation="roadside_global.drl">
+    <VirtualServiceNetwork id="TestTenant">
+        <tns1:Process id="TestTenant">
             <tns1:CoS>eAssistReqd</tns1:CoS>
             <tns1:CoT>eMMNotify * eReimbursed * eHCPaid * eVCPaid * eTXPaid</tns1:CoT>
             <tns1:CollaborationUnitRef>CaseHandling</tns1:CollaborationUnitRef>

@@ -1,467 +1,440 @@
-2018-07-27 23:00:12,761 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No services directory was found under C:\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
-2018-07-27 23:00:12,762 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No modules directory was found under C:\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
-2018-07-27 23:00:12,845 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsaas_bike\smc_source.xml
-2018-07-27 23:00:13,583 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\campsaas_bike\smc_source.xml
-2018-07-27 23:00:13,603 [main] INFO  au.edu.swin.ict.serendip.util.BenchUtil  - Bench mark OFF
-2018-07-27 23:00:13,606 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from campsass_global.drl
-2018-07-27 23:00:13,651 [main] WARN  org.kie.scanner.embedder.MavenSettings  - Environment variable M2_HOME is not set
-2018-07-27 23:00:13,686 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:15,069 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Discovered kie.conf url=jar:file:/C:/post-doc/projects/SDSN/lib/drools-beliefs-6.3.0.Final.jar!/META-INF/kie.conf 
-2018-07-27 23:00:15,152 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Assembler org.drools.beliefs.bayes.assembler.BayesAssemblerService 
-2018-07-27 23:00:15,153 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Weaver org.kie.internal.weaver.KieWeaversImpl 
-2018-07-27 23:00:15,154 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Runtime org.drools.beliefs.bayes.runtime.BayesRuntime 
-2018-07-27 23:00:16,509 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=campsass_global.drl:road-rep:1.0.0]
-2018-07-27 23:00:16,887 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Creating the synchronization engine
-2018-07-27 23:00:16,892 [main] INFO  au.edu.swin.ict.serendip.core.ModelProviderFactory  - Instantiating the MPF
-2018-07-27 23:00:16,919 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM_SYN.drl
-2018-07-27 23:00:16,920 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:17,213 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:17,221 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM_Routing.drl
-2018-07-27 23:00:17,221 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:17,610 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:17,625 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'CM' to composite campsass
-2018-07-27 23:00:17,627 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_SYN.drl
-2018-07-27 23:00:17,627 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:17,923 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:17,929 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_Routing.drl
-2018-07-27 23:00:17,929 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,081 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,090 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'SC' to composite campsass
-2018-07-27 23:00:18,090 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_SYN.drl
-2018-07-27 23:00:18,090 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,227 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,239 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_Routing.drl
-2018-07-27 23:00:18,239 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,411 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,422 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TX' to composite campsass
-2018-07-27 23:00:18,422 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC_SYN.drl
-2018-07-27 23:00:18,423 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,592 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,603 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC_Routing.drl
-2018-07-27 23:00:18,603 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,769 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,776 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TC' to composite campsass
-2018-07-27 23:00:18,776 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG_SYN.drl
-2018-07-27 23:00:18,777 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:18,920 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:18,928 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG_Routing.drl
-2018-07-27 23:00:18,928 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,046 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,053 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TG' to composite campsass
-2018-07-27 23:00:19,053 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VR_SYN.drl
-2018-07-27 23:00:19,054 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,146 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VR_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,152 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VR_Routing.drl
-2018-07-27 23:00:19,153 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,267 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VR_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,272 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'VR' to composite campsass
-2018-07-27 23:00:19,273 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from DC_SYN.drl
-2018-07-27 23:00:19,273 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,376 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=DC_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,382 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from DC_Routing.drl
-2018-07-27 23:00:19,382 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,534 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=DC_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,540 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'DC' to composite campsass
-2018-07-27 23:00:19,540 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1_SYN.drl
-2018-07-27 23:00:19,541 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,718 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,723 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1_Routing.drl
-2018-07-27 23:00:19,724 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,821 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,826 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP1' to composite campsass
-2018-07-27 23:00:19,826 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP2_SYN.drl
-2018-07-27 23:00:19,826 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:19,961 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP2_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:19,968 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP2_Routing.drl
-2018-07-27 23:00:19,968 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,070 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP2_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,076 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'EP2' to composite campsass
-2018-07-27 23:00:20,076 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GR_SYN.drl
-2018-07-27 23:00:20,076 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,170 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GR_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,177 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GR_Routing.drl
-2018-07-27 23:00:20,178 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,290 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GR_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,295 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'GR' to composite campsass
-2018-07-27 23:00:20,300 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-SC.drl
-2018-07-27 23:00:20,300 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,402 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-SC.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,410 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-SC to composite campsass
-2018-07-27 23:00:20,410 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-EP1.drl
-2018-07-27 23:00:20,410 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,523 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-EP1.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,528 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP1 to composite campsass
-2018-07-27 23:00:20,528 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-EP2.drl
-2018-07-27 23:00:20,528 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,622 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-EP2.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,627 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-EP2 to composite campsass
-2018-07-27 23:00:20,627 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-TC.drl
-2018-07-27 23:00:20,628 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,742 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-TC.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,747 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TC to composite campsass
-2018-07-27 23:00:20,747 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-TX.drl
-2018-07-27 23:00:20,747 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,864 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-TX.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,869 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-TX to composite campsass
-2018-07-27 23:00:20,869 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-DC.drl
-2018-07-27 23:00:20,870 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:20,964 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-DC.drl:road-rep:1.0.0]
-2018-07-27 23:00:20,968 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-DC to composite campsass
-2018-07-27 23:00:20,968 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-VR.drl
-2018-07-27 23:00:20,969 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,082 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-VR.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,090 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-VR to composite campsass
-2018-07-27 23:00:21,090 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-GR.drl
-2018-07-27 23:00:21,091 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,264 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-GR.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,270 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-GR to composite campsass
-2018-07-27 23:00:21,270 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from EP1-DC.drl
-2018-07-27 23:00:21,270 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,382 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=EP1-DC.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,387 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract EP1-DC to composite campsass
-2018-07-27 23:00:21,387 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-EP1.drl
-2018-07-27 23:00:21,388 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,475 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-EP1.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,482 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP1 to composite campsass
-2018-07-27 23:00:21,482 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-EP2.drl
-2018-07-27 23:00:21,483 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,572 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-EP2.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,577 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-EP2 to composite campsass
-2018-07-27 23:00:21,577 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-GR.drl
-2018-07-27 23:00:21,578 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,679 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-GR.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,684 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-GR to composite campsass
-2018-07-27 23:00:21,684 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TC.drl
-2018-07-27 23:00:21,685 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,783 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TC.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,788 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TC to composite campsass
-2018-07-27 23:00:21,788 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TG.drl
-2018-07-27 23:00:21,788 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:21,903 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TG.drl:road-rep:1.0.0]
-2018-07-27 23:00:21,909 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TG to composite campsass
-2018-07-27 23:00:21,909 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TX.drl
-2018-07-27 23:00:21,909 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:22,031 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TX.drl:road-rep:1.0.0]
-2018-07-27 23:00:22,052 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TX to composite campsass
-2018-07-27 23:00:22,052 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-VR.drl
-2018-07-27 23:00:22,053 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:22,156 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-VR.drl:road-rep:1.0.0]
-2018-07-27 23:00:22,165 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-VR to composite campsass
-2018-07-27 23:00:22,165 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TG-VR.drl
-2018-07-27 23:00:22,167 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:22,355 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TG-VR.drl:road-rep:1.0.0]
-2018-07-27 23:00:22,366 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract TG-VR to composite campsass
-2018-07-27 23:00:22,373 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : HappyTours as [ruAdmissionV1, ruDrop, ruCreateVsnInstance]
-2018-07-27 23:00:22,374 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process HappyToursP1 of the VSN : HappyTours
-2018-07-27 23:00:22,378 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process HappyToursP1 of the VSN : HappyTours as [cuCaseHandling, cuArrangingTourWithTC, cuRentingEquipmentFromEP1, cuHiringTaxi]
-2018-07-27 23:00:22,378 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process HappyToursP1 of the VSN : HappyTours as [ruTerminateV1, ruActivateV1]
-2018-07-27 23:00:22,378 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : UniUvtClub as [ruAdmissionV2, ruDrop, ruCreateVsnInstance]
-2018-07-27 23:00:22,378 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process UniUvtClubP1 of the VSN : UniUvtClub
-2018-07-27 23:00:22,378 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process UniUvtClubP1 of the VSN : UniUvtClub as [cuCaseHandling, cuArrangingTourWithTGandVR, cuDeliveringGrocery, cuHiringTaxi]
-2018-07-27 23:00:22,379 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process UniUvtClubP1 of the VSN : UniUvtClub as [ruTerminateV2, ruActivateV1]
-2018-07-27 23:00:22,380 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : SunCampsites as [ruAdmissionProcessSelection, ruDrop, ruCreateVsnInstance]
-2018-07-27 23:00:22,380 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process SunCampsitesP1 of the VSN : SunCampsites
-2018-07-27 23:00:22,380 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process SunCampsitesP1 of the VSN : SunCampsites as [cuCaseHandling, cuArrangingTourWithTC, cuRentingEquipmentFromEP2, cuDeliveringGrocery]
-2018-07-27 23:00:22,381 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process SunCampsitesP1 of the VSN : SunCampsites as [ruTerminateV3_1, ruActivateV1]
-2018-07-27 23:00:22,381 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process SunCampsitesP2 of the VSN : SunCampsites
-2018-07-27 23:00:22,381 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process SunCampsitesP2 of the VSN : SunCampsites as [cuCaseHandling, cuArrangingTourWithTGandVR, cuRentingEquipmentFromEP2, cuDeliveringGrocery]
-2018-07-27 23:00:22,381 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process SunCampsitesP2 of the VSN : SunCampsites as [ruTerminateV3_2, ruActivateV1]
-2018-07-27 23:00:22,381 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - SC subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TG subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TX subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - EP2 subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - EP1 subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - CM subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - GR subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - VR subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TC subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - DC subscribed to the engine
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deployment complete
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Serendip adminview disabled. If you need to monitor processes set SERENDIP_SHOW_ADMIN_VIEW=TRUEin serendip.properties file
-2018-07-27 23:00:22,382 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Finished instantiation of src\main\resources\campsaas_bike\smc_source.xml
-2018-07-27 23:00:22,389 [Thread-4] INFO  au.edu.swin.ict.road.composite.Composite  - Composite is now running...
-2018-07-27 23:00:27,386 [Thread-5] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Got a management policy to admit 
-bikerental_org_add.drl
-2018-07-27 23:00:27,386 [Thread-6] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Got a management policyto admit 
-bikerental_opr_add.drl
-2018-07-27 23:00:27,387 [Thread-5] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from bikerental_org_add.drl
-2018-07-27 23:00:27,387 [Thread-6] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from bikerental_opr_add.drl
-2018-07-27 23:00:27,388 [Thread-6] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:27,388 [Thread-5] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:27,555 [Thread-6] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=bikerental_opr_add.drl:road-rep:1.0.0]
-2018-07-27 23:00:27,563 [Thread-6] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Management policy applied in .176022376nanoseconds
-2018-07-27 23:00:27,640 [Thread-5] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=bikerental_org_add.drl:road-rep:1.0.0]
-2018-07-27 23:00:27,664 [Thread-5] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Management policy applied in .277556691nanoseconds
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addRole, roleId: BR
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - BR subscribed to the engine
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'BR' to composite campsass
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - New role BR added successfully
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Added a Task : RentBike
-2018-07-27 23:00:27,805 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: setInMessageType
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the in message : RentBike
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: setOutMessageType
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the out message : RentBike
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - New PlayerBinding BR_SB added successfully
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - SetServiceBinding BR_SB successful for the role BR
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Added a Task : SendRentInvoice
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: setInMessageType
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the in message : SendRentInvoice
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: setOutMessageType
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the out message : SendRentInvoice
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the task : Analyze of the role :SC
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Updated the task : RequestAssist of the role :CM
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewContract, contractId: SC-BR
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-BR to composite campsass
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Contract SC-BR was successfully added
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addwTerm, contractId: SC-BR
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - New term with id 'rentBike' has been added to the contract with the id 'SC-BR'
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Term rentBike was successfully added
-2018-07-27 23:00:27,806 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewOperation
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Operation successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addwTerm, contractId: SC-BR
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - New term with id 'sendRentInvoice' has been added to the contract with the id 'SC-BR'
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Term sendRentInvoice was successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewOperation
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Operation successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewContract, contractId: CM-BR
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract CM-BR to composite campsass
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Contract CM-BR was successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addwTerm, contractId: CM-BR
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - New term with id 'sendBikeRequirements' has been added to the contract with the id 'CM-BR'
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Term sendBikeRequirements was successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewOperation
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Operation successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addwTerm, contractId: CM-BR
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.Composite  - New term with id 'sendBikeReservation' has been added to the contract with the id 'CM-BR'
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Term sendBikeReservation was successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: addNewOperation
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Operation successfully added
-2018-07-27 23:00:27,807 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - BehaviorUnit cuRentingBike has been added
-2018-07-27 23:00:27,808 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Task ref  BR.RentBike added to cuRentingBike
-2018-07-27 23:00:27,808 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Task ref  SC.SendRentInvoice added to cuRentingBike
-2018-07-27 23:00:27,808 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: add a behavior unit cuRentingBike to the configuration design of the process : HappyToursP1
-2018-07-27 23:00:27,808 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Configuration design for the process  HappyToursP1 hss been updated with behavior unit : cuRentingBike
-2018-07-27 23:00:27,808 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: remove a behavior unit cuHiringTaxi from the configuration design of the process : HappyToursP1
-2018-07-27 23:00:27,809 [ManamentPolicyExecutorWorker-2] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Configuration design for the process  HappyToursP1 hss been updated by removing the behavior unit : cuHiringTaxi
-2018-07-27 23:00:27,821 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add sync regulation rule @ BR
-2018-07-27 23:00:27,821 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from BR_SYN.drl
-2018-07-27 23:00:27,821 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:27,904 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=BR_SYN.drl:road-rep:1.0.0]
-2018-07-27 23:00:27,908 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The sync regulation rule @BRhas been added.
-2018-07-27 23:00:27,908 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add sync regulation rule @ SC
-2018-07-27 23:00:27,908 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_SYN_Diff.drl
-2018-07-27 23:00:27,909 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,036 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_SYN_Diff.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,055 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The sync regulation rule @SChas been added.
-2018-07-27 23:00:28,056 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add routing regulation rule @ BR
-2018-07-27 23:00:28,056 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from BR_Routing.drl
-2018-07-27 23:00:28,056 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,178 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=BR_Routing.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,183 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The routing regulation rule @BRhas been added.
-2018-07-27 23:00:28,183 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add routing regulation rule @ SC
-2018-07-27 23:00:28,183 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_Routing_Diff.drl
-2018-07-27 23:00:28,184 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,332 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_Routing_Diff.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,341 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The routing regulation rule @SChas been added.
-2018-07-27 23:00:28,341 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add routing regulation rule @ CM
-2018-07-27 23:00:28,341 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM_Routing_Diff.drl
-2018-07-27 23:00:28,342 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,484 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM_Routing_Diff.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,493 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The routing regulation rule @CMhas been added.
-2018-07-27 23:00:28,493 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add passthrough regulation rule @ CM-BR
-2018-07-27 23:00:28,493 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from CM-BR.drl
-2018-07-27 23:00:28,493 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,575 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=CM-BR.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,581 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The passthrough regulation rule @CM-BRhas been added.
-2018-07-27 23:00:28,581 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add passthrough regulation rule @ SC-BR
-2018-07-27 23:00:28,581 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-BR.drl
-2018-07-27 23:00:28,581 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,676 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-BR.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,682 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The passthrough regulation rule @SC-BRhas been added.
-2018-07-27 23:00:28,682 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : update  global rule : terminateV1
-2018-07-27 23:00:28,682 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from campsass_global_diff.drl
-2018-07-27 23:00:28,716 [ManamentPolicyExecutorWorker-4] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
-2018-07-27 23:00:28,840 [ManamentPolicyExecutorWorker-4] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=campsass_global_diff.drl:road-rep:1.0.0]
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The global regulation ruleterminateV1has been updated.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation unit : cuRentingBike
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation unit cuRentingBikehas been added.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add  sync rules to the regulation unit : cuRentingBike
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The sync rules to the regulation unit cuRentingBikehave been added.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add routing rules to the regulation unit : cuRentingBike
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The routing rules to the regulation unit cuRentingBikehave been added.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add passthrough rules to the regulation unit : cuRentingBike
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The passthrough rules to the regulation unit cuRentingBikehave been added.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units cuRentingBike to the process : HappyToursP1
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process HappyToursP1 of the VSN : HappyTours as []
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process HappyToursP1 of the VSN : HappyTours as [cuRentingBike]
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process HappyToursP1have been added.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : remove regulation units cuHiringTaxi from the process : HappyToursP1
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units from the process HappyToursP1have been removed.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : remove regulation unit : cuRentingBike
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation unit cuRentingBikehas been removed.
-2018-07-27 23:00:28,851 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : update regulation units cuRentingBike of the process : HappyToursP1 property : state value : active
-2018-07-27 23:00:28,852 [ManamentPolicyExecutorWorker-4] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation unit of the process HappyToursP1have been updated. property : state value : active
-2018-07-27 23:00:29,080 [ManamentPolicyExecutorWorker-5] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: updateRole, roleId: BR
-2018-07-27 23:00:29,082 [ManamentPolicyExecutorWorker-5] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Property stateof RoleBR was successfully updated with value active
-2018-07-27 23:00:29,082 [ManamentPolicyExecutorWorker-5] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: update contract , contractId: CM-BR
-2018-07-27 23:00:29,082 [ManamentPolicyExecutorWorker-5] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: update contract , contractId: SC-BR
-2018-07-27 23:00:29,082 [ManamentPolicyExecutorWorker-5] INFO  au.edu.swin.ict.road.common.OrganiserMgtOpResult  - Update property state of BehaviorUnitcuRentingBike is done
-2018-07-27 23:00:47,430 [Thread-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [PI]Starting a new process instance, pid:HappyToursHappyToursP111
-2018-07-27 23:00:47,675 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM has recieved a message of type sendBikeRequirements
-2018-07-27 23:00:47,675 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendBikeRequirements
-2018-07-27 23:00:47,693 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM has recieved a message of type assist
-2018-07-27 23:00:47,703 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingassist
-2018-07-27 23:00:47,703 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM has recieved a message of type sendEquipmentRequirements
-2018-07-27 23:00:47,707 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendEquipmentRequirements
-2018-07-27 23:00:47,703 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM has recieved a message of type sendTourRequirements
-2018-07-27 23:00:47,724 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendTourRequirements
-2018-07-27 23:00:47,730 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM has recieved a message of type sendLocation
-2018-07-27 23:00:47,735 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendLocation
-2018-07-27 23:00:47,734 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-BR.sendBikeRequirements.Req got interpreted via contract  CM-BR urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:47,732 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-SC.assist.Req got interpreted via contract  CM-SC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:47,735 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM is routing the message CM-SC.assist.Req to SC via the contractCM-SC
-2018-07-27 23:00:47,735 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-SC.assist.Req,HappyToursHappyToursP111 dropped to SC.PENDINGOUT
-2018-07-27 23:00:47,736 [messageDelivererWorker-2] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role SC
-2018-07-27 23:00:47,736 [messageDelivererWorker-2] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eAssist,HappyToursHappyToursP111)
-2018-07-27 23:00:47,736 [messageDelivererWorker-2] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eAssist,HappyToursHappyToursP111
-2018-07-27 23:00:47,735 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM is routing the message CM-BR.sendBikeRequirements.Req to BR via the contractCM-BR
-2018-07-27 23:00:47,737 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-BR.sendBikeRequirements.Req,HappyToursHappyToursP111 dropped to BR.PENDINGOUT
-2018-07-27 23:00:47,737 [messageDelivererWorker-1] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role BR
-2018-07-27 23:00:47,737 [messageDelivererWorker-1] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendBikeRequirements,HappyToursHappyToursP111)
-2018-07-27 23:00:47,737 [messageDelivererWorker-1] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendBikeRequirements,HappyToursHappyToursP111
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-EP1.sendEquipmentRequirements.Req got interpreted via contract  CM-EP1 urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM is routing the message CM-EP1.sendEquipmentRequirements.Req to EP1 via the contractCM-EP1
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-EP1.sendEquipmentRequirements.Req,HappyToursHappyToursP111 dropped to EP1.PENDINGOUT
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role EP1
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendEquipmentRequirementsToEP1,HappyToursHappyToursP111)
-2018-07-27 23:00:47,746 [messageDelivererWorker-3] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendEquipmentRequirementsToEP1,HappyToursHappyToursP111
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-DC.sendLocation.Req got interpreted via contract  CM-DC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM is routing the message CM-DC.sendLocation.Req to DC via the contractCM-DC
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-DC.sendLocation.Req,HappyToursHappyToursP111 dropped to DC.PENDINGOUT
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role DC
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendLocToDC,HappyToursHappyToursP111)
-2018-07-27 23:00:47,765 [messageDelivererWorker-5] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendLocToDC,HappyToursHappyToursP111
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-TC.sendTourRequirements.Req got interpreted via contract  CM-TC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for CM is routing the message CM-TC.sendTourRequirements.Req to TC via the contractCM-TC
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-TC.sendTourRequirements.Req,HappyToursHappyToursP111 dropped to TC.PENDINGOUT
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role TC
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendTourRequirementsToTC,HappyToursHappyToursP111)
-2018-07-27 23:00:47,771 [messageDelivererWorker-4] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendTourRequirementsToTC,HappyToursHappyToursP111
-2018-07-27 23:00:47,794 [messageDelivererWorker-2] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=24bySupportCenter
-2018-07-27 23:00:47,795 [messageDelivererWorker-2] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =24bySupportCenter,to end point =http://localhost:8082/axis2/services/CaseOfficerService/analyze,with action =analyze
-2018-07-27 23:00:53,295 [messageDelivererWorker-2] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/CaseOfficerService/analyze
-2018-07-27 23:00:53,316 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC has recieved a message of type rentEquipment
-2018-07-27 23:00:53,317 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingrentEquipment
-2018-07-27 23:00:53,326 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC has recieved a message of type rentBike
-2018-07-27 23:00:53,326 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingrentBike
-2018-07-27 23:00:53,336 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-EP1.rentEquipment.Req got interpreted via contract  SC-EP1 urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,336 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC is routing the message SC-EP1.rentEquipment.Req to EP1 via the contractSC-EP1
-2018-07-27 23:00:53,336 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-EP1.rentEquipment.Req,HappyToursHappyToursP111 dropped to EP1.PENDINGOUT
-2018-07-27 23:00:53,336 [messageDelivererWorker-7] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role EP1
-2018-07-27 23:00:53,337 [messageDelivererWorker-7] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eRentEquipmentByEP1,HappyToursHappyToursP111)
-2018-07-27 23:00:53,337 [messageDelivererWorker-7] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eRentEquipmentByEP1,HappyToursHappyToursP111
-2018-07-27 23:00:53,351 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-BR.rentBike.Req got interpreted via contract  SC-BR urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,351 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC is routing the message SC-BR.rentBike.Req to BR via the contractSC-BR
-2018-07-27 23:00:53,352 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-BR.rentBike.Req,HappyToursHappyToursP111 dropped to BR.PENDINGOUT
-2018-07-27 23:00:53,352 [messageDelivererWorker-6] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role BR
-2018-07-27 23:00:53,352 [messageDelivererWorker-6] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eRentBike,HappyToursHappyToursP111)
-2018-07-27 23:00:53,352 [messageDelivererWorker-6] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eRentBike,HappyToursHappyToursP111
-2018-07-27 23:00:53,356 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC has recieved a message of type orderTour
-2018-07-27 23:00:53,357 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingorderTour
-2018-07-27 23:00:53,383 [messageDelivererWorker-6] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=EuroBikeRental
-2018-07-27 23:00:53,383 [messageDelivererWorker-6] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =EuroBikeRental,to end point =http://localhost:8082/axis2/services/EuroBikeRentalService/rentBike,with action =rentBike
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-TC.orderTour.Req got interpreted via contract  SC-TC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC is routing the message SC-TC.orderTour.Req to TC via the contractSC-TC
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-TC.orderTour.Req,HappyToursHappyToursP111 dropped to TC.PENDINGOUT
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role TC
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eOrderTour,HappyToursHappyToursP111)
-2018-07-27 23:00:53,392 [messageDelivererWorker-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eOrderTour,HappyToursHappyToursP111
-2018-07-27 23:00:53,400 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC has recieved a message of type assist
-2018-07-27 23:00:53,403 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingassist
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-SC.assist.Res got interpreted via contract  CM-SC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC is routing the message CM-SC.assist.Res to CM via the contractCM-SC
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-SC.assist.Res,HappyToursHappyToursP111 dropped to CM.PENDINGOUT
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role CM
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eCaseCreated,HappyToursHappyToursP111)
-2018-07-27 23:00:53,416 [messageDelivererWorker-9] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eCaseCreated,HappyToursHappyToursP111
-2018-07-27 23:00:53,426 [messageDelivererWorker-8] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=ShowAround
-2018-07-27 23:00:53,426 [messageDelivererWorker-8] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =ShowAround,to end point =http://localhost:8082/axis2/services/ShowAroundService/bookTour,with action =bookTour
-2018-07-27 23:00:53,437 [messageDelivererWorker-7] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=JackGear
-2018-07-27 23:00:53,437 [messageDelivererWorker-7] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =JackGear,to end point =http://localhost:8082/axis2/services/JackGearService/rentEquipment,with action =rentEquipment
-2018-07-27 23:00:53,451 [messageDelivererWorker-6] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/EuroBikeRentalService/rentBike
-2018-07-27 23:00:53,492 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for BR has recieved a message of type sendRentInvoice
-2018-07-27 23:00:53,495 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendRentInvoice
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-BR.sendRentInvoice.Req got interpreted via contract  SC-BR urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for BR is routing the message SC-BR.sendRentInvoice.Req to SC via the contractSC-BR
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-BR.sendRentInvoice.Req,HappyToursHappyToursP111 dropped to SC.PENDINGOUT
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role SC
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendRentInvoice,HappyToursHappyToursP111)
-2018-07-27 23:00:53,521 [messageDelivererWorker-10] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendRentInvoice,HappyToursHappyToursP111
-2018-07-27 23:00:53,547 [messageDelivererWorker-10] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=24bySupportCenter
-2018-07-27 23:00:53,547 [messageDelivererWorker-10] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =24bySupportCenter,to end point =http://localhost:8082/axis2/services/CaseOfficerService/sendRentInvoice,with action =sendRentInvoice
-2018-07-27 23:00:53,495 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for BR has recieved a message of type sendBikeReservation
-2018-07-27 23:00:53,554 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendBikeReservation
-2018-07-27 23:00:53,557 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-BR.sendBikeReservation.Req got interpreted via contract  CM-BR urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,557 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for BR is routing the message CM-BR.sendBikeReservation.Req to CM via the contractCM-BR
-2018-07-27 23:00:53,557 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-BR.sendBikeReservation.Req,HappyToursHappyToursP111 dropped to CM.PENDINGOUT
-2018-07-27 23:00:53,557 [messageDelivererWorker-11] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role CM
-2018-07-27 23:00:53,557 [messageDelivererWorker-11] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendBikeReservation,HappyToursHappyToursP111)
-2018-07-27 23:00:53,558 [messageDelivererWorker-11] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendBikeReservation,HappyToursHappyToursP111
-2018-07-27 23:00:53,596 [messageDelivererWorker-10] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/CaseOfficerService/sendRentInvoice
-2018-07-27 23:00:53,611 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC has recieved a message of type sendRentInvoice
-2018-07-27 23:00:53,612 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendRentInvoice
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-BR.sendRentInvoice.Res got interpreted via contract  SC-BR urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for SC is routing the message SC-BR.sendRentInvoice.Res to BR via the contractSC-BR
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-BR.sendRentInvoice.Res,HappyToursHappyToursP111 dropped to BR.PENDINGOUT
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role BR
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eInvoiceReceived,HappyToursHappyToursP111)
-2018-07-27 23:00:53,616 [messageDelivererWorker-12] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eInvoiceReceived,HappyToursHappyToursP111
-2018-07-27 23:00:58,455 [messageDelivererWorker-8] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/ShowAroundService/bookTour
-2018-07-27 23:00:58,471 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for TC has recieved a message of type orderTour
-2018-07-27 23:00:58,473 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingorderTour
-2018-07-27 23:00:58,474 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-TC.orderTour.Res got interpreted via contract  SC-TC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:58,474 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for TC is routing the message SC-TC.orderTour.Res to SC via the contractSC-TC
-2018-07-27 23:00:58,474 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-TC.orderTour.Res,HappyToursHappyToursP111 dropped to SC.PENDINGOUT
-2018-07-27 23:00:58,474 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role SC
-2018-07-27 23:00:58,474 [messageDelivererWorker-13] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-TC.orderTour.Res does not interpret any events
-2018-07-27 23:00:58,475 [messageDelivererWorker-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eReservedTour,HappyToursHappyToursP111)
-2018-07-27 23:00:58,475 [messageDelivererWorker-8] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eReservedTour,HappyToursHappyToursP111
-2018-07-27 23:00:58,477 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for TC has recieved a message of type sendTourReservation
-2018-07-27 23:00:58,477 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingsendTourReservation
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message CM-TC.sendTourReservation.Req got interpreted via contract  CM-TC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for TC is routing the message CM-TC.sendTourReservation.Req to CM via the contractCM-TC
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message CM-TC.sendTourReservation.Req,HappyToursHappyToursP111 dropped to CM.PENDINGOUT
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role CM
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eSendTourReservationToCM,HappyToursHappyToursP111)
-2018-07-27 23:00:58,479 [messageDelivererWorker-14] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eSendTourReservationToCM,HappyToursHappyToursP111
-2018-07-27 23:00:58,556 [messageDelivererWorker-7] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/JackGearService/rentEquipment
-2018-07-27 23:00:58,567 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for EP1 has recieved a message of type rentEquipment
-2018-07-27 23:00:58,567 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingrentEquipment
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message SC-EP1.rentEquipment.Res got interpreted via contract  SC-EP1 urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for EP1 is routing the message SC-EP1.rentEquipment.Res to SC via the contractSC-EP1
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message SC-EP1.rentEquipment.Res,HappyToursHappyToursP111 dropped to SC.PENDINGOUT
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role SC
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eRentedEquipmentByEP1,HappyToursHappyToursP111)
-2018-07-27 23:00:58,568 [messageDelivererWorker-15] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eRentedEquipmentByEP1,HappyToursHappyToursP111
-2018-07-27 23:00:58,573 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for EP1 has recieved a message of type orderDelivery
-2018-07-27 23:00:58,573 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingorderDelivery
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message EP1-DC.orderDelivery.Req got interpreted via contract  EP1-DC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for EP1 is routing the message EP1-DC.orderDelivery.Req to DC via the contractEP1-DC
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message EP1-DC.orderDelivery.Req,HappyToursHappyToursP111 dropped to DC.PENDINGOUT
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role DC
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eDeliver,HappyToursHappyToursP111)
-2018-07-27 23:00:58,583 [messageDelivererWorker-16] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eDeliver,HappyToursHappyToursP111
-2018-07-27 23:00:58,593 [messageDelivererWorker-16] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - A message need to be pushed as there is one in the queue of Role=MacDelivery
-2018-07-27 23:00:58,593 [messageDelivererWorker-16] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - [Attempt =1]Pushing message of Role =MacDelivery,to end point =http://localhost:8082/axis2/services/MacDeliveryService/deliver,with action =deliver
-2018-07-27 23:01:03,602 [messageDelivererWorker-16] INFO  au.swin.ict.research.cs3.road.road4ws.message.MessagePusher  - Message delivered to http://localhost:8082/axis2/services/MacDeliveryService/deliver
-2018-07-27 23:01:03,614 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for DC has recieved a message of type orderDelivery
-2018-07-27 23:01:03,614 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.contract.Contract  - Contract 3 . processingorderDelivery
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - Message EP1-DC.orderDelivery.Res got interpreted via contract  EP1-DC urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MessageDeliverer for DC is routing the message EP1-DC.orderDelivery.Res to EP1 via the contractEP1-DC
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.message.containers.MessageBuffer  - Message EP1-DC.orderDelivery.Res,HappyToursHappyToursP111 dropped to EP1.PENDINGOUT
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.MessageDeliverer  - MsgDeliverer placed the message in the pendingout of destination role EP1
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Event fired (eDelivered,HappyToursHappyToursP111)
-2018-07-27 23:01:03,616 [messageDelivererWorker-17] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [EVENT]Fired eDelivered,HappyToursHappyToursP111
-2018-07-27 23:01:03,626 [messageDelivererWorker-17] INFO  au.edu.swin.ict.road.composite.Role  - Camper Delivering Message : urn:uuid:c5c50d91-ed8d-4b94-9e43-457f7108a3ff
-2018-07-27 23:01:16,892 [Timer-1] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [[PI-END]]Remaining tasks : 0HappyToursHappyToursP111
-2018-07-27 23:01:16,892 [Timer-1] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - [[PI-END]]Successfully terminated process instance HappyToursHappyToursP111
+2019-02-25 10:58:29,731 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No services directory was found under C:\Postdoc\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
+2019-02-25 10:58:29,731 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No modules directory was found under C:\Postdoc\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
+2019-02-25 10:58:29,778 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 10:58:30,418 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 10:58:30,434 [main] INFO  au.edu.swin.ict.serendip.util.BenchUtil  - Bench mark OFF
+2019-02-25 10:58:30,449 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from roadside_global.drl
+2019-02-25 10:58:30,496 [main] WARN  org.kie.scanner.embedder.MavenSettings  - Environment variable M2_HOME is not set
+2019-02-25 10:58:30,527 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:31,590 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Discovered kie.conf url=jar:file:/C:/Postdoc/post-doc/projects/SDSN/lib/drools-beliefs-6.3.0.Final.jar!/META-INF/kie.conf 
+2019-02-25 10:58:31,652 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Assembler org.drools.beliefs.bayes.assembler.BayesAssemblerService 
+2019-02-25 10:58:31,652 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Weaver org.kie.internal.weaver.KieWeaversImpl 
+2019-02-25 10:58:31,652 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Runtime org.drools.beliefs.bayes.runtime.BayesRuntime 
+2019-02-25 10:58:32,699 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=roadside_global.drl:road-rep:1.0.0]
+2019-02-25 10:58:32,949 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Creating the synchronization engine
+2019-02-25 10:58:32,949 [main] INFO  au.edu.swin.ict.serendip.core.ModelProviderFactory  - Instantiating the MPF
+2019-02-25 10:58:32,980 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM_SYN.drl
+2019-02-25 10:58:32,980 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,121 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,121 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM_Routing.drl
+2019-02-25 10:58:33,121 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,292 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,308 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'MM' to composite roadside
+2019-02-25 10:58:33,308 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_SYN.drl
+2019-02-25 10:58:33,308 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,480 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,480 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_Routing.drl
+2019-02-25 10:58:33,480 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,652 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,652 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'SC' to composite roadside
+2019-02-25 10:58:33,652 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1_SYN.drl
+2019-02-25 10:58:33,652 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,777 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,777 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1_Routing.drl
+2019-02-25 10:58:33,777 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:33,917 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:33,933 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'GC1' to composite roadside
+2019-02-25 10:58:33,933 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from FD_SYN.drl
+2019-02-25 10:58:33,933 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,042 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=FD_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,042 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from FD_Routing.drl
+2019-02-25 10:58:34,042 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,169 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=FD_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,169 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'FD' to composite roadside
+2019-02-25 10:58:34,169 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC2_SYN.drl
+2019-02-25 10:58:34,169 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,262 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC2_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,262 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC2_Routing.drl
+2019-02-25 10:58:34,262 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,356 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC2_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,356 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TC2' to composite roadside
+2019-02-25 10:58:34,356 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS_SYN.drl
+2019-02-25 10:58:34,356 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,450 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,450 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS_Routing.drl
+2019-02-25 10:58:34,450 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,544 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,544 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'PS' to composite roadside
+2019-02-25 10:58:34,544 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS_SYN.drl
+2019-02-25 10:58:34,544 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,622 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,637 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS_Routing.drl
+2019-02-25 10:58:34,637 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,715 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,715 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'AS' to composite roadside
+2019-02-25 10:58:34,715 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF_SYN.drl
+2019-02-25 10:58:34,715 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,825 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,840 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF_Routing.drl
+2019-02-25 10:58:34,840 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:34,919 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:34,950 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'LF' to composite roadside
+2019-02-25 10:58:34,950 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from HC_SYN.drl
+2019-02-25 10:58:34,950 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,028 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=HC_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,028 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from HC_Routing.drl
+2019-02-25 10:58:35,028 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,106 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=HC_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,106 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'HC' to composite roadside
+2019-02-25 10:58:35,106 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VC_SYN.drl
+2019-02-25 10:58:35,106 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,215 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VC_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,215 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VC_Routing.drl
+2019-02-25 10:58:35,215 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,325 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VC_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,325 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'VC' to composite roadside
+2019-02-25 10:58:35,325 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_SYN.drl
+2019-02-25 10:58:35,325 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,418 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_SYN.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,418 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_Routing.drl
+2019-02-25 10:58:35,418 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,512 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_Routing.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,528 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TX' to composite roadside
+2019-02-25 10:58:35,528 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-MM.drl
+2019-02-25 10:58:35,528 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,621 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-MM.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,637 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-MM to composite roadside
+2019-02-25 10:58:35,637 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM-FD.drl
+2019-02-25 10:58:35,637 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,715 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM-FD.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,715 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract MM-FD to composite roadside
+2019-02-25 10:58:35,715 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TC2.drl
+2019-02-25 10:58:35,715 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,825 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TC2.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,825 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TC2 to composite roadside
+2019-02-25 10:58:35,825 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-TC2.drl
+2019-02-25 10:58:35,825 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:35,918 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-TC2.drl:road-rep:1.0.0]
+2019-02-25 10:58:35,918 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-TC2 to composite roadside
+2019-02-25 10:58:35,918 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-GC1.drl
+2019-02-25 10:58:35,918 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,012 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-GC1.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,012 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-GC1 to composite roadside
+2019-02-25 10:58:36,028 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-PS.drl
+2019-02-25 10:58:36,028 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,121 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-PS.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,137 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-PS to composite roadside
+2019-02-25 10:58:36,137 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS-SC.drl
+2019-02-25 10:58:36,137 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,246 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS-SC.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,246 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract PS-SC to composite roadside
+2019-02-25 10:58:36,246 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-AS.drl
+2019-02-25 10:58:36,246 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,340 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-AS.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,340 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-AS to composite roadside
+2019-02-25 10:58:36,340 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS-SC.drl
+2019-02-25 10:58:36,340 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,434 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS-SC.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,434 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract AS-SC to composite roadside
+2019-02-25 10:58:36,434 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-LF.drl
+2019-02-25 10:58:36,434 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,512 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-LF.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,528 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-LF to composite roadside
+2019-02-25 10:58:36,528 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF-TC2.drl
+2019-02-25 10:58:36,528 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,621 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF-TC2.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,621 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract LF-TC2 to composite roadside
+2019-02-25 10:58:36,621 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-HC.drl
+2019-02-25 10:58:36,621 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,731 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-HC.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,731 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-HC to composite roadside
+2019-02-25 10:58:36,731 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-VC.drl
+2019-02-25 10:58:36,731 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,824 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-VC.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,824 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-VC to composite roadside
+2019-02-25 10:58:36,824 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TX.drl
+2019-02-25 10:58:36,824 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,918 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TX.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,918 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TX to composite roadside
+2019-02-25 10:58:36,918 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX-MM.drl
+2019-02-25 10:58:36,918 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:36,996 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX-MM.drl:road-rep:1.0.0]
+2019-02-25 10:58:36,996 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract TX-MM to composite roadside
+2019-02-25 10:58:36,996 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : TestTenant as [ruAdmissionV1, ruCreateVsnInstance, ruDrop]
+2019-02-25 10:58:36,996 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process TestTenant of the VSN : TestTenant
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [CaseHandling, Reimbursement, TowingByTomTow, RepairingByMacRepair, PartsSupplyByJack, VehicleAssessment, LegalAssistance, RentingRoom, RentingVehicle, HiringTaxi]
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [ruTerminateV1, ruActivateV1]
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - MM subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - SC subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TC2 subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - AS subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - PS subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - GC1 subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TX subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - LF subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - HC subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - VC subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - FD subscribed to the engine
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deployment complete
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Serendip adminview disabled. If you need to monitor processes set SERENDIP_SHOW_ADMIN_VIEW=TRUEin serendip.properties file
+2019-02-25 10:58:37,012 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Finished instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 10:58:37,012 [Thread-4] INFO  au.edu.swin.ict.road.composite.Composite  - Composite is now running...
+2019-02-25 10:58:42,017 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from cus_policy.drl
+2019-02-25 10:58:42,017 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 10:58:42,157 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=cus_policy.drl:road-rep:1.0.0]
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units CaseHandling to the process : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [CaseHandling]
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units Reimbursement to the process : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [Reimbursement]
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units TowingByTomTow to the process : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [TowingByTomTow]
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RepairingByMacRepair to the process : TestTenant
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RepairingByMacRepair]
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,298 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units PartsSupplyByJack to the process : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [PartsSupplyByJack]
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units VehicleAssessment to the process : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [VehicleAssessment]
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units LegalAssistance to the process : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [LegalAssistance]
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RentingVehicle to the process : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RentingVehicle]
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RentingRoom to the process : TestTenant
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RentingRoom]
+2019-02-25 10:58:42,313 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 10:58:42,313 [main] INFO  CUS  - 140
+2019-02-25 11:02:17,599 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No services directory was found under C:\Postdoc\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
+2019-02-25 11:02:17,599 [main] INFO  org.apache.axis2.deployment.DeploymentEngine  - No modules directory was found under C:\Postdoc\post-doc\projects\SDSN\Factory\sample\confs\axis2.xml.
+2019-02-25 11:02:17,661 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 11:02:18,286 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Starting instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 11:02:18,302 [main] INFO  au.edu.swin.ict.serendip.util.BenchUtil  - Bench mark OFF
+2019-02-25 11:02:18,317 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from roadside_global.drl
+2019-02-25 11:02:18,349 [main] WARN  org.kie.scanner.embedder.MavenSettings  - Environment variable M2_HOME is not set
+2019-02-25 11:02:18,396 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:19,473 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Discovered kie.conf url=jar:file:/C:/Postdoc/post-doc/projects/SDSN/lib/drools-beliefs-6.3.0.Final.jar!/META-INF/kie.conf 
+2019-02-25 11:02:19,536 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Assembler org.drools.beliefs.bayes.assembler.BayesAssemblerService 
+2019-02-25 11:02:19,536 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Weaver org.kie.internal.weaver.KieWeaversImpl 
+2019-02-25 11:02:19,536 [main] INFO  org.kie.internal.utils.ServiceDiscovery  - Adding Runtime org.drools.beliefs.bayes.runtime.BayesRuntime 
+2019-02-25 11:02:20,569 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=roadside_global.drl:road-rep:1.0.0]
+2019-02-25 11:02:20,834 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - Creating the synchronization engine
+2019-02-25 11:02:20,850 [main] INFO  au.edu.swin.ict.serendip.core.ModelProviderFactory  - Instantiating the MPF
+2019-02-25 11:02:20,865 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM_SYN.drl
+2019-02-25 11:02:20,865 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,006 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,006 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM_Routing.drl
+2019-02-25 11:02:21,006 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,182 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,198 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'MM' to composite roadside
+2019-02-25 11:02:21,198 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_SYN.drl
+2019-02-25 11:02:21,198 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,369 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,369 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC_Routing.drl
+2019-02-25 11:02:21,369 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,541 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,541 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'SC' to composite roadside
+2019-02-25 11:02:21,541 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1_SYN.drl
+2019-02-25 11:02:21,541 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,666 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,682 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1_Routing.drl
+2019-02-25 11:02:21,682 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,807 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,807 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'GC1' to composite roadside
+2019-02-25 11:02:21,807 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from FD_SYN.drl
+2019-02-25 11:02:21,807 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:21,916 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=FD_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:21,916 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from FD_Routing.drl
+2019-02-25 11:02:21,916 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,010 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=FD_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,010 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'FD' to composite roadside
+2019-02-25 11:02:22,010 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC2_SYN.drl
+2019-02-25 11:02:22,010 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,135 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC2_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,135 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TC2_Routing.drl
+2019-02-25 11:02:22,135 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,213 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TC2_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,229 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TC2' to composite roadside
+2019-02-25 11:02:22,229 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS_SYN.drl
+2019-02-25 11:02:22,229 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,307 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,322 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS_Routing.drl
+2019-02-25 11:02:22,322 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,416 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,416 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'PS' to composite roadside
+2019-02-25 11:02:22,416 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS_SYN.drl
+2019-02-25 11:02:22,416 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,510 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,510 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS_Routing.drl
+2019-02-25 11:02:22,525 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,603 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,603 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'AS' to composite roadside
+2019-02-25 11:02:22,603 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF_SYN.drl
+2019-02-25 11:02:22,603 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,728 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,728 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF_Routing.drl
+2019-02-25 11:02:22,728 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,822 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,838 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'LF' to composite roadside
+2019-02-25 11:02:22,838 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from HC_SYN.drl
+2019-02-25 11:02:22,838 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:22,916 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=HC_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:22,932 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from HC_Routing.drl
+2019-02-25 11:02:22,932 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,025 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=HC_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,025 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'HC' to composite roadside
+2019-02-25 11:02:23,025 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VC_SYN.drl
+2019-02-25 11:02:23,025 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,135 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VC_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,135 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from VC_Routing.drl
+2019-02-25 11:02:23,135 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,228 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=VC_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,228 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'VC' to composite roadside
+2019-02-25 11:02:23,228 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_SYN.drl
+2019-02-25 11:02:23,228 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,338 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_SYN.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,338 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX_Routing.drl
+2019-02-25 11:02:23,338 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,431 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX_Routing.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,431 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding role with id 'TX' to composite roadside
+2019-02-25 11:02:23,447 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-MM.drl
+2019-02-25 11:02:23,447 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,556 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-MM.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,572 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-MM to composite roadside
+2019-02-25 11:02:23,572 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from MM-FD.drl
+2019-02-25 11:02:23,572 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,650 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=MM-FD.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,666 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract MM-FD to composite roadside
+2019-02-25 11:02:23,666 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TC2.drl
+2019-02-25 11:02:23,666 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,759 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TC2.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,759 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TC2 to composite roadside
+2019-02-25 11:02:23,759 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-TC2.drl
+2019-02-25 11:02:23,759 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,869 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-TC2.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,869 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-TC2 to composite roadside
+2019-02-25 11:02:23,869 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-GC1.drl
+2019-02-25 11:02:23,869 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:23,963 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-GC1.drl:road-rep:1.0.0]
+2019-02-25 11:02:23,963 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-GC1 to composite roadside
+2019-02-25 11:02:23,963 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-PS.drl
+2019-02-25 11:02:23,963 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,056 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-PS.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,056 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-PS to composite roadside
+2019-02-25 11:02:24,056 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from PS-SC.drl
+2019-02-25 11:02:24,056 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,181 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=PS-SC.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,181 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract PS-SC to composite roadside
+2019-02-25 11:02:24,181 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from GC1-AS.drl
+2019-02-25 11:02:24,181 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,291 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=GC1-AS.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract GC1-AS to composite roadside
+2019-02-25 11:02:24,291 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from AS-SC.drl
+2019-02-25 11:02:24,291 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,369 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=AS-SC.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,369 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract AS-SC to composite roadside
+2019-02-25 11:02:24,369 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-LF.drl
+2019-02-25 11:02:24,369 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,478 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-LF.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,478 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-LF to composite roadside
+2019-02-25 11:02:24,478 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from LF-TC2.drl
+2019-02-25 11:02:24,478 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,556 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=LF-TC2.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,556 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract LF-TC2 to composite roadside
+2019-02-25 11:02:24,556 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-HC.drl
+2019-02-25 11:02:24,572 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,665 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-HC.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,681 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-HC to composite roadside
+2019-02-25 11:02:24,681 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-VC.drl
+2019-02-25 11:02:24,681 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,775 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-VC.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,790 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-VC to composite roadside
+2019-02-25 11:02:24,790 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from SC-TX.drl
+2019-02-25 11:02:24,790 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,884 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=SC-TX.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,884 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract SC-TX to composite roadside
+2019-02-25 11:02:24,884 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from TX-MM.drl
+2019-02-25 11:02:24,884 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:24,962 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=TX-MM.drl:road-rep:1.0.0]
+2019-02-25 11:02:24,962 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Adding contract TX-MM to composite roadside
+2019-02-25 11:02:24,962 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the regulation policy for the VSN : TestTenant as [ruAdmissionV1, ruCreateVsnInstance, ruDrop]
+2019-02-25 11:02:24,962 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying the process TestTenant of the VSN : TestTenant
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [CaseHandling, Reimbursement, TowingByTomTow, RepairingByMacRepair, PartsSupplyByJack, VehicleAssessment, LegalAssistance, RentingRoom, RentingVehicle, HiringTaxi]
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [ruTerminateV1, ruActivateV1]
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - MM subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - SC subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TC2 subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - AS subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - PS subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - GC1 subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - TX subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - LF subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - HC subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - VC subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.serendip.core.SerendipEngine  - FD subscribed to the engine
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deployment complete
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Serendip adminview disabled. If you need to monitor processes set SERENDIP_SHOW_ADMIN_VIEW=TRUEin serendip.properties file
+2019-02-25 11:02:24,978 [main] INFO  au.edu.swin.ict.road.demarshalling.CompositeDemarshaller  - Finished instantiation of src\main\resources\roadside_oh\smc_target.xml
+2019-02-25 11:02:24,978 [Thread-4] INFO  au.edu.swin.ict.road.composite.Composite  - Composite is now running...
+2019-02-25 11:02:29,978 [main] INFO  au.edu.swin.ict.road.common.DroolsRules  - Reading KB from cus_policy.drl
+2019-02-25 11:02:29,978 [main] INFO  org.kie.scanner.embedder.MavenEmbedderUtils  - Not in OSGi: using plexus based maven parser
+2019-02-25 11:02:30,135 [main] INFO  org.drools.compiler.kie.builder.impl.KieRepositoryImpl  - KieModule was added: MemoryKieModule[releaseId=cus_policy.drl:road-rep:1.0.0]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units CaseHandling to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [CaseHandling]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units Reimbursement to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [Reimbursement]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units TowingByTomTow to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [TowingByTomTow]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RepairingByMacRepair to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RepairingByMacRepair]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units PartsSupplyByJack to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [PartsSupplyByJack]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units VehicleAssessment to the process : TestTenant
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [VehicleAssessment]
+2019-02-25 11:02:30,291 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units LegalAssistance to the process : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [LegalAssistance]
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RentingVehicle to the process : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RentingVehicle]
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OrganiserRole  - Organiser: Contains a VSN : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.OperationalManagerRole  - Operational Manager : add regulation units RentingRoom to the process : TestTenant
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as []
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.composite.Composite  - Deploying regulation policy of the process TestTenant of the VSN : TestTenant as [RentingRoom]
+2019-02-25 11:02:30,307 [main] INFO  au.edu.swin.ict.road.common.OperationalMgtOpResult  - The regulation units to the process TestTenanthave been added.
+2019-02-25 11:02:30,307 [main] INFO  CUS  - 157

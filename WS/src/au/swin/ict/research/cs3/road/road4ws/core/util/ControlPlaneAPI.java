@@ -32,6 +32,8 @@ public class ControlPlaneAPI implements IControlPlaneAPI {
     public boolean customize(OMElement featureConf) {
         long startTime = System.currentTimeMillis();
         EventCollection eventCollection = new EventCollection();
+        DisabledRuleSet disabledRuleSet = new DisabledRuleSet("none");
+        eventCollection.setDisabledRuleSet(disabledRuleSet);
         eventCollection.setiOperationalManagerRole(opMgt);
         eventCollection.setiOrganiserRole(orMgt);
         eventCollection.addAllIEvents(

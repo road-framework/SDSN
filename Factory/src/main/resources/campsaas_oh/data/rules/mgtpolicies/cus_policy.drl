@@ -18,7 +18,7 @@ rule "casehandling_select"
     disabledSet.disable("casehandling_select");
     Map pars = new HashMap();
     pars.put("throughput", $f2.getValue());
-    cusMgt.addCollaboration("CaseHandling", $f1.getVsnId(),pars);
+    cusMgt.addCollaboration("cuCaseHandling", $f1.getVsnId(),pars);
     System.out.println("casehandling_select");
 end
 
@@ -27,7 +27,7 @@ rule "casehandling_deselect"
   $f1 : FeatureDeselectedEvent((name =="CaseHandling"))
    then
    disabledSet.disable("casehandling_deselect");
-   cusMgt.removeCollaboration("CaseHandling", $f1.getVsnId());
+   cusMgt.removeCollaboration("cuCaseHandling", $f1.getVsnId());
 end
 
 rule "casehandling_update"
@@ -38,7 +38,7 @@ rule "casehandling_update"
    disabledSet.disable("casehandling_update");
    Map pars = new HashMap();
    pars.put("throughput", $f2.getValue());
-   cusMgt.updateCollaboration("CaseHandling", $f1.getVsnId(),pars);
+   cusMgt.updateCollaboration("cuCaseHandling", $f1.getVsnId(),pars);
 end
 
 rule "TourArrangement_select"

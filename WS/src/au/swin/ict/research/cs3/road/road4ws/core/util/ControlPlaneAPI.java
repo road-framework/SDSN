@@ -5,6 +5,7 @@ import au.edu.swin.ict.road.testing.CusEventGenerator;
 import org.apache.axiom.om.OMElement;
 
 import java.io.File;
+import java.util.List;
 
 public class ControlPlaneAPI implements IControlPlaneAPI {
     private IOperationalManagerRole opMgt;
@@ -29,15 +30,14 @@ public class ControlPlaneAPI implements IControlPlaneAPI {
         }
     }
 
-    public boolean customize(OMElement featureConf) {
+    private boolean customize(List<IEvent> events) {
         long startTime = System.currentTimeMillis();
         EventCollection eventCollection = new EventCollection();
         DisabledRuleSet disabledRuleSet = new DisabledRuleSet("none");
         eventCollection.setDisabledRuleSet(disabledRuleSet);
         eventCollection.setiOperationalManagerRole(opMgt);
         eventCollection.setiOrganiserRole(orMgt);
-        eventCollection.addAllIEvents(
-                CusEventGenerator.getInstance().generateEventsForROSAS(featureConf));
+        eventCollection.addAllIEvents(events);
         //generate events from feature configuration
         try {
             executor.insertEvent(eventCollection);
@@ -46,6 +46,18 @@ public class ControlPlaneAPI implements IControlPlaneAPI {
         }
         long endTime = System.currentTimeMillis();
         StatWriter.writeResTime("CUS", endTime - startTime);
+        return true;
+    }
+
+    @Override
+    public boolean customizeA(OMElement featureConf) {
+        customize(CusEventGenerator.getInstance().generateEventsForROSAS(featureConf));
+        return true;
+    }
+
+    @Override
+    public boolean customizeB(OMElement featureConf) {
+        customize(CusEventGenerator.getInstance().generateEventsForCASAS(featureConf));
         return true;
     }
 }
